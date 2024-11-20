@@ -201,6 +201,70 @@ void BQ25798::setVRECHG(int value) {
 }
 
 //
+// REG0B_VOTG_regulation
+//
+int BQ25798::getVOTG() {
+  return getReg16(REG0B_VOTG_regulation, 0x7FF, 0);
+}
+void BQ25798::setVOTG(int value) {
+  setReg16(REG0B_VOTG_regulation, value, 0x7FF, 0);
+  writeReg16ToI2C(REG0B_VOTG_regulation);
+}
+
+//
+// REG0D_IOTG_regulation
+//
+const char* BQ25798::getPRECHG_TMRStr() {
+  return prechg_tmr_str[getPRECHG_TMR()];
+}
+BQ25798::precgh_tmr BQ25798::getPRECHG_TMR() {
+  return static_cast<precgh_tmr>(getReg8(REG0D_IOTG_regulation, 0x01, 7));
+}
+void BQ25798::setPRECHG_TMR(precgh_tmr value) {
+  setReg8(REG0D_IOTG_regulation, value, 0x01, 7);
+  writeReg8ToI2C(REG0D_IOTG_regulation);
+}
+int BQ25798::getIOTG() {
+  return getReg8(REG0D_IOTG_regulation, 0x7F, 0);
+}
+void BQ25798::setIOTG(int value) {
+  setReg8(REG0D_IOTG_regulation, value, 0x7F, 0);
+  writeReg8ToI2C(REG0D_IOTG_regulation);
+}
+
+// FIXME REG0E_Timer_Control
+// FIXME REG0F_Charger_Control_0
+// FIXME REG10_Charger_Control_1
+// FIXME REG11_Charger_Control_2
+// FIXME REG12_Charger_Control_3
+// FIXME REG13_Charger_Control_4
+// FIXME REG14_Charger_Control_5
+// FIXME REG15_MPPT_Control
+// FIXME REG16_Temperature_Control
+// FIXME REG17_NTC_Control_0
+// FIXME REG18_NTC_Control_1
+// FIXME REG19_ICO_Current_Limit
+// FIXME REG1B_Charger_Status_0
+// FIXME REG1C_Charger_Status_1
+// FIXME REG1D_Charger_Status_2
+// FIXME REG1E_Charger_Status_3
+// FIXME REG1F_Charger_Status_4
+// FIXME REG20_FAULT_Status_0
+// FIXME REG21_FAULT_Status_1
+// FIXME REG22_Charger_Flag_0
+// FIXME REG23_Charger_Flag_1
+// FIXME REG24_Charger_Flag_2
+// FIXME REG25_Charger_Flag_3
+// FIXME REG26_FAULT_Flag_0
+// FIXME REG27_FAULT_Flag_1
+// FIXME REG28_Charger_Mask_0
+// FIXME REG29_Charger_Mask_1
+// FIXME REG2A_Charger_Mask_2
+// FIXME REG2B_Charger_Mask_3
+// FIXME REG2C_FAULT_Mask_0
+// FIXME REG2D_FAULT_Mask_1
+
+//
 // REG2E_ADC_Control
 //
 bool BQ25798::getADC_EN() {
@@ -248,6 +312,9 @@ void BQ25798::setADC_AVG_INIT(adc_sample value) {
   setReg8(REG2E_ADC_Control, value, 0x01, 2);
   writeReg8ToI2C(REG2E_ADC_Control);
 }
+
+// FIXME REG2F_ADC_Function_Disable_0
+// FIXME REG30_ADC_Function_Disable_1
 
 // REG31_IBUS_ADC
 uint16_t BQ25798::getIBUS_ADC() {

@@ -87,7 +87,53 @@ class BQ25798 {
   int getVRECHG();
   void setVRECHG(int value);
 
-  // FIXME missing REG0B_VOTG_regulation ... REG2D
+  // REG0B_VOTG_regulation
+  int getVOTG();
+  void setVOTG(int value);
+
+  // REG0D_IOTG_regulation
+  enum precgh_tmr {
+    PRECHG_TMR_2HRS = 0,
+    PRECHG_TMR_30MIN = 1,
+  };
+  const char* const prechg_tmr_str[2] = {"2 hours", "30 minutes"};
+  const char* getPRECHG_TMRStr();
+  precgh_tmr getPRECHG_TMR();
+  void setPRECHG_TMR(precgh_tmr value);
+  int getIOTG();
+  void setIOTG(int value);
+
+  // FIXME REG0E_Timer_Control
+  // FIXME REG0F_Charger_Control_0
+  // FIXME REG10_Charger_Control_1
+  // FIXME REG11_Charger_Control_2
+  // FIXME REG12_Charger_Control_3
+  // FIXME REG13_Charger_Control_4
+  // FIXME REG14_Charger_Control_5
+  // FIXME REG15_MPPT_Control
+  // FIXME REG16_Temperature_Control
+  // FIXME REG17_NTC_Control_0
+  // FIXME REG18_NTC_Control_1
+  // FIXME REG19_ICO_Current_Limit
+  // FIXME REG1B_Charger_Status_0
+  // FIXME REG1C_Charger_Status_1
+  // FIXME REG1D_Charger_Status_2
+  // FIXME REG1E_Charger_Status_3
+  // FIXME REG1F_Charger_Status_4
+  // FIXME REG20_FAULT_Status_0
+  // FIXME REG21_FAULT_Status_1
+  // FIXME REG22_Charger_Flag_0
+  // FIXME REG23_Charger_Flag_1
+  // FIXME REG24_Charger_Flag_2
+  // FIXME REG25_Charger_Flag_3
+  // FIXME REG26_FAULT_Flag_0
+  // FIXME REG27_FAULT_Flag_1
+  // FIXME REG28_Charger_Mask_0
+  // FIXME REG29_Charger_Mask_1
+  // FIXME REG2A_Charger_Mask_2
+  // FIXME REG2B_Charger_Mask_3
+  // FIXME REG2C_FAULT_Mask_0
+  // FIXME REG2D_FAULT_Mask_1
 
   // REG2E_ADC_Control
   bool getADC_EN();
@@ -113,7 +159,8 @@ class BQ25798 {
   bool ADC_AVG_INIT();
   void setADC_AVG_INIT(adc_sample value);
 
-  // FIXME missing REG2F ... REG30_ADC_Function_Disable_1
+  // FIXME REG2F_ADC_Function_Disable_0
+  // FIXME REG30_ADC_Function_Disable_1
 
   // REG31_IBUS_ADC
   uint16_t getIBUS_ADC();
