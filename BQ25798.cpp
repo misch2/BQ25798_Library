@@ -2,16 +2,26 @@
 #include <Wire.h>
 
 BQ25798::BQ25798() {
+  _address = DEFAULT_I2C_ADDRESS;
+  clearRegs();
+}
+
+BQ25798::BQ25798(uint8_t address) {
+  _address = address;
+  clearRegs();
+}
+
+void BQ25798::clearRegs() {
   for (int i = 0; i < registersCount; i++) {
     _regs[i + MIN_REGISTER_NUMBER] = 0;
   }
 }
 
 void BQ25798::readAll() {
-  Wire.beginTransmission(I2C_ADDRESS);
+  Wire.beginTransmission(_address);
   Wire.write(MIN_REGISTER_NUMBER);
   Wire.endTransmission();
-  Wire.requestFrom(I2C_ADDRESS, registersCount);
+  Wire.requestFrom(_address, registersCount);
 
   for (int i = 0; i < registersCount; i++) {
     _regs[i + MIN_REGISTER_NUMBER] = Wire.read();
@@ -19,14 +29,14 @@ void BQ25798::readAll() {
 }
 
 void BQ25798::writeReg8ToI2C(int reg) {
-  Wire.beginTransmission(I2C_ADDRESS);
+  Wire.beginTransmission(_address);
   Wire.write(reg);
   Wire.write(_regs[reg]);
   Wire.endTransmission();
 }
 
 void BQ25798::writeReg16ToI2C(int reg) {
-  Wire.beginTransmission(I2C_ADDRESS);
+  Wire.beginTransmission(_address);
   Wire.write(reg);
   Wire.write(_regs[reg]);
   Wire.write(_regs[reg + 1]);

@@ -6,10 +6,13 @@
 #include <cstdint>
 #include "registers.h"
 
-#define I2C_ADDRESS 0x6B
+#define DEFAULT_I2C_ADDRESS 0x6B
 
 class BQ25798 {
+ private:
+  int _address;
   uint8_t _regs[1 + MAX_REGISTER_NUMBER] = {};
+  void clearRegs();
   void writeReg8ToI2C(int reg);
   void writeReg16ToI2C(int reg);
 
@@ -23,6 +26,8 @@ class BQ25798 {
 
  public:
   BQ25798();
+  BQ25798(uint8_t address);
+
   void readAll();
 
   // REG00_Minimal_System_Voltage
