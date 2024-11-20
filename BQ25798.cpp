@@ -8,10 +8,10 @@ BQ25798::BQ25798() {
 }
 
 void BQ25798::readAll() {
-  Wire.beginTransmission(I2C_ADDR);
+  Wire.beginTransmission(I2C_ADDRESS);
   Wire.write(MIN_REGISTER_NUMBER);
   Wire.endTransmission();
-  Wire.requestFrom(I2C_ADDR, registersCount);
+  Wire.requestFrom(I2C_ADDRESS, registersCount);
 
   for (int i = 0; i < registersCount; i++) {
     _regs[i + MIN_REGISTER_NUMBER] = Wire.read();
@@ -19,14 +19,14 @@ void BQ25798::readAll() {
 }
 
 void BQ25798::writeReg8ToI2C(int reg) {
-  Wire.beginTransmission(I2C_ADDR);
+  Wire.beginTransmission(I2C_ADDRESS);
   Wire.write(reg);
   Wire.write(_regs[reg]);
   Wire.endTransmission();
 }
 
 void BQ25798::writeReg16ToI2C(int reg) {
-  Wire.beginTransmission(I2C_ADDR);
+  Wire.beginTransmission(I2C_ADDRESS);
   Wire.write(reg);
   Wire.write(_regs[reg]);
   Wire.write(_regs[reg + 1]);
@@ -117,12 +117,15 @@ void BQ25798::setIINDPM(int value) {
 //
 // REG08_Precharge_Control
 //
-int BQ25798::getVBAT_LOWV() {
-  return getReg8(REG08_Precharge_Control, 0x3, 6);
+BQ25798::vbat_lowv BQ25798::getVBAT_LOWV() {
+  return static_cast<BQ25798::vbat_lowv>(getReg8(REG08_Precharge_Control, 0x3, 6));
 }
-void BQ25798::setVBAT_LOWV(int value) {
+void BQ25798::setVBAT_LOWV(BQ25798::vbat_lowv value) {
   setReg8(REG08_Precharge_Control, value, 0x3, 6);
   writeReg8ToI2C(REG08_Precharge_Control);
+}
+const char* BQ25798::getVBAT_LOWVStr() {
+  return vbat_lowv_str[getVBAT_LOWV()];
 }
 
 int BQ25798::getIPRECHG() {
@@ -163,26 +166,28 @@ void BQ25798::setITERM(int value) {
 //
 // REG0A_Recharge_Control
 //
-int BQ25798::getCELL() {
-  return getReg8(REG0A_Recharge_Control, 0x03, 6);
+BQ25798::cell BQ25798::getCELL() {
+  return static_cast<BQ25798::cell>(getReg8(REG0A_Recharge_Control, 0x03, 6));
 }
-char* BQ25798::getCELLStr() {
-  return CELL_NAME[getCELL()];
-}
-void BQ25798::setCELL(int value) {
+void BQ25798::setCELL(BQ25798::cell value) {
   setReg8(REG0A_Recharge_Control, value, 0x03, 6);
   writeReg8ToI2C(REG0A_Recharge_Control);
 }
-int BQ25798::getTRECHG() {
-  return getReg8(REG0A_Recharge_Control, 0x03, 4);
+const char* BQ25798::getCELLStr() {
+  return cell_str[getCELL()];
 }
-char* BQ25798::getTRECHGStr() {
-  return TRECHG_NAME[getTRECHG()];
+
+BQ25798::trechg BQ25798::getTRECHG() {
+  return static_cast<BQ25798::trechg>(getReg8(REG0A_Recharge_Control, 0x03, 4));
 }
-void BQ25798::setTRECHG(int value) {
+void BQ25798::setTRECHG(BQ25798::trechg value) {
   setReg8(REG0A_Recharge_Control, value, 0x03, 4);
   writeReg8ToI2C(REG0A_Recharge_Control);
 }
+const char* BQ25798::getTRECHGStr() {
+  return trechg_str[getTRECHG()];
+}
+
 int BQ25798::getVRECHG() {
   return getReg8(REG0A_Recharge_Control, 0x0F, 0);
 }
@@ -260,12 +265,12 @@ void BQ25798::setDMINUS_DAC(int value) {
 int BQ25798::getPN() {
   return getReg8(REG48_Part_Information, 0x07, 3);
 }
-char* BQ25798::getPNStr() {
-  return PN_NAME[getPN()];
+const char* BQ25798::getPNStr() {
+  return pn_str[getPN()];
 }
 int BQ25798::getDEV_REV() {
   return getReg8(REG48_Part_Information, 0x07, 0);
 }
-char* BQ25798::getDEV_REVStr() {
-  return DEV_REV_NAME[getDEV_REV()];
+const char* BQ25798::getDEV_REVStr() {
+  return dev_rev_str[getDEV_REV()];
 }

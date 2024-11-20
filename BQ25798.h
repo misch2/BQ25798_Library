@@ -7,7 +7,7 @@
 #include <string>
 #include "registers.h"
 
-#define I2C_ADDR 0x6B
+#define I2C_ADDRESS 0x6B
 
 class BQ25798 {
   uint8_t _regs[1 + MAX_REGISTER_NUMBER] = {};
@@ -46,16 +46,20 @@ class BQ25798 {
   int getIINDPM();
   void setIINDPM(int value);
 
-// 0 = 15%*VREG
-// 1 = 62.2%*VREG
-// 2 = 66.7%*VREG
-// 3 = 71.4%*VREG
-#define VBAT_LOWV_15PCT 0
-#define VBAT_LOWV_62PCT 1
-#define VBAT_LOWV_67PCT 2
-#define VBAT_LOWV_71PCT 3
-  int getVBAT_LOWV();
-  void setVBAT_LOWV(int value);
+  // 0 = 15%*VREG
+  // 1 = 62.2%*VREG
+  // 2 = 66.7%*VREG
+  // 3 = 71.4%*VREG
+  enum vbat_lowv {
+    VBAT_LOWV_15PCT = 0,
+    VBAT_LOWV_62PCT = 1,
+    VBAT_LOWV_67PCT = 2,
+    VBAT_LOWV_71PCT = 3
+  };
+  const char* const vbat_lowv_str[4] = {"15%", "62.2%", "66.7%", "71.4%"};
+  const char* getVBAT_LOWVStr();
+  vbat_lowv getVBAT_LOWV();
+  void setVBAT_LOWV(vbat_lowv value);
   // mA
   int getIPRECHG();
   void setIPRECHG(int value);
@@ -68,25 +72,24 @@ class BQ25798 {
   int getITERM();
   void setITERM(int value);
 
-// Cell configuration
-#define CELL_1S 0
-#define CELL_2S 1
-#define CELL_3S 2
-#define CELL_4S 3
-  char* CELL_NAME[4] = {"1S", "2S", "3S", "4S"};
-  int getCELL();
-  char* getCELLStr();
-  void setCELL(int value);
+  // Cell configuration
+  enum cell { CELL_1S = 0, CELL_2S = 1, CELL_3S = 2, CELL_4S = 3 };
+  const char* const cell_str[4] = {"1S", "2S", "3S", "4S"};
+  const char* getCELLStr();
+  cell getCELL();
+  void setCELL(cell value);
 
-// Battery recharge deglitch time
-#define TRECHG_64MS 0
-#define TRECHG_256MS 1
-#define TRECHG_1024MS 2
-#define TRECHG_2048MS 3
-  char* TRECHG_NAME[4] = {"64 ms", "256 ms", "1024 ms", "2048 ms"};
-  int getTRECHG();
-  char* getTRECHGStr();
-  void setTRECHG(int value);
+  // Battery recharge deglitch time
+  enum trechg {
+    TRECHG_64MS = 0,
+    TRECHG_256MS = 1,
+    TRECHG_1024MS = 2,
+    TRECHG_2048MS = 3
+  };
+  const char* const trechg_str[4] = {"64 ms", "256 ms", "1024 ms", "2048 ms"};
+  const char* getTRECHGStr();
+  trechg getTRECHG();
+  void setTRECHG(trechg value);
   // mV
   int getVRECHG();
   void setVRECHG(int value);
@@ -107,15 +110,18 @@ class BQ25798 {
 
   int getDPLUS_DAC();
   void setDPLUS_DAC(int value);
+
   int getDMINUS_DAC();
   void setDMINUS_DAC(int value);
 
   int getPN();
-  char* PN_NAME[8] = {"?", "?", "?", "BQ25798", "?", "?", "?", "?"};
-  char* getPNStr();
+  const char* const pn_str[8] = {"?", "?", "?", "BQ25798", "?", "?", "?", "?"};
+  const char* getPNStr();
+
   int getDEV_REV();
-  char* DEV_REV_NAME[8] = {"?", "BQ25798", "?", "?", "?", "?", "?", "?"};
-  char* getDEV_REVStr();
+  const char* const dev_rev_str[8] = {"?", "BQ25798", "?", "?",
+                                      "?", "?",       "?", "?"};
+  const char* getDEV_REVStr();
 
   const int registersCount = 1 + MAX_REGISTER_NUMBER - MIN_REGISTER_NUMBER;
 };
