@@ -118,7 +118,8 @@ void BQ25798::setIINDPM(int value) {
 // REG08_Precharge_Control
 //
 BQ25798::vbat_lowv BQ25798::getVBAT_LOWV() {
-  return static_cast<BQ25798::vbat_lowv>(getReg8(REG08_Precharge_Control, 0x3, 6));
+  return static_cast<BQ25798::vbat_lowv>(
+      getReg8(REG08_Precharge_Control, 0x3, 6));
 }
 void BQ25798::setVBAT_LOWV(BQ25798::vbat_lowv value) {
   setReg8(REG08_Precharge_Control, value, 0x3, 6);
@@ -194,6 +195,55 @@ int BQ25798::getVRECHG() {
 void BQ25798::setVRECHG(int value) {
   setReg8(REG0A_Recharge_Control, value, 0x0F, 0);
   writeReg8ToI2C(REG0A_Recharge_Control);
+}
+
+//
+// REG2E_ADC_Control
+//
+bool BQ25798::getADC_EN() {
+  return getReg8(REG2E_ADC_Control, 0x01, 7);
+}
+void BQ25798::setADC_EN(bool value) {
+  setReg8(REG2E_ADC_Control, value, 0x01, 7);
+  writeReg8ToI2C(REG2E_ADC_Control);
+}
+
+const char* BQ25798::getADC_RATEStr() {
+  return adc_rate_str[getADC_RATE()];
+}
+BQ25798::adc_rate BQ25798::getADC_RATE() {
+  return static_cast<adc_rate>(getReg8(REG2E_ADC_Control, 0x01, 6));
+}
+void BQ25798::setADC_RATE(adc_rate value) {
+  setReg8(REG2E_ADC_Control, value, 0x01, 6);
+  writeReg8ToI2C(REG2E_ADC_Control);
+}
+
+const char* BQ25798::getADC_SAMPLEStr() {
+  return adc_sample_str[getADC_SAMPLE()];
+}
+BQ25798::adc_sample BQ25798::getADC_SAMPLE() {
+  return static_cast<adc_sample>(getReg8(REG2E_ADC_Control, 0x03, 4));
+}
+void BQ25798::setADC_SAMPLE(adc_sample value) {
+  setReg8(REG2E_ADC_Control, value, 0x03, 4);
+  writeReg8ToI2C(REG2E_ADC_Control);
+}
+
+bool BQ25798::ADC_AVG() {
+  return getReg8(REG2E_ADC_Control, 0x01, 3);
+}
+void BQ25798::setADC_AVG(adc_sample value) {
+  setReg8(REG2E_ADC_Control, value, 0x01, 3);
+  writeReg8ToI2C(REG2E_ADC_Control);
+}
+
+bool BQ25798::ADC_AVG_INIT() {
+  return getReg8(REG2E_ADC_Control, 0x01, 2);
+}
+void BQ25798::setADC_AVG_INIT(adc_sample value) {
+  setReg8(REG2E_ADC_Control, value, 0x01, 2);
+  writeReg8ToI2C(REG2E_ADC_Control);
 }
 
 // ADCs

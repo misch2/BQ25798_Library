@@ -4,7 +4,6 @@
 #include "Arduino.h"
 
 #include <cstdint>
-#include <string>
 #include "registers.h"
 
 #define I2C_ADDRESS 0x6B
@@ -46,17 +45,14 @@ class BQ25798 {
   int getIINDPM();
   void setIINDPM(int value);
 
-  // 0 = 15%*VREG
-  // 1 = 62.2%*VREG
-  // 2 = 66.7%*VREG
-  // 3 = 71.4%*VREG
   enum vbat_lowv {
     VBAT_LOWV_15PCT = 0,
     VBAT_LOWV_62PCT = 1,
     VBAT_LOWV_67PCT = 2,
     VBAT_LOWV_71PCT = 3
   };
-  const char* const vbat_lowv_str[4] = {"15%", "62.2%", "66.7%", "71.4%"};
+  const char* const vbat_lowv_str[4] = {"15%*VREG", "62.2%*VREG", "66.7%*VREG",
+                                        "71.4%*VREG"};
   const char* getVBAT_LOWVStr();
   vbat_lowv getVBAT_LOWV();
   void setVBAT_LOWV(vbat_lowv value);
@@ -94,7 +90,36 @@ class BQ25798 {
   int getVRECHG();
   void setVRECHG(int value);
 
-  // FIXME missing REG0B_VOTG_regulation ... REG30_ADC_Function_Disable_1
+  // FIXME missing REG0B_VOTG_regulation ... REG2D
+
+  // REG2E_ADC_Control
+  bool getADC_EN();
+  void setADC_EN(bool value);
+
+  enum adc_rate { ADC_RATE_CONTINUOUS = 0, ADC_RATE_ONESHOT = 1 };
+  const char* const adc_rate_str[2] = {"Continuous", "One-shot"};
+  const char* getADC_RATEStr();
+  adc_rate getADC_RATE();
+  void setADC_RATE(adc_rate value);
+
+  enum adc_sample {
+    ADC_SAMPLE_15BIT = 0,
+    ADC_SAMPLE_14BIT = 1,
+    ADC_SAMPLE_13BIT = 2,
+    ADC_SAMPLE_12BIT = 3
+  };
+  const char* const adc_sample_str[4] = {"15-bit", "14-bit", "13-bit", "12-bit"};
+  const char* getADC_SAMPLEStr();
+  adc_sample getADC_SAMPLE();
+  void setADC_SAMPLE(adc_sample value);
+
+  bool ADC_AVG();
+  void setADC_AVG(adc_sample value);
+  
+  bool ADC_AVG_INIT();
+  void setADC_AVG_INIT(adc_sample value);
+
+  // FIXME missing REG2F ... REG30_ADC_Function_Disable_1
 
   uint16_t getIBUS_ADC();
   uint16_t getIBAT_ADC();
