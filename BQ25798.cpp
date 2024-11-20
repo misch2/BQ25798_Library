@@ -61,6 +61,7 @@ void BQ25798::setReg16(int widereg, uint16_t value, int bitMask, int bitShift) {
 
 //
 // REG00_Minimal_System_Voltage
+// Determined from PROG pin at boot time
 //
 int BQ25798::getVSYSMIN() {
   return getReg8(REG00_Minimal_System_Voltage, 0x3F, 0);
@@ -72,6 +73,7 @@ void BQ25798::setVSYSMIN(int value) {
 
 //
 // REG01_Charge_Voltage_Limit
+// Determined from PROG pin at boot time
 //
 int BQ25798::getVREG() {
   return getReg16(REG01_Charge_Voltage_Limit, 0x7FF, 0);
@@ -83,6 +85,7 @@ void BQ25798::setVREG(int value) {
 
 //
 // REG03_Charge_Current_Limit
+// Determined from PROG pin at boot time
 //
 int BQ25798::getICHG() {
   return getReg16(REG03_Charge_Current_Limit, 0x1FF, 0);
@@ -246,47 +249,57 @@ void BQ25798::setADC_AVG_INIT(adc_sample value) {
   writeReg8ToI2C(REG2E_ADC_Control);
 }
 
-// ADCs
+// REG31_IBUS_ADC
 uint16_t BQ25798::getIBUS_ADC() {
   return getReg16(REG31_IBUS_ADC, 0xFFFF, 0);
 }
 
+// REG33_IBAT_ADC
 uint16_t BQ25798::getIBAT_ADC() {
   return getReg16(REG33_IBAT_ADC, 0xFFFF, 0);
 }
 
+// REG35_VBUS_ADC
 uint16_t BQ25798::getVBUS_ADC() {
   return getReg16(REG35_VBUS_ADC, 0xFFFF, 0);
 }
 
+// REG37_VAC1_ADC
 uint16_t BQ25798::getVAC1_ADC() {
   return getReg16(REG37_VAC1_ADC, 0xFFFF, 0);
 }
 
+// REG39_VAC2_ADC
 uint16_t BQ25798::getVAC2_ADC() {
   return getReg16(REG39_VAC2_ADC, 0xFFFF, 0);
 }
 
+// REG3B_VBAT_ADC
 uint16_t BQ25798::getVBAT_ADC() {
   return getReg16(REG3B_VBAT_ADC, 0xFFFF, 0);
 }
 
+// REG3D_VSYS_ADC
 uint16_t BQ25798::getVSYS_ADC() {
   return getReg16(REG3D_VSYS_ADC, 0xFFFF, 0);
 }
 
+// REG3F_TS_ADC
 uint16_t BQ25798::getTS_ADC() {
   return getReg16(REG3F_TS_ADC, 0xFFFF, 0);
 }
 
+// REG41_TDIE_ADC
 uint16_t BQ25798::getTDIE_ADC() {
   return getReg16(REG41_TDIE_ADC, 0xFFFF, 0);
 }
 
+// REG43_DPLUS_ADC
 uint16_t BQ25798::getDPLUS_ADC() {
   return getReg16(REG43_DPLUS_ADC, 0xFFFF, 0);
 }
 
+// REG45_DMINUS_ADC
 uint16_t BQ25798::getDMINUS_ADC() {
   return getReg16(REG45_DMINUS_ADC, 0xFFFF, 0);
 }
