@@ -11,13 +11,13 @@
 
 class BQ25798 {
   uint8_t _regs[1 + MAX_REGISTER_NUMBER] = {};
-  void writeByte(int reg);
-  void writeWord(int reg);
+  void writeReg8ToI2C(int reg);
+  void writeReg16ToI2C(int reg);
 
-  uint8_t getreg8(int reg, int bitMask = 0xFF, int bitShift = 0);
-  void setreg8(int reg, uint8_t value, int bitMask = 0xFF, int bitShift = 0);
-  uint16_t getreg16(int widereg, int bitMask = 0xFFFF, int bitShift = 0);
-  void setreg16(int widereg,
+  uint8_t getReg8(int reg, int bitMask = 0xFF, int bitShift = 0);
+  void setReg8(int reg, uint8_t value, int bitMask = 0xFF, int bitShift = 0);
+  uint16_t getReg16(int widereg, int bitMask = 0xFFFF, int bitShift = 0);
+  void setReg16(int widereg,
                 uint16_t value,
                 int bitMask = 0xFFFF,
                 int bitShift = 0);
