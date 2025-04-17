@@ -28,6 +28,7 @@ class BQ25798 {
   BQ25798();
   BQ25798(uint8_t address);
 
+  void begin();
   void readAll();
 
   // REG00_Minimal_System_Voltage
@@ -141,8 +142,8 @@ class BQ25798 {
   // FIXME REG2D_FAULT_Mask_1
 
   // REG2E_ADC_Control
-  bool getADC_EN();
-  void setADC_EN(bool value);
+  bool getADC_ENABLE();
+  void setADC_ENABLE(bool value);
   enum adc_rate { ADC_RATE_CONTINUOUS = 0, ADC_RATE_ONESHOT = 1 };
   const char* const adc_rate_str[2] = {"Continuous", "One-shot"};
   const char* getADC_RATEStr();
@@ -164,8 +165,31 @@ class BQ25798 {
   bool ADC_AVG_INIT();
   void setADC_AVG_INIT(adc_sample value);
 
-  // FIXME REG2F_ADC_Function_Disable_0
-  // FIXME REG30_ADC_Function_Disable_1
+  // REG2F_ADC_Function_Disable_0
+  bool getIBUS_ADC_DISABLE();
+  void setIBUS_ADC_DISABLE(bool value);
+  bool getIBAT_ADC_DISABLE();
+  void setIBAT_ADC_DISABLE(bool value);
+  bool getVBUS_ADC_DISABLE();
+  void setVBUS_ADC_DISABLE(bool value);
+  bool getVBAT_ADC_DISABLE();
+  void setVBAT_ADC_DISABLE(bool value);
+  bool getVSYS_ADC_DISABLE();
+  void setVSYS_ADC_DISABLE(bool value);
+  bool getTS_ADC_DISABLE();
+  void setTS_ADC_DISABLE(bool value);
+  bool getTDIE_ADC_DISABLE();
+  void setTDIE_ADC_DISABLE(bool value);
+
+  // REG30_ADC_Function_Disable_1
+  bool getDPLUS_ADC_DISABLE();
+  void setDPLUS_ADC_DISABLE(bool value);
+  bool getDMINUS_ADC_DISABLE();
+  void setDMINUS_ADC_DISABLE(bool value);
+  bool getVAC2_ADC_DISABLE();
+  void setVAC2_ADC_DISABLE(bool value);
+  bool getVAC1_ADC_DISABLE();
+  void setVAC1_ADC_DISABLE(bool value);
 
   // REG31_IBUS_ADC
   uint16_t getIBUS_ADC();

@@ -17,6 +17,10 @@ void BQ25798::clearRegs() {
   }
 }
 
+void BQ25798::begin() {
+  readAll();
+}
+
 void BQ25798::readAll() {
   Wire.beginTransmission(_address);
   Wire.write(MIN_REGISTER_NUMBER);
@@ -277,10 +281,10 @@ void BQ25798::setIOTG(int value) {
 //
 // REG2E_ADC_Control
 //
-bool BQ25798::getADC_EN() {
+bool BQ25798::getADC_ENABLE() {
   return getReg8(REG2E_ADC_Control, 0x01, 7);
 }
-void BQ25798::setADC_EN(bool value) {
+void BQ25798::setADC_ENABLE(bool value) {
   setReg8(REG2E_ADC_Control, value, 0x01, 7);
   writeReg8ToI2C(REG2E_ADC_Control);
 }
@@ -323,8 +327,99 @@ void BQ25798::setADC_AVG_INIT(adc_sample value) {
   writeReg8ToI2C(REG2E_ADC_Control);
 }
 
-// FIXME REG2F_ADC_Function_Disable_0
-// FIXME REG30_ADC_Function_Disable_1
+// REG2F_ADC_Function_Disable_0
+bool BQ25798::getIBUS_ADC_DISABLE() {
+  return getReg8(REG2F_ADC_Function_Disable_0, 0x01, 7);
+}
+void BQ25798::setIBUS_ADC_DISABLE(bool value) {
+  setReg8(REG2F_ADC_Function_Disable_0, value, 0x01, 7);
+  writeReg8ToI2C(REG2F_ADC_Function_Disable_0);
+}
+
+bool BQ25798::getIBAT_ADC_DISABLE() {
+  return getReg8(REG2F_ADC_Function_Disable_0, 0x01, 6);
+}
+void BQ25798::setIBAT_ADC_DISABLE(bool value) {
+  setReg8(REG2F_ADC_Function_Disable_0, value, 0x01, 6);
+  writeReg8ToI2C(REG2F_ADC_Function_Disable_0);
+}
+
+bool BQ25798::getVBUS_ADC_DISABLE() {
+  return getReg8(REG2F_ADC_Function_Disable_0, 0x01, 5);
+}
+void BQ25798::setVBUS_ADC_DISABLE(bool value) {
+  setReg8(REG2F_ADC_Function_Disable_0, value, 0x01, 5);
+  writeReg8ToI2C(REG2F_ADC_Function_Disable_0);
+}
+
+bool BQ25798::getVBAT_ADC_DISABLE() {
+  return getReg8(REG2F_ADC_Function_Disable_0, 0x01, 4);
+}
+void BQ25798::setVBAT_ADC_DISABLE(bool value) {
+  setReg8(REG2F_ADC_Function_Disable_0, value, 0x01, 4);
+  writeReg8ToI2C(REG2F_ADC_Function_Disable_0);
+}
+
+bool BQ25798::getVSYS_ADC_DISABLE() {
+  return getReg8(REG2F_ADC_Function_Disable_0, 0x01, 3);
+}
+void BQ25798::setVSYS_ADC_DISABLE(bool value) {
+  setReg8(REG2F_ADC_Function_Disable_0, value, 0x01, 3);
+  writeReg8ToI2C(REG2F_ADC_Function_Disable_0);
+}
+
+bool BQ25798::getTS_ADC_DISABLE() {
+  return getReg8(REG2F_ADC_Function_Disable_0, 0x01, 2);
+}
+void BQ25798::setTS_ADC_DISABLE(bool value) {
+  setReg8(REG2F_ADC_Function_Disable_0, value, 0x01, 2);
+  writeReg8ToI2C(REG2F_ADC_Function_Disable_0);
+}
+
+bool BQ25798::getTDIE_ADC_DISABLE() {
+  return getReg8(REG2F_ADC_Function_Disable_0, 0x01, 1);
+}
+void BQ25798::setTDIE_ADC_DISABLE(bool value) {
+  setReg8(REG2F_ADC_Function_Disable_0, value, 0x01, 1);
+  writeReg8ToI2C(REG2F_ADC_Function_Disable_0);
+}
+
+
+
+
+// REG30_ADC_Function_Disable_1
+bool BQ25798::getDPLUS_ADC_DISABLE() {
+  return getReg8(REG30_ADC_Function_Disable_1, 0x01, 7);
+}
+void BQ25798::setDPLUS_ADC_DISABLE(bool value) {
+  setReg8(REG30_ADC_Function_Disable_1, value, 0x01, 7);
+  writeReg8ToI2C(REG30_ADC_Function_Disable_1);
+}
+
+bool BQ25798::getDMINUS_ADC_DISABLE() {
+  return getReg8(REG30_ADC_Function_Disable_1, 0x01, 6);
+}
+void BQ25798::setDMINUS_ADC_DISABLE(bool value) {
+  setReg8(REG30_ADC_Function_Disable_1, value, 0x01, 6);
+  writeReg8ToI2C(REG30_ADC_Function_Disable_1);
+}
+
+bool BQ25798::getVAC2_ADC_DISABLE() {
+  return getReg8(REG30_ADC_Function_Disable_1, 0x01, 5);
+}
+void BQ25798::setVAC2_ADC_DISABLE(bool value) {
+  setReg8(REG30_ADC_Function_Disable_1, value, 0x01, 5);
+  writeReg8ToI2C(REG30_ADC_Function_Disable_1);
+}
+
+bool BQ25798::getVAC1_ADC_DISABLE() {
+  return getReg8(REG30_ADC_Function_Disable_1, 0x01, 4);
+}
+void BQ25798::setVAC1_ADC_DISABLE(bool value) {
+  setReg8(REG30_ADC_Function_Disable_1, value, 0x01, 4);
+  writeReg8ToI2C(REG30_ADC_Function_Disable_1);
+}
+
 
 // REG31_IBUS_ADC
 uint16_t BQ25798::getIBUS_ADC() {
