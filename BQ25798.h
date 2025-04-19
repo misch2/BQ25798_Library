@@ -4,6 +4,8 @@
 #include "Arduino.h"
 
 #include <cstdint>
+#include <string>
+#include <vector>
 #include "registers.h"
 
 #define DEFAULT_I2C_ADDRESS 0x6B
@@ -31,38 +33,49 @@ class BQ25798 {
   bool begin();
   bool readAll();
 
-  // REG00_Minimal_System_Voltage
-  int getVSYSMIN();
-  void setVSYSMIN(int value);
+  // ==================== new functions ====================
 
-  // REG01_Charge_Voltage_Limit
-  int getVREG();
-  void setVREG(int value);
+  enum class regsize_t : uint8_t {  // Register size
+    SHORT = 8,
+    LONG = 16,
+  };
 
-  // REG03_Charge_Current_Limit
-  int getICHG();
-  void setICHG(int value);
+  typedef uint8_t regaddr_t;  // Register address
 
-  // REG05_Input_Voltage_Limit
-  int getVINDPM();
-  void setVINDPM(int value);
+  typedef struct {
+    regaddr_t reg;   // Register address
+    regsize_t size;  // 8bit, 16bit, etc.
+    uint16_t mask;   // Bitmask for the setting
+    uint8_t shift;   // Bit shift for the setting
+  } Setting;
 
-  // REG06_Input_Current_Limit
-  int getIINDPM();
-  void setIINDPM(int value);
+  // Now do something like this:
+  Setting VSYSMIN = {REG00_Minimal_System_Voltage, regsize_t::SHORT, 0x3F, 0};
+  Setting VREG = {REG01_Charge_Voltage_Limit, regsize_t::LONG, 0x7FF, 0};
+  Setting ICHG = {REG03_Charge_Current_Limit, regsize_t::LONG, 0x1FF, 0};
+  Setting VINDPM = {REG05_Input_Voltage_Limit, regsize_t::SHORT, 0xFF, 0};
+  Setting IINDPM = {REG06_Input_Current_Limit, regsize_t::LONG, 0x1FF, 0};
+  Setting VBAT_LOWV = {REG08_Precharge_Control, regsize_t::SHORT, 0x3, 6};
+
+  enum class vbat_lowv_t : uint8_t {
+    PCT_15 = 0,
+    PCT_62 = 1,
+    PCT_67 = 2,
+    PCT_71 = 3
+  };
+
+  const std::vector<std::string> VBAT_LOWV_strings = {{"15%(VREG)"},
+                                                      {"62.2%(VREG)"},
+                                                      {"66.7%(VREG)"},
+                                                      {"71.4%(VREG)"}};
+
+  int getInt(Setting setting);
+  void setInt(Setting setting, int value);
+  const char* toString(int value, const std::vector<std::string> map);
+
+  // ===================== old functions =====================
 
   // REG08_Precharge_Control
-  enum vbat_lowv {
-    VBAT_LOWV_15PCT = 0,
-    VBAT_LOWV_62PCT = 1,
-    VBAT_LOWV_67PCT = 2,
-    VBAT_LOWV_71PCT = 3
-  };
-  const char* const vbat_lowv_str[4] = {"15%*VREG", "62.2%*VREG", "66.7%*VREG",
-                                        "71.4%*VREG"};
-  const char* getVBAT_LOWVStr();
-  vbat_lowv getVBAT_LOWV();
-  void setVBAT_LOWV(vbat_lowv value);
   int getIPRECHG();
   void setIPRECHG(int value);
 

@@ -1,3 +1,5 @@
+// Registers for the BQ25703A
+
 enum {
   REG00_Minimal_System_Voltage = 0x00,
   REG01_Charge_Voltage_Limit = 0x01,

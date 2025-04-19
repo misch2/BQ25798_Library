@@ -95,78 +95,111 @@ void BQ25798::setReg16(int widereg, uint16_t value, int bitMask, int bitShift) {
   _regs[widereg + 1] |= (shiftedValue & shiftedMask) & 0xFF;
 }
 
-//
-// REG00_Minimal_System_Voltage
-// Determined from PROG pin at boot time
-//
-int BQ25798::getVSYSMIN() {
-  return getReg8(REG00_Minimal_System_Voltage, 0x3F, 0);
+// ==================== new functions ====================
+
+int BQ25798::getInt(Setting setting) {
+  int value = 0;
+  if (setting.size == regsize_t::SHORT) {
+    value = getReg8(setting.reg, setting.mask, setting.shift);
+  } else if (setting.size == regsize_t::LONG) {
+    value = getReg16(setting.reg, setting.mask, setting.shift);
+  }
+  return value;
 };
-void BQ25798::setVSYSMIN(int value) {
-  setReg8(REG00_Minimal_System_Voltage, value, 0x3F, 0);
-  writeReg8ToI2C(REG00_Minimal_System_Voltage);
+
+void BQ25798::setInt(Setting setting, int value) {
+  if (setting.size == regsize_t::SHORT) {
+    setReg8(setting.reg, value, setting.mask, setting.shift);
+    writeReg8ToI2C(setting.reg);
+  } else if (setting.size == regsize_t::LONG) {
+    setReg16(setting.reg, value, setting.mask, setting.shift);
+    writeReg16ToI2C(setting.reg);
+  }
+};
+
+// Generic method to convert an integer to a string using a map
+const char *BQ25798::toString(int value, const std::vector<std::string> map) {
+  if (value >= 0 && value < map.size()) {
+    return map[value].c_str();
+  } else {
+    return "Unknown";
+  }
 }
 
-//
-// REG01_Charge_Voltage_Limit
-// Determined from PROG pin at boot time
-//
-int BQ25798::getVREG() {
-  return getReg16(REG01_Charge_Voltage_Limit, 0x7FF, 0);
-}
-void BQ25798::setVREG(int value) {
-  setReg16(REG01_Charge_Voltage_Limit, value, 0x7FF, 0);
-  writeReg16ToI2C(REG01_Charge_Voltage_Limit);
-}
+// ===================== old functions =====================
 
-//
-// REG03_Charge_Current_Limit
-// Determined from PROG pin at boot time
-//
-int BQ25798::getICHG() {
-  return getReg16(REG03_Charge_Current_Limit, 0x1FF, 0);
-}
-void BQ25798::setICHG(int value) {
-  setReg16(REG03_Charge_Current_Limit, value, 0x1FF, 0);
-  writeReg16ToI2C(REG03_Charge_Current_Limit);
-}
+// //
+// // REG00_Minimal_System_Voltage
+// // Determined from PROG pin at boot time
+// //
+// int BQ25798::getVSYSMIN() {
+//   return getReg8(REG00_Minimal_System_Voltage, 0x3F, 0);
+// };
+// void BQ25798::setVSYSMIN(int value) {
+//   setReg8(REG00_Minimal_System_Voltage, value, 0x3F, 0);
+//   writeReg8ToI2C(REG00_Minimal_System_Voltage);
+// }
 
-//
-// REG05_Input_Voltage_Limit
-//
-int BQ25798::getVINDPM() {
-  return getReg8(REG05_Input_Voltage_Limit, 0xFF, 0);
-}
-void BQ25798::setVINDPM(int value) {
-  setReg8(REG05_Input_Voltage_Limit, value, 0xFF, 0);
-  writeReg8ToI2C(REG05_Input_Voltage_Limit);
-}
+// //
+// // REG01_Charge_Voltage_Limit
+// // Determined from PROG pin at boot time
+// //
+// int BQ25798::getVREG() {
+//   return getReg16(REG01_Charge_Voltage_Limit, 0x7FF, 0);
+// }
+// void BQ25798::setVREG(int value) {
+//   setReg16(REG01_Charge_Voltage_Limit, value, 0x7FF, 0);
+//   writeReg16ToI2C(REG01_Charge_Voltage_Limit);
+// }
 
-//
-// REG06_Input_Current_Limit
-//
-int BQ25798::getIINDPM() {
-  return getReg16(REG06_Input_Current_Limit, 0x1FF, 0);
-}
-void BQ25798::setIINDPM(int value) {
-  setReg16(REG06_Input_Current_Limit, value, 0x1FF, 0);
-  writeReg16ToI2C(REG06_Input_Current_Limit);
-}
+// //
+// // REG03_Charge_Current_Limit
+// // Determined from PROG pin at boot time
+// //
+// int BQ25798::getICHG() {
+//   return getReg16(REG03_Charge_Current_Limit, 0x1FF, 0);
+// }
+// void BQ25798::setICHG(int value) {
+//   setReg16(REG03_Charge_Current_Limit, value, 0x1FF, 0);
+//   writeReg16ToI2C(REG03_Charge_Current_Limit);
+// }
 
-//
-// REG08_Precharge_Control
-//
-BQ25798::vbat_lowv BQ25798::getVBAT_LOWV() {
-  return static_cast<BQ25798::vbat_lowv>(
-      getReg8(REG08_Precharge_Control, 0x3, 6));
-}
-void BQ25798::setVBAT_LOWV(BQ25798::vbat_lowv value) {
-  setReg8(REG08_Precharge_Control, value, 0x3, 6);
-  writeReg8ToI2C(REG08_Precharge_Control);
-}
-const char* BQ25798::getVBAT_LOWVStr() {
-  return vbat_lowv_str[getVBAT_LOWV()];
-}
+// //
+// // REG05_Input_Voltage_Limit
+// //
+// int BQ25798::getVINDPM() {
+//   return getReg8(REG05_Input_Voltage_Limit, 0xFF, 0);
+// }
+// void BQ25798::setVINDPM(int value) {
+//   setReg8(REG05_Input_Voltage_Limit, value, 0xFF, 0);
+//   writeReg8ToI2C(REG05_Input_Voltage_Limit);
+// }
+
+// //
+// // REG06_Input_Current_Limit
+// //
+// int BQ25798::getIINDPM() {
+//   return getReg16(REG06_Input_Current_Limit, 0x1FF, 0);
+// }
+// void BQ25798::setIINDPM(int value) {
+//   setReg16(REG06_Input_Current_Limit, value, 0x1FF, 0);
+//   writeReg16ToI2C(REG06_Input_Current_Limit);
+// }
+
+// //
+// // REG08_Precharge_Control
+// //
+// BQ25798::vbat_lowv BQ25798::getVBAT_LOWV() {
+//   return static_cast<BQ25798::vbat_lowv>(
+//       getReg8(REG08_Precharge_Control, 0x3, 6));
+// }
+// void BQ25798::setVBAT_LOWV(BQ25798::vbat_lowv value) {
+//   setReg8(REG08_Precharge_Control, value, 0x3, 6);
+//   writeReg8ToI2C(REG08_Precharge_Control);
+// }
+// const char* BQ25798::getVBAT_LOWVStr() {
+//   return vbat_lowv_str[getVBAT_LOWV()];
+// }
 
 int BQ25798::getIPRECHG() {
   return getReg8(REG08_Precharge_Control, 0x3F, 0);
@@ -406,9 +439,6 @@ void BQ25798::setTDIE_ADC_DISABLE(bool value) {
   writeReg8ToI2C(REG2F_ADC_Function_Disable_0);
 }
 
-
-
-
 // REG30_ADC_Function_Disable_1
 bool BQ25798::getDPLUS_ADC_DISABLE() {
   return getReg8(REG30_ADC_Function_Disable_1, 0x01, 7);
@@ -441,7 +471,6 @@ void BQ25798::setVAC1_ADC_DISABLE(bool value) {
   setReg8(REG30_ADC_Function_Disable_1, value, 0x01, 4);
   writeReg8ToI2C(REG30_ADC_Function_Disable_1);
 }
-
 
 // REG31_IBUS_ADC
 uint16_t BQ25798::getIBUS_ADC() {
