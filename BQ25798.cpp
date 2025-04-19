@@ -17,34 +17,56 @@ void BQ25798::clearRegs() {
   }
 }
 
-void BQ25798::begin() {
-  readAll();
+bool BQ25798::begin() {
+  return readAll();
 }
 
-void BQ25798::readAll() {
+bool BQ25798::readAll() {
   Wire.beginTransmission(_address);
   Wire.write(MIN_REGISTER_NUMBER);
   Wire.endTransmission();
-  Wire.requestFrom(_address, registersCount);
+  if (Wire.requestFrom(_address, registersCount) != registersCount) {
+    Serial.println("Error reading BQ25798 registers");
+    return false;
+  }
 
   for (int i = 0; i < registersCount; i++) {
     _regs[i + MIN_REGISTER_NUMBER] = Wire.read();
   }
+
+  return true;
 }
 
-void BQ25798::writeReg8ToI2C(int reg) {
+bool BQ25798::writeReg8ToI2C(int reg) {
   Wire.beginTransmission(_address);
-  Wire.write(reg);
-  Wire.write(_regs[reg]);
+  if (Wire.write(reg) != 1) {
+    Serial.println("Error writing to BQ25798 register");
+    return false;
+  }
+  if (Wire.write(_regs[reg]) != 1) {
+    Serial.println("Error writing to BQ25798 register");
+    return false;
+  }
   Wire.endTransmission();
+  return true;
 }
 
-void BQ25798::writeReg16ToI2C(int reg) {
+bool BQ25798::writeReg16ToI2C(int reg) {
   Wire.beginTransmission(_address);
-  Wire.write(reg);
-  Wire.write(_regs[reg]);
-  Wire.write(_regs[reg + 1]);
+  if (Wire.write(reg) != 1) {
+    Serial.println("Error writing to BQ25798 register");
+    return false;
+  }
+  if (Wire.write(_regs[reg]) != 1) {
+    Serial.println("Error writing to BQ25798 register");
+    return false;
+  }
+  if (Wire.write(_regs[reg + 1]) != 1) {
+    Serial.println("Error writing to BQ25798 register");
+    return false;
+  }
   Wire.endTransmission();
+  return true;
 }
 
 uint8_t BQ25798::getReg8(int reg, int bitMask, int bitShift) {

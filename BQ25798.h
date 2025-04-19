@@ -13,8 +13,8 @@ class BQ25798 {
   int _address;
   uint8_t _regs[1 + MAX_REGISTER_NUMBER] = {};
   void clearRegs();
-  void writeReg8ToI2C(int reg);
-  void writeReg16ToI2C(int reg);
+  bool writeReg8ToI2C(int reg);
+  bool writeReg16ToI2C(int reg);
 
   uint8_t getReg8(int reg, int bitMask = 0xFF, int bitShift = 0);
   void setReg8(int reg, uint8_t value, int bitMask = 0xFF, int bitShift = 0);
@@ -28,8 +28,8 @@ class BQ25798 {
   BQ25798();
   BQ25798(uint8_t address);
 
-  void begin();
-  void readAll();
+  bool begin();
+  bool readAll();
 
   // REG00_Minimal_System_Voltage
   int getVSYSMIN();
