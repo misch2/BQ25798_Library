@@ -1,4 +1,5 @@
 #include "BQ25798.h"
+
 #include <Wire.h>
 
 BQ25798::BQ25798() {
@@ -17,9 +18,7 @@ void BQ25798::clearRegs() {
   }
 }
 
-bool BQ25798::begin() {
-  return readAll();
-}
+bool BQ25798::begin() { return readAll(); }
 
 bool BQ25798::readAll() {
   Wire.beginTransmission(_address);
@@ -69,9 +68,7 @@ bool BQ25798::writeReg16ToI2C(int reg) {
   return true;
 }
 
-uint8_t BQ25798::getReg8(int reg, int bitMask, int bitShift) {
-  return (_regs[reg] >> bitShift) & bitMask;
-}
+uint8_t BQ25798::getReg8(int reg, int bitMask, int bitShift) { return (_regs[reg] >> bitShift) & bitMask; }
 
 void BQ25798::setReg8(int reg, uint8_t value, int bitMask, int bitShift) {
   uint8_t shiftedMask = bitMask << bitShift;
@@ -81,9 +78,7 @@ void BQ25798::setReg8(int reg, uint8_t value, int bitMask, int bitShift) {
   _regs[reg] |= (shiftedValue & shiftedMask);
 }
 
-uint16_t BQ25798::getReg16(int widereg, int bitMask, int bitShift) {
-  return ((_regs[widereg] << 8) | _regs[widereg + 1]) >> bitShift & bitMask;
-}
+uint16_t BQ25798::getReg16(int widereg, int bitMask, int bitShift) { return ((_regs[widereg] << 8) | _regs[widereg + 1]) >> bitShift & bitMask; }
 
 void BQ25798::setReg16(int widereg, uint16_t value, int bitMask, int bitShift) {
   uint16_t shiftedMask = bitMask << bitShift;
@@ -104,10 +99,34 @@ int BQ25798::getInt(Setting setting) {
   } else if (setting.size == regsize_t::LONG) {
     value = getReg16(setting.reg, setting.mask, setting.shift);
   }
+
+  // Adjust the value based on the fixed offset and bit step size if provided
+  if (setting.bit_step_size != 0) {
+    value *= setting.bit_step_size;
+  };
+  if (setting.fixed_offset != 0) {
+    value += setting.fixed_offset;
+  };
+
   return value;
 };
 
 void BQ25798::setInt(Setting setting, int value) {
+  // Check range
+  if (setting.range_low != 0 || setting.range_high != 0) {
+    if (value < setting.range_low || value > setting.range_high) {
+      Serial.printf("Value %d out of range (%d, %d) for register %d\n", value, setting.range_low, setting.range_high, setting.reg);
+      return;
+    }
+  }
+  // Adjust the value based on the fixed offset and bit step size if provided
+  if (setting.fixed_offset != 0) {
+    value -= trunc(setting.fixed_offset);
+  };
+  if (setting.bit_step_size != 0) {
+    value /= trunc(setting.bit_step_size);
+  };
+
   if (setting.size == regsize_t::SHORT) {
     setReg8(setting.reg, value, setting.mask, setting.shift);
     writeReg8ToI2C(setting.reg);
@@ -115,6 +134,25 @@ void BQ25798::setInt(Setting setting, int value) {
     setReg16(setting.reg, value, setting.mask, setting.shift);
     writeReg16ToI2C(setting.reg);
   }
+};
+
+float BQ25798::getFloat(Setting setting) {
+  float value = 0;
+  if (setting.size == regsize_t::SHORT) {
+    value = getReg8(setting.reg, setting.mask, setting.shift);
+  } else if (setting.size == regsize_t::LONG) {
+    value = getReg16(setting.reg, setting.mask, setting.shift);
+  }
+
+  // Adjust the value based on the fixed offset and bit step size if provided
+  if (setting.bit_step_size != 0) {
+    value *= setting.bit_step_size;
+  };
+  if (setting.fixed_offset != 0) {
+    value += setting.fixed_offset;
+  };
+
+  return value;
 };
 
 // Generic method to convert an integer to a string using a map

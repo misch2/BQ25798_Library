@@ -1,11 +1,11 @@
 #ifndef BQ25798_H
 #define BQ25798_H
 
-#include "Arduino.h"
-
 #include <cstdint>
 #include <string>
 #include <vector>
+
+#include "Arduino.h"
 #include "registers.h"
 
 #define DEFAULT_I2C_ADDRESS 0x6B
@@ -21,10 +21,7 @@ class BQ25798 {
   uint8_t getReg8(int reg, int bitMask = 0xFF, int bitShift = 0);
   void setReg8(int reg, uint8_t value, int bitMask = 0xFF, int bitShift = 0);
   uint16_t getReg16(int widereg, int bitMask = 0xFFFF, int bitShift = 0);
-  void setReg16(int widereg,
-                uint16_t value,
-                int bitMask = 0xFFFF,
-                int bitShift = 0);
+  void setReg16(int widereg, uint16_t value, int bitMask = 0xFFFF, int bitShift = 0);
 
  public:
   BQ25798();
@@ -46,76 +43,66 @@ class BQ25798 {
     regsize_t size;  // 8bit or 16bit
     uint16_t mask;   // Bitmask for the setting
     uint8_t shift;   // Bit shift for the setting
+    // optional:
+    float range_low;
+    float range_high;
+    float fixed_offset;   // Fixed offset for the setting (e.g., for voltage settings)
+    float bit_step_size;  // Bit step size for the setting (e.g., for current settings)
+    // adjusted value = raw_value * bit_step_size + fixed_offset
   } Setting;
 
   typedef const std::vector<std::string> strings_vector_t;
 
   int getInt(Setting setting);
   void setInt(Setting setting, int value);
+  float getFloat(Setting setting);
   const char* toString(int value, const std::vector<std::string> map);
 
   // ===================== registers =====================
   // 0
-  Setting VSYSMIN = {REG00_Minimal_System_Voltage, regsize_t::SHORT, 0x3F, 0};
+  Setting VSYSMIN = {REG00_Minimal_System_Voltage, regsize_t::SHORT, 0x3F, 0, 2500, 16000, 2500, 250};
 
   // 1-2
-  Setting VREG = {REG01_Charge_Voltage_Limit, regsize_t::LONG, 0x7FF, 0};
+  Setting VREG = {REG01_Charge_Voltage_Limit, regsize_t::LONG, 0x7FF, 0, 3000, 18800, 0, 10};
 
   // 3-4
-  Setting ICHG = {REG03_Charge_Current_Limit, regsize_t::LONG, 0x1FF, 0};
+  Setting ICHG = {REG03_Charge_Current_Limit, regsize_t::LONG, 0x1FF, 0, 50, 5000, 0, 10};
 
   // 5
-  Setting VINDPM = {REG05_Input_Voltage_Limit, regsize_t::SHORT, 0xFF, 0};
+  Setting VINDPM = {REG05_Input_Voltage_Limit, regsize_t::SHORT, 0xFF, 0, 3600, 22000, 0, 100};
 
   // 6-7
-  Setting IINDPM = {REG06_Input_Current_Limit, regsize_t::LONG, 0x1FF, 0};
+  Setting IINDPM = {REG06_Input_Current_Limit, regsize_t::LONG, 0x1FF, 0, 100, 3300, 0, 10};
 
   // 8
-  Setting IPRECHG = {REG08_Precharge_Control, regsize_t::SHORT, 0x3F, 0};
   Setting VBAT_LOWV = {REG08_Precharge_Control, regsize_t::SHORT, 0x3, 6};
-  enum class vbat_lowv_t : uint8_t {
-    PCT_15 = 0,
-    PCT_62 = 1,
-    PCT_67 = 2,
-    PCT_71 = 3
-  };
-  strings_vector_t VBAT_LOWV_strings = {{"15%(VREG)"},
-                                        {"62.2%(VREG)"},
-                                        {"66.7%(VREG)"},
-                                        {"71.4%(VREG)"}};
+  enum class vbat_lowv_t : uint8_t { PCT_15 = 0, PCT_62 = 1, PCT_67 = 2, PCT_71 = 3 };
+  strings_vector_t VBAT_LOWV_strings = {{"15%(VREG)"}, {"62.2%(VREG)"}, {"66.7%(VREG)"}, {"71.4%(VREG)"}};
+
+  Setting IPRECHG = {REG08_Precharge_Control, regsize_t::SHORT, 0x3F, 0, 40, 2000, 0, 40};
 
   // 9
-  Setting ITERM = {REG09_Termination_Control, regsize_t::SHORT, 0x1F, 0};
-  Setting STOP_WD_CHG = {REG09_Termination_Control, regsize_t::SHORT, 0x01, 5};
   Setting REG_RST = {REG09_Termination_Control, regsize_t::SHORT, 0x01, 6};
 
+  Setting STOP_WD_CHG = {REG09_Termination_Control, regsize_t::SHORT, 0x01, 5};
+
+  Setting ITERM = {REG09_Termination_Control, regsize_t::SHORT, 0x1F, 0, 40, 1000, 0, 40};
+
   // 10
-  Setting VRECHG = {REG0A_Recharge_Control, regsize_t::SHORT, 0x0F, 0};
-  Setting TRECHG = {REG0A_Recharge_Control, regsize_t::SHORT, 0x03, 4};
   Setting CELL = {REG0A_Recharge_Control, regsize_t::SHORT, 0x03, 6};
-  enum class trechg_t : uint8_t {
-    TRECHG_64MS = 0,
-    TRECHG_256MS = 1,
-    TRECHG_1024MS = 2,
-    TRECHG_2048MS = 3
-  };
-  strings_vector_t TRECHG_strings = {{"64 ms"},
-                                     {"256 ms"},
-                                     {"1024 ms"},
-                                     {"2048 ms"}};
-  enum class cell_t : uint8_t {
-    CELL_1S = 0,
-    CELL_2S = 1,
-    CELL_3S = 2,
-    CELL_4S = 3
-  };
+  enum class cell_t : uint8_t { CELL_1S = 0, CELL_2S = 1, CELL_3S = 2, CELL_4S = 3 };
   strings_vector_t CELL_strings = {{"1S"}, {"2S"}, {"3S"}, {"4S"}};
 
+  Setting TRECHG = {REG0A_Recharge_Control, regsize_t::SHORT, 0x03, 4};
+  enum class trechg_t : uint8_t { TRECHG_64MS = 0, TRECHG_256MS = 1, TRECHG_1024MS = 2, TRECHG_2048MS = 3 };
+  strings_vector_t TRECHG_strings = {{"64 ms"}, {"256 ms"}, {"1024 ms"}, {"2048 ms"}};
+
+  Setting VRECHG = {REG0A_Recharge_Control, regsize_t::SHORT, 0x0F, 0, 50, 800, 50, 50};
+
   // 11-12
-  Setting VOTG = {REG0B_VOTG_regulation, regsize_t::LONG, 0x7FF, 0};
+  Setting VOTG = {REG0B_VOTG_regulation, regsize_t::LONG, 0x7FF, 0, 2800, 22000, 2800, 10};
 
   // 13
-  Setting IOTG = {REG0D_IOTG_regulation, regsize_t::SHORT, 0x7F, 0};
   Setting PRECHG_TMR = {REG0D_IOTG_regulation, regsize_t::SHORT, 0x01, 7};
   enum class precgh_tmr_t {
     PRECHG_TMR_2HRS = 0,
@@ -123,33 +110,24 @@ class BQ25798 {
   };
   strings_vector_t PRECHG_TMR_strings = {{"2 hours"}, {"30 minutes"}};
 
+  Setting IOTG = {REG0D_IOTG_regulation, regsize_t::SHORT, 0x7F, 0, 160, 3360, 0, 40};
+
   // 14
-  Setting TMR2X_EN = {REG0E_Timer_Control, regsize_t::SHORT, 0x01, 0};
-  Setting CHG_TMR = {REG0E_Timer_Control, regsize_t::SHORT, 0x03, 1};
-  Setting EN_CHG_TMR = {REG0E_Timer_Control, regsize_t::SHORT, 0x01, 3};
-  Setting EN_PRECHG_TMR = {REG0E_Timer_Control, regsize_t::SHORT, 0x01, 4};
-  Setting EN_TRICHG_TMR = {REG0E_Timer_Control, regsize_t::SHORT, 0x01, 5};
   Setting TOPOFF_TMR = {REG0E_Timer_Control, regsize_t::SHORT, 0x03, 6};
-  enum class chg_tmr_t : uint8_t {
-    CHG_TMR_5HRS = 0,
-    CHG_TMR_8HRS = 1,
-    CHG_TMR_12HRS = 2,
-    CHG_TMR_24HRS = 3
-  };
-  strings_vector_t CHG_TMR_strings = {{"5 hours"},
-                                      {"8 hours"},
-                                      {"12 hours"},
-                                      {"24 hours"}};
-  enum class tophff_tmr_t : uint8_t {
-    TOPOFF_TMR_DISABLED = 0,
-    TOPOFF_TMR_15MIN = 1,
-    TOPOFF_TMR_30MIN = 2,
-    TOPOFF_TMR_45MIN = 3
-  };
-  strings_vector_t TOPOFF_TMR_strings = {{"Disabled"},
-                                         {"15 minutes"},
-                                         {"30 minutes"},
-                                         {"45 minutes"}};
+  enum class tophff_tmr_t : uint8_t { TOPOFF_TMR_DISABLED = 0, TOPOFF_TMR_15MIN = 1, TOPOFF_TMR_30MIN = 2, TOPOFF_TMR_45MIN = 3 };
+  strings_vector_t TOPOFF_TMR_strings = {{"Disabled"}, {"15 minutes"}, {"30 minutes"}, {"45 minutes"}};
+
+  Setting EN_TRICHG_TMR = {REG0E_Timer_Control, regsize_t::SHORT, 0x01, 5};
+
+  Setting EN_PRECHG_TMR = {REG0E_Timer_Control, regsize_t::SHORT, 0x01, 4};
+
+  Setting EN_CHG_TMR = {REG0E_Timer_Control, regsize_t::SHORT, 0x01, 3};
+
+  Setting CHG_TMR = {REG0E_Timer_Control, regsize_t::SHORT, 0x03, 1};
+  enum class chg_tmr_t : uint8_t { CHG_TMR_5HRS = 0, CHG_TMR_8HRS = 1, CHG_TMR_12HRS = 2, CHG_TMR_24HRS = 3 };
+  strings_vector_t CHG_TMR_strings = {{"5 hours"}, {"8 hours"}, {"12 hours"}, {"24 hours"}};
+
+  Setting TMR2X_EN = {REG0E_Timer_Control, regsize_t::SHORT, 0x01, 0};
 
   // 15
   Setting EN_BACKUP = {REG0F_Charger_Control_0, regsize_t::SHORT, 0x01, 0};
@@ -159,27 +137,16 @@ class BQ25798 {
   Setting EN_ICO = {REG0F_Charger_Control_0, regsize_t::SHORT, 0x01, 4};
   Setting EN_CHG = {REG0F_Charger_Control_0, regsize_t::SHORT, 0x01, 5};
   Setting FORCE_IBATDIS = {REG0F_Charger_Control_0, regsize_t::SHORT, 0x01, 6};
-  Setting EN_AUTO_IBATDIS = {REG0F_Charger_Control_0, regsize_t::SHORT, 0x01,
-                             7};
+  Setting EN_AUTO_IBATDIS = {REG0F_Charger_Control_0, regsize_t::SHORT, 0x01, 7};
 
   // 16
   Setting WATCHDOG = {REG10_Charger_Control_1, regsize_t::SHORT, 0x07, 0};
   Setting WD_RST = {REG10_Charger_Control_1, regsize_t::SHORT, 0x01, 3};
   Setting VAC_OVP = {REG10_Charger_Control_1, regsize_t::SHORT, 0x03, 4};
   Setting VBUS_BACKUP = {REG10_Charger_Control_1, regsize_t::SHORT, 0x03, 6};
-  enum class vbus_backup_t : uint8_t {
-    PCT_VBUS_BACKUP_40 = 0,
-    PCT_VBUS_BACKUP_60 = 1,
-    PCT_VBUS_BACKUP_80 = 2,
-    PCT_VBUS_BACKUP_100 = 3
-  };
+  enum class vbus_backup_t : uint8_t { PCT_VBUS_BACKUP_40 = 0, PCT_VBUS_BACKUP_60 = 1, PCT_VBUS_BACKUP_80 = 2, PCT_VBUS_BACKUP_100 = 3 };
   strings_vector_t VBUS_BACKUP_strings = {{"40%"}, {"60%"}, {"80%"}, {"100%"}};
-  enum class vac_ovp_t : uint8_t {
-    VAC_OVP_26V = 0,
-    VAC_OVP_22V = 1,
-    VAC_OVP_12V = 2,
-    VAC_OVP_7V = 3
-  };
+  enum class vac_ovp_t : uint8_t { VAC_OVP_26V = 0, VAC_OVP_22V = 1, VAC_OVP_12V = 2, VAC_OVP_7V = 3 };
   strings_vector_t VAC_OVP_strings = {{"26V"}, {"22V"}, {"12V"}, {"7V"}};
   enum class watchdog_t : uint8_t {
     WATCHDOG_DISABLE = 0,
@@ -191,9 +158,7 @@ class BQ25798 {
     WATCHDOG_80S = 6,
     WATCHDOG_160S = 7
   };
-  strings_vector_t WATCHDOG_strings = {{"Disabled"}, {"0.5s"}, {"1s"},
-                                       {"2s"},       {"20s"},  {"40s"},
-                                       {"80s"},      {"160s"}};
+  strings_vector_t WATCHDOG_strings = {{"Disabled"}, {"0.5s"}, {"1s"}, {"2s"}, {"20s"}, {"40s"}, {"80s"}, {"160s"}};
 
   // 17
   Setting SDRV_DLY = {REG11_Charger_Control_2, regsize_t::SHORT, 0x01, 0};
@@ -203,16 +168,8 @@ class BQ25798 {
   Setting EN_12V = {REG11_Charger_Control_2, regsize_t::SHORT, 0x01, 5};
   Setting AUTO_INDET_EN = {REG11_Charger_Control_2, regsize_t::SHORT, 0x01, 6};
   Setting FORCE_INDET = {REG11_Charger_Control_2, regsize_t::SHORT, 0x01, 7};
-  enum class sdrv_ctrl_t : uint8_t {
-    SDRV_CTRL_IDLE = 0,
-    SDRV_CTRL_SHUTDOWN = 1,
-    SDRV_CTRL_SHIP = 2,
-    SDRV_CTRL_SYS_PWR_RST = 3
-  };
-  strings_vector_t SDRV_CTRL_strings = {{"Idle"},
-                                        {"Shutdown"},
-                                        {"Ship"},
-                                        {"System Power Reset"}};
+  enum class sdrv_ctrl_t : uint8_t { SDRV_CTRL_IDLE = 0, SDRV_CTRL_SHUTDOWN = 1, SDRV_CTRL_SHIP = 2, SDRV_CTRL_SYS_PWR_RST = 3 };
+  strings_vector_t SDRV_CTRL_strings = {{"Idle"}, {"Shutdown"}, {"Ship"}, {"System Power Reset"}};
   enum class sdrv_dly_t : uint8_t { SDRV_DLY_10S = 0, SDRV_DLY_0S = 1 };
   strings_vector_t SDRV_DLY_strings = {{"10s"}, {"0s"}};
 
@@ -231,7 +188,63 @@ class BQ25798 {
   // FIXME REG18_NTC_Control_1
   // FIXME REG19_ICO_Current_Limit
   // FIXME REG1B_Charger_Status_0
-  // FIXME REG1C_Charger_Status_1
+
+  Setting CHG_STAT = {REG1C_Charger_Status_1, regsize_t::SHORT, 0x7, 5};
+  enum class chg_stat_t : uint8_t {
+    NOT_CHARGING = 0,
+    TRICKLECHARGE = 1,
+    PRECHARGE = 2,
+    FASTCHARGE_CC = 3,
+    FASTCHARGE_CV = 4,
+    RESERVED5 = 5,
+    TOPOFF = 6,
+    TERMINATED = 7
+  };
+  strings_vector_t CHG_STAT_strings = {{"Not Charging"},
+                                       {"Trickle Charge"},
+                                       {"Pre-charge"},
+                                       {"Fast charge (CC mode)"},
+                                       {"Taper Charge (CV mode)"},
+                                       {"Reserved"},
+                                       {"Top-off Timer Active Charging"},
+                                       {"Charge Termination Done"}};
+  Setting VBUS_STAT = {REG1C_Charger_Status_1, regsize_t::SHORT, 0x0F, 1};
+  enum class vbus_stat_t : uint8_t {
+    NO_INPUT = 0,
+    USB_SDP = 1,
+    USB_CDP = 2,
+    USB_DCP = 3,
+    ADJUSTABLE_HVDCP = 4,
+    UNKNOWN_ADAPTOR = 5,
+    NON_STANDARD_ADAPTER = 6,
+    OTG_MODE = 7,
+    NOT_QUALIFIED_ADAPTOR = 8,
+    RESERVED9 = 9,
+    RESERVED_A = 10,
+    DEVICE_POWERED_FROM_VBUS = 11,
+    BACKUP_MODE = 12,
+    RESERVED_D = 13,
+    RESERVED_E = 14,
+    RESERVED_F = 15
+  };
+  strings_vector_t VBUS_STAT_strings = {{"No Input or BHOT or BCOLD in OTG mode"},
+                                        {"USB SDP (500mA)"},
+                                        {"USB CDP (1.5A)"},
+                                        {"USB DCP (3.25A)"},
+                                        {"Adjustable High Voltage DCP (HVDCP) (1.5A)"},
+                                        {"Unknown adaptor (3A)"},
+                                        {"Non-Standard Adapter (1A/2A/2.1A/2.4A)"},
+                                        {"In OTG mode"},
+                                        {"Not qualified adaptor"},
+                                        {"Reserved"},
+                                        {"Reserved"},
+                                        {"Device directly powered from VBUS"},
+                                        {"Backup Mode"},
+                                        {"Reserved"},
+                                        {"Reserved"},
+                                        {"Reserved"}};
+  Setting BC12_DONE_STAT = {REG1C_Charger_Status_1, regsize_t::SHORT, 0x01, 0};
+
   // FIXME REG1D_Charger_Status_2
   // FIXME REG1E_Charger_Status_3
   // FIXME REG1F_Charger_Status_4
@@ -257,110 +270,66 @@ class BQ25798 {
   Setting ADC_SAMPLE = {REG2E_ADC_Control, regsize_t::SHORT, 0x03, 4};
   Setting ADC_RATE = {REG2E_ADC_Control, regsize_t::SHORT, 0x01, 6};
   Setting ADC_ENABLE = {REG2E_ADC_Control, regsize_t::SHORT, 0x01, 7};
-  enum class adc_rate_t : uint8_t {
-    ADC_RATE_CONTINUOUS = 0,
-    ADC_RATE_ONESHOT = 1
-  };
+  enum class adc_rate_t : uint8_t { ADC_RATE_CONTINUOUS = 0, ADC_RATE_ONESHOT = 1 };
   strings_vector_t ADC_RATE_strings = {{"Continuous"}, {"One-shot"}};
-  enum class adc_sample_t : uint8_t {
-    ADC_SAMPLE_15BIT = 0,
-    ADC_SAMPLE_14BIT = 1,
-    ADC_SAMPLE_13BIT = 2,
-    ADC_SAMPLE_12BIT = 3
-  };
-  strings_vector_t ADC_SAMPLE_strings = {{"15-bit"},
-                                         {"14-bit"},
-                                         {"13-bit"},
-                                         {"12-bit"}};
+  enum class adc_sample_t : uint8_t { ADC_SAMPLE_15BIT = 0, ADC_SAMPLE_14BIT = 1, ADC_SAMPLE_13BIT = 2, ADC_SAMPLE_12BIT = 3 };
+  strings_vector_t ADC_SAMPLE_strings = {{"15-bit"}, {"14-bit"}, {"13-bit"}, {"12-bit"}};
 
   // 47
-  Setting TDIE_ADC_DIS = {REG2F_ADC_Function_Disable_0, regsize_t::SHORT, 0x01,
-                          1};
-  Setting TS_ADC_DIS = {REG2F_ADC_Function_Disable_0, regsize_t::SHORT, 0x01,
-                        2};
-  Setting VSYS_ADC_DIS = {REG2F_ADC_Function_Disable_0, regsize_t::SHORT, 0x01,
-                          3};
-  Setting VBAT_ADC_DIS = {REG2F_ADC_Function_Disable_0, regsize_t::SHORT, 0x01,
-                          4};
-  Setting VBUS_ADC_DIS = {REG2F_ADC_Function_Disable_0, regsize_t::SHORT, 0x01,
-                          5};
-  Setting IBAT_ADC_DIS = {REG2F_ADC_Function_Disable_0, regsize_t::SHORT, 0x01,
-                          6};
-  Setting IBUS_ADC_DIS = {REG2F_ADC_Function_Disable_0, regsize_t::SHORT, 0x01,
-                          7};
+  Setting TDIE_ADC_DIS = {REG2F_ADC_Function_Disable_0, regsize_t::SHORT, 0x01, 1};
+  Setting TS_ADC_DIS = {REG2F_ADC_Function_Disable_0, regsize_t::SHORT, 0x01, 2};
+  Setting VSYS_ADC_DIS = {REG2F_ADC_Function_Disable_0, regsize_t::SHORT, 0x01, 3};
+  Setting VBAT_ADC_DIS = {REG2F_ADC_Function_Disable_0, regsize_t::SHORT, 0x01, 4};
+  Setting VBUS_ADC_DIS = {REG2F_ADC_Function_Disable_0, regsize_t::SHORT, 0x01, 5};
+  Setting IBAT_ADC_DIS = {REG2F_ADC_Function_Disable_0, regsize_t::SHORT, 0x01, 6};
+  Setting IBUS_ADC_DIS = {REG2F_ADC_Function_Disable_0, regsize_t::SHORT, 0x01, 7};
 
   // 48
-  Setting VAC1_ADC_DIS = {REG30_ADC_Function_Disable_1, regsize_t::SHORT, 0x01,
-                          4};
-  Setting VAC2_ADC_DIS = {REG30_ADC_Function_Disable_1, regsize_t::SHORT, 0x01,
-                          5};
-  Setting DMINUS_ADC_DIS = {REG30_ADC_Function_Disable_1, regsize_t::SHORT,
-                            0x01, 6};
-  Setting DPLUS_ADC_DIS = {REG30_ADC_Function_Disable_1, regsize_t::SHORT, 0x01,
-                           7};
+  Setting VAC1_ADC_DIS = {REG30_ADC_Function_Disable_1, regsize_t::SHORT, 0x01, 4};
+  Setting VAC2_ADC_DIS = {REG30_ADC_Function_Disable_1, regsize_t::SHORT, 0x01, 5};
+  Setting DMINUS_ADC_DIS = {REG30_ADC_Function_Disable_1, regsize_t::SHORT, 0x01, 6};
+  Setting DPLUS_ADC_DIS = {REG30_ADC_Function_Disable_1, regsize_t::SHORT, 0x01, 7};
 
   // 49-50
-  Setting IBUS_ADC = {REG31_IBUS_ADC, regsize_t::LONG, 0xFFFF, 0};
+  Setting IBUS_ADC = {REG31_IBUS_ADC, regsize_t::LONG, 0xFFFF, 0, 0, 5000, 0, 1};
 
   // 51-52
-  Setting IBAT_ADC = {REG33_IBAT_ADC, regsize_t::LONG, 0xFFFF, 0};
+  Setting IBAT_ADC = {REG33_IBAT_ADC, regsize_t::LONG, 0xFFFF, 0, 0, 8000, 0, 1};
 
   // 53-54
-  Setting VBUS_ADC = {REG35_VBUS_ADC, regsize_t::LONG, 0xFFFF, 0};
+  Setting VBUS_ADC = {REG35_VBUS_ADC, regsize_t::LONG, 0xFFFF, 0, 0, 30000, 0, 1};
 
   // 55-56
-  Setting VAC1_ADC = {REG37_VAC1_ADC, regsize_t::LONG, 0xFFFF, 0};
+  Setting VAC1_ADC = {REG37_VAC1_ADC, regsize_t::LONG, 0xFFFF, 0, 0, 30000, 0, 1};
 
   // 57-58
-  Setting VAC2_ADC = {REG39_VAC2_ADC, regsize_t::LONG, 0xFFFF, 0};
+  Setting VAC2_ADC = {REG39_VAC2_ADC, regsize_t::LONG, 0xFFFF, 0, 0, 30000, 0, 1};
 
   // 59-60
-  Setting VBAT_ADC = {REG3B_VBAT_ADC, regsize_t::LONG, 0xFFFF, 0};
+  Setting VBAT_ADC = {REG3B_VBAT_ADC, regsize_t::LONG, 0xFFFF, 0, 0, 20000, 0, 1};
 
   // 61-62
-  Setting VSYS_ADC = {REG3D_VSYS_ADC, regsize_t::LONG, 0xFFFF, 0};
+  Setting VSYS_ADC = {REG3D_VSYS_ADC, regsize_t::LONG, 0xFFFF, 0, 0, 24000, 0, 1};
 
   // 63-64
-  Setting TS_ADC = {REG3F_TS_ADC, regsize_t::LONG, 0xFFFF, 0};
+  Setting TS_ADC = {REG3F_TS_ADC, regsize_t::LONG, 0xFFFF, 0, 0, -99.9023, 0, 0.0976563};  // FIXME float
 
   // 65-66
-  Setting TDIE_ADC = {REG41_TDIE_ADC, regsize_t::LONG, 0xFFFF, 0};
+  Setting TDIE_ADC = {REG41_TDIE_ADC, regsize_t::LONG, 0xFFFF, 0, -40, 150, 0, 0.5};  // FIXME float
 
   // 67-68
-  Setting DPLUS_ADC = {REG43_DPLUS_ADC, regsize_t::LONG, 0xFFFF, 0};
+  Setting DPLUS_ADC = {REG43_DPLUS_ADC, regsize_t::LONG, 0xFFFF, 0, 0, 3600, 0, 1};
 
   // 69-70
-  Setting DMINUS_ADC = {REG45_DMINUS_ADC, regsize_t::LONG, 0xFFFF, 0};
+  Setting DMINUS_ADC = {REG45_DMINUS_ADC, regsize_t::LONG, 0xFFFF, 0, 0, 3600, 0, 1};
 
   // 71
   Setting DMINUS_DAC = {REG47_DPDM_Driver, regsize_t::SHORT, 0x07, 2};
   Setting DPLUS_DAC = {REG47_DPDM_Driver, regsize_t::SHORT, 0x07, 5};
-  enum class dplus_dac_t : uint8_t {
-    HIZ = 0,
-    VOUT_0 = 1,
-    VOUT_0_6 = 2,
-    VOUT_1_2 = 3,
-    VOUT_2_0 = 4,
-    VOUT_2_7 = 5,
-    VOUT_3_3 = 6,
-    DPLUS_DMINUS_SHORT = 7
-  };
-  strings_vector_t DPLUS_DAC_strings = {{"HIZ"},  {"0V"},         {"0.6V"},
-                                        {"1.2V"}, {"2.0V"},       {"2.7V"},
-                                        {"3.3V"}, {"D+/D- Short"}};
-  enum class dminus_dac_t : uint8_t {
-    HIZ = 0,
-    VOUT_0 = 1,
-    VOUT_0_6 = 2,
-    VOUT_1_2 = 3,
-    VOUT_2_0 = 4,
-    VOUT_2_7 = 5,
-    VOUT_3_3 = 6,
-    RESERVED = 7
-  };
-  strings_vector_t DMINUS_DAC_strings = {{"HIZ"},  {"0V"},      {"0.6V"},
-                                         {"1.2V"}, {"2.0V"},    {"2.7V"},
-                                         {"3.3V"}, {"Reserved"}};
+  enum class dplus_dac_t : uint8_t { HIZ = 0, VOUT_0 = 1, VOUT_0_6 = 2, VOUT_1_2 = 3, VOUT_2_0 = 4, VOUT_2_7 = 5, VOUT_3_3 = 6, DPLUS_DMINUS_SHORT = 7 };
+  strings_vector_t DPLUS_DAC_strings = {{"HIZ"}, {"0V"}, {"0.6V"}, {"1.2V"}, {"2.0V"}, {"2.7V"}, {"3.3V"}, {"D+/D- Short"}};
+  enum class dminus_dac_t : uint8_t { HIZ = 0, VOUT_0 = 1, VOUT_0_6 = 2, VOUT_1_2 = 3, VOUT_2_0 = 4, VOUT_2_7 = 5, VOUT_3_3 = 6, RESERVED = 7 };
+  strings_vector_t DMINUS_DAC_strings = {{"HIZ"}, {"0V"}, {"0.6V"}, {"1.2V"}, {"2.0V"}, {"2.7V"}, {"3.3V"}, {"Reserved"}};
 
   // 72
   Setting DEV_REV = {REG48_Part_Information, regsize_t::SHORT, 0x07, 0};
@@ -375,8 +344,7 @@ class BQ25798 {
     RESERVED6 = 0x6,
     RESERVED7 = 0x7,
   };
-  strings_vector_t PN_strings = {{"?"}, {"?"}, {"?"}, {"BQ25798"},
-                                 {"?"}, {"?"}, {"?"}, {"?"}};
+  strings_vector_t PN_strings = {{"?"}, {"?"}, {"?"}, {"BQ25798"}, {"?"}, {"?"}, {"?"}, {"?"}};
   enum class dev_rev_t : uint8_t {
     RESERVED0 = 0x0,
     BQ25798 = 0x1,
@@ -387,8 +355,7 @@ class BQ25798 {
     RESERVED6 = 0x6,
     RESERVED7 = 0x7,
   };
-  strings_vector_t DEV_REV_strings = {{"?"}, {"BQ25798"}, {"?"}, {"?"},
-                                      {"?"}, {"?"},       {"?"}, {"?"}};
+  strings_vector_t DEV_REV_strings = {{"?"}, {"BQ25798"}, {"?"}, {"?"}, {"?"}, {"?"}, {"?"}, {"?"}};
 };
 
 #endif
