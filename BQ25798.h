@@ -130,14 +130,14 @@ class BQ25798 {
   Setting TMR2X_EN = {REG0E_Timer_Control, regsize_t::SHORT, 0x01, 0};
 
   // 15
-  Setting EN_BACKUP = {REG0F_Charger_Control_0, regsize_t::SHORT, 0x01, 0};
-  Setting EN_TERM = {REG0F_Charger_Control_0, regsize_t::SHORT, 0x01, 1};
-  Setting EN_HIZ = {REG0F_Charger_Control_0, regsize_t::SHORT, 0x01, 2};
-  Setting FORCE_ICO = {REG0F_Charger_Control_0, regsize_t::SHORT, 0x01, 3};
-  Setting EN_ICO = {REG0F_Charger_Control_0, regsize_t::SHORT, 0x01, 4};
-  Setting EN_CHG = {REG0F_Charger_Control_0, regsize_t::SHORT, 0x01, 5};
-  Setting FORCE_IBATDIS = {REG0F_Charger_Control_0, regsize_t::SHORT, 0x01, 6};
   Setting EN_AUTO_IBATDIS = {REG0F_Charger_Control_0, regsize_t::SHORT, 0x01, 7};
+  Setting FORCE_IBATDIS = {REG0F_Charger_Control_0, regsize_t::SHORT, 0x01, 6};
+  Setting EN_CHG = {REG0F_Charger_Control_0, regsize_t::SHORT, 0x01, 5};
+  Setting EN_ICO = {REG0F_Charger_Control_0, regsize_t::SHORT, 0x01, 4};
+  Setting FORCE_ICO = {REG0F_Charger_Control_0, regsize_t::SHORT, 0x01, 3};
+  Setting EN_HIZ = {REG0F_Charger_Control_0, regsize_t::SHORT, 0x01, 2};
+  Setting EN_TERM = {REG0F_Charger_Control_0, regsize_t::SHORT, 0x01, 1};
+  Setting EN_BACKUP = {REG0F_Charger_Control_0, regsize_t::SHORT, 0x01, 0};
 
   // 16
   Setting WATCHDOG = {REG10_Charger_Control_1, regsize_t::SHORT, 0x07, 0};
@@ -145,9 +145,9 @@ class BQ25798 {
   Setting VAC_OVP = {REG10_Charger_Control_1, regsize_t::SHORT, 0x03, 4};
   Setting VBUS_BACKUP = {REG10_Charger_Control_1, regsize_t::SHORT, 0x03, 6};
   enum class vbus_backup_t : uint8_t { PCT_VBUS_BACKUP_40 = 0, PCT_VBUS_BACKUP_60 = 1, PCT_VBUS_BACKUP_80 = 2, PCT_VBUS_BACKUP_100 = 3 };
-  strings_vector_t VBUS_BACKUP_strings = {{"40%"}, {"60%"}, {"80%"}, {"100%"}};
+  strings_vector_t VBUS_BACKUP_strings = {{"<40%(VINDPM)"}, {"<60%(VINDPM)"}, {"<80%(VINDPM)"}, {"<100%(VINDPM)"}};
   enum class vac_ovp_t : uint8_t { VAC_OVP_26V = 0, VAC_OVP_22V = 1, VAC_OVP_12V = 2, VAC_OVP_7V = 3 };
-  strings_vector_t VAC_OVP_strings = {{"26V"}, {"22V"}, {"12V"}, {"7V"}};
+  strings_vector_t VAC_OVP_strings = {{">26V"}, {">22V"}, {">12V"}, {">7V"}};
   enum class watchdog_t : uint8_t {
     WATCHDOG_DISABLE = 0,
     WATCHDOG_05S = 1,
@@ -173,22 +173,72 @@ class BQ25798 {
   enum class sdrv_dly_t : uint8_t { SDRV_DLY_10S = 0, SDRV_DLY_0S = 1 };
   strings_vector_t SDRV_DLY_strings = {{"10s"}, {"0s"}};
 
-  // 18 - 45 FIXME TODO
+  // 20 - 45 FIXME TODO
 
-  // FIXME REG0E_Timer_Control
-  // FIXME REG0F_Charger_Control_0
-  // FIXME REG10_Charger_Control_1
-  // FIXME REG11_Charger_Control_2
-  // FIXME REG12_Charger_Control_3
-  // FIXME REG13_Charger_Control_4
-  // FIXME REG14_Charger_Control_5
+  // 18
+  Setting DIS_ACDRV = {REG12_Charger_Control_3, regsize_t::SHORT, 0x01, 7};
+  Setting EN_OTG = {REG12_Charger_Control_3, regsize_t::SHORT, 0x01, 6};
+  Setting PFM_OTG_DIS = {REG12_Charger_Control_3, regsize_t::SHORT, 0x01, 5};
+  Setting PFM_FWD_DIS = {REG12_Charger_Control_3, regsize_t::SHORT, 0x01, 4};
+  Setting WKUP_DLY = {REG12_Charger_Control_3, regsize_t::SHORT, 0x01, 3};
+  enum class wkup_dly_t : uint8_t { WKUP_DLY_1S = 0, WKUP_DLY_15MS = 1 };
+  strings_vector_t WKUP_DLY_strings = {{"1s"}, {"15ms"}};
+  Setting DIS_LDO = {REG12_Charger_Control_3, regsize_t::SHORT, 0x01, 2};
+  Setting DIS_OTG_OOA = {REG12_Charger_Control_3, regsize_t::SHORT, 0x01, 1};
+  Setting DIS_FWD_OOA = {REG12_Charger_Control_3, regsize_t::SHORT, 0x01, 0};
+
+  // 19
+  Setting EN_ACDRV2 = {REG13_Charger_Control_4, regsize_t::SHORT, 0x01, 7};
+  Setting EN_ACDRV1 = {REG13_Charger_Control_4, regsize_t::SHORT, 0x01, 6};
+  Setting PWM_FREQ = {REG13_Charger_Control_4, regsize_t::SHORT, 0x01, 5};
+  enum class pwm_freq_t : uint8_t { PWM_FREQ_1_5MHZ = 0, PWM_FREQ_750KHZ = 1 };
+  strings_vector_t PWM_FREQ_strings = {{"1.5 MHz"}, {"750 kHz"}};
+  Setting DIS_STAT = {REG13_Charger_Control_4, regsize_t::SHORT, 0x01, 4};
+  Setting DIS_VSYS_SHORT = {REG13_Charger_Control_4, regsize_t::SHORT, 0x01, 3};
+  Setting DIS_VOTG_UVP = {REG13_Charger_Control_4, regsize_t::SHORT, 0x01, 2};
+  Setting FORCE_VINDPM_DET = {REG13_Charger_Control_4, regsize_t::SHORT, 0x01, 1};
+  Setting EN_IBUS_OCP = {REG13_Charger_Control_4, regsize_t::SHORT, 0x01, 0};
+
+  // 20
+  Setting SFET_PRESENT = {REG14_Charger_Control_5, regsize_t::SHORT, 0x01, 7};
+  Setting EN_IBAT = {REG14_Charger_Control_5, regsize_t::SHORT, 0x01, 5};
+  Setting IBAT_REG = {REG14_Charger_Control_5, regsize_t::SHORT, 0x03, 3};
+  enum class ibat_reg_t : uint8_t { IBAT_REG_3A = 0, IBAT_REG_4A = 1, IBAT_REG_5A = 2, IBAT_REG_DISABLE = 3 };
+  strings_vector_t IBAT_REG_strings = {{"3A"}, {"4A"}, {"5A"}, {"Disabled"}};
+  Setting EN_IINDPM = {REG14_Charger_Control_5, regsize_t::SHORT, 0x01, 2};
+  Setting EN_EXTILIM = {REG14_Charger_Control_5, regsize_t::SHORT, 0x01, 1};
+  Setting EN_BATOC = {REG14_Charger_Control_5, regsize_t::SHORT, 0x01, 0};
+
   // FIXME REG15_MPPT_Control
   // FIXME REG16_Temperature_Control
   // FIXME REG17_NTC_Control_0
   // FIXME REG18_NTC_Control_1
   // FIXME REG19_ICO_Current_Limit
-  // FIXME REG1B_Charger_Status_0
 
+  // 27
+  Setting IINDPM_STAT = {REG1B_Charger_Status_0, regsize_t::SHORT, 0x01, 7};
+  enum class iindpm_stat_t : uint8_t { NORMAL = 0, REGULATION = 1 };
+  strings_vector_t IINDPM_STAT_strings = {{"Normal"}, {"In IINDPM regulation or IOTG regulation"}};
+  Setting VINDPM_STAT = {REG1B_Charger_Status_0, regsize_t::SHORT, 0x01, 6};
+  enum class vindpm_stat_t : uint8_t { NORMAL = 0, REGULATION = 1 };
+  strings_vector_t VINDPM_STAT_strings = {{"Normal"}, {"In VINDPM regulation or VOTG regulation"}};
+  Setting WD_STAT = {REG1B_Charger_Status_0, regsize_t::SHORT, 0x01, 5};
+  enum class wd_stat_t : uint8_t { NORMAL = 0, EXPIRED = 1 };
+  strings_vector_t WD_STAT_strings = {{"Normal"}, {"Watchdog timer expired"}};
+  Setting PG_STAT = {REG1B_Charger_Status_0, regsize_t::SHORT, 0x01, 3};
+  enum class pg_stat_t : uint8_t { BAD = 0, GOOD = 1 };
+  strings_vector_t PG_STAT_strings = {{"Not in power good status"}, {"Power good"}};
+  Setting AC2_PRESENT_STAT = {REG1B_Charger_Status_0, regsize_t::SHORT, 0x01, 2};
+  enum class ac2_present_stat_t : uint8_t { NOT_PRESENT = 0, PRESENT = 1 };
+  strings_vector_t AC2_PRESENT_STAT_strings = {{"VAC2 NOT present"}, {"VAC2 present (above present threshold)"}};
+  Setting AC1_PRESENT_STAT = {REG1B_Charger_Status_0, regsize_t::SHORT, 0x01, 1};
+  enum class ac1_present_stat_t : uint8_t { NOT_PRESENT = 0, PRESENT = 1 };
+  strings_vector_t AC1_PRESENT_STAT_strings = {{"VAC1 NOT present"}, {"VAC1 present (above present threshold)"}};
+  Setting VBUS_PRESENT_STAT = {REG1B_Charger_Status_0, regsize_t::SHORT, 0x01, 0};
+  enum class vbus_present_stat_t : uint8_t { NOT_PRESENT = 0, PRESENT = 1 };
+  strings_vector_t VBUS_PRESENT_STAT_strings = {{"VBUS NOT present"}, {"VBUS present (above present threshold)"}};
+
+  // 28
   Setting CHG_STAT = {REG1C_Charger_Status_1, regsize_t::SHORT, 0x7, 5};
   enum class chg_stat_t : uint8_t {
     NOT_CHARGING = 0,
@@ -196,7 +246,7 @@ class BQ25798 {
     PRECHARGE = 2,
     FASTCHARGE_CC = 3,
     FASTCHARGE_CV = 4,
-    RESERVED5 = 5,
+    RESERVED_5 = 5,
     TOPOFF = 6,
     TERMINATED = 7
   };
@@ -219,7 +269,7 @@ class BQ25798 {
     NON_STANDARD_ADAPTER = 6,
     OTG_MODE = 7,
     NOT_QUALIFIED_ADAPTOR = 8,
-    RESERVED9 = 9,
+    RESERVED_9 = 9,
     RESERVED_A = 10,
     DEVICE_POWERED_FROM_VBUS = 11,
     BACKUP_MODE = 12,
@@ -335,25 +385,25 @@ class BQ25798 {
   Setting DEV_REV = {REG48_Part_Information, regsize_t::SHORT, 0x07, 0};
   Setting PN = {REG48_Part_Information, regsize_t::SHORT, 0x07, 3};
   enum class pn_t : uint8_t {
-    RESERVED0 = 0x0,
-    RESERVED1 = 0x1,
-    RESERVED2 = 0x2,
+    RESERVED_0 = 0x0,
+    RESERVED_1 = 0x1,
+    RESERVED_2 = 0x2,
     BQ25798 = 0x3,
-    RESERVED4 = 0x4,
-    RESERVED5 = 0x5,
-    RESERVED6 = 0x6,
-    RESERVED7 = 0x7,
+    RESERVED_4 = 0x4,
+    RESERVED_5 = 0x5,
+    RESERVED_6 = 0x6,
+    RESERVED_7 = 0x7,
   };
   strings_vector_t PN_strings = {{"?"}, {"?"}, {"?"}, {"BQ25798"}, {"?"}, {"?"}, {"?"}, {"?"}};
   enum class dev_rev_t : uint8_t {
-    RESERVED0 = 0x0,
+    RESERVED_0 = 0x0,
     BQ25798 = 0x1,
-    RESERVED2 = 0x2,
-    RESERVED3 = 0x3,
-    RESERVED4 = 0x4,
-    RESERVED5 = 0x5,
-    RESERVED6 = 0x6,
-    RESERVED7 = 0x7,
+    RESERVED_2 = 0x2,
+    RESERVED_3 = 0x3,
+    RESERVED_4 = 0x4,
+    RESERVED_5 = 0x5,
+    RESERVED_6 = 0x6,
+    RESERVED_7 = 0x7,
   };
   strings_vector_t DEV_REV_strings = {{"?"}, {"BQ25798"}, {"?"}, {"?"}, {"?"}, {"?"}, {"?"}, {"?"}};
 };

@@ -37,6 +37,7 @@ bool BQ25798::readAll() {
 }
 
 bool BQ25798::writeReg8ToI2C(int reg) {
+  Serial.printf("[DEBUG] Writing to BQ25798 register %02X: %02X\n", reg, _regs[reg]);
   Wire.beginTransmission(_address);
   if (Wire.write(reg) != 1) {
     Serial.println("Error writing to BQ25798 register");
@@ -51,6 +52,7 @@ bool BQ25798::writeReg8ToI2C(int reg) {
 }
 
 bool BQ25798::writeReg16ToI2C(int reg) {
+  Serial.printf("[DEBUG] Writing to BQ25798 register %02X: %02X %02X\n", reg, _regs[reg], _regs[reg + 1]);
   Wire.beginTransmission(_address);
   if (Wire.write(reg) != 1) {
     Serial.println("Error writing to BQ25798 register");
