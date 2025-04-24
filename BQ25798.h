@@ -11,18 +11,6 @@
 #define DEFAULT_I2C_ADDRESS 0x6B
 
 class BQ25798 {
- private:
-  int _address;
-  uint8_t _regs[1 + MAX_REGISTER_NUMBER] = {};
-  void clearRegs();
-  bool writeReg8ToI2C(int reg);
-  bool writeReg16ToI2C(int reg);
-
-  uint8_t getReg8(int reg, int bitMask = 0xFF, int bitShift = 0);
-  void setReg8(int reg, uint8_t value, int bitMask = 0xFF, int bitShift = 0);
-  uint16_t getReg16(int widereg, int bitMask = 0xFFFF, int bitShift = 0);
-  void setReg16(int widereg, uint16_t value, int bitMask = 0xFFFF, int bitShift = 0);
-
  public:
   BQ25798();
   BQ25798(uint8_t address);
@@ -38,6 +26,11 @@ class BQ25798 {
 
   typedef uint8_t regaddr_t;
 
+  enum class flags_t : uint8_t {
+    NONE = 0,
+    IS_2COMPLEMENT = 0x80,
+  };
+
   typedef struct {
     regaddr_t reg;   // Register address
     regsize_t size;  // 8bit or 16bit
@@ -49,6 +42,7 @@ class BQ25798 {
     float fixed_offset;   // Fixed offset for the setting (e.g., for voltage settings)
     float bit_step_size;  // Bit step size for the setting (e.g., for current settings)
     // adjusted value = raw_value * bit_step_size + fixed_offset
+    flags_t flags;
   } Setting;
 
   typedef const std::vector<std::string> strings_vector_t;
@@ -57,6 +51,9 @@ class BQ25798 {
   void setInt(Setting setting, int value);
   float getFloat(Setting setting);
   const char* toString(int value, const std::vector<std::string> map);
+
+  // high level functions
+  bool faultDetected();
 
   // ===================== registers =====================
   // 0
@@ -173,8 +170,6 @@ class BQ25798 {
   enum class sdrv_dly_t : uint8_t { SDRV_DLY_10S = 0, SDRV_DLY_0S = 1 };
   strings_vector_t SDRV_DLY_strings = {{"10s"}, {"0s"}};
 
-  // 20 - 45 FIXME TODO
-
   // 18
   Setting DIS_ACDRV = {REG12_Charger_Control_3, regsize_t::SHORT, 0x01, 7};
   Setting EN_OTG = {REG12_Charger_Control_3, regsize_t::SHORT, 0x01, 6};
@@ -209,8 +204,26 @@ class BQ25798 {
   Setting EN_EXTILIM = {REG14_Charger_Control_5, regsize_t::SHORT, 0x01, 1};
   Setting EN_BATOC = {REG14_Charger_Control_5, regsize_t::SHORT, 0x01, 0};
 
+  // 21 - 26 FIXME TODO
+
   // FIXME REG15_MPPT_Control
-  // FIXME REG16_Temperature_Control
+
+  // 22
+  Setting TREG = {REG16_Temperature_Control, regsize_t::SHORT, 0x03, 6};
+  enum class treg_t : uint8_t { TREG_60 = 0, TREG_80 = 1, TREG_100 = 2, TREG_120 = 3 };
+  strings_vector_t TREG_strings = {{"60°C"}, {"80°C"}, {"100°C"}, {"120°C"}};
+  Setting TSHUT = {REG16_Temperature_Control, regsize_t::SHORT, 0x03, 4};
+  enum class tshut_t : uint8_t { TSHUT_150 = 0, TSHUT_130 = 1, TSHUT_120 = 2, TSHUT_85 = 3 };
+  strings_vector_t TSHUT_strings = {{"150°C"}, {"130°C"}, {"120°C"}, {"85°C"}};
+  Setting VBUS_PD_EN = {REG16_Temperature_Control, regsize_t::SHORT, 0x01, 3};
+  Setting VAC1_PD_EN = {REG16_Temperature_Control, regsize_t::SHORT, 0x01, 2};
+  Setting VAC2_PD_EN = {REG16_Temperature_Control, regsize_t::SHORT, 0x01, 1};
+  Setting BKUP_ACFET1_ON = {REG16_Temperature_Control, regsize_t::SHORT, 0x01, 0};
+  enum class bkup_acfet1_on_t : uint8_t { IDLE = 0, TURN_ON = 1 };
+  strings_vector_t BKUP_ACFET1_ON_strings = {{"Idle"}, {"Turn on ACFET1 in backup mode"}};
+
+
+
   // FIXME REG17_NTC_Control_0
   // FIXME REG18_NTC_Control_1
   // FIXME REG19_ICO_Current_Limit
@@ -295,17 +308,51 @@ class BQ25798 {
                                         {"Reserved"}};
   Setting BC12_DONE_STAT = {REG1C_Charger_Status_1, regsize_t::SHORT, 0x01, 0};
 
+  // 29 - 31 FIXME TODO
   // FIXME REG1D_Charger_Status_2
   // FIXME REG1E_Charger_Status_3
   // FIXME REG1F_Charger_Status_4
-  // FIXME REG20_FAULT_Status_0
-  // FIXME REG21_FAULT_Status_1
+
+  // 32
+  Setting IBAT_REG_STAT = {REG20_FAULT_Status_0, regsize_t::SHORT, 0x01, 7};
+  Setting VBUS_OVP_STAT = {REG20_FAULT_Status_0, regsize_t::SHORT, 0x01, 6};
+  Setting VBAT_OVP_STAT = {REG20_FAULT_Status_0, regsize_t::SHORT, 0x01, 5};
+  Setting IBUS_OCP_STAT = {REG20_FAULT_Status_0, regsize_t::SHORT, 0x01, 4};
+  Setting IBAT_OCP_STAT = {REG20_FAULT_Status_0, regsize_t::SHORT, 0x01, 3};
+  Setting CONV_OCP_STAT = {REG20_FAULT_Status_0, regsize_t::SHORT, 0x01, 2};
+  Setting VAC2_OVP_STAT = {REG20_FAULT_Status_0, regsize_t::SHORT, 0x01, 1};
+  Setting VAC1_OVP_STAT = {REG20_FAULT_Status_0, regsize_t::SHORT, 0x01, 0};
+
+  // 33
+  Setting VSYS_SHORT_STAT = {REG21_FAULT_Status_1, regsize_t::SHORT, 0x01, 7};
+  Setting VSYS_OVP_STAT = {REG21_FAULT_Status_1, regsize_t::SHORT, 0x01, 6};
+  Setting OTG_OVP_STAT = {REG21_FAULT_Status_1, regsize_t::SHORT, 0x01, 5};
+  Setting OTG_UVP_STAT = {REG21_FAULT_Status_1, regsize_t::SHORT, 0x01, 4};
+  Setting TSHUT_STAT = {REG21_FAULT_Status_1, regsize_t::SHORT, 0x01, 2};
+
+  // 34 - 45 FIXME TODO
   // FIXME REG22_Charger_Flag_0
   // FIXME REG23_Charger_Flag_1
   // FIXME REG24_Charger_Flag_2
   // FIXME REG25_Charger_Flag_3
-  // FIXME REG26_FAULT_Flag_0
-  // FIXME REG27_FAULT_Flag_1
+
+  // 38
+  Setting IBAT_REG_FLAG = {REG26_FAULT_Flag_0, regsize_t::SHORT, 0x01, 7};
+  Setting VBUS_OVP_FLAG = {REG26_FAULT_Flag_0, regsize_t::SHORT, 0x01, 6};
+  Setting VBAT_OVP_FLAG = {REG26_FAULT_Flag_0, regsize_t::SHORT, 0x01, 5};
+  Setting IBUS_OCP_FLAG = {REG26_FAULT_Flag_0, regsize_t::SHORT, 0x01, 4};
+  Setting IBAT_OCP_FLAG = {REG26_FAULT_Flag_0, regsize_t::SHORT, 0x01, 3};
+  Setting CONV_OCP_FLAG = {REG26_FAULT_Flag_0, regsize_t::SHORT, 0x01, 2};
+  Setting VAC2_OVP_FLAG = {REG26_FAULT_Flag_0, regsize_t::SHORT, 0x01, 1};
+  Setting VAC1_OVP_FLAG = {REG26_FAULT_Flag_0, regsize_t::SHORT, 0x01, 0};
+
+  // 39
+  Setting VSYS_SHORT_FLAG = {REG27_FAULT_Flag_1, regsize_t::SHORT, 0x01, 7};
+  Setting VSYS_OVP_FLAG = {REG27_FAULT_Flag_1, regsize_t::SHORT, 0x01, 6};
+  Setting OTG_OVP_FLAG = {REG27_FAULT_Flag_1, regsize_t::SHORT, 0x01, 5};
+  Setting OTG_UVP_FLAG = {REG27_FAULT_Flag_1, regsize_t::SHORT, 0x01, 4};
+  Setting TSHUT_FLAG = {REG27_FAULT_Flag_1, regsize_t::SHORT, 0x01, 2};
+
   // FIXME REG28_Charger_Mask_0
   // FIXME REG29_Charger_Mask_1
   // FIXME REG2A_Charger_Mask_2
@@ -313,38 +360,43 @@ class BQ25798 {
   // FIXME REG2C_FAULT_Mask_0
   // FIXME REG2D_FAULT_Mask_1
 
-  // FIXME TODO:
   // 46
-  Setting ADC_AVG_INIT = {REG2E_ADC_Control, regsize_t::SHORT, 0x01, 2};
-  Setting ADC_AVG = {REG2E_ADC_Control, regsize_t::SHORT, 0x01, 3};
-  Setting ADC_SAMPLE = {REG2E_ADC_Control, regsize_t::SHORT, 0x03, 4};
+  Setting ADC_EN = {REG2E_ADC_Control, regsize_t::SHORT, 0x01, 7};
+
   Setting ADC_RATE = {REG2E_ADC_Control, regsize_t::SHORT, 0x01, 6};
-  Setting ADC_ENABLE = {REG2E_ADC_Control, regsize_t::SHORT, 0x01, 7};
   enum class adc_rate_t : uint8_t { ADC_RATE_CONTINUOUS = 0, ADC_RATE_ONESHOT = 1 };
   strings_vector_t ADC_RATE_strings = {{"Continuous"}, {"One-shot"}};
+
+  Setting ADC_SAMPLE = {REG2E_ADC_Control, regsize_t::SHORT, 0x03, 4};
   enum class adc_sample_t : uint8_t { ADC_SAMPLE_15BIT = 0, ADC_SAMPLE_14BIT = 1, ADC_SAMPLE_13BIT = 2, ADC_SAMPLE_12BIT = 3 };
   strings_vector_t ADC_SAMPLE_strings = {{"15-bit"}, {"14-bit"}, {"13-bit"}, {"12-bit"}};
 
+  Setting ADC_AVG = {REG2E_ADC_Control, regsize_t::SHORT, 0x01, 3};
+  enum class adc_avg_t : uint8_t { NO_AVERAGING = 0, RUNNING_AVERAGE = 1 };
+  strings_vector_t ADC_AVG_strings = {{"No averaging"}, {"Running average"}};
+
+  Setting ADC_AVG_INIT = {REG2E_ADC_Control, regsize_t::SHORT, 0x01, 2};
+
   // 47
-  Setting TDIE_ADC_DIS = {REG2F_ADC_Function_Disable_0, regsize_t::SHORT, 0x01, 1};
-  Setting TS_ADC_DIS = {REG2F_ADC_Function_Disable_0, regsize_t::SHORT, 0x01, 2};
-  Setting VSYS_ADC_DIS = {REG2F_ADC_Function_Disable_0, regsize_t::SHORT, 0x01, 3};
-  Setting VBAT_ADC_DIS = {REG2F_ADC_Function_Disable_0, regsize_t::SHORT, 0x01, 4};
-  Setting VBUS_ADC_DIS = {REG2F_ADC_Function_Disable_0, regsize_t::SHORT, 0x01, 5};
-  Setting IBAT_ADC_DIS = {REG2F_ADC_Function_Disable_0, regsize_t::SHORT, 0x01, 6};
   Setting IBUS_ADC_DIS = {REG2F_ADC_Function_Disable_0, regsize_t::SHORT, 0x01, 7};
+  Setting IBAT_ADC_DIS = {REG2F_ADC_Function_Disable_0, regsize_t::SHORT, 0x01, 6};
+  Setting VBUS_ADC_DIS = {REG2F_ADC_Function_Disable_0, regsize_t::SHORT, 0x01, 5};
+  Setting VBAT_ADC_DIS = {REG2F_ADC_Function_Disable_0, regsize_t::SHORT, 0x01, 4};
+  Setting VSYS_ADC_DIS = {REG2F_ADC_Function_Disable_0, regsize_t::SHORT, 0x01, 3};
+  Setting TS_ADC_DIS = {REG2F_ADC_Function_Disable_0, regsize_t::SHORT, 0x01, 2};
+  Setting TDIE_ADC_DIS = {REG2F_ADC_Function_Disable_0, regsize_t::SHORT, 0x01, 1};
 
   // 48
-  Setting VAC1_ADC_DIS = {REG30_ADC_Function_Disable_1, regsize_t::SHORT, 0x01, 4};
-  Setting VAC2_ADC_DIS = {REG30_ADC_Function_Disable_1, regsize_t::SHORT, 0x01, 5};
-  Setting DMINUS_ADC_DIS = {REG30_ADC_Function_Disable_1, regsize_t::SHORT, 0x01, 6};
   Setting DPLUS_ADC_DIS = {REG30_ADC_Function_Disable_1, regsize_t::SHORT, 0x01, 7};
+  Setting DMINUS_ADC_DIS = {REG30_ADC_Function_Disable_1, regsize_t::SHORT, 0x01, 6};
+  Setting VAC2_ADC_DIS = {REG30_ADC_Function_Disable_1, regsize_t::SHORT, 0x01, 5};
+  Setting VAC1_ADC_DIS = {REG30_ADC_Function_Disable_1, regsize_t::SHORT, 0x01, 4};
 
   // 49-50
-  Setting IBUS_ADC = {REG31_IBUS_ADC, regsize_t::LONG, 0xFFFF, 0, 0, 5000, 0, 1};
+  Setting IBUS_ADC = {REG31_IBUS_ADC, regsize_t::LONG, 0xFFFF, 0, 0, 5000, 0, 1, flags_t::IS_2COMPLEMENT};
 
   // 51-52
-  Setting IBAT_ADC = {REG33_IBAT_ADC, regsize_t::LONG, 0xFFFF, 0, 0, 8000, 0, 1};
+  Setting IBAT_ADC = {REG33_IBAT_ADC, regsize_t::LONG, 0xFFFF, 0, 0, 8000, 0, 1, flags_t::IS_2COMPLEMENT};
 
   // 53-54
   Setting VBUS_ADC = {REG35_VBUS_ADC, regsize_t::LONG, 0xFFFF, 0, 0, 30000, 0, 1};
@@ -362,10 +414,10 @@ class BQ25798 {
   Setting VSYS_ADC = {REG3D_VSYS_ADC, regsize_t::LONG, 0xFFFF, 0, 0, 24000, 0, 1};
 
   // 63-64
-  Setting TS_ADC = {REG3F_TS_ADC, regsize_t::LONG, 0xFFFF, 0, 0, -99.9023, 0, 0.0976563};  // FIXME float
+  Setting TS_ADC = {REG3F_TS_ADC, regsize_t::LONG, 0xFFFF, 0, 0, -99.9023, 0, 0.0976563};
 
   // 65-66
-  Setting TDIE_ADC = {REG41_TDIE_ADC, regsize_t::LONG, 0xFFFF, 0, -40, 150, 0, 0.5};  // FIXME float
+  Setting TDIE_ADC = {REG41_TDIE_ADC, regsize_t::LONG, 0xFFFF, 0, -40, 150, 0, 0.5, flags_t::IS_2COMPLEMENT};
 
   // 67-68
   Setting DPLUS_ADC = {REG43_DPLUS_ADC, regsize_t::LONG, 0xFFFF, 0, 0, 3600, 0, 1};
@@ -406,6 +458,20 @@ class BQ25798 {
     RESERVED_7 = 0x7,
   };
   strings_vector_t DEV_REV_strings = {{"?"}, {"BQ25798"}, {"?"}, {"?"}, {"?"}, {"?"}, {"?"}, {"?"}};
+
+ private:
+  int _address;
+  uint8_t _regs[1 + MAX_REGISTER_NUMBER] = {};
+  void clearRegs();
+  bool writeReg8ToI2C(int reg);
+  bool writeReg16ToI2C(int reg);
+
+  uint8_t getReg8(int reg, int bitMask = 0xFF, int bitShift = 0);
+  void setReg8(int reg, uint8_t value, int bitMask = 0xFF, int bitShift = 0);
+  uint16_t getReg16(int widereg, int bitMask = 0xFFFF, int bitShift = 0);
+  void setReg16(int widereg, uint16_t value, int bitMask = 0xFFFF, int bitShift = 0);
+
+  bool _flagIsSet(flags_t flagset, flags_t flag);
 };
 
 #endif
