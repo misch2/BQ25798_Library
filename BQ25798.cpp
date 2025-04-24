@@ -139,7 +139,7 @@ void BQ25798::setInt(Setting setting, int value) {
   // Check range
   if (setting.range_low != 0 || setting.range_high != 0) {
     if (value < setting.range_low || value > setting.range_high) {
-      Serial.printf("Value %d out of range (%d, %d) for register %d\n", value, setting.range_low, setting.range_high, setting.reg);
+      Serial.printf("Value %d out of range (%.3f, %.3f) for register 0x%02X\n", value, setting.range_low, setting.range_high, setting.reg);
       return;
     }
   }
