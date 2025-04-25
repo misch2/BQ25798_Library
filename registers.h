@@ -1,5 +1,3 @@
-// Registers for the BQ25703A
-
 enum {
   REG00_Minimal_System_Voltage = 0x00,
   REG01_Charge_Voltage_Limit = 0x01,
@@ -59,6 +57,3 @@ enum {
   REG47_DPDM_Driver = 0x47,
   REG48_Part_Information = 0x48
 };
-
-#define MIN_REGISTER_NUMBER REG00_Minimal_System_Voltage
-#define MAX_REGISTER_NUMBER REG48_Part_Information
