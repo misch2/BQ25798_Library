@@ -94,7 +94,7 @@ void BQ25798::setReg16(int widereg, uint16_t value, int bitMask, int bitShift) {
   _regs[widereg + 1] |= shiftedValue & 0xFF;
 }
 
-bool BQ25798::_flagIsSet(flags_t flagset, flags_t flag) { return (static_cast<uint8_t>(flagset) & static_cast<uint8_t>(flag)) != 0; }
+bool BQ25798::_flagIsSet(settings_flags_t flagset, settings_flags_t flag) { return (static_cast<uint8_t>(flagset) & static_cast<uint8_t>(flag)) != 0; }
 
 int BQ25798::getInt(Setting setting) {
   uint16_t raw_value = 0;  // getReg* always returns unsigned values, so we need to use unsigned type here
@@ -105,7 +105,7 @@ int BQ25798::getInt(Setting setting) {
   }
 
   int value;
-  if (_flagIsSet(setting.flags, flags_t::IS_2COMPLEMENT)) {
+  if (_flagIsSet(setting.flags, settings_flags_t::IS_2COMPLEMENT)) {
     if (setting.size != regsize_t::LONG) {
       Serial.println("Error: 2's complement flag set for non-long register size");
       return 0;  // Handle error case
@@ -151,7 +151,7 @@ void BQ25798::setInt(Setting setting, int value) {
     value /= trunc(setting.bit_step_size);
   };
 
-  // if (_flagIsSet(setting.flags, flags_t::IS_2COMPLEMENT)) {
+  // if (_flagIsSet(setting.flags, settings_flags_t::IS_2COMPLEMENT)) {
   //   if (value < 0) {
   //     value = (1 << setting.size) + value;  // Convert to unsigned value
   //   }
