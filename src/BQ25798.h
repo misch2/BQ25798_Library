@@ -427,11 +427,11 @@ class BQ25798 {
   // REG16_Temperature_Control
   // ===================================
   enum class treg_t : uint8_t { TREG_60 = 0, TREG_80 = 1, TREG_100 = 2, TREG_120 = 3 };
-  strings_vector_t TREG_strings = {{F("60째C")}, {F("80째C")}, {F("100째C")}, {F("120째C")}};
+  strings_vector_t TREG_strings = {{F("60캜")}, {F("80캜")}, {F("100캜")}, {F("120캜")}};
   DEFINE_ENUM(TREG, ENUM, REG16_Temperature_Control, 0x03, 6);
 
   enum class tshut_t : uint8_t { TSHUT_150 = 0, TSHUT_130 = 1, TSHUT_120 = 2, TSHUT_85 = 3 };
-  strings_vector_t TSHUT_strings = {{F("150째C")}, {F("130째C")}, {F("120째C")}, {F("85째C")}};
+  strings_vector_t TSHUT_strings = {{F("150캜")}, {F("130캜")}, {F("120캜")}, {F("85캜")}};
   DEFINE_ENUM(TSHUT, ENUM, REG16_Temperature_Control, 0x03, 4);
 
   DEFINE_SETTING3(VBUS_PD_EN, BOOL, REG16_Temperature_Control, 0x01, 3);
@@ -474,19 +474,19 @@ class BQ25798 {
   // REG18_NTC_Control_1
   // ==================================
   enum class ts_cool_t : uint8_t { TS_5 = 0, TS_10 = 1, TS_15 = 2, TS_20 = 3 };
-  strings_vector_t TS_COOL_strings = {{F("5째C")}, {F("10째C (default)")}, {F("15째C")}, {F("20째C")}};
+  strings_vector_t TS_COOL_strings = {{F("5캜")}, {F("10캜 (default)")}, {F("15캜")}, {F("20캜")}};
   DEFINE_ENUM(TS_COOL, ENUM, REG18_NTC_Control_1, 0x03, 6);
 
   enum class ts_warm_t : uint8_t { TS_40 = 0, TS_45 = 1, TS_50 = 2, TS_55 = 3 };
-  strings_vector_t TS_WARM_strings = {{F("40째C")}, {F("45째C (default)")}, {F("50째C")}, {F("55째C")}};
+  strings_vector_t TS_WARM_strings = {{F("40캜")}, {F("45캜 (default)")}, {F("50캜")}, {F("55캜")}};
   DEFINE_ENUM(TS_WARM, ENUM, REG18_NTC_Control_1, 0x03, 4);
 
   enum class bhot_t : uint8_t { TS_55 = 0, TS_60 = 1, TS_65 = 2, DISABLE = 3 };
-  strings_vector_t BHOT_strings = {{F("55째C")}, {F("60째C (default)")}, {F("65째C")}, {F("Disabled")}};
+  strings_vector_t BHOT_strings = {{F("55캜")}, {F("60캜 (default)")}, {F("65캜")}, {F("Disabled")}};
   DEFINE_ENUM(BHOT, ENUM, REG18_NTC_Control_1, 0x03, 2);
 
   enum class bcold_t : uint8_t { MINUS_10 = 0, MINUS_20 = 1 };
-  strings_vector_t BCOLD_strings = {{F("-10째C (default)")}, {F("-20째C")}};
+  strings_vector_t BCOLD_strings = {{F("-10캜 (default)")}, {F("-20캜")}};
   DEFINE_ENUM(BCOLD, ENUM, REG18_NTC_Control_1, 0x01, 1);
 
   DEFINE_SETTING3(TS_IGNORE, BOOL, REG18_NTC_Control_1, 0x01, 0);
