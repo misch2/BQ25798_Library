@@ -2,18 +2,15 @@
 
 #include <Wire.h>
 
-#define DEFINE_REGISTER(propname, size)                \
-  {                                                    \
-    propname, { propname, regsize_t::size, #propname } \
-  }
+#define DEFINE_REGISTER(propname, size) {propname, regsize_t::size, F(#propname)}
 
 #define DEFINE_SETTING(id, propname, regaddr, mask, shift, range_low, range_high, fixed_offset, bit_step_size) \
   {                                                                                                            \
-    id, { regaddr, mask, shift, range_low, range_high, fixed_offset, bit_step_size, #propname }                \
+    id, { regaddr, mask, shift, range_low, range_high, fixed_offset, bit_step_size, F(#propname) }             \
   }
 
 BQ25798::BQ25798(uint8_t chip_address)
-    : _registerMap({
+    : _registerDefinitions{{
           //  There must be all 8-bit registers in the list (no skipping for 16-bit registers, no skipping for unused registers)!
           DEFINE_REGISTER(REG00_Minimal_System_Voltage, SHORT),
           DEFINE_REGISTER(REG01_Charge_Voltage_Limit, LONG),
@@ -89,8 +86,9 @@ BQ25798::BQ25798(uint8_t chip_address)
           DEFINE_REGISTER(REG47_DPDM_Driver, SHORT),
           DEFINE_REGISTER(REG48_Part_Information, SHORT)
           //
-      }),
-      _settingsList({
+      }},
+
+      _settingsList{{
           VSYSMIN,
           VREG,
           ICHG,
@@ -283,7 +281,7 @@ BQ25798::BQ25798(uint8_t chip_address)
           PN,
           DEV_REV
           //
-      }) {
+      }} {
   _chip_address = chip_address;
   _clearRegs();
 }
@@ -291,24 +289,31 @@ BQ25798::BQ25798(uint8_t chip_address)
 BQ25798::BQ25798() : BQ25798(DEFAULT_I2C_ADDRESS) {}
 
 BQ25798::RegisterDefinition BQ25798::getRegisterDefinition(regaddr_t address) {
-  auto it = _registerMap.find(address);
-  if (it != _registerMap.end()) {
-    return it->second;
+  if (address >= PHYSICAL_REGISTERS_COUNT) {
+    ERROR_PRINT(F("Invalid register address 0x%02X\n"), address);
+    return RegisterDefinition::invalid();
   }
-  ERROR_PRINT(F("Invalid register address 0x%02X\n"), address);
-  return RegisterDefinition::invalid();
+  RegisterDefinition reg_def = _registerDefinitions[address];
+
+  if (reg_def.address != address) {
+    ERROR_PRINT(F("Invalid register definition 0x%02X: register 0x%02X references, probably skipped something in the .h file\n"), address, reg_def.address);
+    return RegisterDefinition::invalid();
+  }
+
+  return reg_def;
 };
 
 BQ25798::Setting BQ25798::getSetting(uint16_t id) {
-  if (id >= BQ25798_SETTINGS_COUNT) {
+  if (id >= SETTINGS_COUNT) {
     ERROR_PRINT(F("Invalid setting ID %d\n"), id);
     return Setting::invalid();
   }
+
   return _settingsList[id];
 };
 
 void BQ25798::_clearRegs() {
-  for (int i = 0; i < BQ25798_PHYSICAL_REGISTERS_COUNT; i++) {
+  for (int i = 0; i < PHYSICAL_REGISTERS_COUNT; i++) {
     _physicalReg8Values[i] = 0;
   }
 }
@@ -321,12 +326,12 @@ bool BQ25798::readAll() {
   Wire.beginTransmission(_chip_address);
   Wire.write(REG00_Minimal_System_Voltage);  // Start reading from the first register
   Wire.endTransmission();
-  if (Wire.requestFrom(_chip_address, BQ25798_PHYSICAL_REGISTERS_COUNT) != BQ25798_PHYSICAL_REGISTERS_COUNT) {
-    ERROR_PRINT(F("Error batch reading all (%d) BQ25798 registers\n"), BQ25798_PHYSICAL_REGISTERS_COUNT);
+  if (Wire.requestFrom(_chip_address, PHYSICAL_REGISTERS_COUNT) != PHYSICAL_REGISTERS_COUNT) {
+    ERROR_PRINT(F("Error batch reading all (%d) BQ25798 registers\n"), PHYSICAL_REGISTERS_COUNT);
     return false;
   }
 
-  for (int i = 0; i < BQ25798_PHYSICAL_REGISTERS_COUNT; i++) {
+  for (int i = 0; i < PHYSICAL_REGISTERS_COUNT; i++) {
     _physicalReg8Values[i] = Wire.read();
   }
 
@@ -366,7 +371,8 @@ bool BQ25798::writeReg16ToI2C(int reg) {
     ERROR_PRINT(F("Invalid register address 0x%02X\n"), reg);
     return false;
   };
-  DEBUG_PRINT("[writeReg16ToI2C] Writing to BQ25798 register 0x%02X (%s): 0x%02X 0x%02X\n", reg, reg_def.name, _physicalReg8Values[reg], _physicalReg8Values[reg + 1]);
+  DEBUG_PRINT("[writeReg16ToI2C] Writing to BQ25798 register 0x%02X (%s): 0x%02X 0x%02X\n", reg, reg_def.name, _physicalReg8Values[reg],
+              _physicalReg8Values[reg + 1]);
 #endif
 
   Wire.beginTransmission(_chip_address);
@@ -399,7 +405,9 @@ void BQ25798::setReg8(int reg, uint8_t value, int bitMask, int bitShift) {
   _physicalReg8Values[reg] |= shiftedValue;
 }
 
-uint16_t BQ25798::getReg16(int widereg, int bitMask, int bitShift) { return ((_physicalReg8Values[widereg] << 8) | _physicalReg8Values[widereg + 1]) >> bitShift & bitMask; }
+uint16_t BQ25798::getReg16(int widereg, int bitMask, int bitShift) {
+  return ((_physicalReg8Values[widereg] << 8) | _physicalReg8Values[widereg + 1]) >> bitShift & bitMask;
+}
 
 void BQ25798::setReg16(int widereg, uint16_t value, int bitMask, int bitShift) {
   uint16_t shiftedMask = bitMask << bitShift;
@@ -414,7 +422,7 @@ void BQ25798::setReg16(int widereg, uint16_t value, int bitMask, int bitShift) {
 
 bool BQ25798::_flagIsSet(settings_flags_t flagset, settings_flags_t flag) { return (static_cast<uint8_t>(flagset) & static_cast<uint8_t>(flag)) != 0; }
 
-int BQ25798::getInt(Setting setting) {
+uint16_t BQ25798::getRaw(Setting setting) {
   uint16_t raw_value = 0;  // getReg* always returns unsigned values, so we need to use unsigned type here
 
   RegisterDefinition reg_def = getRegisterDefinition(setting.reg);
@@ -423,14 +431,22 @@ int BQ25798::getInt(Setting setting) {
     return -1;
   };
 
-  DEBUG_PRINT("[getInt] setting=%s [reg=0x%02X (%s), bitMask=0x%02X, bitShift=%d]\n", setting.name, setting.reg, reg_def.name, setting.mask, setting.shift);
+  DEBUG_PRINT("[getRaw] setting=%s [reg=0x%02X (%s), bitMask=0x%02X, bitShift=%d]\n", setting.name, setting.reg, reg_def.name, setting.mask, setting.shift);
 
   if (reg_def.size == regsize_t::SHORT) {
     raw_value = getReg8(setting.reg, setting.mask, setting.shift);
   } else if (reg_def.size == regsize_t::LONG) {
     raw_value = getReg16(setting.reg, setting.mask, setting.shift);
   }
-  DEBUG_PRINT("[getInt]  - raw 0x%04X\n", raw_value);
+  DEBUG_PRINT("[getRaw] -> raw 0x%04X\n", raw_value);
+
+  return raw_value;
+};
+
+int BQ25798::getInt(Setting setting) {
+  uint16_t raw_value = getRaw(setting);
+
+  RegisterDefinition reg_def = getRegisterDefinition(setting.reg);
 
   int value;
   if (_flagIsSet(setting.flags, settings_flags_t::IS_2COMPLEMENT)) {
@@ -509,18 +525,7 @@ void BQ25798::setInt(Setting setting, int value) {
 };
 
 float BQ25798::getFloat(Setting setting) {
-  RegisterDefinition reg_def = getRegisterDefinition(setting.reg);
-  if (!reg_def.isValid()) {
-    ERROR_PRINT(F("Invalid register address 0x%02X\n"), setting.reg);
-    return -1.0f;
-  };
-
-  float value = 0;
-  if (reg_def.size == regsize_t::SHORT) {
-    value = getReg8(setting.reg, setting.mask, setting.shift);
-  } else if (reg_def.size == regsize_t::LONG) {
-    value = getReg16(setting.reg, setting.mask, setting.shift);
-  }
+  float value = getRaw(setting);
 
   // Adjust the value based on the fixed offset and bit step size if provided
   if (setting.bit_step_size != 0) {

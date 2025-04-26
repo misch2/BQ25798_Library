@@ -3,7 +3,6 @@
 
 #include <cstdint>
 #include <string>
-#include <unordered_map>
 #include <vector>
 
 #include "Arduino.h"
@@ -11,11 +10,6 @@
 #include "registers.h"
 
 #define DEFAULT_I2C_ADDRESS 0x6B
-
-// FIXME check
-constexpr size_t BQ25798_PHYSICAL_REGISTERS_COUNT = 2;   // (1 + REG48_Part_Information);
-// FIXME check
-constexpr size_t BQ25798_SETTINGS_COUNT = 191;  // Number of settings
 
 class BQ25798 {
  public:
@@ -32,17 +26,15 @@ class BQ25798 {
     regsize_t size;     // 8bit or 16bit
     const char* name;   // Register name
 
-    static RegisterDefinition invalid() { return RegisterDefinition{-1, regsize_t::SHORT, F("INVALID")}; };
+    RegisterDefinition(regaddr_t address, regsize_t size, const char* name) : address(address), size(size), name(name) {};
 
+    static RegisterDefinition invalid() { return RegisterDefinition{-1, regsize_t::SHORT, F("INVALID")}; };
     bool isValid() const { return address != -1; };
   };
 
-  std::unordered_map<uint8_t, RegisterDefinition> _registerMap;
-
+  static constexpr size_t PHYSICAL_REGISTERS_COUNT = 1 + REG48_Part_Information;  // Number of physical registers (0x00 to 0x48)
+  std::array<RegisterDefinition, PHYSICAL_REGISTERS_COUNT> _registerDefinitions;
   RegisterDefinition getRegisterDefinition(regaddr_t address);
-
-  // Register values
-  std::array<uint8_t, BQ25798_PHYSICAL_REGISTERS_COUNT> _physicalReg8Values;  // Array to hold 8-bit register values
 
   // Settings
   enum class settings_flags_t : uint8_t {
@@ -79,11 +71,11 @@ class BQ25798 {
           flags(flags) {};
 
     static Setting invalid() { return Setting{RegisterDefinition::invalid().address, F("INVALID"), 0, 0, 0, 0, 0, 0}; };
-
     bool isValid() const { return mask != 0; };
   };
 
-  std::array<Setting, BQ25798_SETTINGS_COUNT> _settingsList;
+  static constexpr size_t SETTINGS_COUNT = 191;  // Number of settings
+  std::array<Setting, SETTINGS_COUNT> _settingsList;
 
   Setting getSetting(uint16_t id);
 
@@ -857,20 +849,23 @@ class BQ25798 {
   BQ25798(uint8_t address);
 
   bool begin();
-  bool readAll();
-
+  uint16_t getRaw(Setting setting);
+  void setRaw(Setting setting, int value);
   int getInt(Setting setting);
   void setInt(Setting setting, int value);
   float getFloat(Setting setting);
   const char* toString(int value, const std::vector<std::string> map);
-
   bool faultDetected();
 
+  // memory-only operations
+  std::array<uint8_t, PHYSICAL_REGISTERS_COUNT> _physicalReg8Values;  // Array to hold 8-bit register values
   uint8_t getReg8(int reg, int bitMask = 0xFF, int bitShift = 0);
   void setReg8(int reg, uint8_t value, int bitMask = 0xFF, int bitShift = 0);
   uint16_t getReg16(int widereg, int bitMask = 0xFFFF, int bitShift = 0);
   void setReg16(int widereg, uint16_t value, int bitMask = 0xFFFF, int bitShift = 0);
 
+  // I2C operations
+  bool readAll();
   bool writeReg8ToI2C(int reg);
   bool writeReg16ToI2C(int reg);
 };
