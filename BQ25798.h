@@ -13,13 +13,15 @@
 
 class BQ25798 {
  public:
-  // Register definition structure
+  // =================================
+  // Registers
+  // =================================
+  typedef int16_t regaddr_t;
+
   enum class regsize_t : uint8_t {
     SHORT = 8,
     LONG = 16,
   };
-
-  typedef int16_t regaddr_t;
 
   struct RegisterDefinition {
     regaddr_t address;  // Register address
@@ -33,14 +35,105 @@ class BQ25798 {
   };
 
   static constexpr size_t PHYSICAL_REGISTERS_COUNT = 1 + REG48_Part_Information;  // Number of physical registers (0x00 to 0x48)
-  std::array<RegisterDefinition, PHYSICAL_REGISTERS_COUNT> _registerDefinitions;
-  RegisterDefinition getRegisterDefinition(regaddr_t address);
+#define DEFINE_REGISTER(propname, size) \
+  RegisterDefinition { propname, regsize_t::size, F(#propname) }
+  std::array<RegisterDefinition, PHYSICAL_REGISTERS_COUNT> _registerDefinitions = {
+      //  There must be all 8-bit registers in the list (no skipping for 16-bit registers, no skipping for unused registers)!
+      DEFINE_REGISTER(REG00_Minimal_System_Voltage, SHORT),
+      DEFINE_REGISTER(REG01_Charge_Voltage_Limit, LONG),
+      DEFINE_REGISTER(REG02_dummy_fill, SHORT),
+      DEFINE_REGISTER(REG03_Charge_Current_Limit, LONG),
+      DEFINE_REGISTER(REG04_dummy_fill, SHORT),
+      DEFINE_REGISTER(REG05_Input_Voltage_Limit, SHORT),
+      DEFINE_REGISTER(REG06_Input_Current_Limit, LONG),
+      DEFINE_REGISTER(REG07_dummy_fill, SHORT),
+      DEFINE_REGISTER(REG08_Precharge_Control, SHORT),
+      DEFINE_REGISTER(REG09_Termination_Control, SHORT),
+      DEFINE_REGISTER(REG0A_Recharge_Control, SHORT),
+      DEFINE_REGISTER(REG0B_VOTG_regulation, LONG),
+      DEFINE_REGISTER(REG0C_dummy_fill, SHORT),
+      DEFINE_REGISTER(REG0D_IOTG_regulation, SHORT),
+      DEFINE_REGISTER(REG0E_Timer_Control, SHORT),
+      DEFINE_REGISTER(REG0F_Charger_Control_0, SHORT),
+      DEFINE_REGISTER(REG10_Charger_Control_1, SHORT),
+      DEFINE_REGISTER(REG11_Charger_Control_2, SHORT),
+      DEFINE_REGISTER(REG12_Charger_Control_3, SHORT),
+      DEFINE_REGISTER(REG13_Charger_Control_4, SHORT),
+      DEFINE_REGISTER(REG14_Charger_Control_5, SHORT),
+      DEFINE_REGISTER(REG15_MPPT_Control, SHORT),
+      DEFINE_REGISTER(REG16_Temperature_Control, SHORT),
+      DEFINE_REGISTER(REG17_NTC_Control_0, SHORT),
+      DEFINE_REGISTER(REG18_NTC_Control_1, SHORT),
+      DEFINE_REGISTER(REG19_ICO_Current_Limit, LONG),
+      DEFINE_REGISTER(REG1A_dummy_fill, SHORT),
+      DEFINE_REGISTER(REG1B_Charger_Status_0, SHORT),
+      DEFINE_REGISTER(REG1C_Charger_Status_1, SHORT),
+      DEFINE_REGISTER(REG1D_Charger_Status_2, SHORT),
+      DEFINE_REGISTER(REG1E_Charger_Status_3, SHORT),
+      DEFINE_REGISTER(REG1F_Charger_Status_4, SHORT),
+      DEFINE_REGISTER(REG20_FAULT_Status_0, SHORT),
+      DEFINE_REGISTER(REG21_FAULT_Status_1, SHORT),
+      DEFINE_REGISTER(REG22_Charger_Flag_0, SHORT),
+      DEFINE_REGISTER(REG23_Charger_Flag_1, SHORT),
+      DEFINE_REGISTER(REG24_Charger_Flag_2, SHORT),
+      DEFINE_REGISTER(REG25_Charger_Flag_3, SHORT),
+      DEFINE_REGISTER(REG26_FAULT_Flag_0, SHORT),
+      DEFINE_REGISTER(REG27_FAULT_Flag_1, SHORT),
+      DEFINE_REGISTER(REG28_Charger_Mask_0, SHORT),
+      DEFINE_REGISTER(REG29_Charger_Mask_1, SHORT),
+      DEFINE_REGISTER(REG2A_Charger_Mask_2, SHORT),
+      DEFINE_REGISTER(REG2B_Charger_Mask_3, SHORT),
+      DEFINE_REGISTER(REG2C_FAULT_Mask_0, SHORT),
+      DEFINE_REGISTER(REG2D_FAULT_Mask_1, SHORT),
+      DEFINE_REGISTER(REG2E_ADC_Control, SHORT),
+      DEFINE_REGISTER(REG2F_ADC_Function_Disable_0, SHORT),
+      DEFINE_REGISTER(REG30_ADC_Function_Disable_1, SHORT),
+      DEFINE_REGISTER(REG31_IBUS_ADC, LONG),
+      DEFINE_REGISTER(REG32_dummy_fill, SHORT),
+      DEFINE_REGISTER(REG33_IBAT_ADC, LONG),
+      DEFINE_REGISTER(REG34_dummy_fill, SHORT),
+      DEFINE_REGISTER(REG35_VBUS_ADC, LONG),
+      DEFINE_REGISTER(REG36_dummy_fill, SHORT),
+      DEFINE_REGISTER(REG37_VAC1_ADC, LONG),
+      DEFINE_REGISTER(REG38_dummy_fill, SHORT),
+      DEFINE_REGISTER(REG39_VAC2_ADC, LONG),
+      DEFINE_REGISTER(REG3A_dummy_fill, SHORT),
+      DEFINE_REGISTER(REG3B_VBAT_ADC, LONG),
+      DEFINE_REGISTER(REG3C_dummy_fill, SHORT),
+      DEFINE_REGISTER(REG3D_VSYS_ADC, LONG),
+      DEFINE_REGISTER(REG3E_dummy_fill, SHORT),
+      DEFINE_REGISTER(REG3F_TS_ADC, LONG),
+      DEFINE_REGISTER(REG40_dummy_fill, SHORT),
+      DEFINE_REGISTER(REG41_TDIE_ADC, LONG),
+      DEFINE_REGISTER(REG42_dummy_fill, SHORT),
+      DEFINE_REGISTER(REG43_DPLUS_ADC, LONG),
+      DEFINE_REGISTER(REG44_dummy_fill, SHORT),
+      DEFINE_REGISTER(REG45_DMINUS_ADC, LONG),
+      DEFINE_REGISTER(REG46_dummy_fill, SHORT),
+      DEFINE_REGISTER(REG47_DPDM_Driver, SHORT),
+      DEFINE_REGISTER(REG48_Part_Information, SHORT)
+      //
+  };
 
+  const RegisterDefinition& getRegisterDefinition(regaddr_t address);
+
+  // =================================
   // Settings
+  // =================================
   enum class settings_flags_t : uint8_t {
     NONE = 0,
     IS_2COMPLEMENT = 0x80,
   };
+
+  // FIXME TODO
+  // enum class settings_type_t : uint8_t {
+  //   RAW = 0,
+  //   INT = 1,
+  //   FLOAT = 2,
+  //   BOOL = 3,
+  //   ENUM = 4,
+  //   STRING = 5,
+  // };
 
   typedef const std::vector<std::string> strings_vector_t;
 
@@ -73,11 +166,6 @@ class BQ25798 {
     static Setting invalid() { return Setting{RegisterDefinition::invalid().address, F("INVALID"), 0, 0, 0, 0, 0, 0}; };
     bool isValid() const { return mask != 0; };
   };
-
-  static constexpr size_t SETTINGS_COUNT = 191;  // Number of settings
-  std::array<Setting, SETTINGS_COUNT> _settingsList;
-
-  Setting getSetting(uint16_t id);
 
 #define DEFINE_SETTING3(setting, regaddr, mask, shift) Setting setting = {regaddr, #setting, mask, shift}
 #define DEFINE_SETTING7(setting, regaddr, mask, shift, range_low, range_high, fixed_offset, bit_step_size) \
@@ -838,6 +926,204 @@ class BQ25798 {
   };
   strings_vector_t DEV_REV_strings = {{F("?")}, {F("BQ25798")}, {F("?")}, {F("?")}, {F("?")}, {F("?")}, {F("?")}, {F("?")}};
 
+  static constexpr size_t SETTINGS_COUNT = 191;  // Number of settings
+  std::array<Setting, SETTINGS_COUNT> _settingsList = {
+      VSYSMIN,
+      VREG,
+      ICHG,
+      VINDPM,
+      IINDPM,
+      VBAT_LOWV,
+      IPRECHG,
+      REG_RST,
+      STOP_WD_CHG,
+      ITERM,
+      CELL,
+      TRECHG,
+      VRECHG,
+      VOTG,
+      PRECHG_TMR,
+      IOTG,
+      TOPOFF_TMR,
+      EN_TRICHG_TMR,
+      EN_PRECHG_TMR,
+      EN_CHG_TMR,
+      CHG_TMR,
+      TMR2X_EN,
+      EN_AUTO_IBATDIS,
+      FORCE_IBATDIS,
+      EN_CHG,
+      EN_ICO,
+      FORCE_ICO,
+      EN_HIZ,
+      EN_TERM,
+      EN_BACKUP,
+      VBUS_BACKUP,
+      VAC_OVP,
+      WD_RST,
+      WATCHDOG,
+      FORCE_INDET,
+      AUTO_INDET_EN,
+      EN_12V,
+      EN_9V,
+      HVDCP_EN,
+      SDRV_CTRL,
+      SDRV_DLY,
+      DIS_ACDRV,
+      EN_OTG,
+      PFM_OTG_DIS,
+      PFM_FWD_DIS,
+      WKUP_DLY,
+      DIS_LDO,
+      DIS_OTG_OOA,
+      DIS_FWD_OOA,
+      EN_ACDRV2,
+      EN_ACDRV1,
+      PWM_FREQ,
+      DIS_STAT,
+      DIS_VSYS_SHORT,
+      DIS_VOTG_UVP,
+      FORCE_VINDPM_DET,
+      EN_IBUS_OCP,
+      SFET_PRESENT,
+      EN_IBAT,
+      IBAT_REG,
+      EN_IINDPM,
+      EN_EXTILIM,
+      EN_BATOC,
+      VOC_PCT,
+      VOC_DLY,
+      VOC_RATE,
+      EN_MPPT,
+      TREG,
+      TSHUT,
+      VBUS_PD_EN,
+      VAC1_PD_EN,
+      VAC2_PD_EN,
+      BKUP_ACFET1_ON,
+      JEITA_VSET,
+      JEITA_ISETH,
+      JEITA_ISETC,
+      TS_COOL,
+      TS_WARM,
+      BHOT,
+      BCOLD,
+      TS_IGNORE,
+      ICO_ILIM,
+      IINDPM_STAT,
+      VINDPM_STAT,
+      WD_STAT,
+      PG_STAT,
+      AC2_PRESENT_STAT,
+      AC1_PRESENT_STAT,
+      VBUS_PRESENT_STAT,
+      CHG_STAT,
+      VBUS_STAT,
+      BC12_DONE_STAT,
+      ICO_STAT,
+      TREG_STAT,
+      DPDM_STAT,
+      VBAT_PRESENT_STAT,
+      ACRB2_STAT,
+      ACRB1_STAT,
+      ADC_DONE_STAT,
+      VSYS_STAT,
+      CHG_TMR_STAT,
+      TRICHG_TMR_STAT,
+      PRECHG_TMR_STAT,
+      VBATOTG_LOW_STAT,
+      TS_COLD_STAT,
+      TS_COOL_STAT,
+      TS_WARM_STAT,
+      TS_HOT_STAT,
+      IBAT_REG_STAT,
+      VBUS_OVP_STAT,
+      VBAT_OVP_STAT,
+      IBUS_OCP_STAT,
+      IBAT_OCP_STAT,
+      CONV_OCP_STAT,
+      VAC2_OVP_STAT,
+      VAC1_OVP_STAT,
+      VSYS_SHORT_STAT,
+      VSYS_OVP_STAT,
+      OTG_OVP_STAT,
+      OTG_UVP_STAT,
+      TSHUT_STAT,
+      IINDPM_FLAG,
+      VINDPM_FLAG,
+      WD_FLAG,
+      POORSRC_FLAG,
+      PG_FLAG,
+      AC2_PRESENT_FLAG,
+      AC1_PRESENT_FLAG,
+      VBUS_PRESENT_FLAG,
+      CHG_FLAG,
+      ICO_FLAG,
+      VBUS_FLAG,
+      TREG_FLAG,
+      VBAT_PRESENT_FLAG,
+      BC1_2_DONE_FLAG,
+      DPDM_DONE_FLAG,
+      ADC_DONE_FLAG,
+      VSYS_FLAG,
+      CHG_TMR_FLAG,
+      TRICHG_TMR_FLAG,
+      PRECHG_TMR_FLAG,
+      TOPOFF_TMR_FLAG,
+      VBATOTG_LOW_FLAG,
+      TS_COLD_FLAG,
+      TS_COOL_FLAG,
+      TS_WARM_FLAG,
+      TS_HOT_FLAG,
+      IBAT_REG_FLAG,
+      VBUS_OVP_FLAG,
+      VBAT_OVP_FLAG,
+      IBUS_OCP_FLAG,
+      IBAT_OCP_FLAG,
+      CONV_OCP_FLAG,
+      VAC2_OVP_FLAG,
+      VAC1_OVP_FLAG,
+      VSYS_SHORT_FLAG,
+      VSYS_OVP_FLAG,
+      OTG_OVP_FLAG,
+      OTG_UVP_FLAG,
+      TSHUT_FLAG,
+      ADC_EN,
+      ADC_RATE,
+      ADC_SAMPLE,
+      ADC_AVG,
+      ADC_AVG_INIT,
+      IBUS_ADC_DIS,
+      IBAT_ADC_DIS,
+      VBUS_ADC_DIS,
+      VBAT_ADC_DIS,
+      VSYS_ADC_DIS,
+      TS_ADC_DIS,
+      TDIE_ADC_DIS,
+      DPLUS_ADC_DIS,
+      DMINUS_ADC_DIS,
+      VAC2_ADC_DIS,
+      VAC1_ADC_DIS,
+      IBUS_ADC,
+      IBAT_ADC,
+      VBUS_ADC,
+      VAC1_ADC,
+      VAC2_ADC,
+      VBAT_ADC,
+      VSYS_ADC,
+      TS_ADC,
+      TDIE_ADC,
+      DPLUS_ADC,
+      DMINUS_ADC,
+      DPLUS_DAC,
+      DMINUS_DAC,
+      PN,
+      DEV_REV
+      //
+
+  };
+  const Setting& getSetting(int id);
+
  private:
   int _chip_address;
 
@@ -849,11 +1135,11 @@ class BQ25798 {
   BQ25798(uint8_t address);
 
   bool begin();
-  uint16_t getRaw(Setting setting);
-  void setRaw(Setting setting, int value);
-  int getInt(Setting setting);
-  void setInt(Setting setting, int value);
-  float getFloat(Setting setting);
+  uint16_t getRaw(const Setting& setting);
+  void setRaw(const Setting& setting, int value);
+  int getInt(const Setting& setting);
+  void setInt(const Setting& setting, int value);
+  float getFloat(const Setting& setting);
   const char* toString(int value, const std::vector<std::string> map);
   bool faultDetected();
 

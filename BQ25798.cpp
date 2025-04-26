@@ -1,315 +1,44 @@
+// #define DEBUG 1
+
 #include "BQ25798.h"
 
 #include <Wire.h>
 
-#define DEFINE_REGISTER(propname, size) {propname, regsize_t::size, F(#propname)}
-
-#define DEFINE_SETTING(id, propname, regaddr, mask, shift, range_low, range_high, fixed_offset, bit_step_size) \
-  {                                                                                                            \
-    id, { regaddr, mask, shift, range_low, range_high, fixed_offset, bit_step_size, F(#propname) }             \
-  }
-
-BQ25798::BQ25798(uint8_t chip_address)
-    : _registerDefinitions{{
-          //  There must be all 8-bit registers in the list (no skipping for 16-bit registers, no skipping for unused registers)!
-          DEFINE_REGISTER(REG00_Minimal_System_Voltage, SHORT),
-          DEFINE_REGISTER(REG01_Charge_Voltage_Limit, LONG),
-          DEFINE_REGISTER(REG02_dummy_fill, SHORT),
-          DEFINE_REGISTER(REG03_Charge_Current_Limit, LONG),
-          DEFINE_REGISTER(REG04_dummy_fill, SHORT),
-          DEFINE_REGISTER(REG05_Input_Voltage_Limit, SHORT),
-          DEFINE_REGISTER(REG06_Input_Current_Limit, LONG),
-          DEFINE_REGISTER(REG07_dummy_fill, SHORT),
-          DEFINE_REGISTER(REG08_Precharge_Control, SHORT),
-          DEFINE_REGISTER(REG09_Termination_Control, SHORT),
-          DEFINE_REGISTER(REG0A_Recharge_Control, SHORT),
-          DEFINE_REGISTER(REG0B_VOTG_regulation, LONG),
-          DEFINE_REGISTER(REG0C_dummy_fill, SHORT),
-          DEFINE_REGISTER(REG0D_IOTG_regulation, SHORT),
-          DEFINE_REGISTER(REG0E_Timer_Control, SHORT),
-          DEFINE_REGISTER(REG0F_Charger_Control_0, SHORT),
-          DEFINE_REGISTER(REG10_Charger_Control_1, SHORT),
-          DEFINE_REGISTER(REG11_Charger_Control_2, SHORT),
-          DEFINE_REGISTER(REG12_Charger_Control_3, SHORT),
-          DEFINE_REGISTER(REG13_Charger_Control_4, SHORT),
-          DEFINE_REGISTER(REG14_Charger_Control_5, SHORT),
-          DEFINE_REGISTER(REG15_MPPT_Control, SHORT),
-          DEFINE_REGISTER(REG16_Temperature_Control, SHORT),
-          DEFINE_REGISTER(REG17_NTC_Control_0, SHORT),
-          DEFINE_REGISTER(REG18_NTC_Control_1, SHORT),
-          DEFINE_REGISTER(REG19_ICO_Current_Limit, LONG),
-          DEFINE_REGISTER(REG1A_dummy_fill, SHORT),
-          DEFINE_REGISTER(REG1B_Charger_Status_0, SHORT),
-          DEFINE_REGISTER(REG1C_Charger_Status_1, SHORT),
-          DEFINE_REGISTER(REG1D_Charger_Status_2, SHORT),
-          DEFINE_REGISTER(REG1E_Charger_Status_3, SHORT),
-          DEFINE_REGISTER(REG1F_Charger_Status_4, SHORT),
-          DEFINE_REGISTER(REG20_FAULT_Status_0, SHORT),
-          DEFINE_REGISTER(REG21_FAULT_Status_1, SHORT),
-          DEFINE_REGISTER(REG22_Charger_Flag_0, SHORT),
-          DEFINE_REGISTER(REG23_Charger_Flag_1, SHORT),
-          DEFINE_REGISTER(REG24_Charger_Flag_2, SHORT),
-          DEFINE_REGISTER(REG25_Charger_Flag_3, SHORT),
-          DEFINE_REGISTER(REG26_FAULT_Flag_0, SHORT),
-          DEFINE_REGISTER(REG27_FAULT_Flag_1, SHORT),
-          DEFINE_REGISTER(REG28_Charger_Mask_0, SHORT),
-          DEFINE_REGISTER(REG29_Charger_Mask_1, SHORT),
-          DEFINE_REGISTER(REG2A_Charger_Mask_2, SHORT),
-          DEFINE_REGISTER(REG2B_Charger_Mask_3, SHORT),
-          DEFINE_REGISTER(REG2C_FAULT_Mask_0, SHORT),
-          DEFINE_REGISTER(REG2D_FAULT_Mask_1, SHORT),
-          DEFINE_REGISTER(REG2E_ADC_Control, SHORT),
-          DEFINE_REGISTER(REG2F_ADC_Function_Disable_0, SHORT),
-          DEFINE_REGISTER(REG30_ADC_Function_Disable_1, SHORT),
-          DEFINE_REGISTER(REG31_IBUS_ADC, LONG),
-          DEFINE_REGISTER(REG32_dummy_fill, SHORT),
-          DEFINE_REGISTER(REG33_IBAT_ADC, LONG),
-          DEFINE_REGISTER(REG34_dummy_fill, SHORT),
-          DEFINE_REGISTER(REG35_VBUS_ADC, LONG),
-          DEFINE_REGISTER(REG36_dummy_fill, SHORT),
-          DEFINE_REGISTER(REG37_VAC1_ADC, LONG),
-          DEFINE_REGISTER(REG38_dummy_fill, SHORT),
-          DEFINE_REGISTER(REG39_VAC2_ADC, LONG),
-          DEFINE_REGISTER(REG3A_dummy_fill, SHORT),
-          DEFINE_REGISTER(REG3B_VBAT_ADC, LONG),
-          DEFINE_REGISTER(REG3C_dummy_fill, SHORT),
-          DEFINE_REGISTER(REG3D_VSYS_ADC, LONG),
-          DEFINE_REGISTER(REG3E_dummy_fill, SHORT),
-          DEFINE_REGISTER(REG3F_TS_ADC, LONG),
-          DEFINE_REGISTER(REG40_dummy_fill, SHORT),
-          DEFINE_REGISTER(REG41_TDIE_ADC, LONG),
-          DEFINE_REGISTER(REG42_dummy_fill, SHORT),
-          DEFINE_REGISTER(REG43_DPLUS_ADC, LONG),
-          DEFINE_REGISTER(REG44_dummy_fill, SHORT),
-          DEFINE_REGISTER(REG45_DMINUS_ADC, LONG),
-          DEFINE_REGISTER(REG46_dummy_fill, SHORT),
-          DEFINE_REGISTER(REG47_DPDM_Driver, SHORT),
-          DEFINE_REGISTER(REG48_Part_Information, SHORT)
-          //
-      }},
-
-      _settingsList{{
-          VSYSMIN,
-          VREG,
-          ICHG,
-          VINDPM,
-          IINDPM,
-          VBAT_LOWV,
-          IPRECHG,
-          REG_RST,
-          STOP_WD_CHG,
-          ITERM,
-          CELL,
-          TRECHG,
-          VRECHG,
-          VOTG,
-          PRECHG_TMR,
-          IOTG,
-          TOPOFF_TMR,
-          EN_TRICHG_TMR,
-          EN_PRECHG_TMR,
-          EN_CHG_TMR,
-          CHG_TMR,
-          TMR2X_EN,
-          EN_AUTO_IBATDIS,
-          FORCE_IBATDIS,
-          EN_CHG,
-          EN_ICO,
-          FORCE_ICO,
-          EN_HIZ,
-          EN_TERM,
-          EN_BACKUP,
-          VBUS_BACKUP,
-          VAC_OVP,
-          WD_RST,
-          WATCHDOG,
-          FORCE_INDET,
-          AUTO_INDET_EN,
-          EN_12V,
-          EN_9V,
-          HVDCP_EN,
-          SDRV_CTRL,
-          SDRV_DLY,
-          DIS_ACDRV,
-          EN_OTG,
-          PFM_OTG_DIS,
-          PFM_FWD_DIS,
-          WKUP_DLY,
-          DIS_LDO,
-          DIS_OTG_OOA,
-          DIS_FWD_OOA,
-          EN_ACDRV2,
-          EN_ACDRV1,
-          PWM_FREQ,
-          DIS_STAT,
-          DIS_VSYS_SHORT,
-          DIS_VOTG_UVP,
-          FORCE_VINDPM_DET,
-          EN_IBUS_OCP,
-          SFET_PRESENT,
-          EN_IBAT,
-          IBAT_REG,
-          EN_IINDPM,
-          EN_EXTILIM,
-          EN_BATOC,
-          VOC_PCT,
-          VOC_DLY,
-          VOC_RATE,
-          EN_MPPT,
-          TREG,
-          TSHUT,
-          VBUS_PD_EN,
-          VAC1_PD_EN,
-          VAC2_PD_EN,
-          BKUP_ACFET1_ON,
-          JEITA_VSET,
-          JEITA_ISETH,
-          JEITA_ISETC,
-          TS_COOL,
-          TS_WARM,
-          BHOT,
-          BCOLD,
-          TS_IGNORE,
-          ICO_ILIM,
-          IINDPM_STAT,
-          VINDPM_STAT,
-          WD_STAT,
-          PG_STAT,
-          AC2_PRESENT_STAT,
-          AC1_PRESENT_STAT,
-          VBUS_PRESENT_STAT,
-          CHG_STAT,
-          VBUS_STAT,
-          BC12_DONE_STAT,
-          ICO_STAT,
-          TREG_STAT,
-          DPDM_STAT,
-          VBAT_PRESENT_STAT,
-          ACRB2_STAT,
-          ACRB1_STAT,
-          ADC_DONE_STAT,
-          VSYS_STAT,
-          CHG_TMR_STAT,
-          TRICHG_TMR_STAT,
-          PRECHG_TMR_STAT,
-          VBATOTG_LOW_STAT,
-          TS_COLD_STAT,
-          TS_COOL_STAT,
-          TS_WARM_STAT,
-          TS_HOT_STAT,
-          IBAT_REG_STAT,
-          VBUS_OVP_STAT,
-          VBAT_OVP_STAT,
-          IBUS_OCP_STAT,
-          IBAT_OCP_STAT,
-          CONV_OCP_STAT,
-          VAC2_OVP_STAT,
-          VAC1_OVP_STAT,
-          VSYS_SHORT_STAT,
-          VSYS_OVP_STAT,
-          OTG_OVP_STAT,
-          OTG_UVP_STAT,
-          TSHUT_STAT,
-          IINDPM_FLAG,
-          VINDPM_FLAG,
-          WD_FLAG,
-          POORSRC_FLAG,
-          PG_FLAG,
-          AC2_PRESENT_FLAG,
-          AC1_PRESENT_FLAG,
-          VBUS_PRESENT_FLAG,
-          CHG_FLAG,
-          ICO_FLAG,
-          VBUS_FLAG,
-          TREG_FLAG,
-          VBAT_PRESENT_FLAG,
-          BC1_2_DONE_FLAG,
-          DPDM_DONE_FLAG,
-          ADC_DONE_FLAG,
-          VSYS_FLAG,
-          CHG_TMR_FLAG,
-          TRICHG_TMR_FLAG,
-          PRECHG_TMR_FLAG,
-          TOPOFF_TMR_FLAG,
-          VBATOTG_LOW_FLAG,
-          TS_COLD_FLAG,
-          TS_COOL_FLAG,
-          TS_WARM_FLAG,
-          TS_HOT_FLAG,
-          IBAT_REG_FLAG,
-          VBUS_OVP_FLAG,
-          VBAT_OVP_FLAG,
-          IBUS_OCP_FLAG,
-          IBAT_OCP_FLAG,
-          CONV_OCP_FLAG,
-          VAC2_OVP_FLAG,
-          VAC1_OVP_FLAG,
-          VSYS_SHORT_FLAG,
-          VSYS_OVP_FLAG,
-          OTG_OVP_FLAG,
-          OTG_UVP_FLAG,
-          TSHUT_FLAG,
-          ADC_EN,
-          ADC_RATE,
-          ADC_SAMPLE,
-          ADC_AVG,
-          ADC_AVG_INIT,
-          IBUS_ADC_DIS,
-          IBAT_ADC_DIS,
-          VBUS_ADC_DIS,
-          VBAT_ADC_DIS,
-          VSYS_ADC_DIS,
-          TS_ADC_DIS,
-          TDIE_ADC_DIS,
-          DPLUS_ADC_DIS,
-          DMINUS_ADC_DIS,
-          VAC2_ADC_DIS,
-          VAC1_ADC_DIS,
-          IBUS_ADC,
-          IBAT_ADC,
-          VBUS_ADC,
-          VAC1_ADC,
-          VAC2_ADC,
-          VBAT_ADC,
-          VSYS_ADC,
-          TS_ADC,
-          TDIE_ADC,
-          DPLUS_ADC,
-          DMINUS_ADC,
-          DPLUS_DAC,
-          DMINUS_DAC,
-          PN,
-          DEV_REV
-          //
-      }} {
+BQ25798::BQ25798(uint8_t chip_address) {
   _chip_address = chip_address;
   _clearRegs();
 }
 
 BQ25798::BQ25798() : BQ25798(DEFAULT_I2C_ADDRESS) {}
 
-BQ25798::RegisterDefinition BQ25798::getRegisterDefinition(regaddr_t address) {
+const BQ25798::RegisterDefinition& BQ25798::getRegisterDefinition(regaddr_t address) {
+  const RegisterDefinition& invalid_reg_def = RegisterDefinition::invalid();
+
   if (address >= PHYSICAL_REGISTERS_COUNT) {
     ERROR_PRINT(F("Invalid register address 0x%02X\n"), address);
-    return RegisterDefinition::invalid();
+    return invalid_reg_def;
   }
-  RegisterDefinition reg_def = _registerDefinitions[address];
+
+  const RegisterDefinition& reg_def = _registerDefinitions[address];
 
   if (reg_def.address != address) {
     ERROR_PRINT(F("Invalid register definition 0x%02X: register 0x%02X references, probably skipped something in the .h file\n"), address, reg_def.address);
-    return RegisterDefinition::invalid();
+    return invalid_reg_def;
   }
 
   return reg_def;
 };
 
-BQ25798::Setting BQ25798::getSetting(uint16_t id) {
-  if (id >= SETTINGS_COUNT) {
+const BQ25798::Setting& BQ25798::getSetting(int id) {
+  const Setting& invalid_setting = Setting::invalid();
+
+  if (id < 0 || id >= SETTINGS_COUNT) {
     ERROR_PRINT(F("Invalid setting ID %d\n"), id);
-    return Setting::invalid();
+    return invalid_setting;
   }
 
-  return _settingsList[id];
+  const Setting& setting = _settingsList[id];
+  return setting;
 };
 
 void BQ25798::_clearRegs() {
@@ -422,8 +151,13 @@ void BQ25798::setReg16(int widereg, uint16_t value, int bitMask, int bitShift) {
 
 bool BQ25798::_flagIsSet(settings_flags_t flagset, settings_flags_t flag) { return (static_cast<uint8_t>(flagset) & static_cast<uint8_t>(flag)) != 0; }
 
-uint16_t BQ25798::getRaw(Setting setting) {
+uint16_t BQ25798::getRaw(const Setting& setting) {
   uint16_t raw_value = 0;  // getReg* always returns unsigned values, so we need to use unsigned type here
+
+  if (!setting.isValid()) {
+    ERROR_PRINT(F("Invalid setting\n"));
+    return -1;
+  }
 
   RegisterDefinition reg_def = getRegisterDefinition(setting.reg);
   if (!reg_def.isValid()) {
@@ -431,6 +165,7 @@ uint16_t BQ25798::getRaw(Setting setting) {
     return -1;
   };
 
+  DEBUG_PRINT("[getRaw] [reg=0x%02X, bitMask=0x%02X, bitShift=%d]\n", setting.reg, setting.mask, setting.shift);
   DEBUG_PRINT("[getRaw] setting=%s [reg=0x%02X (%s), bitMask=0x%02X, bitShift=%d]\n", setting.name, setting.reg, reg_def.name, setting.mask, setting.shift);
 
   if (reg_def.size == regsize_t::SHORT) {
@@ -438,12 +173,14 @@ uint16_t BQ25798::getRaw(Setting setting) {
   } else if (reg_def.size == regsize_t::LONG) {
     raw_value = getReg16(setting.reg, setting.mask, setting.shift);
   }
+
   DEBUG_PRINT("[getRaw] -> raw 0x%04X\n", raw_value);
 
   return raw_value;
 };
 
-int BQ25798::getInt(Setting setting) {
+int BQ25798::getInt(const Setting& setting) {
+  DEBUG_PRINT("[getInt] Setting:[reg=0x%02X, bitMask=0x%02X, bitShift=%d]\n", setting.reg, setting.mask, setting.shift);
   uint16_t raw_value = getRaw(setting);
 
   RegisterDefinition reg_def = getRegisterDefinition(setting.reg);
@@ -481,7 +218,7 @@ int BQ25798::getInt(Setting setting) {
   return value;
 };
 
-void BQ25798::setInt(Setting setting, int value) {
+void BQ25798::setInt(const Setting& setting, int value) {
   // Serial.printf("[DEBUG] setInt(reg=0x%02X, bitMask=0x%02X, bitShift=%d, value=%d)\n", setting.reg, setting.mask, setting.shift, value);
 
   RegisterDefinition reg_def = getRegisterDefinition(setting.reg);
@@ -493,7 +230,7 @@ void BQ25798::setInt(Setting setting, int value) {
   // Check range
   if (setting.range_low != 0 || setting.range_high != 0) {
     if (value < setting.range_low || value > setting.range_high) {
-      Serial.printf("Value %d out of range (%.3f, %.3f) for register 0x%02X\n", value, setting.range_low, setting.range_high, setting.reg);
+      ERROR_PRINT(F("Value %d out of range (%.3f, %.3f) for register 0x%02X\n"), value, setting.range_low, setting.range_high, setting.reg);
       return;
     }
   }
@@ -524,7 +261,7 @@ void BQ25798::setInt(Setting setting, int value) {
   }
 };
 
-float BQ25798::getFloat(Setting setting) {
+float BQ25798::getFloat(const Setting& setting) {
   float value = getRaw(setting);
 
   // Adjust the value based on the fixed offset and bit step size if provided

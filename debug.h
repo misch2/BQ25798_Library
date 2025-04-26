@@ -1,9 +1,6 @@
 #ifndef BQ25798_DEBUG_H
 #define BQ25798_DEBUG_H
 
-// FIXME remove?
-// #include "Arduino.h"
-
 #ifdef DEBUG
   #define DEBUG_PRINT(...)       \
     Serial.print(F("[DEBUG] ")); \
@@ -15,7 +12,5 @@
   #define DEBUG_PRINT(...)
   #define ERROR_PRINT(...)
 #endif
-
-#
 
 #endif
