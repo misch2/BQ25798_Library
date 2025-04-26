@@ -1135,12 +1135,15 @@ class BQ25798 {
 
   void _clearRegs();
   bool _flagIsSet(settings_flags_t flagset, settings_flags_t flag);
+  std::array<uint8_t, PHYSICAL_REGISTERS_COUNT> _physicalReg8Values;  // Array to hold 8-bit register values
 
  public:
   BQ25798();
   BQ25798(uint8_t address);
 
   bool begin();
+
+  // memory-only operations
   uint16_t getRaw(const Setting& setting);
   int getInt(const Setting& setting);
   bool getBool(const Setting& setting);
@@ -1149,20 +1152,12 @@ class BQ25798 {
   const char* toString(int value, strings_vector_t map);
   bool faultDetected();
 
-  void setAndWriteRaw(const Setting& setting, uint16_t value);
-  void setAndWriteInt(const Setting& setting, int value);
-  void setAndWriteBool(const Setting& setting, bool value);
-  void setAndWriteFloat(const Setting& setting, float value);
-  void setAndWriteEnum(const Setting& setting, int value);
-
   int rawToInt(uint16_t raw, const Setting& setting);
   uint16_t intToRaw(int value, const Setting& setting);
   float rawToFloat(uint16_t raw, const Setting& setting);
   bool rawToBool(uint16_t raw, const Setting& setting);
   const char* rawToString(uint16_t raw, const Setting& setting);
 
-  // memory-only operations
-  std::array<uint8_t, PHYSICAL_REGISTERS_COUNT> _physicalReg8Values;  // Array to hold 8-bit register values
   uint8_t getReg8(int reg, int bitMask = 0xFF, int bitShift = 0);
   void setReg8(int reg, uint8_t value, int bitMask = 0xFF, int bitShift = 0);
   uint16_t getReg16(int widereg, int bitMask = 0xFFFF, int bitShift = 0);
@@ -1172,6 +1167,12 @@ class BQ25798 {
   bool readAll();
   bool writeReg8ToI2C(int reg);
   bool writeReg16ToI2C(int reg);
+
+  void setAndWriteRaw(const Setting& setting, uint16_t value);
+  void setAndWriteInt(const Setting& setting, int value);
+  void setAndWriteBool(const Setting& setting, bool value);
+  void setAndWriteFloat(const Setting& setting, float value);
+  void setAndWriteEnum(const Setting& setting, int value);
 };
 
 #endif
