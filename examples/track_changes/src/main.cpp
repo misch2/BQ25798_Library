@@ -48,15 +48,15 @@ void trackChanges() {
       changed = true;
       Serial.printf("[T+%-6.3f] %20s ", elapsedMillis / 1000.0f, setting.name);
       if (setting.type == BQ25798::settings_type_t::FLOAT) {
-        Serial.printf("(float) : %.3f -> %.3f\n", bq25798.rawToFloat(oldRawValues[i], setting), bq25798.rawToFloat(newRawValues[i], setting));
+        Serial.printf("(float) = %-40.3f    (was %.3f)\n", bq25798.rawToFloat(newRawValues[i], setting), bq25798.rawToFloat(oldRawValues[i], setting));
       } else if (setting.type == BQ25798::settings_type_t::BOOL) {
-        Serial.printf("(bool)  : %s -> %s\n", bq25798.rawToBool(oldRawValues[i], setting) ? "TRUE" : "false",
-                      bq25798.rawToBool(newRawValues[i], setting) ? "TRUE" : "false");
+        Serial.printf("(bool)  = %-40s     (was %s)\n", bq25798.rawToBool(newRawValues[i], setting) ? "TRUE" : "false",
+                      bq25798.rawToBool(oldRawValues[i], setting) ? "TRUE" : "false");
       } else if (setting.type == BQ25798::settings_type_t::ENUM) {
-        Serial.printf("(enum)  : [%d] %s -> [%d] %s\n", oldRawValues[i], bq25798.rawToString(oldRawValues[i], setting), newRawValues[i],
+        Serial.printf("(enum)  = [%d] \"%-38s\" (was [%d] \"%s\")\n", newRawValues[i], bq25798.rawToString(oldRawValues[i], setting), oldRawValues[i],
                       bq25798.rawToString(newRawValues[i], setting));
       } else if (setting.type == BQ25798::settings_type_t::INT) {
-        Serial.printf("(int)   :  %5d -> %5d\n", bq25798.rawToInt(oldRawValues[i], setting), bq25798.rawToInt(newRawValues[i], setting));
+        Serial.printf("(int)   = %-40d     (was %5d)\n", bq25798.rawToInt(newRawValues[i], setting), bq25798.rawToInt(oldRawValues[i], setting));
       }
     }
   }
