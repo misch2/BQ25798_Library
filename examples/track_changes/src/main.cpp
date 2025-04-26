@@ -48,15 +48,21 @@ void trackChanges() {
       changed = true;
       Serial.printf("[T+%-6.3f] %20s ", elapsedMillis / 1000.0f, setting.name);
       if (setting.type == BQ25798::settings_type_t::FLOAT) {
-        Serial.printf("(float) = %-40.3f    (was %.3f)\n", bq25798.rawToFloat(newRawValues[i], setting), bq25798.rawToFloat(oldRawValues[i], setting));
+        Serial.printf("(float) = %-50.3f    (was %.3f)\n",           //
+                      bq25798.rawToFloat(newRawValues[i], setting),  //
+                      bq25798.rawToFloat(oldRawValues[i], setting));
       } else if (setting.type == BQ25798::settings_type_t::BOOL) {
-        Serial.printf("(bool)  = %-40s     (was %s)\n", bq25798.rawToBool(newRawValues[i], setting) ? "TRUE" : "false",
+        Serial.printf("(bool)  = %-50s     (was %s)\n",                                //
+                      bq25798.rawToBool(newRawValues[i], setting) ? "TRUE" : "false",  //
                       bq25798.rawToBool(oldRawValues[i], setting) ? "TRUE" : "false");
       } else if (setting.type == BQ25798::settings_type_t::ENUM) {
-        Serial.printf("(enum)  = [%d] \"%-38s\" (was [%d] \"%s\")\n", newRawValues[i], bq25798.rawToString(oldRawValues[i], setting), oldRawValues[i],
-                      bq25798.rawToString(newRawValues[i], setting));
+        Serial.printf("(enum)  = [%d] \"%-48s\" (was [%d] \"%s\")\n",                  //
+                      newRawValues[i], bq25798.rawToString(newRawValues[i], setting),  //
+                      oldRawValues[i], bq25798.rawToString(oldRawValues[i], setting));
       } else if (setting.type == BQ25798::settings_type_t::INT) {
-        Serial.printf("(int)   = %-40d     (was %5d)\n", bq25798.rawToInt(newRawValues[i], setting), bq25798.rawToInt(oldRawValues[i], setting));
+        Serial.printf("(int)   = %-50d     (was %5d)\n",           //
+                      bq25798.rawToInt(newRawValues[i], setting),  //
+                      bq25798.rawToInt(oldRawValues[i], setting));
       }
     }
   }
@@ -89,7 +95,7 @@ void setup() {
   // bq25798.setAndWriteEnum(bq25798.ADC_RATE, static_cast<int>(BQ25798::adc_rate_t::ADC_RATE_CONTINUOUS));
   // bq25798.setAndWriteEnum(bq25798.ADC_SAMPLE, static_cast<int>(BQ25798::adc_sample_t::ADC_SAMPLE_15BIT));
   // bq25798.setAndWriteEnum(bq25798.ADC_AVG, static_cast<int>(BQ25798::adc_avg_t::RUNNING_AVERAGE));
-  bq25798.setAndWriteBool(bq25798.ADC_EN, 0); // ADC produces too much noise (a lot of changes)
+  bq25798.setAndWriteBool(bq25798.ADC_EN, 0);  // ADC produces too much noise (a lot of changes)
 }
 
 void loop() {
