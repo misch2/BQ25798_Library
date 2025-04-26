@@ -494,7 +494,7 @@ class BQ25798 {
   // ==================================
   // REG19_ICO_Current_Limit (wide)
   // ==================================
-  DEFINE_SETTING7(ICO_ILIM, BOOL, REG19_ICO_Current_Limit, 0x1FF, 0, 100, 3300, 0, 10);
+  DEFINE_SETTING7(ICO_ILIM, INT, REG19_ICO_Current_Limit, 0x1FF, 0, 100, 3300, 0, 10);
 
   // ==================================
   // REG1B_Charger_Status_0
