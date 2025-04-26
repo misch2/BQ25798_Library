@@ -1172,7 +1172,12 @@ class BQ25798 {
   void setAndWriteInt(const Setting& setting, int value);
   void setAndWriteBool(const Setting& setting, bool value);
   void setAndWriteFloat(const Setting& setting, float value);
-  void setAndWriteEnum(const Setting& setting, int value);
+
+  template <typename T>
+  void setAndWriteEnum(const Setting& setting, T value) {
+    // the same as int, but with enum value
+    setAndWriteInt(setting, static_cast<int>(value));
+  };
 };
 
 #endif

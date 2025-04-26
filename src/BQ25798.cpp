@@ -12,7 +12,7 @@ BQ25798::BQ25798(uint8_t chip_address) {
 BQ25798::BQ25798() : BQ25798(DEFAULT_I2C_ADDRESS) {}
 
 const BQ25798::RegisterDefinition& BQ25798::getRegisterDefinition(regaddr_t address) {
-  const RegisterDefinition& invalid_reg_def = RegisterDefinition::invalid();
+  static const RegisterDefinition& invalid_reg_def = RegisterDefinition::invalid();
 
   if (address >= PHYSICAL_REGISTERS_COUNT) {
     ERROR_PRINT(F("Invalid register address 0x%02X\n"), address);
@@ -30,7 +30,7 @@ const BQ25798::RegisterDefinition& BQ25798::getRegisterDefinition(regaddr_t addr
 };
 
 const BQ25798::Setting& BQ25798::getSetting(int id) {
-  const Setting& invalid_setting = Setting::invalid();
+  static const Setting& invalid_setting = Setting::invalid();
 
   if (id < 0 || id >= SETTINGS_COUNT) {
     ERROR_PRINT(F("Invalid setting ID %d\n"), id);
@@ -223,11 +223,6 @@ void BQ25798::setAndWriteFloat(const Setting& setting, float value) {
 const char* BQ25798::getString(const Setting& setting) {
   uint16_t raw_value = getRaw(setting);
   return rawToString(raw_value, setting);
-}
-
-void BQ25798::setAndWriteEnum(const Setting& setting, int value) {
-  // the same as int, but with enum value
-  setAndWriteInt(setting, value);
 }
 
 bool BQ25798::faultDetected() {
