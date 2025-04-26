@@ -50,7 +50,7 @@ void BQ25798::_clearRegs() {
 bool BQ25798::begin() { return readAll(); }
 
 bool BQ25798::readAll() {
-  DEBUG_PRINT("[readAll] Reading all BQ25798 registers\n");
+  DEBUG_PRINT(F("[readAll] Reading all BQ25798 registers\n"));
 
   Wire.beginTransmission(_chip_address);
   Wire.write(REG00_Minimal_System_Voltage);  // Start reading from the first register
@@ -64,7 +64,7 @@ bool BQ25798::readAll() {
     _physicalReg8Values[i] = Wire.read();
   }
 
-  DEBUG_PRINT("[readAll] -> success\n");
+  DEBUG_PRINT(F("[readAll] -> success\n"));
   return true;
 }
 
@@ -75,7 +75,7 @@ bool BQ25798::writeReg8ToI2C(int reg) {
     ERROR_PRINT(F("Invalid register address 0x%02X\n"), reg);
     return false;
   };
-  DEBUG_PRINT("[writeReg8ToI2C] Writing to BQ25798 register 0x%02X (%s): 0x%02X\n", reg, reg_def.name, _physicalReg8Values[reg]);
+  DEBUG_PRINT(F("[writeReg8ToI2C] Writing to BQ25798 register 0x%02X (%s): 0x%02X\n", reg, reg_def.name, _physicalReg8Values[reg]));
 #endif
 
   Wire.beginTransmission(_chip_address);
@@ -89,7 +89,7 @@ bool BQ25798::writeReg8ToI2C(int reg) {
   }
   Wire.endTransmission();
 
-  DEBUG_PRINT("[writeReg8ToI2C] -> success\n");
+  DEBUG_PRINT(F("[writeReg8ToI2C] -> success\n"));
   return true;
 }
 
@@ -100,7 +100,7 @@ bool BQ25798::writeReg16ToI2C(int reg) {
     ERROR_PRINT(F("Invalid register address 0x%02X\n"), reg);
     return false;
   };
-  DEBUG_PRINT("[writeReg16ToI2C] Writing to BQ25798 register 0x%02X (%s): 0x%02X 0x%02X\n", reg, reg_def.name, _physicalReg8Values[reg],
+  DEBUG_PRINT(F("[writeReg16ToI2C] Writing to BQ25798 register 0x%02X (%s): 0x%02X 0x%02X\n"), reg, reg_def.name, _physicalReg8Values[reg],
               _physicalReg8Values[reg + 1]);
 #endif
 
@@ -119,7 +119,7 @@ bool BQ25798::writeReg16ToI2C(int reg) {
   }
   Wire.endTransmission();
 
-  DEBUG_PRINT("[writeReg16ToI2C] -> success\n");
+  DEBUG_PRINT(F("[writeReg16ToI2C] -> success\n"));
   return true;
 }
 
@@ -156,8 +156,8 @@ uint16_t BQ25798::getRaw(const Setting& setting) {
 
   RegisterDefinition reg_def = getRegisterDefinition(setting.reg);
 
-  DEBUG_PRINT("[getRaw] [reg=0x%02X, bitMask=0x%02X, bitShift=%d]\n", setting.reg, setting.mask, setting.shift);
-  DEBUG_PRINT("[getRaw] setting=%s [reg=0x%02X (%s), bitMask=0x%02X, bitShift=%d]\n", setting.name, setting.reg, reg_def.name, setting.mask, setting.shift);
+  DEBUG_PRINT(F("[getRaw] [reg=0x%02X, bitMask=0x%02X, bitShift=%d]\n"), setting.reg, setting.mask, setting.shift);
+  DEBUG_PRINT(F("[getRaw] setting=%s [reg=0x%02X (%s), bitMask=0x%02X, bitShift=%d]\n"), setting.name, setting.reg, reg_def.name, setting.mask, setting.shift);
 
   if (reg_def.size == regsize_t::SHORT) {
     raw_value = getReg8(setting.reg, setting.mask, setting.shift);
@@ -165,7 +165,7 @@ uint16_t BQ25798::getRaw(const Setting& setting) {
     raw_value = getReg16(setting.reg, setting.mask, setting.shift);
   }
 
-  DEBUG_PRINT("[getRaw] -> raw 0x%04X\n", raw_value);
+  DEBUG_PRINT(F("[getRaw] -> raw 0x%04X\n"), raw_value);
 
   return raw_value;
 };
@@ -246,7 +246,7 @@ const char* BQ25798::toString(int value, strings_vector_t map) {
 }
 
 int BQ25798::rawToInt(uint16_t raw, const Setting& setting) {
-  DEBUG_PRINT("[rawToInt] Setting:[reg=0x%02X, bitMask=0x%02X, bitShift=%d]\n", setting.reg, setting.mask, setting.shift);
+  DEBUG_PRINT(F("[rawToInt] Setting:[reg=0x%02X, bitMask=0x%02X, bitShift=%d]\n"), setting.reg, setting.mask, setting.shift);
 
   if (setting.type != settings_type_t::INT) {
     DEBUG_PRINT(F("rawToInt() called with non-integer setting type!\n"));
@@ -272,7 +272,7 @@ int BQ25798::rawToInt(uint16_t raw, const Setting& setting) {
   } else {
     value = raw;  // No adjustment needed for unsigned values
   }
-  DEBUG_PRINT("[rawToInt]  - intermediate 0x%04X\n", value);
+  DEBUG_PRINT(F("[rawToInt]  - intermediate 0x%04X\n"), value);
 
   // Adjust the value based on the fixed offset and bit step size if provided
   if (setting.bit_step_size != 0) {
@@ -282,7 +282,7 @@ int BQ25798::rawToInt(uint16_t raw, const Setting& setting) {
     value += setting.fixed_offset;
   };
 
-  DEBUG_PRINT("[rawToInt] -> final %d\n", value);
+  DEBUG_PRINT(F("[rawToInt] -> final %d\n"), value);
 
   return value;
 }
@@ -319,7 +319,7 @@ uint16_t BQ25798::intToRaw(int value, const Setting& setting) {
 }
 
 float BQ25798::rawToFloat(uint16_t raw, const Setting& setting) {
-  DEBUG_PRINT("[rawToFloat] Setting:[reg=0x%02X, bitMask=0x%02X, bitShift=%d]\n", setting.reg, setting.mask, setting.shift);
+  DEBUG_PRINT(F("[rawToFloat] Setting:[reg=0x%02X, bitMask=0x%02X, bitShift=%d]\n"), setting.reg, setting.mask, setting.shift);
 
   if (setting.type != settings_type_t::FLOAT) {
     DEBUG_PRINT(F("rawToFloat() called with non-float setting type!\n"));
@@ -342,7 +342,7 @@ float BQ25798::rawToFloat(uint16_t raw, const Setting& setting) {
 }
 
 bool BQ25798::rawToBool(uint16_t raw, const Setting& setting) {
-  DEBUG_PRINT("[rawToBool] Setting:[reg=0x%02X, bitMask=0x%02X, bitShift=%d]\n", setting.reg, setting.mask, setting.shift);
+  DEBUG_PRINT(F("[rawToBool] Setting:[reg=0x%02X, bitMask=0x%02X, bitShift=%d]\n"), setting.reg, setting.mask, setting.shift);
 
   if (setting.type != settings_type_t::BOOL) {
     DEBUG_PRINT(F("rawToBool() called with non-bool setting type!\n"));
