@@ -1,13 +1,18 @@
 enum {
+  // There must be all 8-bit registers in the list (no skipping for 16-bit registers, no skipping for unused registers)!
   REG00_Minimal_System_Voltage = 0x00,
   REG01_Charge_Voltage_Limit = 0x01,
+  REG02_dummy_fill = 0x02,  // dummy fill register
   REG03_Charge_Current_Limit = 0x03,
+  REG04_dummy_fill = 0x04,  // dummy fill register
   REG05_Input_Voltage_Limit = 0x05,
   REG06_Input_Current_Limit = 0x06,
+  REG07_dummy_fill = 0x07,  // dummy fill register
   REG08_Precharge_Control = 0x08,
   REG09_Termination_Control = 0x09,
   REG0A_Recharge_Control = 0x0A,
   REG0B_VOTG_regulation = 0x0B,
+  REG0C_dummy_fill = 0x0C,  // dummy fill register
   REG0D_IOTG_regulation = 0x0D,
   REG0E_Timer_Control = 0x0E,
   REG0F_Charger_Control_0 = 0x0F,
@@ -21,6 +26,7 @@ enum {
   REG17_NTC_Control_0 = 0x17,
   REG18_NTC_Control_1 = 0x18,
   REG19_ICO_Current_Limit = 0x19,
+  REG1A_dummy_fill = 0x1A,  // dummy fill register
   REG1B_Charger_Status_0 = 0x1B,
   REG1C_Charger_Status_1 = 0x1C,
   REG1D_Charger_Status_2 = 0x1D,
@@ -44,16 +50,27 @@ enum {
   REG2F_ADC_Function_Disable_0 = 0x2F,
   REG30_ADC_Function_Disable_1 = 0x30,
   REG31_IBUS_ADC = 0x31,
+  REG32_dummy_fill = 0x32,  // dummy fill register
   REG33_IBAT_ADC = 0x33,
+  REG34_dummy_fill = 0x34,  // dummy fill register
   REG35_VBUS_ADC = 0x35,
+  REG36_dummy_fill = 0x36,  // dummy fill register
   REG37_VAC1_ADC = 0x37,
+  REG38_dummy_fill = 0x38,  // dummy fill register
   REG39_VAC2_ADC = 0x39,
+  REG3A_dummy_fill = 0x3A,  // dummy fill register
   REG3B_VBAT_ADC = 0x3B,
+  REG3C_dummy_fill = 0x3C,  // dummy fill register
   REG3D_VSYS_ADC = 0x3D,
+  REG3E_dummy_fill = 0x3E,  // dummy fill register
   REG3F_TS_ADC = 0x3F,
+  REG40_dummy_fill = 0x40,  // dummy fill register
   REG41_TDIE_ADC = 0x41,
+  REG42_dummy_fill = 0x42,  // dummy fill register
   REG43_DPLUS_ADC = 0x43,
+  REG44_dummy_fill = 0x44,  // dummy fill register
   REG45_DMINUS_ADC = 0x45,
+  REG46_dummy_fill = 0x46,  // dummy fill register
   REG47_DPDM_Driver = 0x47,
   REG48_Part_Information = 0x48
 };

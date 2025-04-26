@@ -14,15 +14,20 @@
 
 BQ25798::BQ25798(uint8_t chip_address)
     : _registerMap({
+          //  There must be all 8-bit registers in the list (no skipping for 16-bit registers, no skipping for unused registers)!
           DEFINE_REGISTER(REG00_Minimal_System_Voltage, SHORT),
           DEFINE_REGISTER(REG01_Charge_Voltage_Limit, LONG),
+          DEFINE_REGISTER(REG02_dummy_fill, SHORT),
           DEFINE_REGISTER(REG03_Charge_Current_Limit, LONG),
+          DEFINE_REGISTER(REG04_dummy_fill, SHORT),
           DEFINE_REGISTER(REG05_Input_Voltage_Limit, SHORT),
           DEFINE_REGISTER(REG06_Input_Current_Limit, LONG),
+          DEFINE_REGISTER(REG07_dummy_fill, SHORT),
           DEFINE_REGISTER(REG08_Precharge_Control, SHORT),
           DEFINE_REGISTER(REG09_Termination_Control, SHORT),
           DEFINE_REGISTER(REG0A_Recharge_Control, SHORT),
           DEFINE_REGISTER(REG0B_VOTG_regulation, LONG),
+          DEFINE_REGISTER(REG0C_dummy_fill, SHORT),
           DEFINE_REGISTER(REG0D_IOTG_regulation, SHORT),
           DEFINE_REGISTER(REG0E_Timer_Control, SHORT),
           DEFINE_REGISTER(REG0F_Charger_Control_0, SHORT),
@@ -36,6 +41,7 @@ BQ25798::BQ25798(uint8_t chip_address)
           DEFINE_REGISTER(REG17_NTC_Control_0, SHORT),
           DEFINE_REGISTER(REG18_NTC_Control_1, SHORT),
           DEFINE_REGISTER(REG19_ICO_Current_Limit, LONG),
+          DEFINE_REGISTER(REG1A_dummy_fill, SHORT),
           DEFINE_REGISTER(REG1B_Charger_Status_0, SHORT),
           DEFINE_REGISTER(REG1C_Charger_Status_1, SHORT),
           DEFINE_REGISTER(REG1D_Charger_Status_2, SHORT),
@@ -59,16 +65,27 @@ BQ25798::BQ25798(uint8_t chip_address)
           DEFINE_REGISTER(REG2F_ADC_Function_Disable_0, SHORT),
           DEFINE_REGISTER(REG30_ADC_Function_Disable_1, SHORT),
           DEFINE_REGISTER(REG31_IBUS_ADC, LONG),
+          DEFINE_REGISTER(REG32_dummy_fill, SHORT),
           DEFINE_REGISTER(REG33_IBAT_ADC, LONG),
+          DEFINE_REGISTER(REG34_dummy_fill, SHORT),
           DEFINE_REGISTER(REG35_VBUS_ADC, LONG),
+          DEFINE_REGISTER(REG36_dummy_fill, SHORT),
           DEFINE_REGISTER(REG37_VAC1_ADC, LONG),
+          DEFINE_REGISTER(REG38_dummy_fill, SHORT),
           DEFINE_REGISTER(REG39_VAC2_ADC, LONG),
+          DEFINE_REGISTER(REG3A_dummy_fill, SHORT),
           DEFINE_REGISTER(REG3B_VBAT_ADC, LONG),
+          DEFINE_REGISTER(REG3C_dummy_fill, SHORT),
           DEFINE_REGISTER(REG3D_VSYS_ADC, LONG),
+          DEFINE_REGISTER(REG3E_dummy_fill, SHORT),
           DEFINE_REGISTER(REG3F_TS_ADC, LONG),
+          DEFINE_REGISTER(REG40_dummy_fill, SHORT),
           DEFINE_REGISTER(REG41_TDIE_ADC, LONG),
+          DEFINE_REGISTER(REG42_dummy_fill, SHORT),
           DEFINE_REGISTER(REG43_DPLUS_ADC, LONG),
+          DEFINE_REGISTER(REG44_dummy_fill, SHORT),
           DEFINE_REGISTER(REG45_DMINUS_ADC, LONG),
+          DEFINE_REGISTER(REG46_dummy_fill, SHORT),
           DEFINE_REGISTER(REG47_DPDM_Driver, SHORT),
           DEFINE_REGISTER(REG48_Part_Information, SHORT)
           //
@@ -278,12 +295,21 @@ BQ25798::RegisterDefinition BQ25798::getRegisterDefinition(regaddr_t address) {
   if (it != _registerMap.end()) {
     return it->second;
   }
+  ERROR_PRINT(F("Invalid register address 0x%02X\n"), address);
   return RegisterDefinition::invalid();
 };
 
+BQ25798::Setting BQ25798::getSetting(uint16_t id) {
+  if (id >= BQ25798_SETTINGS_COUNT) {
+    ERROR_PRINT(F("Invalid setting ID %d\n"), id);
+    return Setting::invalid();
+  }
+  return _settingsList[id];
+};
+
 void BQ25798::_clearRegs() {
-  for (int i = 0; i < BQ25798_REGISTERS_COUNT; i++) {
-    _regValues[i] = 0;
+  for (int i = 0; i < BQ25798_PHYSICAL_REGISTERS_COUNT; i++) {
+    _physicalReg8Values[i] = 0;
   }
 }
 
@@ -295,13 +321,13 @@ bool BQ25798::readAll() {
   Wire.beginTransmission(_chip_address);
   Wire.write(REG00_Minimal_System_Voltage);  // Start reading from the first register
   Wire.endTransmission();
-  if (Wire.requestFrom(_chip_address, BQ25798_REGISTERS_COUNT) != BQ25798_REGISTERS_COUNT) {
-    Serial.println("Error reading BQ25798 registers");
+  if (Wire.requestFrom(_chip_address, BQ25798_PHYSICAL_REGISTERS_COUNT) != BQ25798_PHYSICAL_REGISTERS_COUNT) {
+    ERROR_PRINT(F("Error batch reading all (%d) BQ25798 registers\n"), BQ25798_PHYSICAL_REGISTERS_COUNT);
     return false;
   }
 
-  for (int i = 0; i < BQ25798_REGISTERS_COUNT; i++) {
-    _regValues[i] = Wire.read();
+  for (int i = 0; i < BQ25798_PHYSICAL_REGISTERS_COUNT; i++) {
+    _physicalReg8Values[i] = Wire.read();
   }
 
   DEBUG_PRINT("[readAll] -> success\n");
@@ -312,19 +338,19 @@ bool BQ25798::writeReg8ToI2C(int reg) {
 #ifdef DEBUG
   RegisterDefinition reg_def = getRegisterDefinition(reg);
   if (!reg_def.isValid()) {
-    Serial.printf("Error: Invalid register address 0x%02X\n", reg);
+    ERROR_PRINT(F("Invalid register address 0x%02X\n"), reg);
     return false;
   };
-  DEBUG_PRINT("[writeReg8ToI2C] Writing to BQ25798 register 0x%02X (%s): 0x%02X\n", reg, reg_def.name, _regValues[reg]);
+  DEBUG_PRINT("[writeReg8ToI2C] Writing to BQ25798 register 0x%02X (%s): 0x%02X\n", reg, reg_def.name, _physicalReg8Values[reg]);
 #endif
 
   Wire.beginTransmission(_chip_address);
   if (Wire.write(reg) != 1) {
-    Serial.println("Error writing to BQ25798 register");
+    ERROR_PRINT(F("Error writing to BQ25798 register %02X\n"), reg);
     return false;
   }
-  if (Wire.write(_regValues[reg]) != 1) {
-    Serial.println("Error writing to BQ25798 register");
+  if (Wire.write(_physicalReg8Values[reg]) != 1) {
+    ERROR_PRINT(F("Error writing to BQ25798 register %02X\n"), reg);
     return false;
   }
   Wire.endTransmission();
@@ -337,23 +363,23 @@ bool BQ25798::writeReg16ToI2C(int reg) {
 #ifdef DEBUG
   RegisterDefinition reg_def = getRegisterDefinition(reg);
   if (!reg_def.isValid()) {
-    Serial.printf("Error: Invalid register address 0x%02X\n", reg);
+    ERROR_PRINT(F("Invalid register address 0x%02X\n"), reg);
     return false;
   };
-  DEBUG_PRINT("[writeReg16ToI2C] Writing to BQ25798 register 0x%02X (%s): 0x%02X 0x%02X\n", reg, reg_def.name, _regValues[reg], _regValues[reg + 1]);
+  DEBUG_PRINT("[writeReg16ToI2C] Writing to BQ25798 register 0x%02X (%s): 0x%02X 0x%02X\n", reg, reg_def.name, _physicalReg8Values[reg], _physicalReg8Values[reg + 1]);
 #endif
 
   Wire.beginTransmission(_chip_address);
   if (Wire.write(reg) != 1) {
-    Serial.println("Error writing to BQ25798 register");
+    ERROR_PRINT(F("Error writing to BQ25798 register %02X\n"), reg);
     return false;
   }
-  if (Wire.write(_regValues[reg]) != 1) {
-    Serial.println("Error writing to BQ25798 register");
+  if (Wire.write(_physicalReg8Values[reg]) != 1) {
+    ERROR_PRINT(F("Error writing to BQ25798 register %02X\n"), reg);
     return false;
   }
-  if (Wire.write(_regValues[reg + 1]) != 1) {
-    Serial.println("Error writing to BQ25798 register");
+  if (Wire.write(_physicalReg8Values[reg + 1]) != 1) {
+    ERROR_PRINT(F("Error writing to BQ25798 register %02X\n"), reg);
     return false;
   }
   Wire.endTransmission();
@@ -362,28 +388,28 @@ bool BQ25798::writeReg16ToI2C(int reg) {
   return true;
 }
 
-uint8_t BQ25798::getReg8(int reg, int bitMask, int bitShift) { return (_regValues[reg] >> bitShift) & bitMask; }
+uint8_t BQ25798::getReg8(int reg, int bitMask, int bitShift) { return (_physicalReg8Values[reg] >> bitShift) & bitMask; }
 
 void BQ25798::setReg8(int reg, uint8_t value, int bitMask, int bitShift) {
   uint8_t shiftedMask = bitMask << bitShift;
   uint8_t shiftedValue = (value & bitMask) << bitShift;
   uint8_t negatedMask = 0xFF ^ shiftedMask;
 
-  _regValues[reg] &= negatedMask;
-  _regValues[reg] |= shiftedValue;
+  _physicalReg8Values[reg] &= negatedMask;
+  _physicalReg8Values[reg] |= shiftedValue;
 }
 
-uint16_t BQ25798::getReg16(int widereg, int bitMask, int bitShift) { return ((_regValues[widereg] << 8) | _regValues[widereg + 1]) >> bitShift & bitMask; }
+uint16_t BQ25798::getReg16(int widereg, int bitMask, int bitShift) { return ((_physicalReg8Values[widereg] << 8) | _physicalReg8Values[widereg + 1]) >> bitShift & bitMask; }
 
 void BQ25798::setReg16(int widereg, uint16_t value, int bitMask, int bitShift) {
   uint16_t shiftedMask = bitMask << bitShift;
   uint16_t shiftedValue = (value & bitMask) << bitShift;
   uint16_t negatedMask = 0xFFFF ^ shiftedMask;
 
-  _regValues[widereg] &= negatedMask >> 8;
-  _regValues[widereg + 1] &= negatedMask & 0xFF;
-  _regValues[widereg] |= shiftedValue >> 8;
-  _regValues[widereg + 1] |= shiftedValue & 0xFF;
+  _physicalReg8Values[widereg] &= negatedMask >> 8;
+  _physicalReg8Values[widereg + 1] &= negatedMask & 0xFF;
+  _physicalReg8Values[widereg] |= shiftedValue >> 8;
+  _physicalReg8Values[widereg + 1] |= shiftedValue & 0xFF;
 }
 
 bool BQ25798::_flagIsSet(settings_flags_t flagset, settings_flags_t flag) { return (static_cast<uint8_t>(flagset) & static_cast<uint8_t>(flag)) != 0; }
@@ -393,7 +419,7 @@ int BQ25798::getInt(Setting setting) {
 
   RegisterDefinition reg_def = getRegisterDefinition(setting.reg);
   if (!reg_def.isValid()) {
-    Serial.printf("Error: Invalid register address 0x%02X\n", setting.reg);
+    ERROR_PRINT(F("Invalid register address 0x%02X\n"), setting.reg);
     return -1;
   };
 
@@ -409,7 +435,7 @@ int BQ25798::getInt(Setting setting) {
   int value;
   if (_flagIsSet(setting.flags, settings_flags_t::IS_2COMPLEMENT)) {
     if (reg_def.size != regsize_t::LONG) {
-      Serial.println("Error: 2's complement flag set for non-long register size");
+      ERROR_PRINT(F("2's complement flag set for non-long register 0x%02X (%s)\n"), setting.reg, reg_def.name);
       return 0;  // Handle error case
     };
 
@@ -444,7 +470,7 @@ void BQ25798::setInt(Setting setting, int value) {
 
   RegisterDefinition reg_def = getRegisterDefinition(setting.reg);
   if (!reg_def.isValid()) {
-    Serial.printf("Error: Invalid register address 0x%02X\n", setting.reg);
+    ERROR_PRINT(F("Error: Invalid register address 0x%02X\n"), setting.reg);
     return;
   };
 
@@ -470,11 +496,11 @@ void BQ25798::setInt(Setting setting, int value) {
   // }
 
   if (reg_def.size == regsize_t::SHORT) {
-    // Serial.printf("[DEBUG]   - setReg8(reg=0x%02X, value=0x%02X, bitMask=0x%02X, bitShift=%d)\n", setting.reg, value, setting.mask, setting.shift);
-    // Serial.printf("[DEBUG]     -> old value=0x%02X\n", _regValues[setting.reg]);
+    // DEBUG_PRINT(F("- setReg8(reg=0x%02X, value=0x%02X, bitMask=0x%02X, bitShift=%d)\n"), setting.reg, value, setting.mask, setting.shift);
+    // DEBUG_PRINT(F("  -> old value=0x%02X\n"), _physicalReg8Values[setting.reg]);
     setReg8(setting.reg, value, setting.mask, setting.shift);
-    // Serial.printf("[DEBUG]     -> new value=0x%02X\n", _regValues[setting.reg]);
-    // Serial.printf("[DEBUG]   - writeReg8ToI2C(reg=0x%02X)\n", setting.reg);
+    // DEBUG_PRINT(F("    -> new value=0x%02X\n"), _physicalReg8Values[setting.reg]);
+    // DEBUG_PRINT(F("  - writeReg8ToI2C(reg=0x%02X)\n"), setting.reg);
     writeReg8ToI2C(setting.reg);
   } else if (reg_def.size == regsize_t::LONG) {
     setReg16(setting.reg, value, setting.mask, setting.shift);
@@ -485,7 +511,7 @@ void BQ25798::setInt(Setting setting, int value) {
 float BQ25798::getFloat(Setting setting) {
   RegisterDefinition reg_def = getRegisterDefinition(setting.reg);
   if (!reg_def.isValid()) {
-    Serial.printf("Error: Invalid register address 0x%02X\n", setting.reg);
+    ERROR_PRINT(F("Invalid register address 0x%02X\n"), setting.reg);
     return -1.0f;
   };
 
