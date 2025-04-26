@@ -22,13 +22,13 @@ void trackChanges() {
 
   // first time, just copy the values
   if (startMillis == 0) {
-    Serial.println("First time reading BQ25798 settings...");
-    for (int i = 0; i < BQ25798::SETTINGS_COUNT; i++) {
-      oldRawValues[i] = newRawValues[i];
-    }
     startMillis = millis();
-    Serial.println("Waiting for changes...");
-    return;
+    // Serial.println("First time reading BQ25798 settings...");
+    // for (int i = 0; i < BQ25798::SETTINGS_COUNT; i++) {
+    //   oldRawValues[i] = newRawValues[i];
+    // }
+    // Serial.println("Waiting for changes...");
+    // return;
   }
 
   // every next time check if the values changed
@@ -46,7 +46,7 @@ void trackChanges() {
       }
 
       changed = true;
-      Serial.printf("[T+%-6.3f] %20s ", elapsedMillis / 1000.0f, setting.name);
+      Serial.printf("[T+%6.3fs] %20s ", elapsedMillis / 1000.0f, setting.name);
       if (setting.type == BQ25798::settings_type_t::FLOAT) {
         Serial.printf("(float) = %-50.3f    (was %.3f)\n",           //
                       bq25798.rawToFloat(newRawValues[i], setting),  //
@@ -56,8 +56,8 @@ void trackChanges() {
                       bq25798.rawToBool(newRawValues[i], setting) ? "TRUE" : "false",  //
                       bq25798.rawToBool(oldRawValues[i], setting) ? "TRUE" : "false");
       } else if (setting.type == BQ25798::settings_type_t::ENUM) {
-        Serial.printf("(enum)  = [%d] \"%-48s\" (was [%d] \"%s\")\n",                  //
-                      newRawValues[i], bq25798.rawToString(newRawValues[i], setting),  //
+        Serial.printf("(enum)  = [%d] \"%s\"%*s(was [%d] \"%s\")\n",                                                                                       //
+                      newRawValues[i], bq25798.rawToString(newRawValues[i], setting), 50 - 1 - strlen(bq25798.rawToString(newRawValues[i], setting)), "",  //
                       oldRawValues[i], bq25798.rawToString(oldRawValues[i], setting));
       } else if (setting.type == BQ25798::settings_type_t::INT) {
         Serial.printf("(int)   = %-50d     (was %5d)\n",           //
