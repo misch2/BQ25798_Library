@@ -90,12 +90,9 @@ void setup() {
     }
   }
 
-  bq25798.setAndWriteEnum(bq25798.WATCHDOG, static_cast<int>(BQ25798::watchdog_t::WATCHDOG_DISABLE));
-  // bq25798.setAndWriteBool(bq25798.ADC_EN, 1);
-  // bq25798.setAndWriteEnum(bq25798.ADC_RATE, static_cast<int>(BQ25798::adc_rate_t::ADC_RATE_CONTINUOUS));
-  // bq25798.setAndWriteEnum(bq25798.ADC_SAMPLE, static_cast<int>(BQ25798::adc_sample_t::ADC_SAMPLE_15BIT));
-  // bq25798.setAndWriteEnum(bq25798.ADC_AVG, static_cast<int>(BQ25798::adc_avg_t::RUNNING_AVERAGE));
-  bq25798.setAndWriteBool(bq25798.ADC_EN, 0);  // ADC produces too much noise (a lot of changes)
+  bq25798.setAndWriteEnum<BQ25798::watchdog_t>(bq25798.WATCHDOG, BQ25798::watchdog_t::WATCHDOG_DISABLE);
+  // ADC produces too much noise (a lot of changes) so disable it:
+  bq25798.setAndWriteBool(bq25798.ADC_EN, 0);
 }
 
 void loop() {
