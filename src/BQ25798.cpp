@@ -154,16 +154,7 @@ bool BQ25798::_flagIsSet(settings_flags_t flagset, settings_flags_t flag) { retu
 uint16_t BQ25798::getRaw(const Setting& setting) {
   uint16_t raw_value = 0;  // getReg* always returns unsigned values, so we need to use unsigned type here
 
-  if (!setting.isValid()) {
-    ERROR_PRINT(F("Invalid setting\n"));
-    return -1;
-  }
-
   RegisterDefinition reg_def = getRegisterDefinition(setting.reg);
-  if (!reg_def.isValid()) {
-    ERROR_PRINT(F("Invalid register address 0x%02X\n"), setting.reg);
-    return -1;
-  };
 
   DEBUG_PRINT("[getRaw] [reg=0x%02X, bitMask=0x%02X, bitShift=%d]\n", setting.reg, setting.mask, setting.shift);
   DEBUG_PRINT("[getRaw] setting=%s [reg=0x%02X (%s), bitMask=0x%02X, bitShift=%d]\n", setting.name, setting.reg, reg_def.name, setting.mask, setting.shift);
@@ -179,9 +170,92 @@ uint16_t BQ25798::getRaw(const Setting& setting) {
   return raw_value;
 };
 
+void BQ25798::setAndWriteRaw(const Setting& setting, uint16_t value) {
+  RegisterDefinition reg_def = getRegisterDefinition(setting.reg);
+  if (!reg_def.isValid()) {
+    ERROR_PRINT(F("Error: Invalid register address 0x%02X\n"), setting.reg);
+    return;
+  };
+
+  if (reg_def.size == regsize_t::SHORT) {
+    // DEBUG_PRINT(F("- setReg8(reg=0x%02X, value=0x%02X, bitMask=0x%02X, bitShift=%d)\n"), setting.reg, value, setting.mask, setting.shift);
+    // DEBUG_PRINT(F("  -> old value=0x%02X\n"), _physicalReg8Values[setting.reg]);
+    setReg8(setting.reg, value, setting.mask, setting.shift);
+    // DEBUG_PRINT(F("    -> new value=0x%02X\n"), _physicalReg8Values[setting.reg]);
+    // DEBUG_PRINT(F("  - writeReg8ToI2C(reg=0x%02X)\n"), setting.reg);
+    writeReg8ToI2C(setting.reg);
+  } else if (reg_def.size == regsize_t::LONG) {
+    setReg16(setting.reg, value, setting.mask, setting.shift);
+    writeReg16ToI2C(setting.reg);
+  }
+}
+
 int BQ25798::getInt(const Setting& setting) {
-  DEBUG_PRINT("[getInt] Setting:[reg=0x%02X, bitMask=0x%02X, bitShift=%d]\n", setting.reg, setting.mask, setting.shift);
   uint16_t raw_value = getRaw(setting);
+  return rawToInt(raw_value, setting);
+}
+
+void BQ25798::setAndWriteInt(const Setting& setting, int value) {
+  uint16_t raw_value = intToRaw(value, setting);
+  setAndWriteRaw(setting, raw_value);
+}
+
+bool BQ25798::getBool(const Setting& setting) {
+  uint16_t raw_value = getRaw(setting);
+  return rawToBool(raw_value, setting);
+}
+
+void BQ25798::setAndWriteBool(const Setting& setting, bool value) {
+  uint16_t raw_value = intToRaw(value, setting);
+  setAndWriteRaw(setting, raw_value);
+}
+
+float BQ25798::getFloat(const Setting& setting) {
+  uint16_t raw_value = getRaw(setting);
+  return rawToFloat(raw_value, setting);
+}
+
+void BQ25798::setAndWriteFloat(const Setting& setting, float value) {
+  uint16_t raw_value = intToRaw(value, setting);
+  setAndWriteRaw(setting, raw_value);
+}
+
+const char* BQ25798::getString(const Setting& setting) {
+  uint16_t raw_value = getRaw(setting);
+  return rawToString(raw_value, setting);
+}
+
+void BQ25798::setAndWriteEnum(const Setting& setting, int value) {
+  // the same as int, but with enum value
+  setAndWriteInt(setting, value);
+}
+
+bool BQ25798::faultDetected() {
+  // Check if any fault flags are set
+  if (getInt(IBAT_REG_FLAG) || getInt(VBUS_OVP_FLAG) || getInt(VBAT_OVP_FLAG) || getInt(IBUS_OCP_FLAG) || getInt(IBAT_OCP_FLAG) || getInt(CONV_OCP_FLAG) ||
+      getInt(VAC2_OVP_FLAG) || getInt(VAC1_OVP_FLAG) || getInt(VSYS_SHORT_FLAG) || getInt(VSYS_OVP_FLAG) || getInt(OTG_OVP_FLAG) || getInt(OTG_UVP_FLAG) ||
+      getInt(TSHUT_FLAG)) {
+    return true;
+  }
+
+  return false;
+}
+
+// Generic method to convert an integer to a string using a map
+const char* BQ25798::toString(int value, strings_vector_t map) {
+  if (value >= 0 && value < map.size()) {
+    return map[value];
+  } else {
+    return "Unknown";
+  }
+}
+
+int BQ25798::rawToInt(uint16_t raw, const Setting& setting) {
+  DEBUG_PRINT("[rawToInt] Setting:[reg=0x%02X, bitMask=0x%02X, bitShift=%d]\n", setting.reg, setting.mask, setting.shift);
+
+  if (setting.type != settings_type_t::INT) {
+    DEBUG_PRINT(F("rawToInt() called with non-integer setting type!\n"));
+  }
 
   RegisterDefinition reg_def = getRegisterDefinition(setting.reg);
 
@@ -192,18 +266,18 @@ int BQ25798::getInt(const Setting& setting) {
       return 0;  // Handle error case
     };
 
-    if (raw_value & (1 << (static_cast<int>(reg_def.size) - 1))) {  // Check if the sign bit is set
+    if (raw & (1 << (static_cast<int>(reg_def.size) - 1))) {  // Check if the sign bit is set
       // Serial.printf("[DEBUG] getInt() 2's complement detected, value=0x%04X\n", raw_value);
-      int16_t adjusted_value = static_cast<int16_t>(raw_value);  // Cast to signed type
+      int16_t adjusted_value = static_cast<int16_t>(raw);  // Cast to signed type
       // Serial.printf("[DEBUG]  -> adjusted value: 0x%04X\n", adjusted_value);
       value = adjusted_value;
     } else {
-      value = raw_value;  // No adjustment needed for positive values
+      value = raw;  // No adjustment needed for positive values
     }
   } else {
-    value = raw_value;  // No adjustment needed for unsigned values
+    value = raw;  // No adjustment needed for unsigned values
   }
-  DEBUG_PRINT("[getInt]  - intermediate 0x%04X\n", value);
+  DEBUG_PRINT("[rawToInt]  - intermediate 0x%04X\n", value);
 
   // Adjust the value based on the fixed offset and bit step size if provided
   if (setting.bit_step_size != 0) {
@@ -213,25 +287,23 @@ int BQ25798::getInt(const Setting& setting) {
     value += setting.fixed_offset;
   };
 
-  DEBUG_PRINT("[getInt] -> final %d\n", value);
+  DEBUG_PRINT("[rawToInt] -> final %d\n", value);
 
   return value;
-};
+}
 
-void BQ25798::setInt(const Setting& setting, int value) {
-  // Serial.printf("[DEBUG] setInt(reg=0x%02X, bitMask=0x%02X, bitShift=%d, value=%d)\n", setting.reg, setting.mask, setting.shift, value);
-
+uint16_t BQ25798::intToRaw(int value, const Setting& setting) {
   RegisterDefinition reg_def = getRegisterDefinition(setting.reg);
   if (!reg_def.isValid()) {
     ERROR_PRINT(F("Error: Invalid register address 0x%02X\n"), setting.reg);
-    return;
+    return 0;
   };
 
   // Check range
   if (setting.range_low != 0 || setting.range_high != 0) {
     if (value < setting.range_low || value > setting.range_high) {
       ERROR_PRINT(F("Value %d out of range (%.3f, %.3f) for register 0x%02X\n"), value, setting.range_low, setting.range_high, setting.reg);
-      return;
+      return 0;
     }
   }
   // Adjust the value based on the fixed offset and bit step size if provided
@@ -248,22 +320,19 @@ void BQ25798::setInt(const Setting& setting, int value) {
   //   }
   // }
 
-  if (reg_def.size == regsize_t::SHORT) {
-    // DEBUG_PRINT(F("- setReg8(reg=0x%02X, value=0x%02X, bitMask=0x%02X, bitShift=%d)\n"), setting.reg, value, setting.mask, setting.shift);
-    // DEBUG_PRINT(F("  -> old value=0x%02X\n"), _physicalReg8Values[setting.reg]);
-    setReg8(setting.reg, value, setting.mask, setting.shift);
-    // DEBUG_PRINT(F("    -> new value=0x%02X\n"), _physicalReg8Values[setting.reg]);
-    // DEBUG_PRINT(F("  - writeReg8ToI2C(reg=0x%02X)\n"), setting.reg);
-    writeReg8ToI2C(setting.reg);
-  } else if (reg_def.size == regsize_t::LONG) {
-    setReg16(setting.reg, value, setting.mask, setting.shift);
-    writeReg16ToI2C(setting.reg);
+  return value;
+}
+
+float BQ25798::rawToFloat(uint16_t raw, const Setting& setting) {
+  DEBUG_PRINT("[rawToFloat] Setting:[reg=0x%02X, bitMask=0x%02X, bitShift=%d]\n", setting.reg, setting.mask, setting.shift);
+
+  if (setting.type != settings_type_t::FLOAT) {
+    DEBUG_PRINT(F("rawToFloat() called with non-float setting type!\n"));
   }
-};
 
-float BQ25798::getFloat(const Setting& setting) {
-  float value = getRaw(setting);
+  RegisterDefinition reg_def = getRegisterDefinition(setting.reg);
 
+  float value = raw;
   // Adjust the value based on the fixed offset and bit step size if provided
   if (setting.bit_step_size != 0) {
     // Serial.printf("[DEBUG] getFloat() adjusting raw value %.3f by bit step size %.3f\n", value, setting.bit_step_size);
@@ -275,32 +344,32 @@ float BQ25798::getFloat(const Setting& setting) {
   };
 
   return value;
-};
-
-bool BQ25798::faultDetected() {
-  // FIXME
-  // // Check if any fault flags are set
-
-  if (getInt(IBAT_REG_STAT) || getInt(VBUS_OVP_STAT) || getInt(VBAT_OVP_STAT) || getInt(IBUS_OCP_STAT) || getInt(IBAT_OCP_STAT) || getInt(CONV_OCP_STAT) ||
-      getInt(VAC2_OVP_STAT) || getInt(VAC1_OVP_STAT) || getInt(VSYS_SHORT_STAT) || getInt(VSYS_OVP_STAT) || getInt(OTG_OVP_STAT) || getInt(OTG_UVP_STAT) ||
-      getInt(TSHUT_STAT)) {
-    return true;
-  }
-
-  if (getInt(IBAT_REG_FLAG) || getInt(VBUS_OVP_FLAG) || getInt(VBAT_OVP_FLAG) || getInt(IBUS_OCP_FLAG) || getInt(IBAT_OCP_FLAG) || getInt(CONV_OCP_FLAG) ||
-      getInt(VAC2_OVP_FLAG) || getInt(VAC1_OVP_FLAG) || getInt(VSYS_SHORT_FLAG) || getInt(VSYS_OVP_FLAG) || getInt(OTG_OVP_FLAG) || getInt(OTG_UVP_FLAG) ||
-      getInt(TSHUT_FLAG)) {
-    return true;
-  }
-
-  return false;
 }
 
-// Generic method to convert an integer to a string using a map
-const char* BQ25798::toString(int value, strings_vector_t map) {
-  if (value >= 0 && value < map.size()) {
-    return map[value].c_str();
-  } else {
-    return "Unknown";
+bool BQ25798::rawToBool(uint16_t raw, const Setting& setting) {
+  DEBUG_PRINT("[rawToBool] Setting:[reg=0x%02X, bitMask=0x%02X, bitShift=%d]\n", setting.reg, setting.mask, setting.shift);
+
+  if (setting.type != settings_type_t::BOOL) {
+    DEBUG_PRINT(F("rawToBool() called with non-bool setting type!\n"));
   }
+
+  RegisterDefinition reg_def = getRegisterDefinition(setting.reg);
+  if (!reg_def.isValid()) {
+    ERROR_PRINT(F("Error: Invalid register address 0x%02X\n"), setting.reg);
+    return false;
+  };
+
+  return raw != 0;
+}
+
+const char* BQ25798::rawToString(uint16_t raw, const Setting& setting) {
+  DEBUG_PRINT(F("[rawToString] Setting:[reg=0x%02X, bitMask=0x%02X, bitShift=%d]\n"), setting.reg, setting.mask, setting.shift);
+
+  if (setting.type != settings_type_t::ENUM) {
+    DEBUG_PRINT(F("rawToString() called with non-enum setting type!\n"));
+  }
+
+  RegisterDefinition reg_def = getRegisterDefinition(setting.reg);
+
+  return toString(raw, setting.strings_vector);
 }
