@@ -2,6 +2,8 @@
 
 #include <Wire.h>
 
+#include "BQ25798Core.h"
+
 BQ25798::BQ25798(uint8_t chip_address) : BQ25798Core() {
   _chip_address = chip_address;
   _clearRegs();
@@ -9,17 +11,17 @@ BQ25798::BQ25798(uint8_t chip_address) : BQ25798Core() {
 
 BQ25798::BQ25798() : BQ25798(DEFAULT_I2C_ADDRESS) {}
 
-bool BQ25798::begin() { return readAll(); }
+void BQ25798::begin() { readAll(); }
 
-bool BQ25798::readAll() {
+void BQ25798::readAll() {
   DEBUG_PRINT(F("[readAll] Reading all BQ25798 registers\n"));
 
   Wire.beginTransmission(_chip_address);
   Wire.write(REG00_Minimal_System_Voltage);  // Start reading from the first register
   Wire.endTransmission();
   if (Wire.requestFrom(_chip_address, PHYSICAL_REGISTERS_COUNT) != PHYSICAL_REGISTERS_COUNT) {
-    ERROR_PRINT(F("Error batch reading all (%d) BQ25798 registers\n"), PHYSICAL_REGISTERS_COUNT);
-    return false;
+    _setErrorMessage(F("Error batch reading all (%d) BQ25798 registers\n"), PHYSICAL_REGISTERS_COUNT);
+    return;
   }
 
   for (int i = 0; i < PHYSICAL_REGISTERS_COUNT; i++) {
@@ -27,70 +29,58 @@ bool BQ25798::readAll() {
   }
 
   DEBUG_PRINT(F("[readAll] -> success\n"));
-  return true;
+  return;
 }
 
-bool BQ25798::writeReg8ToI2C(int reg) {
+void BQ25798::writeReg8ToI2C(int reg) {
 #ifdef DEBUG
   RegisterDefinition reg_def = getRegisterDefinition(reg);
-  if (!reg_def.isValid()) {
-    ERROR_PRINT(F("Invalid register address 0x%02X\n"), reg);
-    return false;
-  };
   DEBUG_PRINT(F("[writeReg8ToI2C] Writing to BQ25798 register 0x%02X (%s): 0x%02X\n", reg, reg_def.name, _physicalReg8Values[reg]));
 #endif
 
   Wire.beginTransmission(_chip_address);
   if (Wire.write(reg) != 1) {
-    ERROR_PRINT(F("Error writing to BQ25798 register %02X\n"), reg);
-    return false;
+    _setErrorMessage(F("Error writing to BQ25798 register %02X\n"), reg);
+    return;
   }
   if (Wire.write(_physicalReg8Values[reg]) != 1) {
-    ERROR_PRINT(F("Error writing to BQ25798 register %02X\n"), reg);
-    return false;
+    _setErrorMessage(F("Error writing to BQ25798 register %02X\n"), reg);
+    return;
   }
   Wire.endTransmission();
 
   DEBUG_PRINT(F("[writeReg8ToI2C] -> success\n"));
-  return true;
+  return;
 }
 
-bool BQ25798::writeReg16ToI2C(int reg) {
+void BQ25798::writeReg16ToI2C(int reg) {
 #ifdef DEBUG
   RegisterDefinition reg_def = getRegisterDefinition(reg);
-  if (!reg_def.isValid()) {
-    ERROR_PRINT(F("Invalid register address 0x%02X\n"), reg);
-    return false;
-  };
   DEBUG_PRINT(F("[writeReg16ToI2C] Writing to BQ25798 register 0x%02X (%s): 0x%02X 0x%02X\n"), reg, reg_def.name, _physicalReg8Values[reg],
               _physicalReg8Values[reg + 1]);
 #endif
 
   Wire.beginTransmission(_chip_address);
   if (Wire.write(reg) != 1) {
-    ERROR_PRINT(F("Error writing to BQ25798 register %02X\n"), reg);
-    return false;
+    _setErrorMessage(F("Error writing to BQ25798 register %02X\n"), reg);
+    return;
   }
   if (Wire.write(_physicalReg8Values[reg]) != 1) {
-    ERROR_PRINT(F("Error writing to BQ25798 register %02X\n"), reg);
-    return false;
+    _setErrorMessage(F("Error writing to BQ25798 register %02X\n"), reg);
+    return;
   }
   if (Wire.write(_physicalReg8Values[reg + 1]) != 1) {
-    ERROR_PRINT(F("Error writing to BQ25798 register %02X\n"), reg);
-    return false;
+    _setErrorMessage(F("Error writing to BQ25798 register %02X\n"), reg);
+    return;
   }
   Wire.endTransmission();
 
   DEBUG_PRINT(F("[writeReg16ToI2C] -> success\n"));
-  return true;
+  return;
 }
 
 void BQ25798::setAndWriteRaw(const Setting& setting, uint16_t value) {
   RegisterDefinition reg_def = getRegisterDefinition(setting.reg);
-  if (!reg_def.isValid()) {
-    ERROR_PRINT(F("Error: Invalid register address 0x%02X\n"), setting.reg);
-    return;
-  };
 
   if (reg_def.size == regsize_t::SHORT) {
     // DEBUG_PRINT(F("- setReg8(reg=0x%02X, value=0x%02X, bitMask=0x%02X, bitShift=%d)\n"), setting.reg, value, setting.mask, setting.shift);

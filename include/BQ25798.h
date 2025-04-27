@@ -16,10 +16,10 @@ class BQ25798 : public BQ25798Core {
   BQ25798();
   BQ25798(uint8_t address);
 
-  bool begin();
-  bool readAll();
-  bool writeReg8ToI2C(int reg);
-  bool writeReg16ToI2C(int reg);
+  void begin();
+  void readAll();
+  void writeReg8ToI2C(int reg);
+  void writeReg16ToI2C(int reg);
 
   void setAndWriteRaw(const BQ25798Core::Setting& setting, uint16_t value);
   void setAndWriteInt(const BQ25798Core::Setting& setting, int value);

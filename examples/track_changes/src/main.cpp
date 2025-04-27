@@ -117,8 +117,16 @@ void setup() {
   Serial.printf("I2C initialized on SDA=GPIO%d, SCL=GPIO%d\n", I2C_SDA_PIN, I2C_SCL_PIN);
 
   Serial.println("Looking for BQ25798 on I2C bus...");
-  while (!bq25798.begin()) {
-    delay(1);
+  while (1) {
+    bq25798.begin();
+    if (bq25798.isError()) {
+      // Serial.print("Error: ");
+      // Serial.println(bq25798.getErrorMessage());
+      bq25798.clearError();
+      delay(10);
+    } else {
+      break;
+    }
   }
 
   Serial.println("Connected. Setting up BQ25798...");

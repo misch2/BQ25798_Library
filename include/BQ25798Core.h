@@ -1168,6 +1168,7 @@ class BQ25798Core {
   std::array<uint8_t, PHYSICAL_REGISTERS_COUNT> _physicalReg8Values;  // Array to hold 8-bit register values
   void _clearRegs();
   bool _flagIsSet(settings_flags_t flagset, settings_flags_t flag);
+  void _setErrorMessage(const char* format, ...);
 
  private:
   static constexpr size_t ERROR_MESSAGE_SIZE = 200;
