@@ -77,7 +77,7 @@ void trackChanges() {
         Serial.printf("(enum)  = [%d] \"%s\"%*s",  //
                       newRawValues[i], bq25798.rawToString(newRawValues[i], setting), 50 - 1 - strlen(bq25798.rawToString(newRawValues[i], setting)), "");
         if (!justStarted) {
-          Serial.printf("(was [%d] \"%s\")\n",  //
+          Serial.printf("(was [%d] \"%s\")",  //
                         oldRawValues[i], bq25798.rawToString(oldRawValues[i], setting));
         };
       } else if (setting.type == BQ25798::settings_type_t::INT) {
