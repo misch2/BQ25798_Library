@@ -1,5 +1,3 @@
-// #define DEBUG 1
-
 #include "BQ25798.h"
 
 #include <Wire.h>
@@ -246,10 +244,8 @@ const char* BQ25798::toString(int value, strings_vector_t map) {
 }
 
 int BQ25798::rawToInt(uint16_t raw, const Setting& setting) {
-  DEBUG_PRINT(F("[rawToInt] Setting:[reg=0x%02X, bitMask=0x%02X, bitShift=%d]\n"), setting.reg, setting.mask, setting.shift);
-
   if (setting.type != settings_type_t::INT) {
-    DEBUG_PRINT(F("rawToInt() called with non-integer setting type!\n"));
+    ERROR_PRINT(F("rawToInt() called with non-int setting type!\n"));
   }
 
   RegisterDefinition reg_def = getRegisterDefinition(setting.reg);
@@ -262,9 +258,9 @@ int BQ25798::rawToInt(uint16_t raw, const Setting& setting) {
     };
 
     if (raw & (1 << (static_cast<int>(reg_def.size) - 1))) {  // Check if the sign bit is set
-      // Serial.printf("[DEBUG] getInt() 2's complement detected, value=0x%04X\n", raw_value);
+      // DEBUG_PRINT(F("getInt() 2's complement detected, value=0x%04X\n"), raw_value);
       int16_t adjusted_value = static_cast<int16_t>(raw);  // Cast to signed type
-      // Serial.printf("[DEBUG]  -> adjusted value: 0x%04X\n", adjusted_value);
+      // DEBUG_PRINT(F(" -> adjusted value: 0x%04X\n"), adjusted_value);
       value = adjusted_value;
     } else {
       value = raw;  // No adjustment needed for positive values
@@ -319,10 +315,8 @@ uint16_t BQ25798::intToRaw(int value, const Setting& setting) {
 }
 
 float BQ25798::rawToFloat(uint16_t raw, const Setting& setting) {
-  DEBUG_PRINT(F("[rawToFloat] Setting:[reg=0x%02X, bitMask=0x%02X, bitShift=%d]\n"), setting.reg, setting.mask, setting.shift);
-
   if (setting.type != settings_type_t::FLOAT) {
-    DEBUG_PRINT(F("rawToFloat() called with non-float setting type!\n"));
+    ERROR_PRINT(F("rawToFloat() called with non-float setting type!\n"));
   }
 
   RegisterDefinition reg_def = getRegisterDefinition(setting.reg);
@@ -330,9 +324,9 @@ float BQ25798::rawToFloat(uint16_t raw, const Setting& setting) {
   float value = raw;
   // Adjust the value based on the fixed offset and bit step size if provided
   if (setting.bit_step_size != 0) {
-    // Serial.printf("[DEBUG] getFloat() adjusting raw value %.3f by bit step size %.3f\n", value, setting.bit_step_size);
+    // DEBUG_PRINT(F("getFloat() adjusting raw value %.3f by bit step size %.3f\n"), value, setting.bit_step_size);
     value *= setting.bit_step_size;
-    // Serial.printf("[DEBUG]  -> adjusted to %.3f\n", value);
+    // DEBUG_PRINT(F(" -> adjusted to %.3f\n"), value);
   };
   if (setting.fixed_offset != 0) {
     value += setting.fixed_offset;
@@ -342,26 +336,18 @@ float BQ25798::rawToFloat(uint16_t raw, const Setting& setting) {
 }
 
 bool BQ25798::rawToBool(uint16_t raw, const Setting& setting) {
-  DEBUG_PRINT(F("[rawToBool] Setting:[reg=0x%02X, bitMask=0x%02X, bitShift=%d]\n"), setting.reg, setting.mask, setting.shift);
-
   if (setting.type != settings_type_t::BOOL) {
-    DEBUG_PRINT(F("rawToBool() called with non-bool setting type!\n"));
+    ERROR_PRINT(F("rawToBool() called with non-bool setting type!\n"));
   }
 
   RegisterDefinition reg_def = getRegisterDefinition(setting.reg);
-  if (!reg_def.isValid()) {
-    ERROR_PRINT(F("Error: Invalid register address 0x%02X\n"), setting.reg);
-    return false;
-  };
 
   return raw != 0;
 }
 
 const char* BQ25798::rawToString(uint16_t raw, const Setting& setting) {
-  DEBUG_PRINT(F("[rawToString] Setting:[reg=0x%02X, bitMask=0x%02X, bitShift=%d]\n"), setting.reg, setting.mask, setting.shift);
-
   if (setting.type != settings_type_t::ENUM) {
-    DEBUG_PRINT(F("rawToString() called with non-enum setting type!\n"));
+    ERROR_PRINT(F("rawToString() called with non-enum setting type!\n"));
   }
 
   RegisterDefinition reg_def = getRegisterDefinition(setting.reg);
