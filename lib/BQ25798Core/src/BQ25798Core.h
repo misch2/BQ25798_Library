@@ -1,18 +1,23 @@
-#ifndef BQ25798_H
-#define BQ25798_H
+#ifndef BQ25798CORE_H
+#define BQ25798CORE_H
 
+#include <array>
 #include <cstdint>
 #include <string>
 #include <vector>
 
-#include "Arduino.h"
+// To be able to run both natively and on Arduino:
+#ifndef F
+  #define F(x) (x)
+#endif
+
 #include "debug.h"
 #include "registers.h"
 
-#define DEFAULT_I2C_ADDRESS 0x6B
-
-class BQ25798 {
+class BQ25798Core {
  public:
+  BQ25798Core();
+
   // =================================
   // Registers
   // =================================
@@ -330,7 +335,7 @@ class BQ25798 {
 
   DEFINE_SETTING3(HVDCP_EN, BOOL, REG11_Charger_Control_2, 0x01, 3);
 
-  enum class sdrv_ctrl_t : uint8_t { SDRV_CTRL_IDLE = 0, SDRV_CTRL_SHUTDOWN = 1, SDRV_CTRL_SHIP = 2, SDRV_CTRL_SYS_PWR_RST = 3 };
+  enum class sdrv_ctrl_t : uint8_t { IDLE = 0, SHUTDOWN = 1, SHIP = 2, SYS_PWR_RST = 3 };
   strings_vector_t SDRV_CTRL_strings = {{F("Idle")}, {F("Shutdown")}, {F("Ship")}, {F("System Power Reset")}};
   DEFINE_ENUM(SDRV_CTRL, ENUM, REG11_Charger_Control_2, 0x03, 1);
 
@@ -795,7 +800,7 @@ class BQ25798 {
   // ==================================
   DEFINE_SETTING3(ADC_EN, BOOL, REG2E_ADC_Control, 0x01, 7);
 
-  enum class adc_rate_t : uint8_t { ADC_RATE_CONTINUOUS = 0, ADC_RATE_ONESHOT = 1 };
+  enum class adc_rate_t : uint8_t { CONTINUOUS = 0, ONESHOT = 1 };
   strings_vector_t ADC_RATE_strings = {{F("Continuous")}, {F("One-shot")}};
   DEFINE_ENUM(ADC_RATE, ENUM, REG2E_ADC_Control, 0x01, 6);
 
@@ -1130,20 +1135,11 @@ class BQ25798 {
   };
   const Setting& getSetting(int id);
 
- private:
-  int _chip_address;
-
-  void _clearRegs();
-  bool _flagIsSet(settings_flags_t flagset, settings_flags_t flag);
-  std::array<uint8_t, PHYSICAL_REGISTERS_COUNT> _physicalReg8Values;  // Array to hold 8-bit register values
-
- public:
-  BQ25798();
-  BQ25798(uint8_t address);
-
-  bool begin();
-
   // memory-only operations
+  void clearError();
+  bool isError();
+  const char* getErrorMessage();
+
   uint16_t getRaw(const Setting& setting);
   int getInt(const Setting& setting);
   bool getBool(const Setting& setting);
@@ -1154,8 +1150,13 @@ class BQ25798 {
 
   int rawToInt(uint16_t raw, const Setting& setting);
   uint16_t intToRaw(int value, const Setting& setting);
+
   float rawToFloat(uint16_t raw, const Setting& setting);
+  uint16_t floatToRaw(float value, const Setting& setting);
+
   bool rawToBool(uint16_t raw, const Setting& setting);
+  uint16_t boolToRaw(bool value, const Setting& setting);
+
   const char* rawToString(uint16_t raw, const Setting& setting);
 
   uint8_t getReg8(int reg, int bitMask = 0xFF, int bitShift = 0);
@@ -1163,21 +1164,15 @@ class BQ25798 {
   uint16_t getReg16(int widereg, int bitMask = 0xFFFF, int bitShift = 0);
   void setReg16(int widereg, uint16_t value, int bitMask = 0xFFFF, int bitShift = 0);
 
-  // I2C operations
-  bool readAll();
-  bool writeReg8ToI2C(int reg);
-  bool writeReg16ToI2C(int reg);
+ protected:
+  std::array<uint8_t, PHYSICAL_REGISTERS_COUNT> _physicalReg8Values;  // Array to hold 8-bit register values
+  void _clearRegs();
+  bool _flagIsSet(settings_flags_t flagset, settings_flags_t flag);
 
-  void setAndWriteRaw(const Setting& setting, uint16_t value);
-  void setAndWriteInt(const Setting& setting, int value);
-  void setAndWriteBool(const Setting& setting, bool value);
-  void setAndWriteFloat(const Setting& setting, float value);
-
-  template <typename T>
-  void setAndWriteEnum(const Setting& setting, T value) {
-    // the same as int, but with enum value
-    setAndWriteInt(setting, static_cast<int>(value));
-  };
+ private:
+  static constexpr size_t ERROR_MESSAGE_SIZE = 200;
+  bool _errorFlag = false;
+  char _errorMessage[ERROR_MESSAGE_SIZE];
 };
 
 #endif
