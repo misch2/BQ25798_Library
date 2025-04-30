@@ -16,8 +16,61 @@ std::array<int, BQ25798::SETTINGS_COUNT> newRawValues;
 long startMillis = 0;
 long lastADCReadMillis = 0;
 
+void printMostImportantStats() {
+  Serial.printf("Main stats: ");
+
+  if (bq25798.getBool(bq25798.IINDPM_STAT) || bq25798.getBool(bq25798.VINDPM_STAT)) {
+    Serial.printf("DPM! ");
+  };
+  // if (bq25798.faultFlagRaised()) {
+  //   Serial.printf("FAULT_FLAG! ");
+  // };
+  if (!bq25798.getBool(bq25798.PG_STAT)) {  // inverted logic
+    Serial.printf("PG! ");
+  };
+  if (bq25798.getBool(bq25798.EN_HIZ)) {
+    Serial.printf("HIZ! ");
+  };
+  if (bq25798.getBool(bq25798.VSYS_STAT)) {
+    Serial.printf("VSYS! ");
+  };
+  if (!bq25798.getBool(bq25798.VBUS_PRESENT_STAT)) {  // inverted logic
+    Serial.printf("VBUS! ");
+  };
+  if (!bq25798.getBool(bq25798.AC1_PRESENT_STAT)) {  // inverted logic
+    Serial.printf("AC1! ");
+  };
+  if (!bq25798.getBool(bq25798.VBAT_PRESENT_STAT)) {  // inverted logic
+    Serial.printf("VBAT! ");
+  };
+
+  if (bq25798.getBool(bq25798.TS_IGNORE)) {
+    Serial.printf("+TS_IGNORE ");
+  };
+  if (bq25798.getBool(bq25798.EN_BACKUP)) {
+    Serial.printf("+EN_BACKUP ");
+  };
+  if (bq25798.getBool(bq25798.EN_OTG)) {
+    Serial.printf("+EN_OTG ");
+  };
+  if (bq25798.getBool(bq25798.EN_CHG)) {
+    Serial.printf("+EN_CHG ");
+  };
+  if (bq25798.getBool(bq25798.EN_ACDRV1)) {
+    Serial.printf("+EN_ACDRV1 ");
+  };
+  Serial.printf("CHG=[%d]\"%s\" ", bq25798.getInt(bq25798.CHG_STAT), bq25798.getString(bq25798.CHG_STAT));
+
+  Serial.println();
+}
+
 void trackChanges() {
-  bq25798.readAll();
+  if (!bq25798.readAll()) {
+    Serial.printf("Error: %d", bq25798.getError());
+    bq25798.clearError();
+    delay(10000);
+    return;
+  }
 
   for (int i = 0; i < BQ25798::SETTINGS_COUNT; i++) {
     BQ25798::Setting setting = bq25798.getSetting(i);
@@ -92,6 +145,7 @@ void trackChanges() {
     }
   }
   if (changed) {
+    printMostImportantStats();
     Serial.println();  // group the changes
   }
 
@@ -109,6 +163,15 @@ void trackChanges() {
   }
 }
 
+void repeatedSetup() {
+  // Disable HIZ mode (high impedance mode):
+  bq25798.setAndWriteBool(bq25798.EN_HIZ, 0);
+
+  // Enable OTG and BACKUP mode:
+  // bq25798.setAndWriteBool(bq25798.EN_OTG, 1);
+  bq25798.setAndWriteBool(bq25798.EN_BACKUP, 1);
+}
+
 void setup() {
   Serial.begin(115200);
   Serial.println("Serial port initialized");
@@ -116,23 +179,29 @@ void setup() {
   Wire.begin(I2C_SDA_PIN, I2C_SCL_PIN);
   Serial.printf("I2C initialized on SDA=GPIO%d, SCL=GPIO%d\n", I2C_SDA_PIN, I2C_SCL_PIN);
 
-  Serial.println("Looking for BQ25798 on I2C bus...");
-  while (1) {
-    bq25798.begin();
-    if (bq25798.isError()) {
-      // Serial.print("Error: ");
-      // Serial.println(bq25798.getErrorMessage());
-      bq25798.clearError();
-      delay(10);
-    } else {
-      break;
-    }
+  Serial.print("Looking for BQ25798 on I2C bus...");
+  while (!bq25798.begin()) {
+    delay(100);
   }
+  bq25798.clearError();
 
-  Serial.println("Connected. Setting up BQ25798...");
+  Serial.println("Connected.");
+
+  Serial.print("Resetting the IC completely...");
+  bq25798.setAndWriteBool(bq25798.REG_RST, 1);  // reset the IC
+  while (bq25798.getBool(bq25798.REG_RST)) {
+    bq25798.readAll();
+    delay(10);
+  }
+  Serial.println("Reset successful.");
+
+  Serial.print("Setting up BQ25798...");
 
   // Disable watchdog timer (it would otherwise reset the chip if not cleared in time):
   bq25798.setAndWriteEnum<BQ25798::watchdog_t>(bq25798.WATCHDOG, BQ25798::watchdog_t::WATCHDOG_DISABLE);
+
+  // Disable thermal sensor (not connected):
+  bq25798.setAndWriteBool(bq25798.TS_IGNORE, 1);
 
   // Enable ADC one shot mode. ADC_EN will be set to 0 after the readout is done.
   // A continuous ADC would otherwise produce too much visual noise (a lot of changes).
@@ -143,10 +212,12 @@ void setup() {
   // Enable backup mode
   // bq25798.setAndWriteBool(bq25798.EN_BACKUP, 1);
 
-  Serial.println("BQ25798 setup complete. Waiting for changes...");
+  Serial.println("BQ25798 setup complete.");
+  Serial.println("Waiting for changes...");
 }
 
 void loop() {
+  repeatedSetup();  // this is needed to keep the chip in the right mode??? FIXME
   trackChanges();
   delay(100);
   // bq25798.setAndWriteBool(bq25798.EN_BACKUP, 1);  // enable backup mode again

@@ -1,22 +1,19 @@
 #include "BQ25798Core.h"
 
-#include <cmath>
-#include <cstdarg>
-
 BQ25798Core::BQ25798Core() {}
 
 const BQ25798Core::RegisterDefinition& BQ25798Core::getRegisterDefinition(regaddr_t address) {
   static const RegisterDefinition& invalid_reg_def = RegisterDefinition::invalid();
 
   if (address >= PHYSICAL_REGISTERS_COUNT) {
-    _setErrorMessage(F("Invalid register address 0x%02X"), address);
+    _setError(ERROR_INVALID_REGISTER);
     return invalid_reg_def;
   }
 
   const RegisterDefinition& reg_def = _registerDefinitions[address];
 
   if (reg_def.address != address) {
-    _setErrorMessage(F("Invalid register definition 0x%02X: register 0x%02X references, probably skipped something in the .h file"), address, reg_def.address);
+    _setError(ERROR_INVALID_REGISTER);
     return invalid_reg_def;
   }
 
@@ -27,7 +24,7 @@ const BQ25798Core::Setting& BQ25798Core::getSetting(int id) {
   static const Setting& invalid_setting = Setting::invalid();
 
   if (id < 0 || id >= SETTINGS_COUNT) {
-    _setErrorMessage(F("Invalid setting ID %d"), id);
+    _setError(ERROR_INVALID_SETTING);
     return invalid_setting;
   }
 
@@ -102,7 +99,7 @@ const char* BQ25798Core::getString(const Setting& setting) {
   return rawToString(raw_value, setting);
 }
 
-bool BQ25798Core::faultDetected() {
+bool BQ25798Core::faultFlagRaised() {
   // Check if any fault flags are set
   if (getInt(IBAT_REG_FLAG) || getInt(VBUS_OVP_FLAG) || getInt(VBAT_OVP_FLAG) || getInt(IBUS_OCP_FLAG) || getInt(IBAT_OCP_FLAG) || getInt(CONV_OCP_FLAG) ||
       getInt(VAC2_OVP_FLAG) || getInt(VAC1_OVP_FLAG) || getInt(VSYS_SHORT_FLAG) || getInt(VSYS_OVP_FLAG) || getInt(OTG_OVP_FLAG) || getInt(OTG_UVP_FLAG) ||
@@ -123,17 +120,14 @@ const char* BQ25798Core::toString(int value, strings_vector_t map) {
 }
 
 int BQ25798Core::rawToInt(uint16_t raw, const Setting& setting) {
-  if (setting.type != settings_type_t::INT) {
-    _setErrorMessage(F("rawToInt() called with non-int setting type!"));
-    return 0;
-  }
+  // anything can be converted to int, no need to check the type
 
   RegisterDefinition reg_def = getRegisterDefinition(setting.reg);
 
   int value;
   if (_flagIsSet(setting.flags, settings_flags_t::IS_2COMPLEMENT)) {
     if (reg_def.size != regsize_t::LONG) {
-      _setErrorMessage(F("2's complement flag set for non-long register 0x%02X (%s)"), setting.reg, reg_def.name);
+      _setError(ERROR_INVALID_SETTING);
       return 0;
     };
 
@@ -169,7 +163,7 @@ uint16_t BQ25798Core::intToRaw(int value, const Setting& setting) {
   // Check range
   if (setting.range_low != 0 || setting.range_high != 0) {
     if (value < setting.range_low || value > setting.range_high) {
-      _setErrorMessage(F("Value %d out of range (%.3f, %.3f) for register 0x%02X"), value, setting.range_low, setting.range_high, setting.reg);
+      _setError(ERROR_INVALID_VALUE);
       return 0;
     }
   }
@@ -183,7 +177,7 @@ uint16_t BQ25798Core::intToRaw(int value, const Setting& setting) {
 
   if (_flagIsSet(setting.flags, settings_flags_t::IS_2COMPLEMENT)) {
     if (reg_def.size != regsize_t::LONG) {
-      _setErrorMessage(F("2's complement flag set for non-long register 0x%02X (%s)"), setting.reg, reg_def.name);
+      _setError(ERROR_INVALID_SETTING);
       return 0;  // Handle error case
     };
 
@@ -196,10 +190,7 @@ uint16_t BQ25798Core::intToRaw(int value, const Setting& setting) {
 }
 
 float BQ25798Core::rawToFloat(uint16_t raw, const Setting& setting) {
-  if (setting.type != settings_type_t::FLOAT) {
-    _setErrorMessage(F("rawToFloat() called with non-float setting type!"));
-    return 0.0f;
-  }
+  // anything can be converted to float, no need to check the type
 
   RegisterDefinition reg_def = getRegisterDefinition(setting.reg);
 
@@ -218,12 +209,17 @@ float BQ25798Core::rawToFloat(uint16_t raw, const Setting& setting) {
 }
 
 uint16_t BQ25798Core::floatToRaw(float value, const Setting& setting) {
+  if (setting.type != settings_type_t::FLOAT) {
+    _setError(ERROR_INVALID_VALUE);
+    return 0;
+  }
+
   RegisterDefinition reg_def = getRegisterDefinition(setting.reg);
 
   // Check range
   if (setting.range_low != 0 || setting.range_high != 0) {
     if (value < setting.range_low || value > setting.range_high) {
-      _setErrorMessage(F("Value %d out of range (%.3f, %.3f) for register 0x%02X"), value, setting.range_low, setting.range_high, setting.reg);
+      _setError(ERROR_INVALID_VALUE);
       return 0;
     }
   }
@@ -236,7 +232,7 @@ uint16_t BQ25798Core::floatToRaw(float value, const Setting& setting) {
   };
 
   if (_flagIsSet(setting.flags, settings_flags_t::IS_2COMPLEMENT)) {
-    _setErrorMessage(F("floatToRaw() called with 2's complement flag set!"));
+    _setError(ERROR_INVALID_SETTING);
     return 0.0f;
   }
 
@@ -244,19 +240,13 @@ uint16_t BQ25798Core::floatToRaw(float value, const Setting& setting) {
 }
 
 bool BQ25798Core::rawToBool(uint16_t raw, const Setting& setting) {
-  if (setting.type != settings_type_t::BOOL) {
-    _setErrorMessage(F("rawToBool() called with non-bool setting type!"));
-    return false;
-  }
-
-  RegisterDefinition reg_def = getRegisterDefinition(setting.reg);
-
+  // anything can be converted to bool, no need to check the type
   return raw != 0;
 }
 
 uint16_t BQ25798Core::boolToRaw(bool value, const Setting& setting) {
   if (setting.type != settings_type_t::BOOL) {
-    _setErrorMessage(F("boolToRaw() called with non-bool setting type!"));
+    _setError(ERROR_INVALID_VALUE);
     return 0;
   }
 
@@ -266,13 +256,7 @@ uint16_t BQ25798Core::boolToRaw(bool value, const Setting& setting) {
 }
 
 const char* BQ25798Core::rawToString(uint16_t raw, const Setting& setting) {
-  if (setting.type != settings_type_t::ENUM) {
-    _setErrorMessage(F("rawToString() called with non-enum setting type!"));
-    return "";
-  }
-
-  RegisterDefinition reg_def = getRegisterDefinition(setting.reg);
-
+  // anything can be converted to string, no need to check the type
   return toString(raw, setting.strings_vector);
 }
 
@@ -282,13 +266,6 @@ void BQ25798Core::_clearRegs() {
   }
 }
 
-void BQ25798Core::clearError() { _errorFlag = false; }
-bool BQ25798Core::isError() { return _errorFlag; }
-const char* BQ25798Core::getErrorMessage() { return _errorMessage; }
-void BQ25798Core::_setErrorMessage(const char* format, ...) {
-  _errorFlag = true;
-  va_list args;
-  va_start(args, format);
-  vsnprintf(_errorMessage, ERROR_MESSAGE_SIZE, format, args);
-  va_end(args);
-}
+void BQ25798Core::clearError() { _setError(ERROR_NONE); }
+int BQ25798Core::getError() { return _errorCode; }
+void BQ25798Core::_setError(int errorCode) { _errorCode = errorCode; }

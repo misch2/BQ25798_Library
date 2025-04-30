@@ -2,6 +2,7 @@
 #define BQ25798CORE_H
 
 #include <array>
+#include <cmath>
 #include <cstdint>
 #include <string>
 #include <vector>
@@ -12,6 +13,7 @@
 #endif
 
 #include "debug.h"
+#include "errors.h"
 #include "registers.h"
 
 class BQ25798Core {
@@ -1137,8 +1139,7 @@ class BQ25798Core {
 
   // memory-only operations
   void clearError();
-  bool isError();
-  const char* getErrorMessage();
+  int getError();
 
   uint16_t getRaw(const Setting& setting);
   int getInt(const Setting& setting);
@@ -1146,7 +1147,7 @@ class BQ25798Core {
   float getFloat(const Setting& setting);
   const char* getString(const Setting& setting);
   const char* toString(int value, strings_vector_t map);
-  bool faultDetected();
+  bool faultFlagRaised();
 
   int rawToInt(uint16_t raw, const Setting& setting);
   uint16_t intToRaw(int value, const Setting& setting);
@@ -1168,12 +1169,10 @@ class BQ25798Core {
   std::array<uint8_t, PHYSICAL_REGISTERS_COUNT> _physicalReg8Values;  // Array to hold 8-bit register values
   void _clearRegs();
   bool _flagIsSet(settings_flags_t flagset, settings_flags_t flag);
-  void _setErrorMessage(const char* format, ...);
+  void _setError(int errorCode);
 
  private:
-  static constexpr size_t ERROR_MESSAGE_SIZE = 200;
-  bool _errorFlag = false;
-  char _errorMessage[ERROR_MESSAGE_SIZE];
+  int _errorCode = ERROR_NONE;
 };
 
 #endif
