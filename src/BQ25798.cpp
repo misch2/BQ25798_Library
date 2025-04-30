@@ -1,6 +1,6 @@
 #include "BQ25798.h"
 
-#include "BQ25798Core.h"
+#include "utility/BQ25798Core.h"
 
 BQ25798::BQ25798() : BQ25798Core() { _clearRegs(); }
 

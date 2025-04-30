@@ -8,8 +8,8 @@
 #include <vector>
 
 #include "Arduino.h"
-#include "BQ25798Core.h"
-#include "debug.h"
+#include "utility/BQ25798Core.h"
+#include "utility/debug.h"
 
 #define DEFAULT_I2C_ADDRESS 0x6B
 

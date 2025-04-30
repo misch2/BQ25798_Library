@@ -20,7 +20,7 @@ bq.setAndWriteEnum<BQ25798::adc_rate_t>(bq.ADC_RATE, BQ25798::adc_rate_t::ONESHO
 
 Use the included "track_changes" example to see how the library works. It will read the registers and print them to the serial monitor like this:
 
-![example 1](example1.png)
+![example 1](extras/example1.png)
 
 ## Testing
 
