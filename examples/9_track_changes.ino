@@ -1,11 +1,7 @@
-#include <Arduino.h>
 #include <BQ25798.h>
 #include <Wire.h>
 
 #include <array>
-
-#define I2C_SDA_PIN 21
-#define I2C_SCL_PIN 22
 
 const int ADC_readout_time_millis = 30000;
 
@@ -22,9 +18,6 @@ void printMostImportantStats() {
   if (bq25798.getBool(bq25798.IINDPM_STAT) || bq25798.getBool(bq25798.VINDPM_STAT)) {
     Serial.printf("DPM! ");
   };
-  // if (bq25798.faultFlagRaised()) {
-  //   Serial.printf("FAULT_FLAG! ");
-  // };
   if (!bq25798.getBool(bq25798.PG_STAT)) {  // inverted logic
     Serial.printf("PG! ");
   };
@@ -176,9 +169,7 @@ void setup() {
   Serial.begin(115200);
   Serial.println("Serial port initialized");
 
-  Wire.begin(I2C_SDA_PIN, I2C_SCL_PIN);
-  Serial.printf("I2C initialized on SDA=GPIO%d, SCL=GPIO%d\n", I2C_SDA_PIN, I2C_SCL_PIN);
-
+  Wire.begin();
   Serial.print("Looking for BQ25798 on I2C bus...");
   while (!bq25798.begin()) {
     delay(100);
@@ -188,7 +179,8 @@ void setup() {
   Serial.println("Connected.");
 
   Serial.print("Resetting the IC completely...");
-  bq25798.setAndWriteBool(bq25798.REG_RST, 1);  // reset the IC
+  // Reset the chip and wait for it to finish:
+  bq25798.setAndWriteBool(bq25798.REG_RST, 1);
   while (bq25798.getBool(bq25798.REG_RST)) {
     bq25798.readAll();
     delay(10);
@@ -196,7 +188,6 @@ void setup() {
   Serial.println("Reset successful.");
 
   Serial.print("Setting up BQ25798...");
-
   // Disable watchdog timer (it would otherwise reset the chip if not cleared in time):
   bq25798.setAndWriteEnum<BQ25798::watchdog_t>(bq25798.WATCHDOG, BQ25798::watchdog_t::WATCHDOG_DISABLE);
 
@@ -209,9 +200,6 @@ void setup() {
   bq25798.setAndWriteBool(bq25798.ADC_EN, 1);  // trigger ADC one-shot mode
   delay(10);
 
-  // Enable backup mode
-  // bq25798.setAndWriteBool(bq25798.EN_BACKUP, 1);
-
   Serial.println("BQ25798 setup complete.");
   Serial.println("Waiting for changes...");
 }
@@ -220,6 +208,4 @@ void loop() {
   repeatedSetup();  // this is needed to keep the chip in the right mode??? FIXME
   trackChanges();
   delay(100);
-  // bq25798.setAndWriteBool(bq25798.EN_BACKUP, 1);  // enable backup mode again
-  // bq25798.setAndWriteBool(bq25798.EN_OTG, 1);      // enable OTG mode
 }

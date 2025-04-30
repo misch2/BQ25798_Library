@@ -15,9 +15,9 @@
 
 class BQ25798 : public BQ25798Core {
  public:
-  BQ25798();
+  BQ25798(uint8_t chip_address = DEFAULT_I2C_ADDRESS, TwoWire& wire = Wire, Stream& serialPort = Serial);
 
-  bool begin(uint8_t chip_address = DEFAULT_I2C_ADDRESS, TwoWire& wire = Wire, Stream& serialPort = Serial);
+  bool begin();
   bool readAll();
   bool writeReg8ToI2C(int reg);
   bool writeReg16ToI2C(int reg);

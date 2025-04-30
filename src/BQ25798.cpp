@@ -2,15 +2,15 @@
 
 #include "utility/BQ25798Core.h"
 
-BQ25798::BQ25798() : BQ25798Core() { _clearRegs(); }
-
-bool BQ25798::begin(uint8_t chip_address, TwoWire& wire, Stream& serialPort) {
+BQ25798::BQ25798(uint8_t chip_address, TwoWire& wire, Stream& serialPort) : BQ25798Core() {
   _chip_address = chip_address;
   _i2cPort = &wire;
   _serialPort = &serialPort;
 
-  return readAll();
+  _clearRegs();
 }
+
+bool BQ25798::begin() { return readAll(); }
 
 bool BQ25798::readAll() {
   DEBUG_PRINT(F("[readAll] Reading all BQ25798 registers\n"));
