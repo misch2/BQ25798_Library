@@ -83,8 +83,10 @@ void test_int(void) {
   // test for out of range
   TEST_ASSERT_EQUAL(0x00, bq.intToRaw(0, calculatedIntSetting));
   TEST_ASSERT_EQUAL(ERROR_INVALID_VALUE, bq.lastError());
+  bq.clearError();
   TEST_ASSERT_EQUAL(0x00, bq.intToRaw(1000, calculatedIntSetting));
   TEST_ASSERT_EQUAL(ERROR_INVALID_VALUE, bq.lastError());
+  bq.clearError();
 }
 
 void test_float(void) {
@@ -99,6 +101,11 @@ void test_float(void) {
   TEST_ASSERT_EQUAL(ERROR_NONE, bq.lastError());
   TEST_ASSERT_EQUAL(0x01, bq.floatToRaw(52.0, floatSetting));
   TEST_ASSERT_EQUAL(ERROR_NONE, bq.lastError());
+  TEST_ASSERT_EQUAL(0x01, bq.floatToRaw(52.01, floatSetting));
+  TEST_ASSERT_EQUAL(ERROR_NONE, bq.lastError());
+  TEST_ASSERT_EQUAL(0x00, bq.floatToRaw(-1, floatSetting));
+  TEST_ASSERT_EQUAL(ERROR_INVALID_VALUE, bq.lastError());
+  bq.clearError();
 
   // test for rounding
   TEST_ASSERT_EQUAL(0x01, bq.floatToRaw(52.5, floatSetting));
@@ -124,6 +131,7 @@ void test_enum(void) {
 
   TEST_ASSERT_EQUAL_STRING("Unknown", bq.rawToString(0xFF, stringSetting));
   TEST_ASSERT_EQUAL(ERROR_INVALID_VALUE, bq.lastError());
+  bq.clearError();
 }
 
 int main(int argc, char** argv) {
