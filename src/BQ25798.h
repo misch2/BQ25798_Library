@@ -37,7 +37,7 @@ class BQ25798 : public BQ25798Core {
  private:
   TwoWire* _i2cPort;
   Stream* _serialPort;
-  int _chip_address;
+  uint8_t _chip_address;
 };
 
 #endif

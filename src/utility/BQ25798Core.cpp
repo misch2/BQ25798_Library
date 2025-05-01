@@ -168,10 +168,10 @@ uint16_t BQ25798Core::intToRaw(int value, const Setting& setting) {
   }
   // Adjust the value based on the fixed offset and bit step size if provided
   if (setting.fixed_offset != 0) {
-    value -= std::trunc(setting.fixed_offset);
+    value -= setting.fixed_offset;
   };
   if (setting.bit_step_size != 0) {
-    value /= std::trunc(setting.bit_step_size);
+    value /= setting.bit_step_size;
   };
 
   if (_flagIsSet(setting.flags, settings_flags_t::IS_2COMPLEMENT)) {

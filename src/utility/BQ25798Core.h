@@ -41,7 +41,7 @@ class BQ25798Core {
     bool isValid() const { return address != -1; };
   };
 
-  static constexpr size_t PHYSICAL_REGISTERS_COUNT = 1 + REG48_Part_Information;  // Number of physical registers (0x00 to 0x48)
+  static constexpr uint8_t PHYSICAL_REGISTERS_COUNT = 1 + REG48_Part_Information;  // Number of physical registers (0x00 to 0x48)
 #define DEFINE_REGISTER(propname, size) \
   RegisterDefinition { propname, regsize_t::size, F(#propname) }
   std::array<RegisterDefinition, PHYSICAL_REGISTERS_COUNT> _registerDefinitions = {
