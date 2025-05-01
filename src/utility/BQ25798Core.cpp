@@ -1,5 +1,7 @@
 #include "BQ25798Core.h"
 
+#include <assert.h>
+
 BQ25798Core::BQ25798Core() {}
 
 const BQ25798Core::RegisterDefinition& BQ25798Core::getRegisterDefinition(regaddr_t address) {
@@ -11,11 +13,7 @@ const BQ25798Core::RegisterDefinition& BQ25798Core::getRegisterDefinition(regadd
   }
 
   const RegisterDefinition& reg_def = _registerDefinitions[address];
-
-  if (reg_def.address != address) {
-    _setError(ERROR_INVALID_REGISTER);
-    return invalid_reg_def;
-  }
+  assert(reg_def.address == address);  // Ensure the definition is correct
 
   return reg_def;
 };
@@ -267,5 +265,5 @@ void BQ25798Core::_clearRegs() {
 }
 
 void BQ25798Core::clearError() { _setError(ERROR_NONE); }
-int BQ25798Core::getError() { return _errorCode; }
+int BQ25798Core::lastError() { return _errorCode; }
 void BQ25798Core::_setError(int errorCode) { _errorCode = errorCode; }

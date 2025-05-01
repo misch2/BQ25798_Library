@@ -19,6 +19,7 @@ class BQ25798 : public BQ25798Core {
 
   bool begin();
   bool readAll();
+
   bool writeReg8ToI2C(int reg);
   bool writeReg16ToI2C(int reg);
 

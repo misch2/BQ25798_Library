@@ -1139,7 +1139,7 @@ class BQ25798Core {
 
   // memory-only operations
   void clearError();
-  int getError();
+  int lastError();
 
   uint16_t getRaw(const Setting& setting);
   int getInt(const Setting& setting);

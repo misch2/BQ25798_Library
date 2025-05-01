@@ -117,3 +117,4 @@ bool BQ25798::setAndWriteFloat(const Setting& setting, float value) {
   uint16_t raw_value = floatToRaw(value, setting);
   return setAndWriteRaw(setting, raw_value);
 }
+
