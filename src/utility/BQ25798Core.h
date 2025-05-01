@@ -222,20 +222,30 @@ class BQ25798Core {
 //   Setting setting = {regaddr, false, #setting, settings_type_t::ENUM, mask, shift, 0, 0, 0, 0, settings_flags_t::NONE, setting##_strings}
 
 #define DEFINE_SETTING_SHORT_BOOL(setting, regaddr, mask, shift) _DEFINE_RW_BOOL(setting, false, regaddr, mask, shift)
+#define DEFINE_SETTING_SHORT_BOOL_READONLY(setting, regaddr, mask, shift) _DEFINE_RO_BOOL(setting, false, regaddr, mask, shift)
 
 #define DEFINE_SETTING_SHORT_INT(setting, regaddr, mask, shift, range_low, range_high, fixed_offset, bit_step_size) \
   _DEFINE_RW_INT(setting, false, regaddr, mask, shift, range_low, range_high, fixed_offset, bit_step_size, NONE)
 #define DEFINE_SETTING_LONG_INT(setting, regaddr, mask, shift, range_low, range_high, fixed_offset, bit_step_size) \
   _DEFINE_RW_INT(setting, true, regaddr, mask, shift, range_low, range_high, fixed_offset, bit_step_size, NONE)
+#define DEFINE_SETTING_LONG_INT_READONLY(setting, regaddr, mask, shift, range_low, range_high, fixed_offset, bit_step_size) \
+  _DEFINE_RO_INT(setting, true, regaddr, mask, shift, range_low, range_high, fixed_offset, bit_step_size, NONE)
 #define DEFINE_SETTING_LONG_INT_2COMPLEMENT(setting, regaddr, mask, shift, range_low, range_high, fixed_offset, bit_step_size) \
   _DEFINE_RW_INT(setting, true, regaddr, mask, shift, range_low, range_high, fixed_offset, bit_step_size, IS_2COMPLEMENT)
+#define DEFINE_SETTING_LONG_INT_2COMPLEMENT_READONLY(setting, regaddr, mask, shift, range_low, range_high, fixed_offset, bit_step_size) \
+  _DEFINE_RO_INT(setting, true, regaddr, mask, shift, range_low, range_high, fixed_offset, bit_step_size, IS_2COMPLEMENT)
 
 #define DEFINE_SETTING_LONG_FLOAT(setting, regaddr, mask, shift, range_low, range_high, fixed_offset, bit_step_size) \
   _DEFINE_RW_FLOAT(setting, true, regaddr, mask, shift, range_low, range_high, fixed_offset, bit_step_size, NONE)
+#define DEFINE_SETTING_LONG_FLOAT_READONLY(setting, regaddr, mask, shift, range_low, range_high, fixed_offset, bit_step_size) \
+  _DEFINE_RO_FLOAT(setting, true, regaddr, mask, shift, range_low, range_high, fixed_offset, bit_step_size, NONE)
 #define DEFINE_SETTING_LONG_FLOAT_2COMPLEMENT(setting, regaddr, mask, shift, range_low, range_high, fixed_offset, bit_step_size) \
   _DEFINE_RW_FLOAT(setting, true, regaddr, mask, shift, range_low, range_high, fixed_offset, bit_step_size, IS_2COMPLEMENT)
+#define DEFINE_SETTING_LONG_FLOAT_2COMPLEMENT_READONLY(setting, regaddr, mask, shift, range_low, range_high, fixed_offset, bit_step_size) \
+  _DEFINE_RO_FLOAT(setting, true, regaddr, mask, shift, range_low, range_high, fixed_offset, bit_step_size, IS_2COMPLEMENT)
 
 #define DEFINE_SETTING_SHORT_ENUM(setting, regaddr, mask, shift) _DEFINE_RW_ENUM(setting, true, regaddr, mask, shift, 0, 0, 0, 0, NONE)
+#define DEFINE_SETTING_SHORT_ENUM_READONLY(setting, regaddr, mask, shift) _DEFINE_RO_ENUM(setting, true, regaddr, mask, shift, 0, 0, 0, 0, NONE)
 
   // ===================================
   // REG00_Minimal_System_Voltage
@@ -551,38 +561,38 @@ class BQ25798Core {
   // ==================================
   // REG19_ICO_Current_Limit (wide)
   // ==================================
-  DEFINE_SETTING_LONG_INT(ICO_ILIM, REG19_ICO_Current_Limit, 0x1FF, 0, 100, 3300, 0, 10);
+  DEFINE_SETTING_LONG_INT_READONLY(ICO_ILIM, REG19_ICO_Current_Limit, 0x1FF, 0, 100, 3300, 0, 10);
 
   // ==================================
   // REG1B_Charger_Status_0
   // ==================================
   enum class IINDPM_STAT_t : uint8_t { NORMAL = 0, REGULATION = 1 };
   strings_vector_t IINDPM_STAT_strings = {{F("Normal")}, {F("In IINDPM regulation or IOTG regulation")}};
-  DEFINE_SETTING_SHORT_ENUM(IINDPM_STAT, REG1B_Charger_Status_0, 0x01, 7);
+  DEFINE_SETTING_SHORT_ENUM_READONLY(IINDPM_STAT, REG1B_Charger_Status_0, 0x01, 7);
 
   enum class VINDPM_STAT_t : uint8_t { NORMAL = 0, REGULATION = 1 };
   strings_vector_t VINDPM_STAT_strings = {{F("Normal")}, {F("In VINDPM regulation or VOTG regulation")}};
-  DEFINE_SETTING_SHORT_ENUM(VINDPM_STAT, REG1B_Charger_Status_0, 0x01, 6);
+  DEFINE_SETTING_SHORT_ENUM_READONLY(VINDPM_STAT, REG1B_Charger_Status_0, 0x01, 6);
 
   enum class WD_STAT_t : uint8_t { NORMAL = 0, EXPIRED = 1 };
   strings_vector_t WD_STAT_strings = {{F("Normal")}, {F("Watchdog timer expired")}};
-  DEFINE_SETTING_SHORT_ENUM(WD_STAT, REG1B_Charger_Status_0, 0x01, 5);
+  DEFINE_SETTING_SHORT_ENUM_READONLY(WD_STAT, REG1B_Charger_Status_0, 0x01, 5);
 
   enum class PG_STAT_t : uint8_t { BAD = 0, GOOD = 1 };
   strings_vector_t PG_STAT_strings = {{F("Not in power good status")}, {F("Power good")}};
-  DEFINE_SETTING_SHORT_ENUM(PG_STAT, REG1B_Charger_Status_0, 0x01, 3);
+  DEFINE_SETTING_SHORT_ENUM_READONLY(PG_STAT, REG1B_Charger_Status_0, 0x01, 3);
 
   enum class AC2_PRESENT_STAT_t : uint8_t { NOT_PRESENT = 0, PRESENT = 1 };
   strings_vector_t AC2_PRESENT_STAT_strings = {{F("VAC2 NOT present")}, {F("VAC2 present (above present threshold)")}};
-  DEFINE_SETTING_SHORT_ENUM(AC2_PRESENT_STAT, REG1B_Charger_Status_0, 0x01, 2);
+  DEFINE_SETTING_SHORT_ENUM_READONLY(AC2_PRESENT_STAT, REG1B_Charger_Status_0, 0x01, 2);
 
   enum class AC1_PRESENT_STAT_t : uint8_t { NOT_PRESENT = 0, PRESENT = 1 };
   strings_vector_t AC1_PRESENT_STAT_strings = {{F("VAC1 NOT present")}, {F("VAC1 present (above present threshold)")}};
-  DEFINE_SETTING_SHORT_ENUM(AC1_PRESENT_STAT, REG1B_Charger_Status_0, 0x01, 1);
+  DEFINE_SETTING_SHORT_ENUM_READONLY(AC1_PRESENT_STAT, REG1B_Charger_Status_0, 0x01, 1);
 
   enum class VBUS_PRESENT_STAT_t : uint8_t { NOT_PRESENT = 0, PRESENT = 1 };
   strings_vector_t VBUS_PRESENT_STAT_strings = {{F("VBUS NOT present")}, {F("VBUS present (above present threshold)")}};
-  DEFINE_SETTING_SHORT_ENUM(VBUS_PRESENT_STAT, REG1B_Charger_Status_0, 0x01, 0);
+  DEFINE_SETTING_SHORT_ENUM_READONLY(VBUS_PRESENT_STAT, REG1B_Charger_Status_0, 0x01, 0);
 
   // ==================================
   // REG1C_Charger_Status_1
@@ -605,7 +615,7 @@ class BQ25798Core {
                                        {F("Reserved")},
                                        {F("Top-off Timer Active Charging")},
                                        {F("Charge Termination Done")}};
-  DEFINE_SETTING_SHORT_ENUM(CHG_STAT, REG1C_Charger_Status_1, 0x7, 5);
+  DEFINE_SETTING_SHORT_ENUM_READONLY(CHG_STAT, REG1C_Charger_Status_1, 0x7, 5);
 
   enum class VBUS_STAT_t : uint8_t {
     NO_INPUT = 0,
@@ -641,204 +651,204 @@ class BQ25798Core {
                                         {F("Reserved")},
                                         {F("Reserved")},
                                         {F("Reserved")}};
-  DEFINE_SETTING_SHORT_ENUM(VBUS_STAT, REG1C_Charger_Status_1, 0x0F, 1);
+  DEFINE_SETTING_SHORT_ENUM_READONLY(VBUS_STAT, REG1C_Charger_Status_1, 0x0F, 1);
 
-  DEFINE_SETTING_SHORT_BOOL(BC12_DONE_STAT, REG1C_Charger_Status_1, 0x01, 0);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(BC12_DONE_STAT, REG1C_Charger_Status_1, 0x01, 0);
 
   // ==================================
   // REG1D_Charger_Status_2
   // ==================================
   enum class ICO_STAT_t : uint8_t { ICO_DISABLED = 0, ICO_IN_PROGRESS = 1, ICO_MAX_CURRENT_DETECTED = 2, ICO_RESERVED = 3 };
   strings_vector_t ICO_STAT_strings = {{F("ICO disabled")}, {F("ICO optimization in progress")}, {F("Maximum input current detected")}, {F("Reserved")}};
-  DEFINE_SETTING_SHORT_ENUM(ICO_STAT, REG1D_Charger_Status_2, 0x03, 6);
+  DEFINE_SETTING_SHORT_ENUM_READONLY(ICO_STAT, REG1D_Charger_Status_2, 0x03, 6);
 
   enum class TREG_STAT_t : uint8_t { NORMAL = 0, THERMAL_REGULATION = 1 };
   strings_vector_t TREG_STAT_strings = {{F("Normal")}, {F("Device in thermal regulation")}};
-  DEFINE_SETTING_SHORT_ENUM(TREG_STAT, REG1D_Charger_Status_2, 0x01, 5);
+  DEFINE_SETTING_SHORT_ENUM_READONLY(TREG_STAT, REG1D_Charger_Status_2, 0x01, 5);
 
   enum class DPDM_STAT_t : uint8_t { NOT_STARTED = 0, IN_PROGRESS = 1 };
   strings_vector_t DPDM_STAT_strings = {{F("D+/D- detection NOT started yet or done")}, {F("D+/D- detection in progress")}};
-  DEFINE_SETTING_SHORT_ENUM(DPDM_STAT, REG1D_Charger_Status_2, 0x01, 4);
+  DEFINE_SETTING_SHORT_ENUM_READONLY(DPDM_STAT, REG1D_Charger_Status_2, 0x01, 4);
 
   enum class VBAT_PRESENT_STAT_t : uint8_t { NOT_PRESENT = 0, PRESENT = 1 };
   strings_vector_t VBAT_PRESENT_STAT_strings = {{F("VBAT NOT present")}, {F("VBAT present")}};
-  DEFINE_SETTING_SHORT_ENUM(VBAT_PRESENT_STAT, REG1D_Charger_Status_2, 0x01, 0);
+  DEFINE_SETTING_SHORT_ENUM_READONLY(VBAT_PRESENT_STAT, REG1D_Charger_Status_2, 0x01, 0);
 
   // ==================================
   // REG1E_Charger_Status_3
   // ==================================
-  DEFINE_SETTING_SHORT_BOOL(ACRB2_STAT, REG1E_Charger_Status_3, 0x01, 7);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(ACRB2_STAT, REG1E_Charger_Status_3, 0x01, 7);
 
-  DEFINE_SETTING_SHORT_BOOL(ACRB1_STAT, REG1E_Charger_Status_3, 0x01, 6);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(ACRB1_STAT, REG1E_Charger_Status_3, 0x01, 6);
 
-  DEFINE_SETTING_SHORT_BOOL(ADC_DONE_STAT, REG1E_Charger_Status_3, 0x01, 5);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(ADC_DONE_STAT, REG1E_Charger_Status_3, 0x01, 5);
 
   enum class VSYS_STAT_t : uint8_t { NOT_IN_VSYSMIN_REGULATION = 0, IN_VSYSMIN_REGULATION = 1 };
   strings_vector_t VSYS_STAT_strings = {{F("Not in VSYSMIN regulation (VBAT > VSYSMIN)")}, {F("In VSYSMIN regulation (VBAT < VSYSMIN)")}};
-  DEFINE_SETTING_SHORT_ENUM(VSYS_STAT, REG1E_Charger_Status_3, 0x01, 4);
+  DEFINE_SETTING_SHORT_ENUM_READONLY(VSYS_STAT, REG1E_Charger_Status_3, 0x01, 4);
 
   enum class CHG_TMR_STAT_t : uint8_t { NORMAL = 0, SAFETY_TIMER_EXPIRED = 1 };
   strings_vector_t CHG_TMR_STAT_strings = {{F("Normal")}, {F("Safety timer expired")}};
-  DEFINE_SETTING_SHORT_ENUM(CHG_TMR_STAT, REG1E_Charger_Status_3, 0x01, 3);
+  DEFINE_SETTING_SHORT_ENUM_READONLY(CHG_TMR_STAT, REG1E_Charger_Status_3, 0x01, 3);
 
   enum class TRICHG_TMR_STAT_t : uint8_t { NORMAL = 0, SAFETY_TIMER_EXPIRED = 1 };
   strings_vector_t TRICHG_TMR_STAT_strings = {{F("Normal")}, {F("Safety timer expired")}};
-  DEFINE_SETTING_SHORT_ENUM(TRICHG_TMR_STAT, REG1E_Charger_Status_3, 0x01, 2);
+  DEFINE_SETTING_SHORT_ENUM_READONLY(TRICHG_TMR_STAT, REG1E_Charger_Status_3, 0x01, 2);
 
   enum class PRECHG_TMR_STAT_t : uint8_t { NORMAL = 0, SAFETY_TIMER_EXPIRED = 1 };
   strings_vector_t PRECHG_TMR_STAT_strings = {{F("Normal")}, {F("Safety timer expired")}};
-  DEFINE_SETTING_SHORT_ENUM(PRECHG_TMR_STAT, REG1E_Charger_Status_3, 0x01, 1);
+  DEFINE_SETTING_SHORT_ENUM_READONLY(PRECHG_TMR_STAT, REG1E_Charger_Status_3, 0x01, 1);
 
   // ==================================
   // REG1F_Charger_Status_4
   // ==================================
   enum class VBATOTG_LOW_STAT_t : uint8_t { VBATOTG_LOW = 0, VBATOTG_OK = 1 };
   strings_vector_t VBATOTG_LOW_STAT_strings = {{F("VBAT is too low to enable OTG mode")}, {F("VBAT is high enough to enable OTG operation")}};
-  DEFINE_SETTING_SHORT_ENUM(VBATOTG_LOW_STAT, REG1F_Charger_Status_4, 0x01, 4);
+  DEFINE_SETTING_SHORT_ENUM_READONLY(VBATOTG_LOW_STAT, REG1F_Charger_Status_4, 0x01, 4);
 
   enum class TS_COLD_STAT_t : uint8_t { NOT_COLD = 0, COLD = 1 };
   strings_vector_t TS_COLD_STAT_strings = {{F("TS NOT in cold range")}, {F("TS in cold range")}};
-  DEFINE_SETTING_SHORT_ENUM(TS_COLD_STAT, REG1F_Charger_Status_4, 0x01, 3);
+  DEFINE_SETTING_SHORT_ENUM_READONLY(TS_COLD_STAT, REG1F_Charger_Status_4, 0x01, 3);
 
   enum class TS_COOL_STAT_t : uint8_t { NOT_COOL = 0, COOL = 1 };
   strings_vector_t TS_COOL_STAT_strings = {{F("TS NOT in cool range")}, {F("TS in cool range")}};
-  DEFINE_SETTING_SHORT_ENUM(TS_COOL_STAT, REG1F_Charger_Status_4, 0x01, 2);
+  DEFINE_SETTING_SHORT_ENUM_READONLY(TS_COOL_STAT, REG1F_Charger_Status_4, 0x01, 2);
 
   enum class TS_WARM_STAT_t : uint8_t { NOT_WARM = 0, WARM = 1 };
   strings_vector_t TS_WARM_STAT_strings = {{F("TS NOT in warm range")}, {F("TS in warm range")}};
-  DEFINE_SETTING_SHORT_ENUM(TS_WARM_STAT, REG1F_Charger_Status_4, 0x01, 1);
+  DEFINE_SETTING_SHORT_ENUM_READONLY(TS_WARM_STAT, REG1F_Charger_Status_4, 0x01, 1);
 
   enum class TS_HOT_STAT_t : uint8_t { NOT_HOT = 0, HOT = 1 };
   strings_vector_t TS_HOT_STAT_strings = {{F("TS NOT in hot range")}, {F("TS in hot range")}};
-  DEFINE_SETTING_SHORT_ENUM(TS_HOT_STAT, REG1F_Charger_Status_4, 0x01, 0);
+  DEFINE_SETTING_SHORT_ENUM_READONLY(TS_HOT_STAT, REG1F_Charger_Status_4, 0x01, 0);
 
   // ==================================
   // REG20_FAULT_Status_0
   // ==================================
-  DEFINE_SETTING_SHORT_BOOL(IBAT_REG_STAT, REG20_FAULT_Status_0, 0x01, 7);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(IBAT_REG_STAT, REG20_FAULT_Status_0, 0x01, 7);
 
-  DEFINE_SETTING_SHORT_BOOL(VBUS_OVP_STAT, REG20_FAULT_Status_0, 0x01, 6);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(VBUS_OVP_STAT, REG20_FAULT_Status_0, 0x01, 6);
 
-  DEFINE_SETTING_SHORT_BOOL(VBAT_OVP_STAT, REG20_FAULT_Status_0, 0x01, 5);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(VBAT_OVP_STAT, REG20_FAULT_Status_0, 0x01, 5);
 
-  DEFINE_SETTING_SHORT_BOOL(IBUS_OCP_STAT, REG20_FAULT_Status_0, 0x01, 4);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(IBUS_OCP_STAT, REG20_FAULT_Status_0, 0x01, 4);
 
-  DEFINE_SETTING_SHORT_BOOL(IBAT_OCP_STAT, REG20_FAULT_Status_0, 0x01, 3);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(IBAT_OCP_STAT, REG20_FAULT_Status_0, 0x01, 3);
 
-  DEFINE_SETTING_SHORT_BOOL(CONV_OCP_STAT, REG20_FAULT_Status_0, 0x01, 2);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(CONV_OCP_STAT, REG20_FAULT_Status_0, 0x01, 2);
 
-  DEFINE_SETTING_SHORT_BOOL(VAC2_OVP_STAT, REG20_FAULT_Status_0, 0x01, 1);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(VAC2_OVP_STAT, REG20_FAULT_Status_0, 0x01, 1);
 
-  DEFINE_SETTING_SHORT_BOOL(VAC1_OVP_STAT, REG20_FAULT_Status_0, 0x01, 0);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(VAC1_OVP_STAT, REG20_FAULT_Status_0, 0x01, 0);
 
   // ==================================
   // REG21_FAULT_Status_1
   // ==================================
-  DEFINE_SETTING_SHORT_BOOL(VSYS_SHORT_STAT, REG21_FAULT_Status_1, 0x01, 7);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(VSYS_SHORT_STAT, REG21_FAULT_Status_1, 0x01, 7);
 
-  DEFINE_SETTING_SHORT_BOOL(VSYS_OVP_STAT, REG21_FAULT_Status_1, 0x01, 6);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(VSYS_OVP_STAT, REG21_FAULT_Status_1, 0x01, 6);
 
-  DEFINE_SETTING_SHORT_BOOL(OTG_OVP_STAT, REG21_FAULT_Status_1, 0x01, 5);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(OTG_OVP_STAT, REG21_FAULT_Status_1, 0x01, 5);
 
-  DEFINE_SETTING_SHORT_BOOL(OTG_UVP_STAT, REG21_FAULT_Status_1, 0x01, 4);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(OTG_UVP_STAT, REG21_FAULT_Status_1, 0x01, 4);
 
-  DEFINE_SETTING_SHORT_BOOL(TSHUT_STAT, REG21_FAULT_Status_1, 0x01, 2);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(TSHUT_STAT, REG21_FAULT_Status_1, 0x01, 2);
 
   // ==================================
   // REG22_Charger_Flag_0
   // ==================================
-  DEFINE_SETTING_SHORT_BOOL(IINDPM_FLAG, REG22_Charger_Flag_0, 0x01, 7);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(IINDPM_FLAG, REG22_Charger_Flag_0, 0x01, 7);
 
-  DEFINE_SETTING_SHORT_BOOL(VINDPM_FLAG, REG22_Charger_Flag_0, 0x01, 6);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(VINDPM_FLAG, REG22_Charger_Flag_0, 0x01, 6);
 
-  DEFINE_SETTING_SHORT_BOOL(WD_FLAG, REG22_Charger_Flag_0, 0x01, 5);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(WD_FLAG, REG22_Charger_Flag_0, 0x01, 5);
 
-  DEFINE_SETTING_SHORT_BOOL(POORSRC_FLAG, REG22_Charger_Flag_0, 0x01, 4);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(POORSRC_FLAG, REG22_Charger_Flag_0, 0x01, 4);
 
-  DEFINE_SETTING_SHORT_BOOL(PG_FLAG, REG22_Charger_Flag_0, 0x01, 3);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(PG_FLAG, REG22_Charger_Flag_0, 0x01, 3);
 
-  DEFINE_SETTING_SHORT_BOOL(AC2_PRESENT_FLAG, REG22_Charger_Flag_0, 0x01, 2);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(AC2_PRESENT_FLAG, REG22_Charger_Flag_0, 0x01, 2);
 
-  DEFINE_SETTING_SHORT_BOOL(AC1_PRESENT_FLAG, REG22_Charger_Flag_0, 0x01, 1);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(AC1_PRESENT_FLAG, REG22_Charger_Flag_0, 0x01, 1);
 
-  DEFINE_SETTING_SHORT_BOOL(VBUS_PRESENT_FLAG, REG22_Charger_Flag_0, 0x01, 0);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(VBUS_PRESENT_FLAG, REG22_Charger_Flag_0, 0x01, 0);
 
   // ===================================
   // REG23_Charger_Flag_1
   // ===================================
-  DEFINE_SETTING_SHORT_BOOL(CHG_FLAG, REG23_Charger_Flag_1, 0x01, 7);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(CHG_FLAG, REG23_Charger_Flag_1, 0x01, 7);
 
-  DEFINE_SETTING_SHORT_BOOL(ICO_FLAG, REG23_Charger_Flag_1, 0x01, 6);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(ICO_FLAG, REG23_Charger_Flag_1, 0x01, 6);
 
-  DEFINE_SETTING_SHORT_BOOL(VBUS_FLAG, REG23_Charger_Flag_1, 0x01, 4);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(VBUS_FLAG, REG23_Charger_Flag_1, 0x01, 4);
 
-  DEFINE_SETTING_SHORT_BOOL(TREG_FLAG, REG23_Charger_Flag_1, 0x01, 2);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(TREG_FLAG, REG23_Charger_Flag_1, 0x01, 2);
 
-  DEFINE_SETTING_SHORT_BOOL(VBAT_PRESENT_FLAG, REG23_Charger_Flag_1, 0x01, 1);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(VBAT_PRESENT_FLAG, REG23_Charger_Flag_1, 0x01, 1);
 
-  DEFINE_SETTING_SHORT_BOOL(BC1_2_DONE_FLAG, REG23_Charger_Flag_1, 0x01, 0);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(BC1_2_DONE_FLAG, REG23_Charger_Flag_1, 0x01, 0);
 
   // ===================================
   // REG24_Charger_Flag_2
   // ===================================
-  DEFINE_SETTING_SHORT_BOOL(DPDM_DONE_FLAG, REG24_Charger_Flag_2, 0x01, 6);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(DPDM_DONE_FLAG, REG24_Charger_Flag_2, 0x01, 6);
 
-  DEFINE_SETTING_SHORT_BOOL(ADC_DONE_FLAG, REG24_Charger_Flag_2, 0x01, 5);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(ADC_DONE_FLAG, REG24_Charger_Flag_2, 0x01, 5);
 
-  DEFINE_SETTING_SHORT_BOOL(VSYS_FLAG, REG24_Charger_Flag_2, 0x01, 4);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(VSYS_FLAG, REG24_Charger_Flag_2, 0x01, 4);
 
-  DEFINE_SETTING_SHORT_BOOL(CHG_TMR_FLAG, REG24_Charger_Flag_2, 0x01, 3);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(CHG_TMR_FLAG, REG24_Charger_Flag_2, 0x01, 3);
 
-  DEFINE_SETTING_SHORT_BOOL(TRICHG_TMR_FLAG, REG24_Charger_Flag_2, 0x01, 2);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(TRICHG_TMR_FLAG, REG24_Charger_Flag_2, 0x01, 2);
 
-  DEFINE_SETTING_SHORT_BOOL(PRECHG_TMR_FLAG, REG24_Charger_Flag_2, 0x01, 1);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(PRECHG_TMR_FLAG, REG24_Charger_Flag_2, 0x01, 1);
 
-  DEFINE_SETTING_SHORT_BOOL(TOPOFF_TMR_FLAG, REG24_Charger_Flag_2, 0x01, 0);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(TOPOFF_TMR_FLAG, REG24_Charger_Flag_2, 0x01, 0);
 
   // ==================================
   // REG25_Charger_Flag_3
   // ==================================
-  DEFINE_SETTING_SHORT_BOOL(VBATOTG_LOW_FLAG, REG25_Charger_Flag_3, 0x01, 4);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(VBATOTG_LOW_FLAG, REG25_Charger_Flag_3, 0x01, 4);
 
-  DEFINE_SETTING_SHORT_BOOL(TS_COLD_FLAG, REG25_Charger_Flag_3, 0x01, 3);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(TS_COLD_FLAG, REG25_Charger_Flag_3, 0x01, 3);
 
-  DEFINE_SETTING_SHORT_BOOL(TS_COOL_FLAG, REG25_Charger_Flag_3, 0x01, 2);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(TS_COOL_FLAG, REG25_Charger_Flag_3, 0x01, 2);
 
-  DEFINE_SETTING_SHORT_BOOL(TS_WARM_FLAG, REG25_Charger_Flag_3, 0x01, 1);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(TS_WARM_FLAG, REG25_Charger_Flag_3, 0x01, 1);
 
-  DEFINE_SETTING_SHORT_BOOL(TS_HOT_FLAG, REG25_Charger_Flag_3, 0x01, 0);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(TS_HOT_FLAG, REG25_Charger_Flag_3, 0x01, 0);
 
   // ==================================
   // REG26_FAULT_Flag_0
   // ==================================
-  DEFINE_SETTING_SHORT_BOOL(IBAT_REG_FLAG, REG26_FAULT_Flag_0, 0x01, 7);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(IBAT_REG_FLAG, REG26_FAULT_Flag_0, 0x01, 7);
 
-  DEFINE_SETTING_SHORT_BOOL(VBUS_OVP_FLAG, REG26_FAULT_Flag_0, 0x01, 6);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(VBUS_OVP_FLAG, REG26_FAULT_Flag_0, 0x01, 6);
 
-  DEFINE_SETTING_SHORT_BOOL(VBAT_OVP_FLAG, REG26_FAULT_Flag_0, 0x01, 5);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(VBAT_OVP_FLAG, REG26_FAULT_Flag_0, 0x01, 5);
 
-  DEFINE_SETTING_SHORT_BOOL(IBUS_OCP_FLAG, REG26_FAULT_Flag_0, 0x01, 4);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(IBUS_OCP_FLAG, REG26_FAULT_Flag_0, 0x01, 4);
 
-  DEFINE_SETTING_SHORT_BOOL(IBAT_OCP_FLAG, REG26_FAULT_Flag_0, 0x01, 3);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(IBAT_OCP_FLAG, REG26_FAULT_Flag_0, 0x01, 3);
 
-  DEFINE_SETTING_SHORT_BOOL(CONV_OCP_FLAG, REG26_FAULT_Flag_0, 0x01, 2);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(CONV_OCP_FLAG, REG26_FAULT_Flag_0, 0x01, 2);
 
-  DEFINE_SETTING_SHORT_BOOL(VAC2_OVP_FLAG, REG26_FAULT_Flag_0, 0x01, 1);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(VAC2_OVP_FLAG, REG26_FAULT_Flag_0, 0x01, 1);
 
-  DEFINE_SETTING_SHORT_BOOL(VAC1_OVP_FLAG, REG26_FAULT_Flag_0, 0x01, 0);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(VAC1_OVP_FLAG, REG26_FAULT_Flag_0, 0x01, 0);
 
   // ==================================
   // REG27_FAULT_Flag_1
   // ==================================
-  DEFINE_SETTING_SHORT_BOOL(VSYS_SHORT_FLAG, REG27_FAULT_Flag_1, 0x01, 7);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(VSYS_SHORT_FLAG, REG27_FAULT_Flag_1, 0x01, 7);
 
-  DEFINE_SETTING_SHORT_BOOL(VSYS_OVP_FLAG, REG27_FAULT_Flag_1, 0x01, 6);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(VSYS_OVP_FLAG, REG27_FAULT_Flag_1, 0x01, 6);
 
-  DEFINE_SETTING_SHORT_BOOL(OTG_OVP_FLAG, REG27_FAULT_Flag_1, 0x01, 5);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(OTG_OVP_FLAG, REG27_FAULT_Flag_1, 0x01, 5);
 
-  DEFINE_SETTING_SHORT_BOOL(OTG_UVP_FLAG, REG27_FAULT_Flag_1, 0x01, 4);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(OTG_UVP_FLAG, REG27_FAULT_Flag_1, 0x01, 4);
 
-  DEFINE_SETTING_SHORT_BOOL(TSHUT_FLAG, REG27_FAULT_Flag_1, 0x01, 2);
+  DEFINE_SETTING_SHORT_BOOL_READONLY(TSHUT_FLAG, REG27_FAULT_Flag_1, 0x01, 2);
 
   // FIXME REG28_Charger_Mask_0
   // FIXME REG29_Charger_Mask_1
@@ -897,57 +907,57 @@ class BQ25798Core {
   // ===================================
   // REG31_ADC_Function_Disable_2 (wide)
   // ===================================
-  DEFINE_SETTING_LONG_INT_2COMPLEMENT(IBUS_ADC, REG31_IBUS_ADC, 0xFFFF, 0, 0, 5000, 0, 1);
+  DEFINE_SETTING_LONG_INT_2COMPLEMENT_READONLY(IBUS_ADC, REG31_IBUS_ADC, 0xFFFF, 0, 0, 5000, 0, 1);
 
   // ===================================
   // REG33_ADC_Function_Disable_3 (wide)
   // ===================================
-  DEFINE_SETTING_LONG_INT_2COMPLEMENT(IBAT_ADC, REG33_IBAT_ADC, 0xFFFF, 0, 0, 8000, 0, 1);
+  DEFINE_SETTING_LONG_INT_2COMPLEMENT_READONLY(IBAT_ADC, REG33_IBAT_ADC, 0xFFFF, 0, 0, 8000, 0, 1);
 
   // ===================================
   // REG35_ADC_Function_Disable_4 (wide)
   // ===================================
-  DEFINE_SETTING_LONG_INT(VBUS_ADC, REG35_VBUS_ADC, 0xFFFF, 0, 0, 30000, 0, 1);
+  DEFINE_SETTING_LONG_INT_READONLY(VBUS_ADC, REG35_VBUS_ADC, 0xFFFF, 0, 0, 30000, 0, 1);
 
   // ===================================
   // REG37_ADC_Function_Disable_5 (wide)
   // ===================================
-  DEFINE_SETTING_LONG_INT(VAC1_ADC, REG37_VAC1_ADC, 0xFFFF, 0, 0, 30000, 0, 1);
+  DEFINE_SETTING_LONG_INT_READONLY(VAC1_ADC, REG37_VAC1_ADC, 0xFFFF, 0, 0, 30000, 0, 1);
 
   // ===================================
   // REG39_ADC_Function_Disable_6 (wide)
   // ===================================
-  DEFINE_SETTING_LONG_INT(VAC2_ADC, REG39_VAC2_ADC, 0xFFFF, 0, 0, 30000, 0, 1);
+  DEFINE_SETTING_LONG_INT_READONLY(VAC2_ADC, REG39_VAC2_ADC, 0xFFFF, 0, 0, 30000, 0, 1);
 
   // ===================================
   // REG3B_ADC_Function_Disable_7 (wide)
   // ===================================
-  DEFINE_SETTING_LONG_INT(VBAT_ADC, REG3B_VBAT_ADC, 0xFFFF, 0, 0, 20000, 0, 1);
+  DEFINE_SETTING_LONG_INT_READONLY(VBAT_ADC, REG3B_VBAT_ADC, 0xFFFF, 0, 0, 20000, 0, 1);
 
   // ===================================
   // REG3D_ADC_Function_Disable_8 (wide)
   // ===================================
-  DEFINE_SETTING_LONG_INT(VSYS_ADC, REG3D_VSYS_ADC, 0xFFFF, 0, 0, 24000, 0, 1);
+  DEFINE_SETTING_LONG_INT_READONLY(VSYS_ADC, REG3D_VSYS_ADC, 0xFFFF, 0, 0, 24000, 0, 1);
 
   // ===================================
   // REG3F_ADC_Function_Disable_9 (wide)
   // ===================================
-  DEFINE_SETTING_LONG_FLOAT(TS_ADC, REG3F_TS_ADC, 0xFFFF, 0, 0, -99.9023, 0, 0.0976563);
+  DEFINE_SETTING_LONG_FLOAT_READONLY(TS_ADC, REG3F_TS_ADC, 0xFFFF, 0, 0, -99.9023, 0, 0.0976563);
 
   // ===================================
   // REG41_ADC_Function_Disable_A (wide)
   // ===================================
-  DEFINE_SETTING_LONG_FLOAT_2COMPLEMENT(TDIE_ADC, REG41_TDIE_ADC, 0xFFFF, 0, -40, 150, 0, 0.5);
+  DEFINE_SETTING_LONG_FLOAT_2COMPLEMENT_READONLY(TDIE_ADC, REG41_TDIE_ADC, 0xFFFF, 0, -40, 150, 0, 0.5);
 
   // ===================================
   // REG43_ADC_Function_Disable_B (wide)
   // ===================================
-  DEFINE_SETTING_LONG_INT(DPLUS_ADC, REG43_DPLUS_ADC, 0xFFFF, 0, 0, 3600, 0, 1);
+  DEFINE_SETTING_LONG_INT_READONLY(DPLUS_ADC, REG43_DPLUS_ADC, 0xFFFF, 0, 0, 3600, 0, 1);
 
   // ===================================
   // REG45_ADC_Function_Disable_C (wide)
   // ===================================
-  DEFINE_SETTING_LONG_INT(DMINUS_ADC, REG45_DMINUS_ADC, 0xFFFF, 0, 0, 3600, 0, 1);
+  DEFINE_SETTING_LONG_INT_READONLY(DMINUS_ADC, REG45_DMINUS_ADC, 0xFFFF, 0, 0, 3600, 0, 1);
 
   // ===================================
   // REG47_DPDM_Driver
@@ -979,7 +989,7 @@ class BQ25798Core {
     RESERVED_7 = 0x7,
   };
   strings_vector_t PN_strings = {{F("?")}, {F("?")}, {F("?")}, {F("BQ25798")}, {F("?")}, {F("?")}, {F("?")}, {F("?")}};
-  DEFINE_SETTING_SHORT_ENUM(PN, REG48_Part_Information, 0x07, 3);
+  DEFINE_SETTING_SHORT_ENUM_READONLY(PN, REG48_Part_Information, 0x07, 3);
 
   enum class DEV_REV_t : uint8_t {
     RESERVED_0 = 0x0,
@@ -992,7 +1002,7 @@ class BQ25798Core {
     RESERVED_7 = 0x7,
   };
   strings_vector_t DEV_REV_strings = {{F("?")}, {F("BQ25798")}, {F("?")}, {F("?")}, {F("?")}, {F("?")}, {F("?")}, {F("?")}};
-  DEFINE_SETTING_SHORT_ENUM(DEV_REV, REG48_Part_Information, 0x07, 0);
+  DEFINE_SETTING_SHORT_ENUM_READONLY(DEV_REV, REG48_Part_Information, 0x07, 0);
 
   static constexpr size_t SETTINGS_COUNT = 191;  // Number of settings
   std::array<Setting, SETTINGS_COUNT> _settingsList = {

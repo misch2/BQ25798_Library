@@ -21,10 +21,10 @@ void test_bool(void) {
 
   // mock writes always return false
   TEST_ASSERT_EQUAL(false, bq.setAndWriteREG_RST(true));
-  TEST_ASSERT_EQUAL(false, bq.setAndWriteTOPOFF_TMR_FLAG(false));
+  TEST_ASSERT_EQUAL(false, bq.setAndWriteEN_BACKUP(false));
   TEST_ASSERT_EQUAL(false, bq.getAC1_PRESENT_FLAG());
-  TEST_ASSERT_EQUAL(false, bq.setAndWriteVBUS_ADC(12345));
-  TEST_ASSERT_EQUAL(12345, bq.getVBUS_ADC());
+  TEST_ASSERT_EQUAL(false, bq.setAndWriteVINDPM(12345));
+  TEST_ASSERT_EQUAL(12300, bq.getVINDPM());
   TEST_ASSERT_EQUAL(ERROR_NONE, bq.lastError());
 
   TEST_ASSERT_EQUAL(true, bq.rawToBool(0x01, boolSetting));
