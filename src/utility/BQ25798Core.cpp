@@ -66,10 +66,10 @@ uint16_t BQ25798Core::getRaw(const Setting& setting) {
   DEBUG_PRINT(F("[getRaw] [reg=0x%02X, bitMask=0x%02X, bitShift=%d]\n"), setting.reg, setting.mask, setting.shift);
   DEBUG_PRINT(F("[getRaw] setting=%s [reg=0x%02X (%s), bitMask=0x%02X, bitShift=%d]\n"), setting.name, setting.reg, reg_def.name, setting.mask, setting.shift);
 
-  if (reg_def.size == regsize_t::SHORT) {
-    raw_value = getReg8(setting.reg, setting.mask, setting.shift);
-  } else if (reg_def.size == regsize_t::LONG) {
+  if (setting.long_reg) {
     raw_value = getReg16(setting.reg, setting.mask, setting.shift);
+  } else {
+    raw_value = getReg8(setting.reg, setting.mask, setting.shift);
   }
 
   DEBUG_PRINT(F("[getRaw] -> raw 0x%04X\n"), raw_value);
@@ -121,16 +121,14 @@ const char* BQ25798Core::toString(int value, strings_vector_t map) {
 int BQ25798Core::rawToInt(uint16_t raw, const Setting& setting) {
   // anything can be converted to int, no need to check the type
 
-  RegisterDefinition reg_def = getRegisterDefinition(setting.reg);
-
   int value;
   if (_flagIsSet(setting.flags, settings_flags_t::IS_2COMPLEMENT)) {
-    if (reg_def.size != regsize_t::LONG) {
+    if (!setting.long_reg) {
       _setError(ERROR_INVALID_SETTING);
       return 0;
     };
 
-    if (raw & (1 << (static_cast<int>(reg_def.size) - 1))) {  // Check if the sign bit is set
+    if (raw & (1 << ((setting.long_reg ? 16 : 8) - 1))) {  // Check if the sign bit is set
       // DEBUG_PRINT(F("getInt() 2's complement detected, value=0x%04X\n"), raw_value);
       int16_t adjusted_value = static_cast<int16_t>(raw);  // Cast to signed type
       // DEBUG_PRINT(F(" -> adjusted value: 0x%04X\n"), adjusted_value);
@@ -157,8 +155,6 @@ int BQ25798Core::rawToInt(uint16_t raw, const Setting& setting) {
 }
 
 uint16_t BQ25798Core::intToRaw(int value, const Setting& setting) {
-  RegisterDefinition reg_def = getRegisterDefinition(setting.reg);
-
   // Check range
   if (setting.range_low != 0 || setting.range_high != 0) {
     if (value < setting.range_low || value > setting.range_high) {
@@ -175,7 +171,7 @@ uint16_t BQ25798Core::intToRaw(int value, const Setting& setting) {
   };
 
   if (_flagIsSet(setting.flags, settings_flags_t::IS_2COMPLEMENT)) {
-    if (reg_def.size != regsize_t::LONG) {
+    if (!setting.long_reg) {
       _setError(ERROR_INVALID_SETTING);
       return 0;  // Handle error case
     };
@@ -190,8 +186,6 @@ uint16_t BQ25798Core::intToRaw(int value, const Setting& setting) {
 
 float BQ25798Core::rawToFloat(uint16_t raw, const Setting& setting) {
   // anything can be converted to float, no need to check the type
-
-  RegisterDefinition reg_def = getRegisterDefinition(setting.reg);
 
   float value = raw;
   // Adjust the value based on the fixed offset and bit step size if provided
@@ -212,8 +206,6 @@ uint16_t BQ25798Core::floatToRaw(float value, const Setting& setting) {
     _setError(ERROR_INVALID_VALUE);
     return 0;
   }
-
-  RegisterDefinition reg_def = getRegisterDefinition(setting.reg);
 
   // Check range
   if (setting.range_low != 0 || setting.range_high != 0) {
@@ -248,8 +240,6 @@ uint16_t BQ25798Core::boolToRaw(bool value, const Setting& setting) {
     _setError(ERROR_INVALID_VALUE);
     return 0;
   }
-
-  RegisterDefinition reg_def = getRegisterDefinition(setting.reg);
 
   return value ? 1 : 0;
 }

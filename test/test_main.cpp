@@ -4,13 +4,11 @@
 
 BQ25798Core bq = BQ25798Core();  // Create an instance of the BQ25798 class
 
-BQ25798Core::RegisterDefinition reg8bit = {0x00, BQ25798Core::regsize_t::SHORT, "TEST_REG8"};
-BQ25798Core::RegisterDefinition reg16bit = {0x01, BQ25798Core::regsize_t::LONG, "TEST_REG16"};
+BQ25798Core::RegisterDefinition reg0 = {0x00, "TEST_REG"};
 
 void setUp(void) {
   // Set up before each test case
-  bq._registerDefinitions[0] = reg8bit;
-  bq._registerDefinitions[1] = reg16bit;
+  bq._registerDefinitions[0] = reg0;
   bq.clearError();  // clear error for next test
 }
 
@@ -19,7 +17,7 @@ void tearDown(void) {
 }
 
 void test_bool(void) {
-  BQ25798Core::Setting boolSetting = {reg8bit.address, "TEST_BOOL", BQ25798Core::settings_type_t::BOOL, 0xFF, 0};
+  BQ25798Core::Setting boolSetting = {reg0.address, false, "TEST_BOOL", BQ25798Core::settings_type_t::BOOL, 0xFF, 0};
 
   TEST_ASSERT_EQUAL(true, bq.rawToBool(0x01, boolSetting));
   TEST_ASSERT_EQUAL(ERROR_NONE, bq.lastError());
@@ -37,7 +35,7 @@ void test_bool(void) {
 }
 
 void test_int(void) {
-  BQ25798Core::Setting intSetting = {reg8bit.address, "TEST_INT", BQ25798Core::settings_type_t::INT, 0xFF, 0};
+  BQ25798Core::Setting intSetting = {reg0.address, false, "TEST_INT", BQ25798Core::settings_type_t::INT, 0xFF, 0};
   TEST_ASSERT_EQUAL(0, bq.rawToInt(0x00, intSetting));
   TEST_ASSERT_EQUAL(ERROR_NONE, bq.lastError());
   TEST_ASSERT_EQUAL(3, bq.rawToInt(0x03, intSetting));
@@ -53,7 +51,7 @@ void test_int(void) {
   TEST_ASSERT_EQUAL(ERROR_NONE, bq.lastError());
 
   BQ25798Core::Setting signedIntSetting = {
-      reg16bit.address, "TEST_SIGNED_INT", BQ25798Core::settings_type_t::INT, 0xFF, 0, 0, 0, 0, 0, BQ25798Core::settings_flags_t::IS_2COMPLEMENT};
+      reg0.address, true, "TEST_SIGNED_INT", BQ25798Core::settings_type_t::INT, 0xFF, 0, 0, 0, 0, 0, BQ25798Core::settings_flags_t::IS_2COMPLEMENT};
 
   TEST_ASSERT_EQUAL(0, bq.rawToInt(0x00, signedIntSetting));
   TEST_ASSERT_EQUAL(ERROR_NONE, bq.lastError());
@@ -69,8 +67,8 @@ void test_int(void) {
   TEST_ASSERT_EQUAL(0xFFFB, bq.intToRaw(-5, signedIntSetting));
   TEST_ASSERT_EQUAL(ERROR_NONE, bq.lastError());
 
-  BQ25798Core::Setting calculatedIntSetting = {reg16bit.address, "TEST_INT",  BQ25798Core::settings_type_t::INT, 0xFF, 0, /* range */ 10, 100,
-                                               /* offset */ 50,  /* step */ 2};
+  BQ25798Core::Setting calculatedIntSetting = {reg0.address,    true,        "TEST_INT", BQ25798Core::settings_type_t::INT, 0xFF, 0, /* range */ 10, 100,
+                                               /* offset */ 50, /* step */ 2};
   TEST_ASSERT_EQUAL(50, bq.rawToInt(0x00, calculatedIntSetting));
   TEST_ASSERT_EQUAL(ERROR_NONE, bq.lastError());
   TEST_ASSERT_EQUAL(52, bq.rawToInt(0x01, calculatedIntSetting));
@@ -90,7 +88,7 @@ void test_int(void) {
 }
 
 void test_float(void) {
-  BQ25798Core::Setting floatSetting = {reg16bit.address,  "TEST_FLOAT",  BQ25798Core::settings_type_t::FLOAT, 0xFF, 0, /* range */ 10.0, 100.0,
+  BQ25798Core::Setting floatSetting = {reg0.address,      true,          "TEST_FLOAT", BQ25798Core::settings_type_t::FLOAT, 0xFF, 0, /* range */ 10.0, 100.0,
                                        /* offset */ 50.0, /* step */ 2.0};
   TEST_ASSERT_EQUAL(50.0, bq.rawToFloat(0x00, floatSetting));
   TEST_ASSERT_EQUAL(ERROR_NONE, bq.lastError());
@@ -113,7 +111,8 @@ void test_float(void) {
 }
 
 void test_enum(void) {
-  BQ25798Core::Setting stringSetting = {reg8bit.address,
+  BQ25798Core::Setting stringSetting = {reg0.address,
+                                        false,
                                         "TEST_ENUM",
                                         BQ25798Core::settings_type_t::ENUM,
                                         0xFF,
