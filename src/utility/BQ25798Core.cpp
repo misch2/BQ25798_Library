@@ -113,6 +113,7 @@ const char* BQ25798Core::toString(int value, strings_vector_t map) {
   if (value >= 0 && value < map.size()) {
     return map[value];
   } else {
+    _setError(ERROR_INVALID_VALUE);
     return "Unknown";
   }
 }

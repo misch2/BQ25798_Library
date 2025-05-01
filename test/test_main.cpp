@@ -11,6 +11,7 @@ void setUp(void) {
   // Set up before each test case
   bq._registerDefinitions[0] = reg8bit;
   bq._registerDefinitions[1] = reg16bit;
+  bq.clearError();  // clear error for next test
 }
 
 void tearDown(void) {
@@ -84,11 +85,45 @@ void test_int(void) {
   TEST_ASSERT_EQUAL(ERROR_INVALID_VALUE, bq.lastError());
   TEST_ASSERT_EQUAL(0x00, bq.intToRaw(1000, calculatedIntSetting));
   TEST_ASSERT_EQUAL(ERROR_INVALID_VALUE, bq.lastError());
-  bq.clearError();  // clear error for next test
+}
+
+void test_float(void) {
+  BQ25798Core::Setting floatSetting = {reg16bit.address,  "TEST_FLOAT",  BQ25798Core::settings_type_t::FLOAT, 0xFF, 0, /* range */ 10.0, 100.0,
+                                       /* offset */ 50.0, /* step */ 2.0};
+  TEST_ASSERT_EQUAL(50.0, bq.rawToFloat(0x00, floatSetting));
+  TEST_ASSERT_EQUAL(ERROR_NONE, bq.lastError());
+  TEST_ASSERT_EQUAL(52.0, bq.rawToFloat(0x01, floatSetting));
+  TEST_ASSERT_EQUAL(ERROR_NONE, bq.lastError());
+
+  TEST_ASSERT_EQUAL(0x00, bq.floatToRaw(50.0, floatSetting));
+  TEST_ASSERT_EQUAL(ERROR_NONE, bq.lastError());
+  TEST_ASSERT_EQUAL(0x01, bq.floatToRaw(52.0, floatSetting));
+  TEST_ASSERT_EQUAL(ERROR_NONE, bq.lastError());
 
   // test for rounding
-  TEST_ASSERT_EQUAL(0x01, bq.intToRaw(52.5, calculatedIntSetting));
+  TEST_ASSERT_EQUAL(0x01, bq.floatToRaw(52.5, floatSetting));
   TEST_ASSERT_EQUAL(ERROR_NONE, bq.lastError());
+}
+
+void test_enum(void) {
+  BQ25798Core::Setting stringSetting = {reg8bit.address,
+                                        "TEST_ENUM",
+                                        BQ25798Core::settings_type_t::ENUM,
+                                        0xFF,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        BQ25798Core::settings_flags_t::NONE,
+                                        {"Value A", "Value B", "Value C"}};
+  TEST_ASSERT_EQUAL_STRING("Value A", bq.rawToString(0x00, stringSetting));
+  TEST_ASSERT_EQUAL(ERROR_NONE, bq.lastError());
+  TEST_ASSERT_EQUAL_STRING("Value B", bq.rawToString(0x01, stringSetting));
+  TEST_ASSERT_EQUAL(ERROR_NONE, bq.lastError());
+
+  TEST_ASSERT_EQUAL_STRING("Unknown", bq.rawToString(0xFF, stringSetting));
+  TEST_ASSERT_EQUAL(ERROR_INVALID_VALUE, bq.lastError());
 }
 
 int main(int argc, char** argv) {
@@ -96,6 +131,8 @@ int main(int argc, char** argv) {
 
   RUN_TEST(test_bool);
   RUN_TEST(test_int);
+  RUN_TEST(test_float);
+  RUN_TEST(test_enum);
 
   UNITY_END();  // Stop Unity test framework
 
