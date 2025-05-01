@@ -85,36 +85,3 @@ bool BQ25798::writeReg16ToI2C(int reg) {
   return true;
 }
 
-bool BQ25798::setAndWriteRaw(const Setting& setting, uint16_t value) {
-  RegisterDefinition reg_def = getRegisterDefinition(setting.reg);
-
-  if (reg_def.size == regsize_t::SHORT) {
-    // DEBUG_PRINT(F("- setReg8(reg=0x%02X, value=0x%02X, bitMask=0x%02X, bitShift=%d)\n"), setting.reg, value, setting.mask, setting.shift);
-    // DEBUG_PRINT(F("  -> old value=0x%02X\n"), _physicalReg8Values[setting.reg]);
-    setReg8(setting.reg, value, setting.mask, setting.shift);
-    // DEBUG_PRINT(F("    -> new value=0x%02X\n"), _physicalReg8Values[setting.reg]);
-    // DEBUG_PRINT(F("  - writeReg8ToI2C(reg=0x%02X)\n"), setting.reg);
-    return writeReg8ToI2C(setting.reg);
-  } else if (reg_def.size == regsize_t::LONG) {
-    setReg16(setting.reg, value, setting.mask, setting.shift);
-    return writeReg16ToI2C(setting.reg);
-  }
-  _setError(ERROR_INVALID_REGISTER);
-  return false;
-}
-
-bool BQ25798::setAndWriteInt(const Setting& setting, int value) {
-  uint16_t raw_value = intToRaw(value, setting);
-  return setAndWriteRaw(setting, raw_value);
-}
-
-bool BQ25798::setAndWriteBool(const Setting& setting, bool value) {
-  uint16_t raw_value = boolToRaw(value, setting);
-  return setAndWriteRaw(setting, raw_value);
-}
-
-bool BQ25798::setAndWriteFloat(const Setting& setting, float value) {
-  uint16_t raw_value = floatToRaw(value, setting);
-  return setAndWriteRaw(setting, raw_value);
-}
-

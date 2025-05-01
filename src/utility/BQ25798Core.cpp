@@ -258,3 +258,30 @@ void BQ25798Core::_clearRegs() {
 void BQ25798Core::clearError() { _setError(ERROR_NONE); }
 int BQ25798Core::lastError() { return _errorCode; }
 void BQ25798Core::_setError(int errorCode) { _errorCode = errorCode; }
+
+bool BQ25798Core::setAndWriteRaw(const Setting& setting, uint16_t value) {
+  if (setting.long_reg) {
+    setReg16(setting.reg, value, setting.mask, setting.shift);
+    return writeReg16ToI2C(setting.reg);
+  } else {
+    setReg8(setting.reg, value, setting.mask, setting.shift);
+    return writeReg8ToI2C(setting.reg);
+  }
+  _setError(ERROR_INVALID_REGISTER);
+  return false;
+}
+
+bool BQ25798Core::setAndWriteInt(const Setting& setting, int value) {
+  uint16_t raw_value = intToRaw(value, setting);
+  return setAndWriteRaw(setting, raw_value);
+}
+
+bool BQ25798Core::setAndWriteBool(const Setting& setting, bool value) {
+  uint16_t raw_value = boolToRaw(value, setting);
+  return setAndWriteRaw(setting, raw_value);
+}
+
+bool BQ25798Core::setAndWriteFloat(const Setting& setting, float value) {
+  uint16_t raw_value = floatToRaw(value, setting);
+  return setAndWriteRaw(setting, raw_value);
+}

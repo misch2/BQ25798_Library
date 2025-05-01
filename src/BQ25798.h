@@ -23,17 +23,6 @@ class BQ25798 : public BQ25798Core {
   bool writeReg8ToI2C(int reg);
   bool writeReg16ToI2C(int reg);
 
-  bool setAndWriteRaw(const BQ25798Core::Setting& setting, uint16_t value);
-  bool setAndWriteInt(const BQ25798Core::Setting& setting, int value);
-  bool setAndWriteBool(const BQ25798Core::Setting& setting, bool value);
-  bool setAndWriteFloat(const BQ25798Core::Setting& setting, float value);
-
-  template <typename T>
-  bool setAndWriteEnum(const Setting& setting, T value) {
-    // the same as int, but with enum value
-    return setAndWriteInt(setting, static_cast<int>(value));
-  };
-
  private:
   TwoWire* _i2cPort;
   Stream* _serialPort;
