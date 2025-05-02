@@ -10,7 +10,7 @@ Easy use with clearly named registers and bitfields.
 BQ25798 bq = BQ25798();
 
 bq.setAndWriteADC_EN(true);
-bq.setAndWriteTS_IGNORE(rue);
+bq.setAndWriteTS_IGNORE(true);
 bq.setAndWriteEN_BACKUP(true);
 
 bq.setAndWriteADC_RATE(BQ25798::ADC_RATE_t::ONESHOT);
