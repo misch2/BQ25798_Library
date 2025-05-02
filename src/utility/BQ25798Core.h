@@ -7,11 +7,6 @@
 #include <string>
 #include <vector>
 
-// To be able to run both natively and on Arduino:
-#ifndef F
-  #define F(x) (x)
-#endif
-
 #include "debug.h"
 #include "errors.h"
 #include "registers.h"
@@ -29,15 +24,22 @@ class BQ25798Core {
     regaddr_t address;  // Register address
     const char* name;   // Register name
 
-    RegisterDefinition(regaddr_t address, const char* name) : address(address), name(name) {};
+    RegisterDefinition(regaddr_t address, const char* name)
+        : address(address),
+#ifdef BQ25798_MEMORY_SAVER
+          name("")
+#else
+          name(name)
+#endif
+    {};
 
-    static RegisterDefinition invalid() { return RegisterDefinition{-1, F("INVALID")}; };
+    static RegisterDefinition invalid() { return RegisterDefinition{-1, "INVALID"}; };
     bool isValid() const { return address != -1; };
   };
 
   static constexpr uint8_t PHYSICAL_REGISTERS_COUNT = 1 + REG48_Part_Information;  // Number of physical registers (0x00 to 0x48)
 #define DEFINE_REGISTER(propname) \
-  RegisterDefinition { propname, F(#propname) }
+  RegisterDefinition { propname, #propname }
   std::array<RegisterDefinition, PHYSICAL_REGISTERS_COUNT> _registerDefinitions = {
       //  There must be all 8-bit registers in the list (no skipping for 16-bit registers, no skipping for unused registers)!
       DEFINE_REGISTER(REG00_Minimal_System_Voltage),
@@ -149,7 +151,7 @@ class BQ25798Core {
     // adjusted value = raw_value * bit_step_size + fixed_offset
     settings_flags_t flags;           // Flags for the setting (e.g., 2's complement)
     strings_vector_t strings_vector;  // Vector of strings for enum settings
-    const char* name;                 // Register name
+    const char* name;                 // Setting name
 
     Setting(regaddr_t reg, bool long_reg, const char* name, settings_type_t type, uint16_t mask, uint8_t shift,
             // optional parameters:
@@ -157,7 +159,11 @@ class BQ25798Core {
             strings_vector_t strings_vector = {})
         : reg(reg),
           long_reg(long_reg),
+#ifdef BQ25798_MEMORY_SAVER
+          name(""),
+#else
           name(name),
+#endif
           type(type),
           mask(mask),
           shift(shift),
@@ -167,9 +173,8 @@ class BQ25798Core {
           bit_step_size(bit_step_size),
           flags(flags),
           strings_vector(strings_vector) {};
-
     static Setting invalid() {
-      return Setting{RegisterDefinition::invalid().address, false, F("INVALID"), settings_type_t::INT, 0, 0, 0, 0, 0, 0, settings_flags_t::NONE, {}};
+      return Setting{RegisterDefinition::invalid().address, false, "INVALID", settings_type_t::INT, 0, 0, 0, 0, 0, 0, settings_flags_t::NONE, {}};
     };
     bool isValid() const { return mask != 0; };
   };
@@ -276,7 +281,7 @@ class BQ25798Core {
   // REG08_Precharge_Control
   // ===================================
   enum class VBAT_LOWV_t : uint8_t { PCT_15 = 0, PCT_62 = 1, PCT_67 = 2, PCT_71 = 3 };
-  strings_vector_t VBAT_LOWV_strings = {{F("15%(VREG)")}, {F("62.2%(VREG)")}, {F("66.7%(VREG)")}, {F("71.4%(VREG)")}};
+  strings_vector_t VBAT_LOWV_strings = {{"15%(VREG)"}, {"62.2%(VREG)"}, {"66.7%(VREG)"}, {"71.4%(VREG)"}};
   DEFINE_SETTING_SHORT_ENUM(VBAT_LOWV, REG08_Precharge_Control, 0x3, 6);
 
   DEFINE_SETTING_SHORT_INT(IPRECHG, REG08_Precharge_Control, 0x3F, 0, 40, 2000, 0, 40);
@@ -294,11 +299,11 @@ class BQ25798Core {
   // REG0A_Recharge_Control
   // ===================================
   enum class CELL_t : uint8_t { CELL_1S = 0, CELL_2S = 1, CELL_3S = 2, CELL_4S = 3 };
-  strings_vector_t CELL_strings = {{F("1S")}, {F("2S")}, {F("3S")}, {F("4S")}};
+  strings_vector_t CELL_strings = {{"1S"}, {"2S"}, {"3S"}, {"4S"}};
   DEFINE_SETTING_SHORT_ENUM(CELL, REG0A_Recharge_Control, 0x03, 6);
 
   enum class TRECHG_t : uint8_t { TRECHG_64MS = 0, TRECHG_256MS = 1, TRECHG_1024MS = 2, TRECHG_2048MS = 3 };
-  strings_vector_t TRECHG_strings = {{F("64 ms")}, {F("256 ms")}, {F("1024 ms")}, {F("2048 ms")}};
+  strings_vector_t TRECHG_strings = {{"64 ms"}, {"256 ms"}, {"1024 ms"}, {"2048 ms"}};
   DEFINE_SETTING_SHORT_ENUM(TRECHG, REG0A_Recharge_Control, 0x03, 4);
 
   DEFINE_SETTING_SHORT_INT(VRECHG, REG0A_Recharge_Control, 0x0F, 0, 50, 800, 50, 50);
@@ -315,7 +320,7 @@ class BQ25798Core {
     PRECHG_TMR_2HRS = 0,
     PRECHG_TMR_30MIN = 1,
   };
-  strings_vector_t PRECHG_TMR_strings = {{F("2 hours")}, {F("30 minutes")}};
+  strings_vector_t PRECHG_TMR_strings = {{"2 hours"}, {"30 minutes"}};
   DEFINE_SETTING_SHORT_ENUM(PRECHG_TMR, REG0D_IOTG_regulation, 0x01, 7);
 
   DEFINE_SETTING_SHORT_INT(IOTG, REG0D_IOTG_regulation, 0x7F, 0, 160, 3360, 0, 40);
@@ -324,7 +329,7 @@ class BQ25798Core {
   // REG0E_Timer_Control
   // ===================================
   enum class TOPOFF_TMR_t : uint8_t { TOPOFF_TMR_DISABLED = 0, TOPOFF_TMR_15MIN = 1, TOPOFF_TMR_30MIN = 2, TOPOFF_TMR_45MIN = 3 };
-  strings_vector_t TOPOFF_TMR_strings = {{F("Disabled")}, {F("15 minutes")}, {F("30 minutes")}, {F("45 minutes")}};
+  strings_vector_t TOPOFF_TMR_strings = {{"Disabled"}, {"15 minutes"}, {"30 minutes"}, {"45 minutes"}};
   DEFINE_SETTING_SHORT_ENUM(TOPOFF_TMR, REG0E_Timer_Control, 0x03, 6);
 
   DEFINE_SETTING_SHORT_BOOL(EN_TRICHG_TMR, REG0E_Timer_Control, 0x01, 5);
@@ -334,7 +339,7 @@ class BQ25798Core {
   DEFINE_SETTING_SHORT_BOOL(EN_CHG_TMR, REG0E_Timer_Control, 0x01, 3);
 
   enum class CHG_TMR_t : uint8_t { CHG_TMR_5HRS = 0, CHG_TMR_8HRS = 1, CHG_TMR_12HRS = 2, CHG_TMR_24HRS = 3 };
-  strings_vector_t CHG_TMR_strings = {{F("5 hours")}, {F("8 hours")}, {F("12 hours")}, {F("24 hours")}};
+  strings_vector_t CHG_TMR_strings = {{"5 hours"}, {"8 hours"}, {"12 hours"}, {"24 hours"}};
   DEFINE_SETTING_SHORT_ENUM(CHG_TMR, REG0E_Timer_Control, 0x03, 1);
 
   DEFINE_SETTING_SHORT_BOOL(TMR2X_EN, REG0E_Timer_Control, 0x01, 0);
@@ -362,11 +367,11 @@ class BQ25798Core {
   // REG10_Charger_Control_1
   // ===================================
   enum class VBUS_BACKUP_t : uint8_t { PCT_VBUS_BACKUP_40 = 0, PCT_VBUS_BACKUP_60 = 1, PCT_VBUS_BACKUP_80 = 2, PCT_VBUS_BACKUP_100 = 3 };
-  strings_vector_t VBUS_BACKUP_strings = {{F("<40%(VINDPM)")}, {F("<60%(VINDPM)")}, {F("<80%(VINDPM)")}, {F("<100%(VINDPM)")}};
+  strings_vector_t VBUS_BACKUP_strings = {{"<40%(VINDPM)"}, {"<60%(VINDPM)"}, {"<80%(VINDPM)"}, {"<100%(VINDPM)"}};
   DEFINE_SETTING_SHORT_ENUM(VBUS_BACKUP, REG10_Charger_Control_1, 0x03, 6);
 
   enum class VAC_OVP_t : uint8_t { VAC_OVP_26V = 0, VAC_OVP_22V = 1, VAC_OVP_12V = 2, VAC_OVP_7V = 3 };
-  strings_vector_t VAC_OVP_strings = {{F(">26V")}, {F(">22V")}, {F(">12V")}, {F(">7V")}};
+  strings_vector_t VAC_OVP_strings = {{">26V"}, {">22V"}, {">12V"}, {">7V"}};
   DEFINE_SETTING_SHORT_ENUM(VAC_OVP, REG10_Charger_Control_1, 0x03, 4);
 
   DEFINE_SETTING_SHORT_BOOL(WD_RST, REG10_Charger_Control_1, 0x01, 3);
@@ -381,7 +386,7 @@ class BQ25798Core {
     WATCHDOG_80S = 6,
     WATCHDOG_160S = 7
   };
-  strings_vector_t WATCHDOG_strings = {{F("Disabled")}, {F("0.5s")}, {F("1s")}, {F("2s")}, {F("20s")}, {F("40s")}, {F("80s")}, {F("160s")}};
+  strings_vector_t WATCHDOG_strings = {{"Disabled"}, {"0.5s"}, {"1s"}, {"2s"}, {"20s"}, {"40s"}, {"80s"}, {"160s"}};
   DEFINE_SETTING_SHORT_ENUM(WATCHDOG, REG10_Charger_Control_1, 0x07, 0);
 
   // ===================================
@@ -398,11 +403,11 @@ class BQ25798Core {
   DEFINE_SETTING_SHORT_BOOL(HVDCP_EN, REG11_Charger_Control_2, 0x01, 3);
 
   enum class SDRV_CTRL_t : uint8_t { IDLE = 0, SHUTDOWN = 1, SHIP = 2, SYS_PWR_RST = 3 };
-  strings_vector_t SDRV_CTRL_strings = {{F("Idle")}, {F("Shutdown")}, {F("Ship")}, {F("System Power Reset")}};
+  strings_vector_t SDRV_CTRL_strings = {{"Idle"}, {"Shutdown"}, {"Ship"}, {"System Power Reset"}};
   DEFINE_SETTING_SHORT_ENUM(SDRV_CTRL, REG11_Charger_Control_2, 0x03, 1);
 
   enum class SDRV_DLY_t : uint8_t { SDRV_DLY_10S = 0, SDRV_DLY_0S = 1 };
-  strings_vector_t SDRV_DLY_strings = {{F("10s")}, {F("0s")}};
+  strings_vector_t SDRV_DLY_strings = {{"10s"}, {"0s"}};
   DEFINE_SETTING_SHORT_ENUM(SDRV_DLY, REG11_Charger_Control_2, 0x01, 0);
 
   // ===================================
@@ -417,7 +422,7 @@ class BQ25798Core {
   DEFINE_SETTING_SHORT_BOOL(PFM_FWD_DIS, REG12_Charger_Control_3, 0x01, 4);
 
   enum class WKUP_DLY_t : uint8_t { WKUP_DLY_1S = 0, WKUP_DLY_15MS = 1 };
-  strings_vector_t WKUP_DLY_strings = {{F("1s")}, {F("15ms")}};
+  strings_vector_t WKUP_DLY_strings = {{"1s"}, {"15ms"}};
   DEFINE_SETTING_SHORT_ENUM(WKUP_DLY, REG12_Charger_Control_3, 0x01, 3);
 
   DEFINE_SETTING_SHORT_BOOL(DIS_LDO, REG12_Charger_Control_3, 0x01, 2);
@@ -434,7 +439,7 @@ class BQ25798Core {
   DEFINE_SETTING_SHORT_BOOL(EN_ACDRV1, REG13_Charger_Control_4, 0x01, 6);
 
   enum class PWM_FREQ_t : uint8_t { PWM_FREQ_1_5MHZ = 0, PWM_FREQ_750KHZ = 1 };
-  strings_vector_t PWM_FREQ_strings = {{F("1.5 MHz")}, {F("750 kHz")}};
+  strings_vector_t PWM_FREQ_strings = {{"1.5 MHz"}, {"750 kHz"}};
   DEFINE_SETTING_SHORT_ENUM(PWM_FREQ, REG13_Charger_Control_4, 0x01, 5);
 
   DEFINE_SETTING_SHORT_BOOL(DIS_STAT, REG13_Charger_Control_4, 0x01, 4);
@@ -455,7 +460,7 @@ class BQ25798Core {
   DEFINE_SETTING_SHORT_BOOL(EN_IBAT, REG14_Charger_Control_5, 0x01, 5);
 
   enum class IBAT_REG_t : uint8_t { IBAT_REG_3A = 0, IBAT_REG_4A = 1, IBAT_REG_5A = 2, IBAT_REG_DISABLE = 3 };
-  strings_vector_t IBAT_REG_strings = {{F("3A")}, {F("4A")}, {F("5A")}, {F("Disabled")}};
+  strings_vector_t IBAT_REG_strings = {{"3A"}, {"4A"}, {"5A"}, {"Disabled"}};
   DEFINE_SETTING_SHORT_ENUM(IBAT_REG, REG14_Charger_Control_5, 0x03, 3);
 
   DEFINE_SETTING_SHORT_BOOL(EN_IINDPM, REG14_Charger_Control_5, 0x01, 2);
@@ -477,15 +482,15 @@ class BQ25798Core {
     VOC_PCT_0_9375 = 6,
     VOC_PCT_1 = 7
   };
-  strings_vector_t VOC_PCT_strings = {{F("0.5625")}, {F("0.625")}, {F("0.6875")}, {F("0.75")}, {F("0.8125")}, {F("0.875")}, {F("0.9375")}, {F("1")}};
+  strings_vector_t VOC_PCT_strings = {{"0.5625"}, {"0.625"}, {"0.6875"}, {"0.75"}, {"0.8125"}, {"0.875"}, {"0.9375"}, {"1"}};
   DEFINE_SETTING_SHORT_ENUM(VOC_PCT, REG15_MPPT_Control, 0x07, 5);
 
   enum class VOC_DLY_t : uint8_t { VOC_DLY_50MS = 0, VOC_DLY_300MS = 1, VOC_DLY_2S = 2, VOC_DLY_5S = 3 };
-  strings_vector_t VOC_DLY_strings = {{F("50ms")}, {F("300ms")}, {F("2s")}, {F("5s")}};
+  strings_vector_t VOC_DLY_strings = {{"50ms"}, {"300ms"}, {"2s"}, {"5s"}};
   DEFINE_SETTING_SHORT_ENUM(VOC_DLY, REG15_MPPT_Control, 0x03, 4);
 
   enum class VOC_RATE_t : uint8_t { VOC_RATE_30S = 0, VOC_RATE_2MIN = 1, VOC_RATE_10MIN = 2, VOC_RATE_30MIN = 3 };
-  strings_vector_t VOC_RATE_strings = {{F("30s")}, {F("2min")}, {F("10min")}, {F("30min")}};
+  strings_vector_t VOC_RATE_strings = {{"30s"}, {"2min"}, {"10min"}, {"30min"}};
   DEFINE_SETTING_SHORT_ENUM(VOC_RATE, REG15_MPPT_Control, 0x03, 2);
 
   DEFINE_SETTING_SHORT_BOOL(EN_MPPT, REG15_MPPT_Control, 0x01, 0);
@@ -494,11 +499,11 @@ class BQ25798Core {
   // REG16_Temperature_Control
   // ===================================
   enum class TREG_t : uint8_t { TREG_60 = 0, TREG_80 = 1, TREG_100 = 2, TREG_120 = 3 };
-  strings_vector_t TREG_strings = {{F("60'C")}, {F("80'C")}, {F("100'C")}, {F("120'C")}};
+  strings_vector_t TREG_strings = {{"60'C"}, {"80'C"}, {"100'C"}, {"120'C"}};
   DEFINE_SETTING_SHORT_ENUM(TREG, REG16_Temperature_Control, 0x03, 6);
 
   enum class TSHUT_t : uint8_t { TSHUT_150 = 0, TSHUT_130 = 1, TSHUT_120 = 2, TSHUT_85 = 3 };
-  strings_vector_t TSHUT_strings = {{F("150'C")}, {F("130'C")}, {F("120'C")}, {F("85'C")}};
+  strings_vector_t TSHUT_strings = {{"150'C"}, {"130'C"}, {"120'C"}, {"85'C"}};
   DEFINE_SETTING_SHORT_ENUM(TSHUT, REG16_Temperature_Control, 0x03, 4);
 
   DEFINE_SETTING_SHORT_BOOL(VBUS_PD_EN, REG16_Temperature_Control, 0x01, 3);
@@ -508,7 +513,7 @@ class BQ25798Core {
   DEFINE_SETTING_SHORT_BOOL(VAC2_PD_EN, REG16_Temperature_Control, 0x01, 1);
 
   enum class BKUP_ACFET1_ON_t : uint8_t { IDLE = 0, TURN_ON = 1 };
-  strings_vector_t BKUP_ACFET1_ON_strings = {{F("Idle")}, {F("Turn on ACFET1 in backup mode")}};
+  strings_vector_t BKUP_ACFET1_ON_strings = {{"Idle"}, {"Turn on ACFET1 in backup mode"}};
   DEFINE_SETTING_SHORT_ENUM(BKUP_ACFET1_ON, REG16_Temperature_Control, 0x01, 0);
 
   // ==================================
@@ -525,35 +530,35 @@ class BQ25798Core {
     VREG_UNCHANGED = 7
   };
   strings_vector_t JEITA_VSET_strings = {
-      {F("Charge Suspend")},         {F("Set VREG to VREG-800mV")}, {F("Set VREG to VREG-600mV")}, {F("Set VREG to VREG-400mV (default)")},
-      {F("Set VREG to VREG-300mV")}, {F("Set VREG to VREG-200mV")}, {F("Set VREG to VREG-100mV")}, {F("VREG unchanged")}};
+      {"Charge Suspend"},         {"Set VREG to VREG-800mV"}, {"Set VREG to VREG-600mV"}, {"Set VREG to VREG-400mV (default)"},
+      {"Set VREG to VREG-300mV"}, {"Set VREG to VREG-200mV"}, {"Set VREG to VREG-100mV"}, {"VREG unchanged"}};
   DEFINE_SETTING_SHORT_ENUM(JEITA_VSET, REG17_NTC_Control_0, 0x07, 5);
 
   enum class JEITA_ISETH_t : uint8_t { CHARGE_SUSPEND = 0, SET_ICHG_TO_20 = 1, SET_ICHG_TO_40 = 2, ICHG_UNCHANGED = 3 };
-  strings_vector_t JEITA_ISETH_strings = {{F("Charge Suspend")}, {F("Set ICHG to 20%* ICHG")}, {F("Set ICHG to 40%* ICHG")}, {F("ICHG unchanged")}};
+  strings_vector_t JEITA_ISETH_strings = {{"Charge Suspend"}, {"Set ICHG to 20%* ICHG"}, {"Set ICHG to 40%* ICHG"}, {"ICHG unchanged"}};
   DEFINE_SETTING_SHORT_ENUM(JEITA_ISETH, REG17_NTC_Control_0, 0x03, 3);
 
   enum class JEITA_ISETC_t : uint8_t { CHARGE_SUSPEND = 0, SET_ICHG_TO_20 = 1, SET_ICHG_TO_40 = 2, ICHG_UNCHANGED = 3 };
-  strings_vector_t JEITA_ISETC_strings = {{F("Charge Suspend")}, {F("Set ICHG to 20%* ICHG (default)")}, {F("Set ICHG to 40%* ICHG")}, {F("ICHG unchanged")}};
+  strings_vector_t JEITA_ISETC_strings = {{"Charge Suspend"}, {"Set ICHG to 20%* ICHG (default)"}, {"Set ICHG to 40%* ICHG"}, {"ICHG unchanged"}};
   DEFINE_SETTING_SHORT_ENUM(JEITA_ISETC, REG17_NTC_Control_0, 0x03, 1);
 
   // ==================================
   // REG18_NTC_Control_1
   // ==================================
   enum class TS_COOL_t : uint8_t { TS_5 = 0, TS_10 = 1, TS_15 = 2, TS_20 = 3 };
-  strings_vector_t TS_COOL_strings = {{F("5'C")}, {F("10'C (default)")}, {F("15'C")}, {F("20'C")}};
+  strings_vector_t TS_COOL_strings = {{"5'C"}, {"10'C (default)"}, {"15'C"}, {"20'C"}};
   DEFINE_SETTING_SHORT_ENUM(TS_COOL, REG18_NTC_Control_1, 0x03, 6);
 
   enum class TS_WARM_t : uint8_t { TS_40 = 0, TS_45 = 1, TS_50 = 2, TS_55 = 3 };
-  strings_vector_t TS_WARM_strings = {{F("40'C")}, {F("45'C (default)")}, {F("50'C")}, {F("55'C")}};
+  strings_vector_t TS_WARM_strings = {{"40'C"}, {"45'C (default)"}, {"50'C"}, {"55'C"}};
   DEFINE_SETTING_SHORT_ENUM(TS_WARM, REG18_NTC_Control_1, 0x03, 4);
 
   enum class BHOT_t : uint8_t { TS_55 = 0, TS_60 = 1, TS_65 = 2, DISABLE = 3 };
-  strings_vector_t BHOT_strings = {{F("55'C")}, {F("60'C (default)")}, {F("65'C")}, {F("Disabled")}};
+  strings_vector_t BHOT_strings = {{"55'C"}, {"60'C (default)"}, {"65'C"}, {"Disabled"}};
   DEFINE_SETTING_SHORT_ENUM(BHOT, REG18_NTC_Control_1, 0x03, 2);
 
   enum class BCOLD_t : uint8_t { MINUS_10 = 0, MINUS_20 = 1 };
-  strings_vector_t BCOLD_strings = {{F("-10'C (default)")}, {F("-20'C")}};
+  strings_vector_t BCOLD_strings = {{"-10'C (default)"}, {"-20'C"}};
   DEFINE_SETTING_SHORT_ENUM(BCOLD, REG18_NTC_Control_1, 0x01, 1);
 
   DEFINE_SETTING_SHORT_BOOL(TS_IGNORE, REG18_NTC_Control_1, 0x01, 0);
@@ -567,31 +572,31 @@ class BQ25798Core {
   // REG1B_Charger_Status_0
   // ==================================
   enum class IINDPM_STAT_t : uint8_t { NORMAL = 0, REGULATION = 1 };
-  strings_vector_t IINDPM_STAT_strings = {{F("Normal")}, {F("In IINDPM regulation or IOTG regulation")}};
+  strings_vector_t IINDPM_STAT_strings = {{"Normal"}, {"In IINDPM regulation or IOTG regulation"}};
   DEFINE_SETTING_SHORT_ENUM_READONLY(IINDPM_STAT, REG1B_Charger_Status_0, 0x01, 7);
 
   enum class VINDPM_STAT_t : uint8_t { NORMAL = 0, REGULATION = 1 };
-  strings_vector_t VINDPM_STAT_strings = {{F("Normal")}, {F("In VINDPM regulation or VOTG regulation")}};
+  strings_vector_t VINDPM_STAT_strings = {{"Normal"}, {"In VINDPM regulation or VOTG regulation"}};
   DEFINE_SETTING_SHORT_ENUM_READONLY(VINDPM_STAT, REG1B_Charger_Status_0, 0x01, 6);
 
   enum class WD_STAT_t : uint8_t { NORMAL = 0, EXPIRED = 1 };
-  strings_vector_t WD_STAT_strings = {{F("Normal")}, {F("Watchdog timer expired")}};
+  strings_vector_t WD_STAT_strings = {{"Normal"}, {"Watchdog timer expired"}};
   DEFINE_SETTING_SHORT_ENUM_READONLY(WD_STAT, REG1B_Charger_Status_0, 0x01, 5);
 
   enum class PG_STAT_t : uint8_t { BAD = 0, GOOD = 1 };
-  strings_vector_t PG_STAT_strings = {{F("Not in power good status")}, {F("Power good")}};
+  strings_vector_t PG_STAT_strings = {{"Not in power good status"}, {"Power good"}};
   DEFINE_SETTING_SHORT_ENUM_READONLY(PG_STAT, REG1B_Charger_Status_0, 0x01, 3);
 
   enum class AC2_PRESENT_STAT_t : uint8_t { NOT_PRESENT = 0, PRESENT = 1 };
-  strings_vector_t AC2_PRESENT_STAT_strings = {{F("VAC2 NOT present")}, {F("VAC2 present (above present threshold)")}};
+  strings_vector_t AC2_PRESENT_STAT_strings = {{"VAC2 NOT present"}, {"VAC2 present (above present threshold)"}};
   DEFINE_SETTING_SHORT_ENUM_READONLY(AC2_PRESENT_STAT, REG1B_Charger_Status_0, 0x01, 2);
 
   enum class AC1_PRESENT_STAT_t : uint8_t { NOT_PRESENT = 0, PRESENT = 1 };
-  strings_vector_t AC1_PRESENT_STAT_strings = {{F("VAC1 NOT present")}, {F("VAC1 present (above present threshold)")}};
+  strings_vector_t AC1_PRESENT_STAT_strings = {{"VAC1 NOT present"}, {"VAC1 present (above present threshold)"}};
   DEFINE_SETTING_SHORT_ENUM_READONLY(AC1_PRESENT_STAT, REG1B_Charger_Status_0, 0x01, 1);
 
   enum class VBUS_PRESENT_STAT_t : uint8_t { NOT_PRESENT = 0, PRESENT = 1 };
-  strings_vector_t VBUS_PRESENT_STAT_strings = {{F("VBUS NOT present")}, {F("VBUS present (above present threshold)")}};
+  strings_vector_t VBUS_PRESENT_STAT_strings = {{"VBUS NOT present"}, {"VBUS present (above present threshold)"}};
   DEFINE_SETTING_SHORT_ENUM_READONLY(VBUS_PRESENT_STAT, REG1B_Charger_Status_0, 0x01, 0);
 
   // ==================================
@@ -607,14 +612,14 @@ class BQ25798Core {
     TOPOFF = 6,
     TERMINATED = 7
   };
-  strings_vector_t CHG_STAT_strings = {{F("Not Charging")},
-                                       {F("Trickle Charge")},
-                                       {F("Pre-charge")},
-                                       {F("Fast charge (CC mode)")},
-                                       {F("Taper Charge (CV mode)")},
-                                       {F("Reserved")},
-                                       {F("Top-off Timer Active Charging")},
-                                       {F("Charge Termination Done")}};
+  strings_vector_t CHG_STAT_strings = {{"Not Charging"},
+                                       {"Trickle Charge"},
+                                       {"Pre-charge"},
+                                       {"Fast charge (CC mode)"},
+                                       {"Taper Charge (CV mode)"},
+                                       {"Reserved"},
+                                       {"Top-off Timer Active Charging"},
+                                       {"Charge Termination Done"}};
   DEFINE_SETTING_SHORT_ENUM_READONLY(CHG_STAT, REG1C_Charger_Status_1, 0x7, 5);
 
   enum class VBUS_STAT_t : uint8_t {
@@ -635,22 +640,22 @@ class BQ25798Core {
     RESERVED_E = 14,
     RESERVED_F = 15
   };
-  strings_vector_t VBUS_STAT_strings = {{F("No Input or BHOT or BCOLD in OTG mode")},
-                                        {F("USB SDP (500mA)")},
-                                        {F("USB CDP (1.5A)")},
-                                        {F("USB DCP (3.25A)")},
-                                        {F("Adjustable High Voltage DCP (HVDCP) (1.5A)")},
-                                        {F("Unknown adaptor (3A)")},
-                                        {F("Non-Standard Adapter (1A/2A/2.1A/2.4A)")},
-                                        {F("In OTG mode")},
-                                        {F("Not qualified adaptor")},
-                                        {F("Reserved")},
-                                        {F("Reserved")},
-                                        {F("Device directly powered from VBUS")},
-                                        {F("Backup Mode")},
-                                        {F("Reserved")},
-                                        {F("Reserved")},
-                                        {F("Reserved")}};
+  strings_vector_t VBUS_STAT_strings = {{"No Input or BHOT or BCOLD in OTG mode"},
+                                        {"USB SDP (500mA)"},
+                                        {"USB CDP (1.5A)"},
+                                        {"USB DCP (3.25A)"},
+                                        {"Adjustable High Voltage DCP (HVDCP) (1.5A)"},
+                                        {"Unknown adaptor (3A)"},
+                                        {"Non-Standard Adapter (1A/2A/2.1A/2.4A)"},
+                                        {"In OTG mode"},
+                                        {"Not qualified adaptor"},
+                                        {"Reserved"},
+                                        {"Reserved"},
+                                        {"Device directly powered from VBUS"},
+                                        {"Backup Mode"},
+                                        {"Reserved"},
+                                        {"Reserved"},
+                                        {"Reserved"}};
   DEFINE_SETTING_SHORT_ENUM_READONLY(VBUS_STAT, REG1C_Charger_Status_1, 0x0F, 1);
 
   DEFINE_SETTING_SHORT_BOOL_READONLY(BC12_DONE_STAT, REG1C_Charger_Status_1, 0x01, 0);
@@ -659,19 +664,19 @@ class BQ25798Core {
   // REG1D_Charger_Status_2
   // ==================================
   enum class ICO_STAT_t : uint8_t { ICO_DISABLED = 0, ICO_IN_PROGRESS = 1, ICO_MAX_CURRENT_DETECTED = 2, ICO_RESERVED = 3 };
-  strings_vector_t ICO_STAT_strings = {{F("ICO disabled")}, {F("ICO optimization in progress")}, {F("Maximum input current detected")}, {F("Reserved")}};
+  strings_vector_t ICO_STAT_strings = {{"ICO disabled"}, {"ICO optimization in progress"}, {"Maximum input current detected"}, {"Reserved"}};
   DEFINE_SETTING_SHORT_ENUM_READONLY(ICO_STAT, REG1D_Charger_Status_2, 0x03, 6);
 
   enum class TREG_STAT_t : uint8_t { NORMAL = 0, THERMAL_REGULATION = 1 };
-  strings_vector_t TREG_STAT_strings = {{F("Normal")}, {F("Device in thermal regulation")}};
+  strings_vector_t TREG_STAT_strings = {{"Normal"}, {"Device in thermal regulation"}};
   DEFINE_SETTING_SHORT_ENUM_READONLY(TREG_STAT, REG1D_Charger_Status_2, 0x01, 5);
 
   enum class DPDM_STAT_t : uint8_t { NOT_STARTED = 0, IN_PROGRESS = 1 };
-  strings_vector_t DPDM_STAT_strings = {{F("D+/D- detection NOT started yet or done")}, {F("D+/D- detection in progress")}};
+  strings_vector_t DPDM_STAT_strings = {{"D+/D- detection NOT started yet or done"}, {"D+/D- detection in progress"}};
   DEFINE_SETTING_SHORT_ENUM_READONLY(DPDM_STAT, REG1D_Charger_Status_2, 0x01, 4);
 
   enum class VBAT_PRESENT_STAT_t : uint8_t { NOT_PRESENT = 0, PRESENT = 1 };
-  strings_vector_t VBAT_PRESENT_STAT_strings = {{F("VBAT NOT present")}, {F("VBAT present")}};
+  strings_vector_t VBAT_PRESENT_STAT_strings = {{"VBAT NOT present"}, {"VBAT present"}};
   DEFINE_SETTING_SHORT_ENUM_READONLY(VBAT_PRESENT_STAT, REG1D_Charger_Status_2, 0x01, 0);
 
   // ==================================
@@ -684,42 +689,42 @@ class BQ25798Core {
   DEFINE_SETTING_SHORT_BOOL_READONLY(ADC_DONE_STAT, REG1E_Charger_Status_3, 0x01, 5);
 
   enum class VSYS_STAT_t : uint8_t { NOT_IN_VSYSMIN_REGULATION = 0, IN_VSYSMIN_REGULATION = 1 };
-  strings_vector_t VSYS_STAT_strings = {{F("Not in VSYSMIN regulation (VBAT > VSYSMIN)")}, {F("In VSYSMIN regulation (VBAT < VSYSMIN)")}};
+  strings_vector_t VSYS_STAT_strings = {{"Not in VSYSMIN regulation (VBAT > VSYSMIN)"}, {"In VSYSMIN regulation (VBAT < VSYSMIN)"}};
   DEFINE_SETTING_SHORT_ENUM_READONLY(VSYS_STAT, REG1E_Charger_Status_3, 0x01, 4);
 
   enum class CHG_TMR_STAT_t : uint8_t { NORMAL = 0, SAFETY_TIMER_EXPIRED = 1 };
-  strings_vector_t CHG_TMR_STAT_strings = {{F("Normal")}, {F("Safety timer expired")}};
+  strings_vector_t CHG_TMR_STAT_strings = {{"Normal"}, {"Safety timer expired"}};
   DEFINE_SETTING_SHORT_ENUM_READONLY(CHG_TMR_STAT, REG1E_Charger_Status_3, 0x01, 3);
 
   enum class TRICHG_TMR_STAT_t : uint8_t { NORMAL = 0, SAFETY_TIMER_EXPIRED = 1 };
-  strings_vector_t TRICHG_TMR_STAT_strings = {{F("Normal")}, {F("Safety timer expired")}};
+  strings_vector_t TRICHG_TMR_STAT_strings = {{"Normal"}, {"Safety timer expired"}};
   DEFINE_SETTING_SHORT_ENUM_READONLY(TRICHG_TMR_STAT, REG1E_Charger_Status_3, 0x01, 2);
 
   enum class PRECHG_TMR_STAT_t : uint8_t { NORMAL = 0, SAFETY_TIMER_EXPIRED = 1 };
-  strings_vector_t PRECHG_TMR_STAT_strings = {{F("Normal")}, {F("Safety timer expired")}};
+  strings_vector_t PRECHG_TMR_STAT_strings = {{"Normal"}, {"Safety timer expired"}};
   DEFINE_SETTING_SHORT_ENUM_READONLY(PRECHG_TMR_STAT, REG1E_Charger_Status_3, 0x01, 1);
 
   // ==================================
   // REG1F_Charger_Status_4
   // ==================================
   enum class VBATOTG_LOW_STAT_t : uint8_t { VBATOTG_LOW = 0, VBATOTG_OK = 1 };
-  strings_vector_t VBATOTG_LOW_STAT_strings = {{F("VBAT is too low to enable OTG mode")}, {F("VBAT is high enough to enable OTG operation")}};
+  strings_vector_t VBATOTG_LOW_STAT_strings = {{"VBAT is too low to enable OTG mode"}, {"VBAT is high enough to enable OTG operation"}};
   DEFINE_SETTING_SHORT_ENUM_READONLY(VBATOTG_LOW_STAT, REG1F_Charger_Status_4, 0x01, 4);
 
   enum class TS_COLD_STAT_t : uint8_t { NOT_COLD = 0, COLD = 1 };
-  strings_vector_t TS_COLD_STAT_strings = {{F("TS NOT in cold range")}, {F("TS in cold range")}};
+  strings_vector_t TS_COLD_STAT_strings = {{"TS NOT in cold range"}, {"TS in cold range"}};
   DEFINE_SETTING_SHORT_ENUM_READONLY(TS_COLD_STAT, REG1F_Charger_Status_4, 0x01, 3);
 
   enum class TS_COOL_STAT_t : uint8_t { NOT_COOL = 0, COOL = 1 };
-  strings_vector_t TS_COOL_STAT_strings = {{F("TS NOT in cool range")}, {F("TS in cool range")}};
+  strings_vector_t TS_COOL_STAT_strings = {{"TS NOT in cool range"}, {"TS in cool range"}};
   DEFINE_SETTING_SHORT_ENUM_READONLY(TS_COOL_STAT, REG1F_Charger_Status_4, 0x01, 2);
 
   enum class TS_WARM_STAT_t : uint8_t { NOT_WARM = 0, WARM = 1 };
-  strings_vector_t TS_WARM_STAT_strings = {{F("TS NOT in warm range")}, {F("TS in warm range")}};
+  strings_vector_t TS_WARM_STAT_strings = {{"TS NOT in warm range"}, {"TS in warm range"}};
   DEFINE_SETTING_SHORT_ENUM_READONLY(TS_WARM_STAT, REG1F_Charger_Status_4, 0x01, 1);
 
   enum class TS_HOT_STAT_t : uint8_t { NOT_HOT = 0, HOT = 1 };
-  strings_vector_t TS_HOT_STAT_strings = {{F("TS NOT in hot range")}, {F("TS in hot range")}};
+  strings_vector_t TS_HOT_STAT_strings = {{"TS NOT in hot range"}, {"TS in hot range"}};
   DEFINE_SETTING_SHORT_ENUM_READONLY(TS_HOT_STAT, REG1F_Charger_Status_4, 0x01, 0);
 
   // ==================================
@@ -863,15 +868,15 @@ class BQ25798Core {
   DEFINE_SETTING_SHORT_BOOL(ADC_EN, REG2E_ADC_Control, 0x01, 7);
 
   enum class ADC_RATE_t : uint8_t { CONTINUOUS = 0, ONESHOT = 1 };
-  strings_vector_t ADC_RATE_strings = {{F("Continuous")}, {F("One-shot")}};
+  strings_vector_t ADC_RATE_strings = {{"Continuous"}, {"One-shot"}};
   DEFINE_SETTING_SHORT_ENUM(ADC_RATE, REG2E_ADC_Control, 0x01, 6);
 
   enum class ADC_SAMPLE_t : uint8_t { ADC_SAMPLE_15BIT = 0, ADC_SAMPLE_14BIT = 1, ADC_SAMPLE_13BIT = 2, ADC_SAMPLE_12BIT = 3 };
-  strings_vector_t ADC_SAMPLE_strings = {{F("15-bit")}, {F("14-bit")}, {F("13-bit")}, {F("12-bit")}};
+  strings_vector_t ADC_SAMPLE_strings = {{"15-bit"}, {"14-bit"}, {"13-bit"}, {"12-bit"}};
   DEFINE_SETTING_SHORT_ENUM(ADC_SAMPLE, REG2E_ADC_Control, 0x03, 4);
 
   enum class ADC_AVG_t : uint8_t { NO_AVERAGING = 0, RUNNING_AVERAGE = 1 };
-  strings_vector_t ADC_AVG_strings = {{F("No averaging")}, {F("Running average")}};
+  strings_vector_t ADC_AVG_strings = {{"No averaging"}, {"Running average"}};
   DEFINE_SETTING_SHORT_ENUM(ADC_AVG, REG2E_ADC_Control, 0x01, 3);
 
   DEFINE_SETTING_SHORT_BOOL(ADC_AVG_INIT, REG2E_ADC_Control, 0x01, 2);
@@ -963,16 +968,16 @@ class BQ25798Core {
   // REG47_DPDM_Driver
   // ==================================
   enum class DPLUS_DAC_t : uint8_t { HIZ = 0, VOUT_0 = 1, VOUT_0_6 = 2, VOUT_1_2 = 3, VOUT_2_0 = 4, VOUT_2_7 = 5, VOUT_3_3 = 6, DPLUS_DMINUS_SHORT = 7 };
-  strings_vector_t DPLUS_DAC_strings = {{F("HIZ")}, {F("0V")}, {F("0.6V")}, {F("1.2V")}, {F("2.0V")}, {F("2.7V")}, {F("3.3V")}, {F("D+/D- Short")}};
+  strings_vector_t DPLUS_DAC_strings = {{"HIZ"}, {"0V"}, {"0.6V"}, {"1.2V"}, {"2.0V"}, {"2.7V"}, {"3.3V"}, {"D+/D- Short"}};
   DEFINE_SETTING_SHORT_ENUM(DPLUS_DAC, REG47_DPDM_Driver, 0x07, 5);
 
   // TODO_DEFINE_SETTING_SHORT_ENUM(FIXME1, REG47_DPDM_Driver, 0x07, 5,
   //                                WRAP_COMPLEX({HIZ = 0, VOUT_0 = 1, VOUT_0_6 = 2, VOUT_1_2 = 3, VOUT_2_0 = 4, VOUT_2_7 = 5, VOUT_3_3 = 6,
   //                                              DPLUS_DMINUS_SHORT = 7}),
-  //                                WRAP_COMPLEX({{F("HIZ")}, {F("0V")}, {F("0.6V")}, {F("1.2V")}, {F("2.0V")}, {F("2.7V")}, {F("3.3V")}, {F("D+/D- Short")}}));
+  //                                WRAP_COMPLEX({{"HIZ"}, {"0V"}, {"0.6V"}, {"1.2V"}, {"2.0V"}, {"2.7V"}, {"3.3V"}, {"D+/D- Short"}}));
 
   enum class DMINUS_DAC_t : uint8_t { HIZ = 0, VOUT_0 = 1, VOUT_0_6 = 2, VOUT_1_2 = 3, VOUT_2_0 = 4, VOUT_2_7 = 5, VOUT_3_3 = 6, RESERVED = 7 };
-  strings_vector_t DMINUS_DAC_strings = {{F("HIZ")}, {F("0V")}, {F("0.6V")}, {F("1.2V")}, {F("2.0V")}, {F("2.7V")}, {F("3.3V")}, {F("Reserved")}};
+  strings_vector_t DMINUS_DAC_strings = {{"HIZ"}, {"0V"}, {"0.6V"}, {"1.2V"}, {"2.0V"}, {"2.7V"}, {"3.3V"}, {"Reserved"}};
   DEFINE_SETTING_SHORT_ENUM(DMINUS_DAC, REG47_DPDM_Driver, 0x07, 2);
 
   // ==================================
@@ -988,7 +993,7 @@ class BQ25798Core {
     RESERVED_6 = 0x6,
     RESERVED_7 = 0x7,
   };
-  strings_vector_t PN_strings = {{F("?")}, {F("?")}, {F("?")}, {F("BQ25798")}, {F("?")}, {F("?")}, {F("?")}, {F("?")}};
+  strings_vector_t PN_strings = {{"?"}, {"?"}, {"?"}, {"BQ25798"}, {"?"}, {"?"}, {"?"}, {"?"}};
   DEFINE_SETTING_SHORT_ENUM_READONLY(PN, REG48_Part_Information, 0x07, 3);
 
   enum class DEV_REV_t : uint8_t {
@@ -1001,7 +1006,7 @@ class BQ25798Core {
     RESERVED_6 = 0x6,
     RESERVED_7 = 0x7,
   };
-  strings_vector_t DEV_REV_strings = {{F("?")}, {F("BQ25798")}, {F("?")}, {F("?")}, {F("?")}, {F("?")}, {F("?")}, {F("?")}};
+  strings_vector_t DEV_REV_strings = {{"?"}, {"BQ25798"}, {"?"}, {"?"}, {"?"}, {"?"}, {"?"}, {"?"}};
   DEFINE_SETTING_SHORT_ENUM_READONLY(DEV_REV, REG48_Part_Information, 0x07, 0);
 
   static constexpr size_t SETTINGS_COUNT = 191;  // Number of settings

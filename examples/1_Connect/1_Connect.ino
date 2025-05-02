@@ -9,8 +9,8 @@ void setup() {
 
   bq25798.begin();
 
-  Serial.printf("Part number: %s\n", bq25798.getString(bq25798.PN));
-  Serial.printf("Chip revision: %s\n", bq25798.getString(bq25798.DEV_REV));
+  Serial.printf("Part number: %s\n", bq25798.getPN_string());
+  Serial.printf("Chip revision: %s\n", bq25798.getDEV_REV_string());
 }
 
 void loop() {}

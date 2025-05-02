@@ -13,7 +13,7 @@ BQ25798::BQ25798(uint8_t chip_address, TwoWire& wire, Stream& serialPort) : BQ25
 bool BQ25798::begin() { return readAll(); }
 
 bool BQ25798::readAll() {
-  DEBUG_PRINT(F("[readAll] Reading all BQ25798 registers\n"));
+  DEBUG_PRINT("[readAll] Reading all BQ25798 registers\n");
 
   _i2cPort->beginTransmission(_chip_address);
   _i2cPort->write(REG00_Minimal_System_Voltage);  // Start reading from the first register
@@ -27,7 +27,7 @@ bool BQ25798::readAll() {
     _physicalReg8Values[i] = _i2cPort->read();
   }
 
-  DEBUG_PRINT(F("[readAll] -> success\n"));
+  DEBUG_PRINT("[readAll] -> success\n");
   return true;
 }
 
@@ -51,7 +51,7 @@ bool BQ25798::writeReg8ToI2C(int reg) {
     return false;
   }
 
-  DEBUG_PRINT(F("[writeReg8ToI2C] -> success\n"));
+  DEBUG_PRINT("[writeReg8ToI2C] -> success\n");
   return true;
 }
 
@@ -81,7 +81,7 @@ bool BQ25798::writeReg16ToI2C(int reg) {
     return false;
   }
 
-  DEBUG_PRINT(F("[writeReg16ToI2C] -> success\n"));
+  DEBUG_PRINT("[writeReg16ToI2C] -> success\n");
   return true;
 }
 

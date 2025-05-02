@@ -152,17 +152,17 @@ void trackChanges() {
   if (elapsedADCMillis >= ADC_readout_time_millis) {
     // Serial.printf("ADC readout elapsed time: %ld ms\n", elapsedADCMillis);
     lastADCReadMillis = millis();
-    bq25798.setAndWriteBool(bq25798.ADC_EN, 1);  // trigger ADC one-shot mode
+    bq25798.setAndWriteADC_EN(true);  // trigger ADC one-shot mode
   }
 }
 
 void repeatedSetup() {
   // Disable HIZ mode (high impedance mode):
-  bq25798.setAndWriteBool(bq25798.EN_HIZ, 0);
+  bq25798.setAndWriteEN_HIZ(false);
 
   // Enable OTG and BACKUP mode:
   // bq25798.setAndWriteBool(bq25798.EN_OTG, 1);
-  bq25798.setAndWriteBool(bq25798.EN_BACKUP, 1);
+  bq25798.setAndWriteEN_BACKUP(true);
 }
 
 void setup() {
@@ -180,8 +180,8 @@ void setup() {
 
   Serial.print("Resetting the IC completely...");
   // Reset the chip and wait for it to finish:
-  bq25798.setAndWriteBool(bq25798.REG_RST, 1);
-  while (bq25798.getBool(bq25798.REG_RST)) {
+  bq25798.setAndWriteREG_RST(true);
+  while (bq25798.getREG_RST()) {
     bq25798.readAll();
     delay(10);
   }
@@ -189,15 +189,15 @@ void setup() {
 
   Serial.print("Setting up BQ25798...");
   // Disable watchdog timer (it would otherwise reset the chip if not cleared in time):
-  bq25798.setAndWriteEnum<BQ25798::watchdog_t>(bq25798.WATCHDOG, BQ25798::watchdog_t::WATCHDOG_DISABLE);
+  bq25798.setAndWriteWATCHDOG(BQ25798::WATCHDOG_t::WATCHDOG_DISABLE);
 
   // Disable thermal sensor (not connected):
-  bq25798.setAndWriteBool(bq25798.TS_IGNORE, 1);
+  bq25798.setAndWriteTS_IGNORE(true);
 
   // Enable ADC one shot mode. ADC_EN will be set to 0 after the readout is done.
   // A continuous ADC would otherwise produce too much visual noise (a lot of changes).
-  bq25798.setAndWriteEnum<BQ25798::adc_rate_t>(bq25798.ADC_RATE, BQ25798::adc_rate_t::ONESHOT);
-  bq25798.setAndWriteBool(bq25798.ADC_EN, 1);  // trigger ADC one-shot mode
+  bq25798.setAndWriteADC_RATE(BQ25798::ADC_RATE_t::ONESHOT);
+  bq25798.setAndWriteADC_EN(true);  // trigger ADC one-shot mode
   delay(10);
 
   Serial.println("BQ25798 setup complete.");

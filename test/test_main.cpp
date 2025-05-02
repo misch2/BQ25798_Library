@@ -23,8 +23,6 @@ void test_bool(void) {
   TEST_ASSERT_EQUAL(false, bq.setAndWriteREG_RST(true));
   TEST_ASSERT_EQUAL(false, bq.setAndWriteEN_BACKUP(false));
   TEST_ASSERT_EQUAL(false, bq.getAC1_PRESENT_FLAG());
-  TEST_ASSERT_EQUAL(false, bq.setAndWriteVINDPM(12345));
-  TEST_ASSERT_EQUAL(12300, bq.getVINDPM());
   TEST_ASSERT_EQUAL(ERROR_NONE, bq.lastError());
 
   TEST_ASSERT_EQUAL(true, bq.rawToBool(0x01, boolSetting));
@@ -44,6 +42,12 @@ void test_bool(void) {
 
 void test_int(void) {
   BQ25798Core::Setting intSetting = {reg0.address, false, "TEST_INT", BQ25798Core::settings_type_t::INT, 0xFF, 0};
+
+  // mock writes always return false
+  TEST_ASSERT_EQUAL(false, bq.setAndWriteVINDPM(12345));
+  TEST_ASSERT_EQUAL(12300, bq.getVINDPM());
+  TEST_ASSERT_EQUAL(ERROR_NONE, bq.lastError());
+
   TEST_ASSERT_EQUAL(0, bq.rawToInt(0x00, intSetting));
   TEST_ASSERT_EQUAL(ERROR_NONE, bq.lastError());
   TEST_ASSERT_EQUAL(3, bq.rawToInt(0x03, intSetting));
