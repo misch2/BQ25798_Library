@@ -30,7 +30,10 @@ const BQ25798Core::Setting& BQ25798Core::getSetting(int id) {
   return setting;
 };
 
-uint8_t BQ25798Core::getReg8(int reg, int bitMask, int bitShift) { return (_physicalReg8Values[reg] >> bitShift) & bitMask; }
+uint8_t BQ25798Core::getReg8(int reg, int bitMask, int bitShift) {
+  DEBUG_PRINT("[getReg8] [reg=0x%02X, bitMask=0x%02X, bitShift=%d], reg content = 0x%02X\n", reg, bitMask, bitShift, _physicalReg8Values[reg]);
+  return (_physicalReg8Values[reg] >> bitShift) & bitMask;
+}
 
 void BQ25798Core::setReg8(int reg, uint8_t value, int bitMask, int bitShift) {
   uint8_t shiftedMask = bitMask << bitShift;
@@ -39,6 +42,8 @@ void BQ25798Core::setReg8(int reg, uint8_t value, int bitMask, int bitShift) {
 
   _physicalReg8Values[reg] &= negatedMask;
   _physicalReg8Values[reg] |= shiftedValue;
+
+  DEBUG_PRINT("[setReg8] [reg=0x%02X, bitMask=0x%02X, bitShift=%d], reg content = 0x%02X\n", reg, bitMask, bitShift, _physicalReg8Values[reg]);
 }
 
 uint16_t BQ25798Core::getReg16(int widereg, int bitMask, int bitShift) {
@@ -54,7 +59,13 @@ void BQ25798Core::setReg16(int widereg, uint16_t value, int bitMask, int bitShif
   _physicalReg8Values[widereg + 1] &= negatedMask & 0xFF;
   _physicalReg8Values[widereg] |= shiftedValue >> 8;
   _physicalReg8Values[widereg + 1] |= shiftedValue & 0xFF;
+
+  DEBUG_PRINT("[setReg16] [widereg=0x%02X, bitMask=0x%02X, bitShift=%d], reg content = 0x%02X 0x%02X\n", widereg, bitMask, bitShift,
+              _physicalReg8Values[widereg], _physicalReg8Values[widereg + 1]);
 }
+
+bool BQ25798Core::writeReg8ToI2C(int reg) { return false; }
+bool BQ25798Core::writeReg16ToI2C(int reg) { return false; }
 
 bool BQ25798Core::_flagIsSet(settings_flags_t flagset, settings_flags_t flag) { return (static_cast<uint8_t>(flagset) & static_cast<uint8_t>(flag)) != 0; }
 
@@ -63,8 +74,10 @@ uint16_t BQ25798Core::getRaw(const Setting& setting) {
 
   RegisterDefinition reg_def = getRegisterDefinition(setting.reg);
 
-  DEBUG_PRINT(F("[getRaw] [reg=0x%02X, bitMask=0x%02X, bitShift=%d]\n"), setting.reg, setting.mask, setting.shift);
-  DEBUG_PRINT(F("[getRaw] setting=%s [reg=0x%02X (%s), bitMask=0x%02X, bitShift=%d]\n"), setting.name, setting.reg, reg_def.name, setting.mask, setting.shift);
+  DEBUG_PRINT("[getRaw] [reg=0x%02X, bitMask=0x%02X, bitShift=%d], reg_content = 0x%02X\n", setting.reg, setting.mask, setting.shift,
+              _physicalReg8Values[setting.reg]);
+  DEBUG_PRINT("[getRaw]   setting=%s [long=%d, reg=0x%02X (%s), bitMask=0x%02X, bitShift=%d]\n", setting.name, setting.long_reg, setting.reg, reg_def.name,
+              setting.mask, setting.shift);
 
   if (setting.long_reg) {
     raw_value = getReg16(setting.reg, setting.mask, setting.shift);
@@ -72,7 +85,7 @@ uint16_t BQ25798Core::getRaw(const Setting& setting) {
     raw_value = getReg8(setting.reg, setting.mask, setting.shift);
   }
 
-  DEBUG_PRINT(F("[getRaw] -> raw 0x%04X\n"), raw_value);
+  DEBUG_PRINT("[getRaw] -> raw 0x%04X\n", raw_value);
 
   return raw_value;
 };
@@ -129,9 +142,9 @@ int BQ25798Core::rawToInt(uint16_t raw, const Setting& setting) {
     };
 
     if (raw & (1 << ((setting.long_reg ? 16 : 8) - 1))) {  // Check if the sign bit is set
-      // DEBUG_PRINT(F("getInt() 2's complement detected, value=0x%04X\n"), raw_value);
+      // DEBUG_PRINT("getInt() 2's complement detected, value=0x%04X\n", raw_value);
       int16_t adjusted_value = static_cast<int16_t>(raw);  // Cast to signed type
-      // DEBUG_PRINT(F(" -> adjusted value: 0x%04X\n"), adjusted_value);
+      // DEBUG_PRINT(" -> adjusted value: 0x%04X\n", adjusted_value);
       value = adjusted_value;
     } else {
       value = raw;  // No adjustment needed for positive values
@@ -139,7 +152,7 @@ int BQ25798Core::rawToInt(uint16_t raw, const Setting& setting) {
   } else {
     value = raw;  // No adjustment needed for unsigned values
   }
-  DEBUG_PRINT(F("[rawToInt]  - intermediate 0x%04X\n"), value);
+  DEBUG_PRINT("[rawToInt]  - intermediate 0x%04X\n", value);
 
   // Adjust the value based on the fixed offset and bit step size if provided
   if (setting.bit_step_size != 0) {
@@ -149,7 +162,7 @@ int BQ25798Core::rawToInt(uint16_t raw, const Setting& setting) {
     value += setting.fixed_offset;
   };
 
-  DEBUG_PRINT(F("[rawToInt] -> final %d\n"), value);
+  DEBUG_PRINT("[rawToInt] -> final %d\n", value);
 
   return value;
 }
@@ -190,9 +203,9 @@ float BQ25798Core::rawToFloat(uint16_t raw, const Setting& setting) {
   float value = raw;
   // Adjust the value based on the fixed offset and bit step size if provided
   if (setting.bit_step_size != 0) {
-    // DEBUG_PRINT(F("getFloat() adjusting raw value %.3f by bit step size %.3f\n"), value, setting.bit_step_size);
+    // DEBUG_PRINT("getFloat() adjusting raw value %.3f by bit step size %.3f\n", value, setting.bit_step_size);
     value *= setting.bit_step_size;
-    // DEBUG_PRINT(F(" -> adjusted to %.3f\n"), value);
+    // DEBUG_PRINT(" -> adjusted to %.3f\n", value);
   };
   if (setting.fixed_offset != 0) {
     value += setting.fixed_offset;
@@ -260,6 +273,9 @@ int BQ25798Core::lastError() { return _errorCode; }
 void BQ25798Core::_setError(int errorCode) { _errorCode = errorCode; }
 
 bool BQ25798Core::setAndWriteRaw(const Setting& setting, uint16_t value) {
+  DEBUG_PRINT("[setAndWriteRaw] [reg=0x%02X, bitMask=0x%02X, bitShift=%d], reg_content = 0x%02X -> 0x%02X\n", setting.reg, setting.mask, setting.shift,
+              _physicalReg8Values[setting.reg], value);
+
   if (setting.long_reg) {
     setReg16(setting.reg, value, setting.mask, setting.shift);
     return writeReg16ToI2C(setting.reg);
@@ -267,6 +283,7 @@ bool BQ25798Core::setAndWriteRaw(const Setting& setting, uint16_t value) {
     setReg8(setting.reg, value, setting.mask, setting.shift);
     return writeReg8ToI2C(setting.reg);
   }
+
   _setError(ERROR_INVALID_REGISTER);
   return false;
 }

@@ -1,8 +1,9 @@
 #include <unity.h>
 
-#include "utility/BQ25798Core.h"
+#define BQ25798_DEBUG 1
+#include "utility/BQ25798CoreMocked.h"
 
-BQ25798Core bq = BQ25798Core();  // Create an instance of the BQ25798 class
+BQ25798CoreMocked bq = BQ25798CoreMocked();
 
 BQ25798Core::RegisterDefinition reg0 = {0x00, "TEST_REG"};
 
@@ -19,9 +20,8 @@ void tearDown(void) {
 void test_bool(void) {
   BQ25798Core::Setting boolSetting = {reg0.address, false, "TEST_BOOL", BQ25798Core::settings_type_t::BOOL, 0xFF, 0};
 
-  // mock writes always return false
-  TEST_ASSERT_EQUAL(false, bq.setAndWriteREG_RST(true));
-  TEST_ASSERT_EQUAL(false, bq.setAndWriteEN_BACKUP(false));
+  TEST_ASSERT_EQUAL(true, bq.setAndWriteREG_RST(true));
+  TEST_ASSERT_EQUAL(true, bq.setAndWriteEN_BACKUP(false));
   TEST_ASSERT_EQUAL(false, bq.getAC1_PRESENT_FLAG());
   TEST_ASSERT_EQUAL(ERROR_NONE, bq.lastError());
 
@@ -43,8 +43,7 @@ void test_bool(void) {
 void test_int(void) {
   BQ25798Core::Setting intSetting = {reg0.address, false, "TEST_INT", BQ25798Core::settings_type_t::INT, 0xFF, 0};
 
-  // mock writes always return false
-  TEST_ASSERT_EQUAL(false, bq.setAndWriteVINDPM(12345));
+  TEST_ASSERT_EQUAL(true, bq.setAndWriteVINDPM(12345));
   TEST_ASSERT_EQUAL(12300, bq.getVINDPM());
   TEST_ASSERT_EQUAL(ERROR_NONE, bq.lastError());
 

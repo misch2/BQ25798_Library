@@ -249,8 +249,8 @@ class BQ25798Core {
 #define DEFINE_SETTING_LONG_FLOAT_2COMPLEMENT_READONLY(setting, regaddr, mask, shift, range_low, range_high, fixed_offset, bit_step_size) \
   _DEFINE_RO_FLOAT(setting, true, regaddr, mask, shift, range_low, range_high, fixed_offset, bit_step_size, IS_2COMPLEMENT)
 
-#define DEFINE_SETTING_SHORT_ENUM(setting, regaddr, mask, shift) _DEFINE_RW_ENUM(setting, true, regaddr, mask, shift, 0, 0, 0, 0, NONE)
-#define DEFINE_SETTING_SHORT_ENUM_READONLY(setting, regaddr, mask, shift) _DEFINE_RO_ENUM(setting, true, regaddr, mask, shift, 0, 0, 0, 0, NONE)
+#define DEFINE_SETTING_SHORT_ENUM(setting, regaddr, mask, shift) _DEFINE_RW_ENUM(setting, false, regaddr, mask, shift, 0, 0, 0, 0, NONE)
+#define DEFINE_SETTING_SHORT_ENUM_READONLY(setting, regaddr, mask, shift) _DEFINE_RO_ENUM(setting, false, regaddr, mask, shift, 0, 0, 0, 0, NONE)
 
   // ===================================
   // REG00_Minimal_System_Voltage
@@ -1228,6 +1228,9 @@ class BQ25798Core {
   uint16_t getReg16(int widereg, int bitMask = 0xFFFF, int bitShift = 0);
   void setReg16(int widereg, uint16_t value, int bitMask = 0xFFFF, int bitShift = 0);
 
+  virtual bool writeReg8ToI2C(int reg);
+  virtual bool writeReg16ToI2C(int reg);
+
   bool setAndWriteRaw(const BQ25798Core::Setting& setting, uint16_t value);
   bool setAndWriteInt(const BQ25798Core::Setting& setting, int value);
   bool setAndWriteBool(const BQ25798Core::Setting& setting, bool value);
@@ -1238,9 +1241,6 @@ class BQ25798Core {
     // the same as int, but with enum value
     return setAndWriteInt(setting, static_cast<int>(value));
   };
-
-  bool writeReg8ToI2C(int reg) { return false; }   // mock only
-  bool writeReg16ToI2C(int reg) { return false; }  // mock only
 
  protected:
   std::array<uint8_t, PHYSICAL_REGISTERS_COUNT> _physicalReg8Values;  // Array to hold 8-bit register values

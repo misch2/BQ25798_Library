@@ -59,7 +59,7 @@ void printMostImportantStats() {
 
 void trackChanges() {
   if (!bq25798.readAll()) {
-    Serial.printf("Error: %d", bq25798.getError());
+    Serial.printf("Error reading BQ25798 registers: %d\n", bq25798.lastError());
     bq25798.clearError();
     delay(10000);
     return;
