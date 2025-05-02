@@ -9,11 +9,13 @@ Easy use with clearly named registers and bitfields.
 ```
 BQ25798 bq = BQ25798();
 
-bq.setAndWriteBool(bq.ADC_EN, true);
-bq.setAndWriteBool(bq.TS_IGNORE, true);
-bq.setAndWriteBool(bq.EN_BACKUP, true);
+bq.setAndWriteADC_EN(true);
+bq.setAndWriteTS_IGNORE(rue);
+bq.setAndWriteEN_BACKUP(true);
 
-bq.setAndWriteEnum<BQ25798::adc_rate_t>(bq.ADC_RATE, BQ25798::adc_rate_t::ONESHOT);
+bq.setAndWriteADC_RATE(BQ25798::ADC_RATE_t::ONESHOT);
+
+printf("Charging status: %s\n", bq.getCHG_STAT_string());
 ```
 
 ## Example
