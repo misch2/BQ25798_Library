@@ -1,0 +1,59 @@
+{%- set last_reg = "" -%}
+
+{%- for def in settings %}
+{%- if last_reg != def.regname %}
+// ================================
+// {{ def.regname }}
+// ================================
+{%- endif %}
+{%- set last_reg = def.regname %}
+
+{%-     if def.type == 'bool' %}
+Setting {{ def.name }} = { {{def.regname}}, {{ "true" if def.long_reg else "false" }}, "{{def.name}}", settings_type_t::BOOL, {{def.bits}}, {{def.shift}} };
+bool get{{ def.name }}() { return getBool({{def.name}}); }
+{%-         if def.mode == 'rw' %}
+bool setAndWrite{{ def.name }}(bool val) { return setAndWriteBool({{def.name}}, val); }
+{%-         endif -%}
+
+{%-     elif def.type == 'int' %}
+Setting {{ def.name }} = { {{def.regname}}, {{ "true" if def.long_reg else "false" }}, "{{def.name}}", settings_type_t::INT, {{def.bits}}, {{def.shift}}, {{def.range_low}}, {{def.range_high}}, {{def.fixed_offset}}, {{def.bit_step_size}}, settings_flags_t::{{ def.flags if def.flags else "NONE" }} };
+int get{{ def.name }}() { return getInt({{def.name}}); }
+{%-         if def.mode == 'rw' %}
+bool setAndWrite{{ def.name }}(int val) { return setAndWriteInt({{def.name}}, val); }
+{%-         endif %}
+
+{%-     elif def.type == 'float' %}
+Setting {{ def.name }} = { {{def.regname}}, {{ "true" if def.long_reg else "false" }}, "{{def.name}}", settings_type_t::FLOAT, {{def.bits}}, {{def.shift}}, {{def.range_low}}, {{def.range_high}}, {{def.fixed_offset}}, {{def.bit_step_size}}, settings_flags_t::{{ def.flags if def.flags else "NONE" }} };
+float get{{ def.name }}() { return getFloat({{def.name}}); }
+{%-         if def.mode == 'rw' %}
+bool setAndWrite{{ def.name }}(float val) { return setAndWriteFloat({{def.name}}, val); }
+{%-         endif %}
+
+{%-     elif def.type == 'enum' %}
+enum class {{ def.name }}_t : uint8_t { 
+{%-         for const in def.enum_constants %}
+    {{ const }} = {{ loop.index0 }}{% if not loop.last %}, {% endif %}
+{%-         endfor %}
+};
+strings_vector_t {{ def.name }}_strings = {
+{%-         for str in def.enum_strings %}
+    "{{ str }}"{% if not loop.last %}, {% endif %}
+{%-         endfor %} 
+};
+Setting {{ def.name }} = { {{def.regname}}, {{ "true" if def.long_reg else "false" }}, "{{def.name}}", settings_type_t::ENUM, {{def.bits}}, {{def.shift}}, {{def.range_low}}, {{def.range_high}}, {{def.fixed_offset}}, {{def.bit_step_size}}, settings_flags_t::{{ def.flags if def.flags else "NONE" }}, {{ def.name }}_strings };
+const char * get{{ def.name }}_string() { return getString({{def.name}}); }
+{%-         if def.mode == 'rw' %}
+bool setAndWrite{{ def.name }}({{ def.name }}_t val) { return setAndWriteEnum<{{ def.name }}_t>({{def.name}}, val); }
+{%-         endif %}
+{%-     endif %}
+
+{% endfor %}
+
+
+
+static constexpr size_t SETTINGS_COUNT = {{ settings | length }};  // Number of settings
+std::array<Setting, SETTINGS_COUNT> _settingsList = {
+{%- for def in settings %}
+    {{ def.name }}{% if not loop.last %}, {% endif %}
+{%- endfor %}
+};

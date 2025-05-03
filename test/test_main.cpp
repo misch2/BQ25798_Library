@@ -1,15 +1,23 @@
 #include <unity.h>
 
-#define BQ25798_DEBUG 1
 #include "utility/BQ25798CoreMocked.h"
 
 BQ25798CoreMocked bq = BQ25798CoreMocked();
 
-BQ25798Core::RegisterDefinition reg0 = {0x00, "TEST_REG"};
+BQ25798Core::RegisterDefinition reg0 = {0x00, "TEST_REG00"};
+BQ25798Core::RegisterDefinition reg1 = {0x01, "TEST_REG01"};
 
 void setUp(void) {
   // Set up before each test case
   bq._registerDefinitions[0] = reg0;
+  bq._registerDefinitions[1] = reg1;
+
+  bq.setPhysicalReg(reg0.address, 0x00);
+  bq.setPhysicalReg(reg1.address, 0x00);
+
+  TEST_ASSERT_EQUAL(0x00, bq.getPhysicalReg(reg0.address));
+  TEST_ASSERT_EQUAL(0x00, bq.getPhysicalReg(reg1.address));
+
   bq.clearError();  // clear error for next test
 }
 
@@ -17,8 +25,22 @@ void tearDown(void) {
   // Clean up after each test case
 }
 
+void test_reg8_fields(void) {
+  bq.setReg8(reg0.address, 0xFF, /* len */ 3, /* shift */ 1);  // 0xFF = 0b11111111 -> mask len 3 = 0b00000111 -> shift 1 = 0b00001110
+  TEST_ASSERT_EQUAL_MESSAGE(0b00001110, bq.getPhysicalReg(reg0.address), "bit shifting and masking works for setReg8");
+  TEST_ASSERT_EQUAL_MESSAGE(0b00000111, bq.getReg8(reg0.address, /* len */ 3, /* shift */ 1), "bit shifting and masking works for getReg8");
+}
+
+void test_reg16_fields(void) {
+  bq.setReg16(reg0.address, 0xFFFF, /* len */ 4,
+              /* shift */ 7);  // 0xFFFF = 0b11111111_11111111 -> mask len 4 = 0b0000000_000001111 -> shift 7 = 0b00000111_10000000
+  TEST_ASSERT_EQUAL_MESSAGE(0b00000111, bq.getPhysicalReg(reg0.address), "bit shifting and masking works for setReg16 big endian");
+  TEST_ASSERT_EQUAL_MESSAGE(0b10000000, bq.getPhysicalReg(reg1.address), "bit shifting and masking works for setReg16 big endian");
+  TEST_ASSERT_EQUAL_MESSAGE(0x000F, bq.getReg16(reg0.address, /* len */ 4, /* shift */ 7), "bit shifting and masking works for getReg16");
+}
+
 void test_bool(void) {
-  BQ25798Core::Setting boolSetting = {reg0.address, false, "TEST_BOOL", BQ25798Core::settings_type_t::BOOL, 0xFF, 0};
+  BQ25798Core::Setting boolSetting = {reg0.address, false, "TEST_BOOL", BQ25798Core::settings_type_t::BOOL, 1, 0};
 
   TEST_ASSERT_EQUAL(true, bq.setAndWriteREG_RST(true));
   TEST_ASSERT_EQUAL(true, bq.setAndWriteEN_BACKUP(false));
@@ -28,6 +50,8 @@ void test_bool(void) {
   TEST_ASSERT_EQUAL(true, bq.rawToBool(0x01, boolSetting));
   TEST_ASSERT_EQUAL(ERROR_NONE, bq.lastError());
   TEST_ASSERT_EQUAL(true, bq.rawToBool(0xFF, boolSetting));
+  TEST_ASSERT_EQUAL(ERROR_NONE, bq.lastError());
+  TEST_ASSERT_EQUAL_MESSAGE(true, bq.rawToBool(0x40, boolSetting), "any non-zero value should be true");
   TEST_ASSERT_EQUAL(ERROR_NONE, bq.lastError());
   TEST_ASSERT_EQUAL(false, bq.rawToBool(0x00, boolSetting));
   TEST_ASSERT_EQUAL(ERROR_NONE, bq.lastError());
@@ -147,6 +171,8 @@ void test_enum(void) {
 int main(int argc, char** argv) {
   UNITY_BEGIN();  // Start Unity test framework
 
+  RUN_TEST(test_reg8_fields);
+  RUN_TEST(test_reg16_fields);
   RUN_TEST(test_bool);
   RUN_TEST(test_int);
   RUN_TEST(test_float);

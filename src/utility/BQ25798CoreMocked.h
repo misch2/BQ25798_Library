@@ -1,7 +1,7 @@
 #ifndef BQ25798_CORE_MOCKED_H
 #define BQ25798_CORE_MOCKED_H
 
-#include "utility/BQ25798Core.h"
+#include "BQ25798Core.h"
 
 class BQ25798CoreMocked : public BQ25798Core {
  public:

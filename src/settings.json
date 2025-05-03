@@ -1,0 +1,3436 @@
+{
+    "registers": [
+        {
+            "name": "REG00_Minimal_System_Voltage",
+            "address": 0
+        },
+        {
+            "name": "REG01_Charge_Voltage_Limit",
+            "address": 1
+        },
+        {
+            "name": "REG02_dummy_fill",
+            "address": 2
+        },
+        {
+            "name": "REG03_Charge_Current_Limit",
+            "address": 3
+        },
+        {
+            "name": "REG04_dummy_fill",
+            "address": 4
+        },
+        {
+            "name": "REG05_Input_Voltage_Limit",
+            "address": 5
+        },
+        {
+            "name": "REG06_Input_Current_Limit",
+            "address": 6
+        },
+        {
+            "name": "REG07_dummy_fill",
+            "address": 7
+        },
+        {
+            "name": "REG08_Precharge_Control",
+            "address": 8
+        },
+        {
+            "name": "REG09_Termination_Control",
+            "address": 9
+        },
+        {
+            "name": "REG0A_Recharge_Control",
+            "address": 10
+        },
+        {
+            "name": "REG0B_VOTG_regulation",
+            "address": 11
+        },
+        {
+            "name": "REG0C_dummy_fill",
+            "address": 12
+        },
+        {
+            "name": "REG0D_IOTG_regulation",
+            "address": 13
+        },
+        {
+            "name": "REG0E_Timer_Control",
+            "address": 14
+        },
+        {
+            "name": "REG0F_Charger_Control_0",
+            "address": 15
+        },
+        {
+            "name": "REG10_Charger_Control_1",
+            "address": 16
+        },
+        {
+            "name": "REG11_Charger_Control_2",
+            "address": 17
+        },
+        {
+            "name": "REG12_Charger_Control_3",
+            "address": 18
+        },
+        {
+            "name": "REG13_Charger_Control_4",
+            "address": 19
+        },
+        {
+            "name": "REG14_Charger_Control_5",
+            "address": 20
+        },
+        {
+            "name": "REG15_MPPT_Control",
+            "address": 21
+        },
+        {
+            "name": "REG16_Temperature_Control",
+            "address": 22
+        },
+        {
+            "name": "REG17_NTC_Control_0",
+            "address": 23
+        },
+        {
+            "name": "REG18_NTC_Control_1",
+            "address": 24
+        },
+        {
+            "name": "REG19_ICO_Current_Limit",
+            "address": 25
+        },
+        {
+            "name": "REG1A_dummy_fill",
+            "address": 26
+        },
+        {
+            "name": "REG1B_Charger_Status_0",
+            "address": 27
+        },
+        {
+            "name": "REG1C_Charger_Status_1",
+            "address": 28
+        },
+        {
+            "name": "REG1D_Charger_Status_2",
+            "address": 29
+        },
+        {
+            "name": "REG1E_Charger_Status_3",
+            "address": 30
+        },
+        {
+            "name": "REG1F_Charger_Status_4",
+            "address": 31
+        },
+        {
+            "name": "REG20_FAULT_Status_0",
+            "address": 32
+        },
+        {
+            "name": "REG21_FAULT_Status_1",
+            "address": 33
+        },
+        {
+            "name": "REG22_Charger_Flag_0",
+            "address": 34
+        },
+        {
+            "name": "REG23_Charger_Flag_1",
+            "address": 35
+        },
+        {
+            "name": "REG24_Charger_Flag_2",
+            "address": 36
+        },
+        {
+            "name": "REG25_Charger_Flag_3",
+            "address": 37
+        },
+        {
+            "name": "REG26_FAULT_Flag_0",
+            "address": 38
+        },
+        {
+            "name": "REG27_FAULT_Flag_1",
+            "address": 39
+        },
+        {
+            "name": "REG28_Charger_Mask_0",
+            "address": 40
+        },
+        {
+            "name": "REG29_Charger_Mask_1",
+            "address": 41
+        },
+        {
+            "name": "REG2A_Charger_Mask_2",
+            "address": 42
+        },
+        {
+            "name": "REG2B_Charger_Mask_3",
+            "address": 43
+        },
+        {
+            "name": "REG2C_FAULT_Mask_0",
+            "address": 44
+        },
+        {
+            "name": "REG2D_FAULT_Mask_1",
+            "address": 45
+        },
+        {
+            "name": "REG2E_ADC_Control",
+            "address": 46
+        },
+        {
+            "name": "REG2F_ADC_Function_Disable_0",
+            "address": 47
+        },
+        {
+            "name": "REG30_ADC_Function_Disable_1",
+            "address": 48
+        },
+        {
+            "name": "REG31_IBUS_ADC",
+            "address": 49
+        },
+        {
+            "name": "REG32_dummy_fill",
+            "address": 50
+        },
+        {
+            "name": "REG33_IBAT_ADC",
+            "address": 51
+        },
+        {
+            "name": "REG34_dummy_fill",
+            "address": 52
+        },
+        {
+            "name": "REG35_VBUS_ADC",
+            "address": 53
+        },
+        {
+            "name": "REG36_dummy_fill",
+            "address": 54
+        },
+        {
+            "name": "REG37_VAC1_ADC",
+            "address": 55
+        },
+        {
+            "name": "REG38_dummy_fill",
+            "address": 56
+        },
+        {
+            "name": "REG39_VAC2_ADC",
+            "address": 57
+        },
+        {
+            "name": "REG3A_dummy_fill",
+            "address": 58
+        },
+        {
+            "name": "REG3B_VBAT_ADC",
+            "address": 59
+        },
+        {
+            "name": "REG3C_dummy_fill",
+            "address": 60
+        },
+        {
+            "name": "REG3D_VSYS_ADC",
+            "address": 61
+        },
+        {
+            "name": "REG3E_dummy_fill",
+            "address": 62
+        },
+        {
+            "name": "REG3F_TS_ADC",
+            "address": 63
+        },
+        {
+            "name": "REG40_dummy_fill",
+            "address": 64
+        },
+        {
+            "name": "REG41_TDIE_ADC",
+            "address": 65
+        },
+        {
+            "name": "REG42_dummy_fill",
+            "address": 66
+        },
+        {
+            "name": "REG43_DPLUS_ADC",
+            "address": 67
+        },
+        {
+            "name": "REG44_dummy_fill",
+            "address": 68
+        },
+        {
+            "name": "REG45_DMINUS_ADC",
+            "address": 69
+        },
+        {
+            "name": "REG46_dummy_fill",
+            "address": 70
+        },
+        {
+            "name": "REG47_DPDM_Driver",
+            "address": 71
+        },
+        {
+            "name": "REG48_Part_Information",
+            "address": 72
+        }
+    ],
+    "settings": [
+        {
+            "regname": "REG00_Minimal_System_Voltage",
+            "long_reg": false,
+            "name": "VSYSMIN",
+            "type": "int",
+            "bits": 6,
+            "shift": 0,
+            "range_low": 2500,
+            "range_high": 16000,
+            "fixed_offset": 2500,
+            "bit_step_size": 250,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG01_Charge_Voltage_Limit",
+            "long_reg": true,
+            "name": "VREG",
+            "type": "int",
+            "bits": 11,
+            "shift": 0,
+            "range_low": 3000,
+            "range_high": 18800,
+            "fixed_offset": 0,
+            "bit_step_size": 10,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG03_Charge_Current_Limit",
+            "long_reg": true,
+            "name": "ICHG",
+            "type": "int",
+            "bits": 9,
+            "shift": 0,
+            "range_low": 50,
+            "range_high": 5000,
+            "fixed_offset": 0,
+            "bit_step_size": 10,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG05_Input_Voltage_Limit",
+            "long_reg": false,
+            "name": "VINDPM",
+            "type": "int",
+            "bits": 8,
+            "shift": 0,
+            "range_low": 3600,
+            "range_high": 22000,
+            "fixed_offset": 0,
+            "bit_step_size": 100,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG06_Input_Current_Limit",
+            "long_reg": true,
+            "name": "IINDPM",
+            "type": "int",
+            "bits": 9,
+            "shift": 0,
+            "range_low": 100,
+            "range_high": 3300,
+            "fixed_offset": 0,
+            "bit_step_size": 10,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG08_Precharge_Control",
+            "long_reg": false,
+            "name": "VBAT_LOWV",
+            "type": "enum",
+            "bits": 2,
+            "shift": 6,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "15%(VREG)",
+                "62.2%(VREG)",
+                "66.7%(VREG)",
+                "71.4%(VREG)"
+            ],
+            "enum_constants": [
+                "PCT_15",
+                "PCT_62",
+                "PCT_67",
+                "PCT_71"
+            ],
+            "mode": "rw"
+        },
+        {
+            "regname": "REG08_Precharge_Control",
+            "long_reg": false,
+            "name": "IPRECHG",
+            "type": "int",
+            "bits": 6,
+            "shift": 0,
+            "range_low": 40,
+            "range_high": 2000,
+            "fixed_offset": 0,
+            "bit_step_size": 40,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG09_Termination_Control",
+            "long_reg": false,
+            "name": "REG_RST",
+            "type": "bool",
+            "bits": 1,
+            "shift": 6,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG09_Termination_Control",
+            "long_reg": false,
+            "name": "STOP_WD_CHG",
+            "type": "bool",
+            "bits": 1,
+            "shift": 5,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG09_Termination_Control",
+            "long_reg": false,
+            "name": "ITERM",
+            "type": "int",
+            "bits": 5,
+            "shift": 0,
+            "range_low": 40,
+            "range_high": 1000,
+            "fixed_offset": 0,
+            "bit_step_size": 40,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG0A_Recharge_Control",
+            "long_reg": false,
+            "name": "CELL",
+            "type": "enum",
+            "bits": 2,
+            "shift": 6,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "1S",
+                "2S",
+                "3S",
+                "4S"
+            ],
+            "enum_constants": [
+                "CELL_1S",
+                "CELL_2S",
+                "CELL_3S",
+                "CELL_4S"
+            ],
+            "mode": "rw"
+        },
+        {
+            "regname": "REG0A_Recharge_Control",
+            "long_reg": false,
+            "name": "TRECHG",
+            "type": "enum",
+            "bits": 2,
+            "shift": 4,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "64 ms",
+                "256 ms",
+                "1024 ms",
+                "2048 ms"
+            ],
+            "enum_constants": [
+                "TRECHG_64MS",
+                "TRECHG_256MS",
+                "TRECHG_1024MS",
+                "TRECHG_2048MS"
+            ],
+            "mode": "rw"
+        },
+        {
+            "regname": "REG0A_Recharge_Control",
+            "long_reg": false,
+            "name": "VRECHG",
+            "type": "int",
+            "bits": 4,
+            "shift": 0,
+            "range_low": 50,
+            "range_high": 800,
+            "fixed_offset": 50,
+            "bit_step_size": 50,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG0B_VOTG_regulation",
+            "long_reg": true,
+            "name": "VOTG",
+            "type": "int",
+            "bits": 11,
+            "shift": 0,
+            "range_low": 2800,
+            "range_high": 22000,
+            "fixed_offset": 2800,
+            "bit_step_size": 10,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG0D_IOTG_regulation",
+            "long_reg": false,
+            "name": "PRECHG_TMR",
+            "type": "enum",
+            "bits": 1,
+            "shift": 7,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "2 hours",
+                "30 minutes"
+            ],
+            "enum_constants": [
+                "PRECHG_TMR_2HRS",
+                "PRECHG_TMR_30MIN"
+            ],
+            "mode": "rw"
+        },
+        {
+            "regname": "REG0D_IOTG_regulation",
+            "long_reg": false,
+            "name": "IOTG",
+            "type": "int",
+            "bits": 7,
+            "shift": 0,
+            "range_low": 160,
+            "range_high": 3360,
+            "fixed_offset": 0,
+            "bit_step_size": 40,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG0E_Timer_Control",
+            "long_reg": false,
+            "name": "TOPOFF_TMR",
+            "type": "enum",
+            "bits": 2,
+            "shift": 6,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "Disabled",
+                "15 minutes",
+                "30 minutes",
+                "45 minutes"
+            ],
+            "enum_constants": [
+                "TOPOFF_TMR_DISABLED",
+                "TOPOFF_TMR_15MIN",
+                "TOPOFF_TMR_30MIN",
+                "TOPOFF_TMR_45MIN"
+            ],
+            "mode": "rw"
+        },
+        {
+            "regname": "REG0E_Timer_Control",
+            "long_reg": false,
+            "name": "EN_TRICHG_TMR",
+            "type": "bool",
+            "bits": 1,
+            "shift": 5,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG0E_Timer_Control",
+            "long_reg": false,
+            "name": "EN_PRECHG_TMR",
+            "type": "bool",
+            "bits": 1,
+            "shift": 4,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG0E_Timer_Control",
+            "long_reg": false,
+            "name": "EN_CHG_TMR",
+            "type": "bool",
+            "bits": 1,
+            "shift": 3,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG0E_Timer_Control",
+            "long_reg": false,
+            "name": "CHG_TMR",
+            "type": "enum",
+            "bits": 2,
+            "shift": 1,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "5 hours",
+                "8 hours",
+                "12 hours",
+                "24 hours"
+            ],
+            "enum_constants": [
+                "CHG_TMR_5HRS",
+                "CHG_TMR_8HRS",
+                "CHG_TMR_12HRS",
+                "CHG_TMR_24HRS"
+            ],
+            "mode": "rw"
+        },
+        {
+            "regname": "REG0E_Timer_Control",
+            "long_reg": false,
+            "name": "TMR2X_EN",
+            "type": "bool",
+            "bits": 1,
+            "shift": 0,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG0F_Charger_Control_0",
+            "long_reg": false,
+            "name": "EN_AUTO_IBATDIS",
+            "type": "bool",
+            "bits": 1,
+            "shift": 7,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG0F_Charger_Control_0",
+            "long_reg": false,
+            "name": "FORCE_IBATDIS",
+            "type": "bool",
+            "bits": 1,
+            "shift": 6,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG0F_Charger_Control_0",
+            "long_reg": false,
+            "name": "EN_CHG",
+            "type": "bool",
+            "bits": 1,
+            "shift": 5,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG0F_Charger_Control_0",
+            "long_reg": false,
+            "name": "EN_ICO",
+            "type": "bool",
+            "bits": 1,
+            "shift": 4,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG0F_Charger_Control_0",
+            "long_reg": false,
+            "name": "FORCE_ICO",
+            "type": "bool",
+            "bits": 1,
+            "shift": 3,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG0F_Charger_Control_0",
+            "long_reg": false,
+            "name": "EN_HIZ",
+            "type": "bool",
+            "bits": 1,
+            "shift": 2,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG0F_Charger_Control_0",
+            "long_reg": false,
+            "name": "EN_TERM",
+            "type": "bool",
+            "bits": 1,
+            "shift": 1,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG0F_Charger_Control_0",
+            "long_reg": false,
+            "name": "EN_BACKUP",
+            "type": "bool",
+            "bits": 1,
+            "shift": 0,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG10_Charger_Control_1",
+            "long_reg": false,
+            "name": "VBUS_BACKUP",
+            "type": "enum",
+            "bits": 2,
+            "shift": 6,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "<40%(VINDPM)",
+                "<60%(VINDPM)",
+                "<80%(VINDPM)",
+                "<100%(VINDPM)"
+            ],
+            "enum_constants": [
+                "PCT_VBUS_BACKUP_40",
+                "PCT_VBUS_BACKUP_60",
+                "PCT_VBUS_BACKUP_80",
+                "PCT_VBUS_BACKUP_100"
+            ],
+            "mode": "rw"
+        },
+        {
+            "regname": "REG10_Charger_Control_1",
+            "long_reg": false,
+            "name": "VAC_OVP",
+            "type": "enum",
+            "bits": 2,
+            "shift": 4,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                ">26V",
+                ">22V",
+                ">12V",
+                ">7V"
+            ],
+            "enum_constants": [
+                "VAC_OVP_26V",
+                "VAC_OVP_22V",
+                "VAC_OVP_12V",
+                "VAC_OVP_7V"
+            ],
+            "mode": "rw"
+        },
+        {
+            "regname": "REG10_Charger_Control_1",
+            "long_reg": false,
+            "name": "WD_RST",
+            "type": "bool",
+            "bits": 1,
+            "shift": 3,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG10_Charger_Control_1",
+            "long_reg": false,
+            "name": "WATCHDOG",
+            "type": "enum",
+            "bits": 3,
+            "shift": 0,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "Disabled",
+                "0.5s",
+                "1s",
+                "2s",
+                "20s",
+                "40s",
+                "80s",
+                "160s"
+            ],
+            "enum_constants": [
+                "WATCHDOG_DISABLE",
+                "WATCHDOG_05S",
+                "WATCHDOG_1S",
+                "WATCHDOG_2S",
+                "WATCHDOG_20S",
+                "WATCHDOG_40S",
+                "WATCHDOG_80S",
+                "WATCHDOG_160S"
+            ],
+            "mode": "rw"
+        },
+        {
+            "regname": "REG11_Charger_Control_2",
+            "long_reg": false,
+            "name": "FORCE_INDET",
+            "type": "bool",
+            "bits": 1,
+            "shift": 7,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG11_Charger_Control_2",
+            "long_reg": false,
+            "name": "AUTO_INDET_EN",
+            "type": "bool",
+            "bits": 1,
+            "shift": 6,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG11_Charger_Control_2",
+            "long_reg": false,
+            "name": "EN_12V",
+            "type": "bool",
+            "bits": 1,
+            "shift": 5,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG11_Charger_Control_2",
+            "long_reg": false,
+            "name": "EN_9V",
+            "type": "bool",
+            "bits": 1,
+            "shift": 4,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG11_Charger_Control_2",
+            "long_reg": false,
+            "name": "HVDCP_EN",
+            "type": "bool",
+            "bits": 1,
+            "shift": 3,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG11_Charger_Control_2",
+            "long_reg": false,
+            "name": "SDRV_CTRL",
+            "type": "enum",
+            "bits": 2,
+            "shift": 1,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "Idle",
+                "Shutdown",
+                "Ship",
+                "System Power Reset"
+            ],
+            "enum_constants": [
+                "IDLE",
+                "SHUTDOWN",
+                "SHIP",
+                "SYS_PWR_RST"
+            ],
+            "mode": "rw"
+        },
+        {
+            "regname": "REG11_Charger_Control_2",
+            "long_reg": false,
+            "name": "SDRV_DLY",
+            "type": "enum",
+            "bits": 1,
+            "shift": 0,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "10s",
+                "0s"
+            ],
+            "enum_constants": [
+                "SDRV_DLY_10S",
+                "SDRV_DLY_0S"
+            ],
+            "mode": "rw"
+        },
+        {
+            "regname": "REG12_Charger_Control_3",
+            "long_reg": false,
+            "name": "DIS_ACDRV",
+            "type": "bool",
+            "bits": 1,
+            "shift": 7,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG12_Charger_Control_3",
+            "long_reg": false,
+            "name": "EN_OTG",
+            "type": "bool",
+            "bits": 1,
+            "shift": 6,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG12_Charger_Control_3",
+            "long_reg": false,
+            "name": "PFM_OTG_DIS",
+            "type": "bool",
+            "bits": 1,
+            "shift": 5,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG12_Charger_Control_3",
+            "long_reg": false,
+            "name": "PFM_FWD_DIS",
+            "type": "bool",
+            "bits": 1,
+            "shift": 4,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG12_Charger_Control_3",
+            "long_reg": false,
+            "name": "WKUP_DLY",
+            "type": "enum",
+            "bits": 1,
+            "shift": 3,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "1s",
+                "15ms"
+            ],
+            "enum_constants": [
+                "WKUP_DLY_1S",
+                "WKUP_DLY_15MS"
+            ],
+            "mode": "rw"
+        },
+        {
+            "regname": "REG12_Charger_Control_3",
+            "long_reg": false,
+            "name": "DIS_LDO",
+            "type": "bool",
+            "bits": 1,
+            "shift": 2,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG12_Charger_Control_3",
+            "long_reg": false,
+            "name": "DIS_OTG_OOA",
+            "type": "bool",
+            "bits": 1,
+            "shift": 1,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG12_Charger_Control_3",
+            "long_reg": false,
+            "name": "DIS_FWD_OOA",
+            "type": "bool",
+            "bits": 1,
+            "shift": 0,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG13_Charger_Control_4",
+            "long_reg": false,
+            "name": "EN_ACDRV2",
+            "type": "bool",
+            "bits": 1,
+            "shift": 7,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG13_Charger_Control_4",
+            "long_reg": false,
+            "name": "EN_ACDRV1",
+            "type": "bool",
+            "bits": 1,
+            "shift": 6,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG13_Charger_Control_4",
+            "long_reg": false,
+            "name": "PWM_FREQ",
+            "type": "enum",
+            "bits": 1,
+            "shift": 5,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "1.5 MHz",
+                "750 kHz"
+            ],
+            "enum_constants": [
+                "PWM_FREQ_1_5MHZ",
+                "PWM_FREQ_750KHZ"
+            ],
+            "mode": "rw"
+        },
+        {
+            "regname": "REG13_Charger_Control_4",
+            "long_reg": false,
+            "name": "DIS_STAT",
+            "type": "bool",
+            "bits": 1,
+            "shift": 4,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG13_Charger_Control_4",
+            "long_reg": false,
+            "name": "DIS_VSYS_SHORT",
+            "type": "bool",
+            "bits": 1,
+            "shift": 3,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG13_Charger_Control_4",
+            "long_reg": false,
+            "name": "DIS_VOTG_UVP",
+            "type": "bool",
+            "bits": 1,
+            "shift": 2,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG13_Charger_Control_4",
+            "long_reg": false,
+            "name": "FORCE_VINDPM_DET",
+            "type": "bool",
+            "bits": 1,
+            "shift": 1,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG13_Charger_Control_4",
+            "long_reg": false,
+            "name": "EN_IBUS_OCP",
+            "type": "bool",
+            "bits": 1,
+            "shift": 0,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG14_Charger_Control_5",
+            "long_reg": false,
+            "name": "SFET_PRESENT",
+            "type": "bool",
+            "bits": 1,
+            "shift": 7,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG14_Charger_Control_5",
+            "long_reg": false,
+            "name": "EN_IBAT",
+            "type": "bool",
+            "bits": 1,
+            "shift": 5,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG14_Charger_Control_5",
+            "long_reg": false,
+            "name": "IBAT_REG",
+            "type": "enum",
+            "bits": 2,
+            "shift": 3,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "3A",
+                "4A",
+                "5A",
+                "Disabled"
+            ],
+            "enum_constants": [
+                "IBAT_REG_3A",
+                "IBAT_REG_4A",
+                "IBAT_REG_5A",
+                "IBAT_REG_DISABLE"
+            ],
+            "mode": "rw"
+        },
+        {
+            "regname": "REG14_Charger_Control_5",
+            "long_reg": false,
+            "name": "EN_IINDPM",
+            "type": "bool",
+            "bits": 1,
+            "shift": 2,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG14_Charger_Control_5",
+            "long_reg": false,
+            "name": "EN_EXTILIM",
+            "type": "bool",
+            "bits": 1,
+            "shift": 1,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG14_Charger_Control_5",
+            "long_reg": false,
+            "name": "EN_BATOC",
+            "type": "bool",
+            "bits": 1,
+            "shift": 0,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG15_MPPT_Control",
+            "long_reg": false,
+            "name": "VOC_PCT",
+            "type": "enum",
+            "bits": 3,
+            "shift": 5,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "0.5625",
+                "0.625",
+                "0.6875",
+                "0.75",
+                "0.8125",
+                "0.875",
+                "0.9375",
+                "1"
+            ],
+            "enum_constants": [
+                "VOC_PCT_0_5625",
+                "VOC_PCT_0_625",
+                "VOC_PCT_0_6875",
+                "VOC_PCT_0_75",
+                "VOC_PCT_0_8125",
+                "VOC_PCT_0_875",
+                "VOC_PCT_0_9375",
+                "VOC_PCT_1"
+            ],
+            "mode": "rw"
+        },
+        {
+            "regname": "REG15_MPPT_Control",
+            "long_reg": false,
+            "name": "VOC_DLY",
+            "type": "enum",
+            "bits": 2,
+            "shift": 4,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "50ms",
+                "300ms",
+                "2s",
+                "5s"
+            ],
+            "enum_constants": [
+                "VOC_DLY_50MS",
+                "VOC_DLY_300MS",
+                "VOC_DLY_2S",
+                "VOC_DLY_5S"
+            ],
+            "mode": "rw"
+        },
+        {
+            "regname": "REG15_MPPT_Control",
+            "long_reg": false,
+            "name": "VOC_RATE",
+            "type": "enum",
+            "bits": 2,
+            "shift": 2,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "30s",
+                "2min",
+                "10min",
+                "30min"
+            ],
+            "enum_constants": [
+                "VOC_RATE_30S",
+                "VOC_RATE_2MIN",
+                "VOC_RATE_10MIN",
+                "VOC_RATE_30MIN"
+            ],
+            "mode": "rw"
+        },
+        {
+            "regname": "REG15_MPPT_Control",
+            "long_reg": false,
+            "name": "EN_MPPT",
+            "type": "bool",
+            "bits": 1,
+            "shift": 0,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG16_Temperature_Control",
+            "long_reg": false,
+            "name": "TREG",
+            "type": "enum",
+            "bits": 2,
+            "shift": 6,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "60'C",
+                "80'C",
+                "100'C",
+                "120'C"
+            ],
+            "enum_constants": [
+                "TREG_60",
+                "TREG_80",
+                "TREG_100",
+                "TREG_120"
+            ],
+            "mode": "rw"
+        },
+        {
+            "regname": "REG16_Temperature_Control",
+            "long_reg": false,
+            "name": "TSHUT",
+            "type": "enum",
+            "bits": 2,
+            "shift": 4,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "150'C",
+                "130'C",
+                "120'C",
+                "85'C"
+            ],
+            "enum_constants": [
+                "TSHUT_150",
+                "TSHUT_130",
+                "TSHUT_120",
+                "TSHUT_85"
+            ],
+            "mode": "rw"
+        },
+        {
+            "regname": "REG16_Temperature_Control",
+            "long_reg": false,
+            "name": "VBUS_PD_EN",
+            "type": "bool",
+            "bits": 1,
+            "shift": 3,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG16_Temperature_Control",
+            "long_reg": false,
+            "name": "VAC1_PD_EN",
+            "type": "bool",
+            "bits": 1,
+            "shift": 2,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG16_Temperature_Control",
+            "long_reg": false,
+            "name": "VAC2_PD_EN",
+            "type": "bool",
+            "bits": 1,
+            "shift": 1,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG16_Temperature_Control",
+            "long_reg": false,
+            "name": "BKUP_ACFET1_ON",
+            "type": "enum",
+            "bits": 1,
+            "shift": 0,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "Idle",
+                "Turn on ACFET1 in backup mode"
+            ],
+            "enum_constants": [
+                "IDLE",
+                "TURN_ON"
+            ],
+            "mode": "rw"
+        },
+        {
+            "regname": "REG17_NTC_Control_0",
+            "long_reg": false,
+            "name": "JEITA_VSET",
+            "type": "enum",
+            "bits": 3,
+            "shift": 5,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "Charge Suspend",
+                "Set VREG to VREG-800mV",
+                "Set VREG to VREG-600mV",
+                "Set VREG to VREG-400mV (default)",
+                "Set VREG to VREG-300mV",
+                "Set VREG to VREG-200mV",
+                "Set VREG to VREG-100mV",
+                "VREG unchanged"
+            ],
+            "enum_constants": [
+                "CHARGE_SUSPEND",
+                "SET_VREG_TO_VREG_800MV",
+                "SET_VREG_TO_VREG_600MV",
+                "SET_VREG_TO_VREG_400MV",
+                "SET_VREG_TO_VREG_300MV",
+                "SET_VREG_TO_VREG_200MV",
+                "SET_VREG_TO_VREG_100MV",
+                "VREG_UNCHANGED"
+            ],
+            "mode": "rw"
+        },
+        {
+            "regname": "REG17_NTC_Control_0",
+            "long_reg": false,
+            "name": "JEITA_ISETH",
+            "type": "enum",
+            "bits": 2,
+            "shift": 3,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "Charge Suspend",
+                "Set ICHG to 20%* ICHG",
+                "Set ICHG to 40%* ICHG",
+                "ICHG unchanged"
+            ],
+            "enum_constants": [
+                "CHARGE_SUSPEND",
+                "SET_ICHG_TO_20",
+                "SET_ICHG_TO_40",
+                "ICHG_UNCHANGED"
+            ],
+            "mode": "rw"
+        },
+        {
+            "regname": "REG17_NTC_Control_0",
+            "long_reg": false,
+            "name": "JEITA_ISETC",
+            "type": "enum",
+            "bits": 2,
+            "shift": 1,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "Charge Suspend",
+                "Set ICHG to 20%* ICHG (default)",
+                "Set ICHG to 40%* ICHG",
+                "ICHG unchanged"
+            ],
+            "enum_constants": [
+                "CHARGE_SUSPEND",
+                "SET_ICHG_TO_20",
+                "SET_ICHG_TO_40",
+                "ICHG_UNCHANGED"
+            ],
+            "mode": "rw"
+        },
+        {
+            "regname": "REG18_NTC_Control_1",
+            "long_reg": false,
+            "name": "TS_COOL",
+            "type": "enum",
+            "bits": 2,
+            "shift": 6,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "5'C",
+                "10'C (default)",
+                "15'C",
+                "20'C"
+            ],
+            "enum_constants": [
+                "TS_5",
+                "TS_10",
+                "TS_15",
+                "TS_20"
+            ],
+            "mode": "rw"
+        },
+        {
+            "regname": "REG18_NTC_Control_1",
+            "long_reg": false,
+            "name": "TS_WARM",
+            "type": "enum",
+            "bits": 2,
+            "shift": 4,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "40'C",
+                "45'C (default)",
+                "50'C",
+                "55'C"
+            ],
+            "enum_constants": [
+                "TS_40",
+                "TS_45",
+                "TS_50",
+                "TS_55"
+            ],
+            "mode": "rw"
+        },
+        {
+            "regname": "REG18_NTC_Control_1",
+            "long_reg": false,
+            "name": "BHOT",
+            "type": "enum",
+            "bits": 2,
+            "shift": 2,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "55'C",
+                "60'C (default)",
+                "65'C",
+                "Disabled"
+            ],
+            "enum_constants": [
+                "TS_55",
+                "TS_60",
+                "TS_65",
+                "DISABLE"
+            ],
+            "mode": "rw"
+        },
+        {
+            "regname": "REG18_NTC_Control_1",
+            "long_reg": false,
+            "name": "BCOLD",
+            "type": "enum",
+            "bits": 1,
+            "shift": 1,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "-10'C (default)",
+                "-20'C"
+            ],
+            "enum_constants": [
+                "MINUS_10",
+                "MINUS_20"
+            ],
+            "mode": "rw"
+        },
+        {
+            "regname": "REG18_NTC_Control_1",
+            "long_reg": false,
+            "name": "TS_IGNORE",
+            "type": "bool",
+            "bits": 1,
+            "shift": 0,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG19_ICO_Current_Limit",
+            "long_reg": true,
+            "name": "ICO_ILIM",
+            "type": "int",
+            "bits": 9,
+            "shift": 0,
+            "range_low": 100,
+            "range_high": 3300,
+            "fixed_offset": 0,
+            "bit_step_size": 10,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG1B_Charger_Status_0",
+            "long_reg": false,
+            "name": "IINDPM_STAT",
+            "type": "enum",
+            "bits": 1,
+            "shift": 7,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "Normal",
+                "In IINDPM regulation or IOTG regulation"
+            ],
+            "enum_constants": [
+                "NORMAL",
+                "REGULATION"
+            ],
+            "mode": "ro"
+        },
+        {
+            "regname": "REG1B_Charger_Status_0",
+            "long_reg": false,
+            "name": "VINDPM_STAT",
+            "type": "enum",
+            "bits": 1,
+            "shift": 6,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "Normal",
+                "In VINDPM regulation or VOTG regulation"
+            ],
+            "enum_constants": [
+                "NORMAL",
+                "REGULATION"
+            ],
+            "mode": "ro"
+        },
+        {
+            "regname": "REG1B_Charger_Status_0",
+            "long_reg": false,
+            "name": "WD_STAT",
+            "type": "enum",
+            "bits": 1,
+            "shift": 5,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "Normal",
+                "Watchdog timer expired"
+            ],
+            "enum_constants": [
+                "NORMAL",
+                "EXPIRED"
+            ],
+            "mode": "ro"
+        },
+        {
+            "regname": "REG1B_Charger_Status_0",
+            "long_reg": false,
+            "name": "PG_STAT",
+            "type": "enum",
+            "bits": 1,
+            "shift": 3,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "Not in power good status",
+                "Power good"
+            ],
+            "enum_constants": [
+                "BAD",
+                "GOOD"
+            ],
+            "mode": "ro"
+        },
+        {
+            "regname": "REG1B_Charger_Status_0",
+            "long_reg": false,
+            "name": "AC2_PRESENT_STAT",
+            "type": "enum",
+            "bits": 1,
+            "shift": 2,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "VAC2 NOT present",
+                "VAC2 present (above present threshold)"
+            ],
+            "enum_constants": [
+                "NOT_PRESENT",
+                "PRESENT"
+            ],
+            "mode": "ro"
+        },
+        {
+            "regname": "REG1B_Charger_Status_0",
+            "long_reg": false,
+            "name": "AC1_PRESENT_STAT",
+            "type": "enum",
+            "bits": 1,
+            "shift": 1,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "VAC1 NOT present",
+                "VAC1 present (above present threshold)"
+            ],
+            "enum_constants": [
+                "NOT_PRESENT",
+                "PRESENT"
+            ],
+            "mode": "ro"
+        },
+        {
+            "regname": "REG1B_Charger_Status_0",
+            "long_reg": false,
+            "name": "VBUS_PRESENT_STAT",
+            "type": "enum",
+            "bits": 1,
+            "shift": 0,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "VBUS NOT present",
+                "VBUS present (above present threshold)"
+            ],
+            "enum_constants": [
+                "NOT_PRESENT",
+                "PRESENT"
+            ],
+            "mode": "ro"
+        },
+        {
+            "regname": "REG1C_Charger_Status_1",
+            "long_reg": false,
+            "name": "CHG_STAT",
+            "type": "enum",
+            "bits": 3,
+            "shift": 5,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "Not Charging",
+                "Trickle Charge",
+                "Pre-charge",
+                "Fast harge (CC mode)",
+                "Taper Charge (CV mode)",
+                "Reserved",
+                "Top-off Timer Active Charging",
+                "Charge Termination Done"
+            ],
+            "enum_constants": [
+                "NOT_CHARGING",
+                "TRICKLECHARGE",
+                "PRECHARGE",
+                "FASTCHARGE_CC",
+                "FASTCHARGE_CV",
+                "RESERVED_5",
+                "TOPOFF",
+                "TERMINATED"
+            ],
+            "mode": "ro"
+        },
+        {
+            "regname": "REG1C_Charger_Status_1",
+            "long_reg": false,
+            "name": "VBUS_STAT",
+            "type": "enum",
+            "bits": 4,
+            "shift": 1,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "No Input or BHOT or BCOLD in OTG mode",
+                "USB SDP (500mA)",
+                "USB CDP (1.5A)",
+                "USB DCP (3.25A)",
+                "Adjustable High Voltage DCP (HVDCP) (1.5A)",
+                "Unknown adaptor (3A)",
+                "Non-Standard Adapter (1A/2A/2.A/.4A)",
+                "In OTG mode",
+                "Not qualified adaptor",
+                "Reserved",
+                "Reserved",
+                "Device directly powered from VBUS",
+                "Backup Mode",
+                "Reserved",
+                "Reserved",
+                "Reserved"
+            ],
+            "enum_constants": [
+                "NO_INPUT",
+                "USB_SDP",
+                "USB_CDP",
+                "USB_DCP",
+                "ADJUSTABLE_HVDCP",
+                "UNKNOWN_ADAPTOR",
+                "NON_STANDARD_ADAPTER",
+                "OTG_MODE",
+                "NOT_QUALIFIED_ADAPTOR",
+                "RESERVED_9",
+                "RESERVED_A",
+                "DEVICE_POWERED_FROM_VBUS",
+                "BACKUP_MODE",
+                "RESERVED_D",
+                "RESERVED_E",
+                "RESERVED_F"
+            ],
+            "mode": "ro"
+        },
+        {
+            "regname": "REG1C_Charger_Status_1",
+            "long_reg": false,
+            "name": "BC12_DONE_STAT",
+            "type": "bool",
+            "bits": 1,
+            "shift": 0,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG1D_Charger_Status_2",
+            "long_reg": false,
+            "name": "ICO_STAT",
+            "type": "enum",
+            "bits": 2,
+            "shift": 6,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "ICO disabled",
+                "ICO optimization in progress",
+                "Maximum input current detected",
+                "Reserved"
+            ],
+            "enum_constants": [
+                "ICO_DISABLED",
+                "ICO_IN_PROGRESS",
+                "ICO_MAX_CURRENT_DETECTED",
+                "ICO_RESERVED"
+            ],
+            "mode": "ro"
+        },
+        {
+            "regname": "REG1D_Charger_Status_2",
+            "long_reg": false,
+            "name": "TREG_STAT",
+            "type": "enum",
+            "bits": 1,
+            "shift": 5,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "Normal",
+                "Device in thermal regulation"
+            ],
+            "enum_constants": [
+                "NORMAL",
+                "THERMAL_REGULATION"
+            ],
+            "mode": "ro"
+        },
+        {
+            "regname": "REG1D_Charger_Status_2",
+            "long_reg": false,
+            "name": "DPDM_STAT",
+            "type": "enum",
+            "bits": 1,
+            "shift": 4,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "D+/D- detection NOT started yet or done",
+                "D+/D- detection in progress"
+            ],
+            "enum_constants": [
+                "NOT_STARTED",
+                "IN_PROGRESS"
+            ],
+            "mode": "ro"
+        },
+        {
+            "regname": "REG1D_Charger_Status_2",
+            "long_reg": false,
+            "name": "VBAT_PRESENT_STAT",
+            "type": "enum",
+            "bits": 1,
+            "shift": 0,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "VBAT NOT present",
+                "VBAT present"
+            ],
+            "enum_constants": [
+                "NOT_PRESENT",
+                "PRESENT"
+            ],
+            "mode": "ro"
+        },
+        {
+            "regname": "REG1E_Charger_Status_3",
+            "long_reg": false,
+            "name": "ACRB2_STAT",
+            "type": "bool",
+            "bits": 1,
+            "shift": 7,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG1E_Charger_Status_3",
+            "long_reg": false,
+            "name": "ACRB1_STAT",
+            "type": "bool",
+            "bits": 1,
+            "shift": 6,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG1E_Charger_Status_3",
+            "long_reg": false,
+            "name": "ADC_DONE_STAT",
+            "type": "bool",
+            "bits": 1,
+            "shift": 5,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG1E_Charger_Status_3",
+            "long_reg": false,
+            "name": "VSYS_STAT",
+            "type": "enum",
+            "bits": 1,
+            "shift": 4,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "Not in VSYSMIN regulation (VBAT > VSYSMIN)",
+                "In VSYSMIN regulation (VBAT < VSYSMIN)"
+            ],
+            "enum_constants": [
+                "NOT_IN_VSYSMIN_REGULATION",
+                "IN_VSYSMIN_REGULATION"
+            ],
+            "mode": "ro"
+        },
+        {
+            "regname": "REG1E_Charger_Status_3",
+            "long_reg": false,
+            "name": "CHG_TMR_STAT",
+            "type": "enum",
+            "bits": 1,
+            "shift": 3,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "Normal",
+                "Safety timer expired"
+            ],
+            "enum_constants": [
+                "NORMAL",
+                "SAFETY_TIMER_EXPIRED"
+            ],
+            "mode": "ro"
+        },
+        {
+            "regname": "REG1E_Charger_Status_3",
+            "long_reg": false,
+            "name": "TRICHG_TMR_STAT",
+            "type": "enum",
+            "bits": 1,
+            "shift": 2,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "Normal",
+                "Safety timer expired"
+            ],
+            "enum_constants": [
+                "NORMAL",
+                "SAFETY_TIMER_EXPIRED"
+            ],
+            "mode": "ro"
+        },
+        {
+            "regname": "REG1E_Charger_Status_3",
+            "long_reg": false,
+            "name": "PRECHG_TMR_STAT",
+            "type": "enum",
+            "bits": 1,
+            "shift": 1,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "Normal",
+                "Safety timer expired"
+            ],
+            "enum_constants": [
+                "NORMAL",
+                "SAFETY_TIMER_EXPIRED"
+            ],
+            "mode": "ro"
+        },
+        {
+            "regname": "REG1F_Charger_Status_4",
+            "long_reg": false,
+            "name": "VBATOTG_LOW_STAT",
+            "type": "enum",
+            "bits": 1,
+            "shift": 4,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "VBAT is too low to enable OTG mode",
+                "VBAT is high enough to enable OTG operation"
+            ],
+            "enum_constants": [
+                "VBATOTG_LOW",
+                "VBATOTG_OK"
+            ],
+            "mode": "ro"
+        },
+        {
+            "regname": "REG1F_Charger_Status_4",
+            "long_reg": false,
+            "name": "TS_COLD_STAT",
+            "type": "enum",
+            "bits": 1,
+            "shift": 3,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "TS NOT in cold range",
+                "TS in cold range"
+            ],
+            "enum_constants": [
+                "NOT_COLD",
+                "COLD"
+            ],
+            "mode": "ro"
+        },
+        {
+            "regname": "REG1F_Charger_Status_4",
+            "long_reg": false,
+            "name": "TS_COOL_STAT",
+            "type": "enum",
+            "bits": 1,
+            "shift": 2,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "TS NOT in cool range",
+                "TS in cool range"
+            ],
+            "enum_constants": [
+                "NOT_COOL",
+                "COOL"
+            ],
+            "mode": "ro"
+        },
+        {
+            "regname": "REG1F_Charger_Status_4",
+            "long_reg": false,
+            "name": "TS_WARM_STAT",
+            "type": "enum",
+            "bits": 1,
+            "shift": 1,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "TS NOT in warm range",
+                "TS in warm range"
+            ],
+            "enum_constants": [
+                "NOT_WARM",
+                "WARM"
+            ],
+            "mode": "ro"
+        },
+        {
+            "regname": "REG1F_Charger_Status_4",
+            "long_reg": false,
+            "name": "TS_HOT_STAT",
+            "type": "enum",
+            "bits": 1,
+            "shift": 0,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "TS NOT in hot range",
+                "TS in hot range"
+            ],
+            "enum_constants": [
+                "NOT_HOT",
+                "HOT"
+            ],
+            "mode": "ro"
+        },
+        {
+            "regname": "REG20_FAULT_Status_0",
+            "long_reg": false,
+            "name": "IBAT_REG_STAT",
+            "type": "bool",
+            "bits": 1,
+            "shift": 7,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG20_FAULT_Status_0",
+            "long_reg": false,
+            "name": "VBUS_OVP_STAT",
+            "type": "bool",
+            "bits": 1,
+            "shift": 6,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG20_FAULT_Status_0",
+            "long_reg": false,
+            "name": "VBAT_OVP_STAT",
+            "type": "bool",
+            "bits": 1,
+            "shift": 5,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG20_FAULT_Status_0",
+            "long_reg": false,
+            "name": "IBUS_OCP_STAT",
+            "type": "bool",
+            "bits": 1,
+            "shift": 4,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG20_FAULT_Status_0",
+            "long_reg": false,
+            "name": "IBAT_OCP_STAT",
+            "type": "bool",
+            "bits": 1,
+            "shift": 3,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG20_FAULT_Status_0",
+            "long_reg": false,
+            "name": "CONV_OCP_STAT",
+            "type": "bool",
+            "bits": 1,
+            "shift": 2,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG20_FAULT_Status_0",
+            "long_reg": false,
+            "name": "VAC2_OVP_STAT",
+            "type": "bool",
+            "bits": 1,
+            "shift": 1,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG20_FAULT_Status_0",
+            "long_reg": false,
+            "name": "VAC1_OVP_STAT",
+            "type": "bool",
+            "bits": 1,
+            "shift": 0,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG21_FAULT_Status_1",
+            "long_reg": false,
+            "name": "VSYS_SHORT_STAT",
+            "type": "bool",
+            "bits": 1,
+            "shift": 7,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG21_FAULT_Status_1",
+            "long_reg": false,
+            "name": "VSYS_OVP_STAT",
+            "type": "bool",
+            "bits": 1,
+            "shift": 6,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG21_FAULT_Status_1",
+            "long_reg": false,
+            "name": "OTG_OVP_STAT",
+            "type": "bool",
+            "bits": 1,
+            "shift": 5,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG21_FAULT_Status_1",
+            "long_reg": false,
+            "name": "OTG_UVP_STAT",
+            "type": "bool",
+            "bits": 1,
+            "shift": 4,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG21_FAULT_Status_1",
+            "long_reg": false,
+            "name": "TSHUT_STAT",
+            "type": "bool",
+            "bits": 1,
+            "shift": 2,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG22_Charger_Flag_0",
+            "long_reg": false,
+            "name": "IINDPM_FLAG",
+            "type": "bool",
+            "bits": 1,
+            "shift": 7,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG22_Charger_Flag_0",
+            "long_reg": false,
+            "name": "VINDPM_FLAG",
+            "type": "bool",
+            "bits": 1,
+            "shift": 6,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG22_Charger_Flag_0",
+            "long_reg": false,
+            "name": "WD_FLAG",
+            "type": "bool",
+            "bits": 1,
+            "shift": 5,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG22_Charger_Flag_0",
+            "long_reg": false,
+            "name": "POORSRC_FLAG",
+            "type": "bool",
+            "bits": 1,
+            "shift": 4,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG22_Charger_Flag_0",
+            "long_reg": false,
+            "name": "PG_FLAG",
+            "type": "bool",
+            "bits": 1,
+            "shift": 3,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG22_Charger_Flag_0",
+            "long_reg": false,
+            "name": "AC2_PRESENT_FLAG",
+            "type": "bool",
+            "bits": 1,
+            "shift": 2,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG22_Charger_Flag_0",
+            "long_reg": false,
+            "name": "AC1_PRESENT_FLAG",
+            "type": "bool",
+            "bits": 1,
+            "shift": 1,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG22_Charger_Flag_0",
+            "long_reg": false,
+            "name": "VBUS_PRESENT_FLAG",
+            "type": "bool",
+            "bits": 1,
+            "shift": 0,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG23_Charger_Flag_1",
+            "long_reg": false,
+            "name": "CHG_FLAG",
+            "type": "bool",
+            "bits": 1,
+            "shift": 7,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG23_Charger_Flag_1",
+            "long_reg": false,
+            "name": "ICO_FLAG",
+            "type": "bool",
+            "bits": 1,
+            "shift": 6,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG23_Charger_Flag_1",
+            "long_reg": false,
+            "name": "VBUS_FLAG",
+            "type": "bool",
+            "bits": 1,
+            "shift": 4,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG23_Charger_Flag_1",
+            "long_reg": false,
+            "name": "TREG_FLAG",
+            "type": "bool",
+            "bits": 1,
+            "shift": 2,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG23_Charger_Flag_1",
+            "long_reg": false,
+            "name": "VBAT_PRESENT_FLAG",
+            "type": "bool",
+            "bits": 1,
+            "shift": 1,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG23_Charger_Flag_1",
+            "long_reg": false,
+            "name": "BC1_2_DONE_FLAG",
+            "type": "bool",
+            "bits": 1,
+            "shift": 0,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG24_Charger_Flag_2",
+            "long_reg": false,
+            "name": "DPDM_DONE_FLAG",
+            "type": "bool",
+            "bits": 1,
+            "shift": 6,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG24_Charger_Flag_2",
+            "long_reg": false,
+            "name": "ADC_DONE_FLAG",
+            "type": "bool",
+            "bits": 1,
+            "shift": 5,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG24_Charger_Flag_2",
+            "long_reg": false,
+            "name": "VSYS_FLAG",
+            "type": "bool",
+            "bits": 1,
+            "shift": 4,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG24_Charger_Flag_2",
+            "long_reg": false,
+            "name": "CHG_TMR_FLAG",
+            "type": "bool",
+            "bits": 1,
+            "shift": 3,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG24_Charger_Flag_2",
+            "long_reg": false,
+            "name": "TRICHG_TMR_FLAG",
+            "type": "bool",
+            "bits": 1,
+            "shift": 2,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG24_Charger_Flag_2",
+            "long_reg": false,
+            "name": "PRECHG_TMR_FLAG",
+            "type": "bool",
+            "bits": 1,
+            "shift": 1,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG24_Charger_Flag_2",
+            "long_reg": false,
+            "name": "TOPOFF_TMR_FLAG",
+            "type": "bool",
+            "bits": 1,
+            "shift": 0,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG25_Charger_Flag_3",
+            "long_reg": false,
+            "name": "VBATOTG_LOW_FLAG",
+            "type": "bool",
+            "bits": 1,
+            "shift": 4,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG25_Charger_Flag_3",
+            "long_reg": false,
+            "name": "TS_COLD_FLAG",
+            "type": "bool",
+            "bits": 1,
+            "shift": 3,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG25_Charger_Flag_3",
+            "long_reg": false,
+            "name": "TS_COOL_FLAG",
+            "type": "bool",
+            "bits": 1,
+            "shift": 2,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG25_Charger_Flag_3",
+            "long_reg": false,
+            "name": "TS_WARM_FLAG",
+            "type": "bool",
+            "bits": 1,
+            "shift": 1,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG25_Charger_Flag_3",
+            "long_reg": false,
+            "name": "TS_HOT_FLAG",
+            "type": "bool",
+            "bits": 1,
+            "shift": 0,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG26_FAULT_Flag_0",
+            "long_reg": false,
+            "name": "IBAT_REG_FLAG",
+            "type": "bool",
+            "bits": 1,
+            "shift": 7,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG26_FAULT_Flag_0",
+            "long_reg": false,
+            "name": "VBUS_OVP_FLAG",
+            "type": "bool",
+            "bits": 1,
+            "shift": 6,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG26_FAULT_Flag_0",
+            "long_reg": false,
+            "name": "VBAT_OVP_FLAG",
+            "type": "bool",
+            "bits": 1,
+            "shift": 5,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG26_FAULT_Flag_0",
+            "long_reg": false,
+            "name": "IBUS_OCP_FLAG",
+            "type": "bool",
+            "bits": 1,
+            "shift": 4,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG26_FAULT_Flag_0",
+            "long_reg": false,
+            "name": "IBAT_OCP_FLAG",
+            "type": "bool",
+            "bits": 1,
+            "shift": 3,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG26_FAULT_Flag_0",
+            "long_reg": false,
+            "name": "CONV_OCP_FLAG",
+            "type": "bool",
+            "bits": 1,
+            "shift": 2,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG26_FAULT_Flag_0",
+            "long_reg": false,
+            "name": "VAC2_OVP_FLAG",
+            "type": "bool",
+            "bits": 1,
+            "shift": 1,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG26_FAULT_Flag_0",
+            "long_reg": false,
+            "name": "VAC1_OVP_FLAG",
+            "type": "bool",
+            "bits": 1,
+            "shift": 0,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG27_FAULT_Flag_1",
+            "long_reg": false,
+            "name": "VSYS_SHORT_FLAG",
+            "type": "bool",
+            "bits": 1,
+            "shift": 7,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG27_FAULT_Flag_1",
+            "long_reg": false,
+            "name": "VSYS_OVP_FLAG",
+            "type": "bool",
+            "bits": 1,
+            "shift": 6,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG27_FAULT_Flag_1",
+            "long_reg": false,
+            "name": "OTG_OVP_FLAG",
+            "type": "bool",
+            "bits": 1,
+            "shift": 5,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG27_FAULT_Flag_1",
+            "long_reg": false,
+            "name": "OTG_UVP_FLAG",
+            "type": "bool",
+            "bits": 1,
+            "shift": 4,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG27_FAULT_Flag_1",
+            "long_reg": false,
+            "name": "TSHUT_FLAG",
+            "type": "bool",
+            "bits": 1,
+            "shift": 2,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG2E_ADC_Control",
+            "long_reg": false,
+            "name": "ADC_EN",
+            "type": "bool",
+            "bits": 1,
+            "shift": 7,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG2E_ADC_Control",
+            "long_reg": false,
+            "name": "ADC_RATE",
+            "type": "enum",
+            "bits": 1,
+            "shift": 6,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "Continuous",
+                "One-shot"
+            ],
+            "enum_constants": [
+                "CONTINUOUS",
+                "ONESHOT"
+            ],
+            "mode": "rw"
+        },
+        {
+            "regname": "REG2E_ADC_Control",
+            "long_reg": false,
+            "name": "ADC_SAMPLE",
+            "type": "enum",
+            "bits": 2,
+            "shift": 4,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "15-bit",
+                "14-bit",
+                "13-bit",
+                "12-bit"
+            ],
+            "enum_constants": [
+                "ADC_SAMPLE_15BIT",
+                "ADC_SAMPLE_14BIT",
+                "ADC_SAMPLE_13BIT",
+                "ADC_SAMPLE_12BIT"
+            ],
+            "mode": "rw"
+        },
+        {
+            "regname": "REG2E_ADC_Control",
+            "long_reg": false,
+            "name": "ADC_AVG",
+            "type": "enum",
+            "bits": 1,
+            "shift": 3,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "No averaging",
+                "Running average"
+            ],
+            "enum_constants": [
+                "NO_AVERAGING",
+                "RUNNING_AVERAGE"
+            ],
+            "mode": "rw"
+        },
+        {
+            "regname": "REG2E_ADC_Control",
+            "long_reg": false,
+            "name": "ADC_AVG_INIT",
+            "type": "bool",
+            "bits": 1,
+            "shift": 2,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG2F_ADC_Function_Disable_0",
+            "long_reg": false,
+            "name": "IBUS_ADC_DIS",
+            "type": "bool",
+            "bits": 1,
+            "shift": 7,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG2F_ADC_Function_Disable_0",
+            "long_reg": false,
+            "name": "IBAT_ADC_DIS",
+            "type": "bool",
+            "bits": 1,
+            "shift": 6,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG2F_ADC_Function_Disable_0",
+            "long_reg": false,
+            "name": "VBUS_ADC_DIS",
+            "type": "bool",
+            "bits": 1,
+            "shift": 5,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG2F_ADC_Function_Disable_0",
+            "long_reg": false,
+            "name": "VBAT_ADC_DIS",
+            "type": "bool",
+            "bits": 1,
+            "shift": 4,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG2F_ADC_Function_Disable_0",
+            "long_reg": false,
+            "name": "VSYS_ADC_DIS",
+            "type": "bool",
+            "bits": 1,
+            "shift": 3,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG2F_ADC_Function_Disable_0",
+            "long_reg": false,
+            "name": "TS_ADC_DIS",
+            "type": "bool",
+            "bits": 1,
+            "shift": 2,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG2F_ADC_Function_Disable_0",
+            "long_reg": false,
+            "name": "TDIE_ADC_DIS",
+            "type": "bool",
+            "bits": 1,
+            "shift": 1,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG30_ADC_Function_Disable_1",
+            "long_reg": false,
+            "name": "DPLUS_ADC_DIS",
+            "type": "bool",
+            "bits": 1,
+            "shift": 7,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG30_ADC_Function_Disable_1",
+            "long_reg": false,
+            "name": "DMINUS_ADC_DIS",
+            "type": "bool",
+            "bits": 1,
+            "shift": 6,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG30_ADC_Function_Disable_1",
+            "long_reg": false,
+            "name": "VAC2_ADC_DIS",
+            "type": "bool",
+            "bits": 1,
+            "shift": 5,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG30_ADC_Function_Disable_1",
+            "long_reg": false,
+            "name": "VAC1_ADC_DIS",
+            "type": "bool",
+            "bits": 1,
+            "shift": 4,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "mode": "rw"
+        },
+        {
+            "regname": "REG31_IBUS_ADC",
+            "long_reg": true,
+            "name": "IBUS_ADC",
+            "type": "int",
+            "bits": 16,
+            "shift": 0,
+            "range_low": 0,
+            "range_high": 5000,
+            "fixed_offset": 0,
+            "bit_step_size": 1,
+            "flags": "IS_2COMPLEMENT",
+            "mode": "ro"
+        },
+        {
+            "regname": "REG33_IBAT_ADC",
+            "long_reg": true,
+            "name": "IBAT_ADC",
+            "type": "int",
+            "bits": 16,
+            "shift": 0,
+            "range_low": 0,
+            "range_high": 8000,
+            "fixed_offset": 0,
+            "bit_step_size": 1,
+            "flags": "IS_2COMPLEMENT",
+            "mode": "ro"
+        },
+        {
+            "regname": "REG35_VBUS_ADC",
+            "long_reg": true,
+            "name": "VBUS_ADC",
+            "type": "int",
+            "bits": 16,
+            "shift": 0,
+            "range_low": 0,
+            "range_high": 30000,
+            "fixed_offset": 0,
+            "bit_step_size": 1,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG37_VAC1_ADC",
+            "long_reg": true,
+            "name": "VAC1_ADC",
+            "type": "int",
+            "bits": 16,
+            "shift": 0,
+            "range_low": 0,
+            "range_high": 30000,
+            "fixed_offset": 0,
+            "bit_step_size": 1,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG39_VAC2_ADC",
+            "long_reg": true,
+            "name": "VAC2_ADC",
+            "type": "int",
+            "bits": 16,
+            "shift": 0,
+            "range_low": 0,
+            "range_high": 30000,
+            "fixed_offset": 0,
+            "bit_step_size": 1,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG3B_VBAT_ADC",
+            "long_reg": true,
+            "name": "VBAT_ADC",
+            "type": "int",
+            "bits": 16,
+            "shift": 0,
+            "range_low": 0,
+            "range_high": 20000,
+            "fixed_offset": 0,
+            "bit_step_size": 1,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG3D_VSYS_ADC",
+            "long_reg": true,
+            "name": "VSYS_ADC",
+            "type": "int",
+            "bits": 16,
+            "shift": 0,
+            "range_low": 0,
+            "range_high": 24000,
+            "fixed_offset": 0,
+            "bit_step_size": 1,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG3F_TS_ADC",
+            "long_reg": true,
+            "name": "TS_ADC",
+            "type": "float",
+            "bits": 16,
+            "shift": 0,
+            "range_low": 0,
+            "range_high": -99.9023,
+            "fixed_offset": 0,
+            "bit_step_size": 0.0976563,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG41_TDIE_ADC",
+            "long_reg": true,
+            "name": "TDIE_ADC",
+            "type": "float",
+            "bits": 16,
+            "shift": 0,
+            "range_low": -40,
+            "range_high": 150,
+            "fixed_offset": 0,
+            "bit_step_size": 0.5,
+            "flags": "IS_2COMPLEMENT",
+            "mode": "ro"
+        },
+        {
+            "regname": "REG43_DPLUS_ADC",
+            "long_reg": true,
+            "name": "DPLUS_ADC",
+            "type": "int",
+            "bits": 16,
+            "shift": 0,
+            "range_low": 0,
+            "range_high": 3600,
+            "fixed_offset": 0,
+            "bit_step_size": 1,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG45_DMINUS_ADC",
+            "long_reg": true,
+            "name": "DMINUS_ADC",
+            "type": "int",
+            "bits": 16,
+            "shift": 0,
+            "range_low": 0,
+            "range_high": 3600,
+            "fixed_offset": 0,
+            "bit_step_size": 1,
+            "mode": "ro"
+        },
+        {
+            "regname": "REG47_DPDM_Driver",
+            "long_reg": false,
+            "name": "DPLUS_DAC",
+            "type": "enum",
+            "bits": 3,
+            "shift": 5,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "HIZ",
+                "0V",
+                "0.6V",
+                "1.2V",
+                "2.0V",
+                "2.7V",
+                "3.3V",
+                "D+/D- Short"
+            ],
+            "enum_constants": [
+                "HIZ",
+                "VOUT_0",
+                "VOUT_0_6",
+                "VOUT_1_2",
+                "VOUT_2_0",
+                "VOUT_2_7",
+                "VOUT_3_3",
+                "DPLUS_DMINUS_SHORT"
+            ],
+            "mode": "rw"
+        },
+        {
+            "regname": "REG47_DPDM_Driver",
+            "long_reg": false,
+            "name": "DMINUS_DAC",
+            "type": "enum",
+            "bits": 3,
+            "shift": 2,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "HIZ",
+                "0V",
+                "0.6V",
+                "1.2V",
+                "2.0V",
+                "2.7V",
+                "3.3V",
+                "Reserved"
+            ],
+            "enum_constants": [
+                "HIZ",
+                "VOUT_0",
+                "VOUT_0_6",
+                "VOUT_1_2",
+                "VOUT_2_0",
+                "VOUT_2_7",
+                "VOUT_3_3",
+                "RESERVED"
+            ],
+            "mode": "rw"
+        },
+        {
+            "regname": "REG48_Part_Information",
+            "long_reg": false,
+            "name": "PN",
+            "type": "enum",
+            "bits": 3,
+            "shift": 3,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "?",
+                "?",
+                "?",
+                "BQ25798",
+                "?",
+                "?",
+                "?",
+                "?"
+            ],
+            "enum_constants": [
+                "RESERVED_0",
+                "RESERVED_1",
+                "RESERVED_2",
+                "BQ25798",
+                "RESERVED_4",
+                "RESERVED_5",
+                "RESERVED_6",
+                "RESERVED_7"
+            ],
+            "mode": "ro"
+        },
+        {
+            "regname": "REG48_Part_Information",
+            "long_reg": false,
+            "name": "DEV_REV",
+            "type": "enum",
+            "bits": 3,
+            "shift": 0,
+            "range_low": 0,
+            "range_high": 0,
+            "fixed_offset": 0,
+            "bit_step_size": 0,
+            "enum_strings": [
+                "?",
+                "BQ25798",
+                "?",
+                "?",
+                "?",
+                "?",
+                "?",
+                "?"
+            ],
+            "enum_constants": [
+                "RESERVED_0",
+                "BQ25798",
+                "RESERVED_2",
+                "RESERVED_3",
+                "RESERVED_4",
+                "RESERVED_5",
+                "RESERVED_6",
+                "RESERVED_7"
+            ],
+            "mode": "ro"
+        }
+    ]
+}
