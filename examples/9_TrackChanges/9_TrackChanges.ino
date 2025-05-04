@@ -196,7 +196,7 @@ void setup() {
 
   // Enable ADC one shot mode. ADC_EN will be set to 0 after the readout is done.
   // A continuous ADC would otherwise produce too much visual noise (a lot of changes).
-  bq25798.setAndWriteADC_RATE(BQ25798::ADC_RATE_t::ONESHOT);
+  bq25798.setAndWriteADC_RATE(BQ25798::ADC_RATE_t::ADC_RATE_ONESHOT);
   bq25798.setAndWriteADC_EN(true);  // trigger ADC one-shot mode
   delay(10);
 

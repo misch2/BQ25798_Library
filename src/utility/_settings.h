@@ -48,13 +48,17 @@ enum class VBAT_LOWV_t : uint8_t {
     VBAT_LOWV_PCT_67 = 2, 
     VBAT_LOWV_PCT_71 = 3
 };
+
 strings_vector_t VBAT_LOWV_strings = {
     "15%(VREG)", 
     "62.2%(VREG)", 
     "66.7%(VREG)", 
     "71.4%(VREG)" 
 };
+
 Setting VBAT_LOWV = { REG08_Precharge_Control, false, "VBAT_LOWV", settings_type_t::ENUM, 2, 6, 0, 0, 0, 0, settings_flags_t::NONE, VBAT_LOWV_strings };
+VBAT_LOWV_t getVBAT_LOWV() { return static_cast<VBAT_LOWV_t>(getInt(VBAT_LOWV)); }
+
 const char * getVBAT_LOWV_string() { return getString(VBAT_LOWV); }
 bool setAndWriteVBAT_LOWV(VBAT_LOWV_t val) { return setAndWriteEnum<VBAT_LOWV_t>(VBAT_LOWV, val); }
 
@@ -100,13 +104,17 @@ enum class CELL_t : uint8_t {
     CELL_3S = 2, 
     CELL_4S = 3
 };
+
 strings_vector_t CELL_strings = {
     "1S", 
     "2S", 
     "3S", 
     "4S" 
 };
+
 Setting CELL = { REG0A_Recharge_Control, false, "CELL", settings_type_t::ENUM, 2, 6, 0, 0, 0, 0, settings_flags_t::NONE, CELL_strings };
+CELL_t getCELL() { return static_cast<CELL_t>(getInt(CELL)); }
+
 const char * getCELL_string() { return getString(CELL); }
 bool setAndWriteCELL(CELL_t val) { return setAndWriteEnum<CELL_t>(CELL, val); }
 
@@ -120,13 +128,17 @@ enum class TRECHG_t : uint8_t {
     TRECHG_1024MS = 2, 
     TRECHG_2048MS = 3
 };
+
 strings_vector_t TRECHG_strings = {
     "64 ms", 
     "256 ms", 
     "1024 ms", 
     "2048 ms" 
 };
+
 Setting TRECHG = { REG0A_Recharge_Control, false, "TRECHG", settings_type_t::ENUM, 2, 4, 0, 0, 0, 0, settings_flags_t::NONE, TRECHG_strings };
+TRECHG_t getTRECHG() { return static_cast<TRECHG_t>(getInt(TRECHG)); }
+
 const char * getTRECHG_string() { return getString(TRECHG); }
 bool setAndWriteTRECHG(TRECHG_t val) { return setAndWriteEnum<TRECHG_t>(TRECHG, val); }
 
@@ -154,11 +166,15 @@ enum class PRECHG_TMR_t : uint8_t {
     PRECHG_TMR_2HRS = 0, 
     PRECHG_TMR_30MIN = 1
 };
+
 strings_vector_t PRECHG_TMR_strings = {
     "2 hours", 
     "30 minutes" 
 };
+
 Setting PRECHG_TMR = { REG0D_IOTG_regulation, false, "PRECHG_TMR", settings_type_t::ENUM, 1, 7, 0, 0, 0, 0, settings_flags_t::NONE, PRECHG_TMR_strings };
+PRECHG_TMR_t getPRECHG_TMR() { return static_cast<PRECHG_TMR_t>(getInt(PRECHG_TMR)); }
+
 const char * getPRECHG_TMR_string() { return getString(PRECHG_TMR); }
 bool setAndWritePRECHG_TMR(PRECHG_TMR_t val) { return setAndWriteEnum<PRECHG_TMR_t>(PRECHG_TMR, val); }
 
@@ -180,13 +196,17 @@ enum class TOPOFF_TMR_t : uint8_t {
     TOPOFF_TMR_30MIN = 2, 
     TOPOFF_TMR_45MIN = 3
 };
+
 strings_vector_t TOPOFF_TMR_strings = {
     "Disabled", 
     "15 minutes", 
     "30 minutes", 
     "45 minutes" 
 };
+
 Setting TOPOFF_TMR = { REG0E_Timer_Control, false, "TOPOFF_TMR", settings_type_t::ENUM, 2, 6, 0, 0, 0, 0, settings_flags_t::NONE, TOPOFF_TMR_strings };
+TOPOFF_TMR_t getTOPOFF_TMR() { return static_cast<TOPOFF_TMR_t>(getInt(TOPOFF_TMR)); }
+
 const char * getTOPOFF_TMR_string() { return getString(TOPOFF_TMR); }
 bool setAndWriteTOPOFF_TMR(TOPOFF_TMR_t val) { return setAndWriteEnum<TOPOFF_TMR_t>(TOPOFF_TMR, val); }
 
@@ -224,13 +244,17 @@ enum class CHG_TMR_t : uint8_t {
     CHG_TMR_12HRS = 2, 
     CHG_TMR_24HRS = 3
 };
+
 strings_vector_t CHG_TMR_strings = {
     "5 hours", 
     "8 hours", 
     "12 hours", 
     "24 hours" 
 };
+
 Setting CHG_TMR = { REG0E_Timer_Control, false, "CHG_TMR", settings_type_t::ENUM, 2, 1, 0, 0, 0, 0, settings_flags_t::NONE, CHG_TMR_strings };
+CHG_TMR_t getCHG_TMR() { return static_cast<CHG_TMR_t>(getInt(CHG_TMR)); }
+
 const char * getCHG_TMR_string() { return getString(CHG_TMR); }
 bool setAndWriteCHG_TMR(CHG_TMR_t val) { return setAndWriteEnum<CHG_TMR_t>(CHG_TMR, val); }
 
@@ -316,13 +340,17 @@ enum class VBUS_BACKUP_t : uint8_t {
     PCT_VBUS_BACKUP_80 = 2, 
     PCT_VBUS_BACKUP_100 = 3
 };
+
 strings_vector_t VBUS_BACKUP_strings = {
     "<40%(VINDPM)", 
     "<60%(VINDPM)", 
     "<80%(VINDPM)", 
     "<100%(VINDPM)" 
 };
+
 Setting VBUS_BACKUP = { REG10_Charger_Control_1, false, "VBUS_BACKUP", settings_type_t::ENUM, 2, 6, 0, 0, 0, 0, settings_flags_t::NONE, VBUS_BACKUP_strings };
+VBUS_BACKUP_t getVBUS_BACKUP() { return static_cast<VBUS_BACKUP_t>(getInt(VBUS_BACKUP)); }
+
 const char * getVBUS_BACKUP_string() { return getString(VBUS_BACKUP); }
 bool setAndWriteVBUS_BACKUP(VBUS_BACKUP_t val) { return setAndWriteEnum<VBUS_BACKUP_t>(VBUS_BACKUP, val); }
 
@@ -336,13 +364,17 @@ enum class VAC_OVP_t : uint8_t {
     VAC_OVP_12V = 2, 
     VAC_OVP_7V = 3
 };
+
 strings_vector_t VAC_OVP_strings = {
     ">26V", 
     ">22V", 
     ">12V", 
     ">7V" 
 };
+
 Setting VAC_OVP = { REG10_Charger_Control_1, false, "VAC_OVP", settings_type_t::ENUM, 2, 4, 0, 0, 0, 0, settings_flags_t::NONE, VAC_OVP_strings };
+VAC_OVP_t getVAC_OVP() { return static_cast<VAC_OVP_t>(getInt(VAC_OVP)); }
+
 const char * getVAC_OVP_string() { return getString(VAC_OVP); }
 bool setAndWriteVAC_OVP(VAC_OVP_t val) { return setAndWriteEnum<VAC_OVP_t>(VAC_OVP, val); }
 
@@ -368,6 +400,7 @@ enum class WATCHDOG_t : uint8_t {
     WATCHDOG_80S = 6, 
     WATCHDOG_160S = 7
 };
+
 strings_vector_t WATCHDOG_strings = {
     "Disabled", 
     "0.5s", 
@@ -378,7 +411,10 @@ strings_vector_t WATCHDOG_strings = {
     "80s", 
     "160s" 
 };
+
 Setting WATCHDOG = { REG10_Charger_Control_1, false, "WATCHDOG", settings_type_t::ENUM, 3, 0, 0, 0, 0, 0, settings_flags_t::NONE, WATCHDOG_strings };
+WATCHDOG_t getWATCHDOG() { return static_cast<WATCHDOG_t>(getInt(WATCHDOG)); }
+
 const char * getWATCHDOG_string() { return getString(WATCHDOG); }
 bool setAndWriteWATCHDOG(WATCHDOG_t val) { return setAndWriteEnum<WATCHDOG_t>(WATCHDOG, val); }
 
@@ -432,13 +468,17 @@ enum class SDRV_CTRL_t : uint8_t {
     SDRV_CTRL_SHIP = 2, 
     SDRV_CTRL_SYS_PWR_RST = 3
 };
+
 strings_vector_t SDRV_CTRL_strings = {
     "Idle", 
     "Shutdown", 
     "Ship", 
     "System Power Reset" 
 };
+
 Setting SDRV_CTRL = { REG11_Charger_Control_2, false, "SDRV_CTRL", settings_type_t::ENUM, 2, 1, 0, 0, 0, 0, settings_flags_t::NONE, SDRV_CTRL_strings };
+SDRV_CTRL_t getSDRV_CTRL() { return static_cast<SDRV_CTRL_t>(getInt(SDRV_CTRL)); }
+
 const char * getSDRV_CTRL_string() { return getString(SDRV_CTRL); }
 bool setAndWriteSDRV_CTRL(SDRV_CTRL_t val) { return setAndWriteEnum<SDRV_CTRL_t>(SDRV_CTRL, val); }
 
@@ -450,11 +490,15 @@ enum class SDRV_DLY_t : uint8_t {
     SDRV_DLY_10S = 0, 
     SDRV_DLY_0S = 1
 };
+
 strings_vector_t SDRV_DLY_strings = {
     "10s", 
     "0s" 
 };
+
 Setting SDRV_DLY = { REG11_Charger_Control_2, false, "SDRV_DLY", settings_type_t::ENUM, 1, 0, 0, 0, 0, 0, settings_flags_t::NONE, SDRV_DLY_strings };
+SDRV_DLY_t getSDRV_DLY() { return static_cast<SDRV_DLY_t>(getInt(SDRV_DLY)); }
+
 const char * getSDRV_DLY_string() { return getString(SDRV_DLY); }
 bool setAndWriteSDRV_DLY(SDRV_DLY_t val) { return setAndWriteEnum<SDRV_DLY_t>(SDRV_DLY, val); }
 
@@ -498,11 +542,15 @@ enum class WKUP_DLY_t : uint8_t {
     WKUP_DLY_1S = 0, 
     WKUP_DLY_15MS = 1
 };
+
 strings_vector_t WKUP_DLY_strings = {
     "1s", 
     "15ms" 
 };
+
 Setting WKUP_DLY = { REG12_Charger_Control_3, false, "WKUP_DLY", settings_type_t::ENUM, 1, 3, 0, 0, 0, 0, settings_flags_t::NONE, WKUP_DLY_strings };
+WKUP_DLY_t getWKUP_DLY() { return static_cast<WKUP_DLY_t>(getInt(WKUP_DLY)); }
+
 const char * getWKUP_DLY_string() { return getString(WKUP_DLY); }
 bool setAndWriteWKUP_DLY(WKUP_DLY_t val) { return setAndWriteEnum<WKUP_DLY_t>(WKUP_DLY, val); }
 
@@ -554,11 +602,15 @@ enum class PWM_FREQ_t : uint8_t {
     PWM_FREQ_1_5MHZ = 0, 
     PWM_FREQ_750KHZ = 1
 };
+
 strings_vector_t PWM_FREQ_strings = {
     "1.5 MHz", 
     "750 kHz" 
 };
+
 Setting PWM_FREQ = { REG13_Charger_Control_4, false, "PWM_FREQ", settings_type_t::ENUM, 1, 5, 0, 0, 0, 0, settings_flags_t::NONE, PWM_FREQ_strings };
+PWM_FREQ_t getPWM_FREQ() { return static_cast<PWM_FREQ_t>(getInt(PWM_FREQ)); }
+
 const char * getPWM_FREQ_string() { return getString(PWM_FREQ); }
 bool setAndWritePWM_FREQ(PWM_FREQ_t val) { return setAndWriteEnum<PWM_FREQ_t>(PWM_FREQ, val); }
 
@@ -628,13 +680,17 @@ enum class IBAT_REG_t : uint8_t {
     IBAT_REG_5A = 2, 
     IBAT_REG_DISABLE = 3
 };
+
 strings_vector_t IBAT_REG_strings = {
     "3A", 
     "4A", 
     "5A", 
     "Disabled" 
 };
+
 Setting IBAT_REG = { REG14_Charger_Control_5, false, "IBAT_REG", settings_type_t::ENUM, 2, 3, 0, 0, 0, 0, settings_flags_t::NONE, IBAT_REG_strings };
+IBAT_REG_t getIBAT_REG() { return static_cast<IBAT_REG_t>(getInt(IBAT_REG)); }
+
 const char * getIBAT_REG_string() { return getString(IBAT_REG); }
 bool setAndWriteIBAT_REG(IBAT_REG_t val) { return setAndWriteEnum<IBAT_REG_t>(IBAT_REG, val); }
 
@@ -676,6 +732,7 @@ enum class VOC_PCT_t : uint8_t {
     VOC_PCT_0_9375 = 6, 
     VOC_PCT_1 = 7
 };
+
 strings_vector_t VOC_PCT_strings = {
     "0.5625", 
     "0.625", 
@@ -686,7 +743,10 @@ strings_vector_t VOC_PCT_strings = {
     "0.9375", 
     "1" 
 };
+
 Setting VOC_PCT = { REG15_MPPT_Control, false, "VOC_PCT", settings_type_t::ENUM, 3, 5, 0, 0, 0, 0, settings_flags_t::NONE, VOC_PCT_strings };
+VOC_PCT_t getVOC_PCT() { return static_cast<VOC_PCT_t>(getInt(VOC_PCT)); }
+
 const char * getVOC_PCT_string() { return getString(VOC_PCT); }
 bool setAndWriteVOC_PCT(VOC_PCT_t val) { return setAndWriteEnum<VOC_PCT_t>(VOC_PCT, val); }
 
@@ -700,13 +760,17 @@ enum class VOC_DLY_t : uint8_t {
     VOC_DLY_2S = 2, 
     VOC_DLY_5S = 3
 };
+
 strings_vector_t VOC_DLY_strings = {
     "50ms", 
     "300ms", 
     "2s", 
     "5s" 
 };
+
 Setting VOC_DLY = { REG15_MPPT_Control, false, "VOC_DLY", settings_type_t::ENUM, 2, 4, 0, 0, 0, 0, settings_flags_t::NONE, VOC_DLY_strings };
+VOC_DLY_t getVOC_DLY() { return static_cast<VOC_DLY_t>(getInt(VOC_DLY)); }
+
 const char * getVOC_DLY_string() { return getString(VOC_DLY); }
 bool setAndWriteVOC_DLY(VOC_DLY_t val) { return setAndWriteEnum<VOC_DLY_t>(VOC_DLY, val); }
 
@@ -720,13 +784,17 @@ enum class VOC_RATE_t : uint8_t {
     VOC_RATE_10MIN = 2, 
     VOC_RATE_30MIN = 3
 };
+
 strings_vector_t VOC_RATE_strings = {
     "30s", 
     "2min", 
     "10min", 
     "30min" 
 };
+
 Setting VOC_RATE = { REG15_MPPT_Control, false, "VOC_RATE", settings_type_t::ENUM, 2, 2, 0, 0, 0, 0, settings_flags_t::NONE, VOC_RATE_strings };
+VOC_RATE_t getVOC_RATE() { return static_cast<VOC_RATE_t>(getInt(VOC_RATE)); }
+
 const char * getVOC_RATE_string() { return getString(VOC_RATE); }
 bool setAndWriteVOC_RATE(VOC_RATE_t val) { return setAndWriteEnum<VOC_RATE_t>(VOC_RATE, val); }
 
@@ -748,13 +816,17 @@ enum class TREG_t : uint8_t {
     TREG_100 = 2, 
     TREG_120 = 3
 };
+
 strings_vector_t TREG_strings = {
     "60'C", 
     "80'C", 
     "100'C", 
     "120'C" 
 };
+
 Setting TREG = { REG16_Temperature_Control, false, "TREG", settings_type_t::ENUM, 2, 6, 0, 0, 0, 0, settings_flags_t::NONE, TREG_strings };
+TREG_t getTREG() { return static_cast<TREG_t>(getInt(TREG)); }
+
 const char * getTREG_string() { return getString(TREG); }
 bool setAndWriteTREG(TREG_t val) { return setAndWriteEnum<TREG_t>(TREG, val); }
 
@@ -768,13 +840,17 @@ enum class TSHUT_t : uint8_t {
     TSHUT_120 = 2, 
     TSHUT_85 = 3
 };
+
 strings_vector_t TSHUT_strings = {
     "150'C", 
     "130'C", 
     "120'C", 
     "85'C" 
 };
+
 Setting TSHUT = { REG16_Temperature_Control, false, "TSHUT", settings_type_t::ENUM, 2, 4, 0, 0, 0, 0, settings_flags_t::NONE, TSHUT_strings };
+TSHUT_t getTSHUT() { return static_cast<TSHUT_t>(getInt(TSHUT)); }
+
 const char * getTSHUT_string() { return getString(TSHUT); }
 bool setAndWriteTSHUT(TSHUT_t val) { return setAndWriteEnum<TSHUT_t>(TSHUT, val); }
 
@@ -810,11 +886,15 @@ enum class BKUP_ACFET1_ON_t : uint8_t {
     BKUP_ACFET1_ON_IDLE = 0, 
     BKUP_ACFET1_ON_TURN_ON = 1
 };
+
 strings_vector_t BKUP_ACFET1_ON_strings = {
     "Idle", 
     "Turn on ACFET1 in backup mode" 
 };
+
 Setting BKUP_ACFET1_ON = { REG16_Temperature_Control, false, "BKUP_ACFET1_ON", settings_type_t::ENUM, 1, 0, 0, 0, 0, 0, settings_flags_t::NONE, BKUP_ACFET1_ON_strings };
+BKUP_ACFET1_ON_t getBKUP_ACFET1_ON() { return static_cast<BKUP_ACFET1_ON_t>(getInt(BKUP_ACFET1_ON)); }
+
 const char * getBKUP_ACFET1_ON_string() { return getString(BKUP_ACFET1_ON); }
 bool setAndWriteBKUP_ACFET1_ON(BKUP_ACFET1_ON_t val) { return setAndWriteEnum<BKUP_ACFET1_ON_t>(BKUP_ACFET1_ON, val); }
 
@@ -832,6 +912,7 @@ enum class JEITA_VSET_t : uint8_t {
     JEITA_VSET_SET_VREG_TO_VREG_100MV = 6, 
     JEITA_VSET_VREG_UNCHANGED = 7
 };
+
 strings_vector_t JEITA_VSET_strings = {
     "Charge Suspend", 
     "Set VREG to VREG-800mV", 
@@ -842,7 +923,10 @@ strings_vector_t JEITA_VSET_strings = {
     "Set VREG to VREG-100mV", 
     "VREG unchanged" 
 };
+
 Setting JEITA_VSET = { REG17_NTC_Control_0, false, "JEITA_VSET", settings_type_t::ENUM, 3, 5, 0, 0, 0, 0, settings_flags_t::NONE, JEITA_VSET_strings };
+JEITA_VSET_t getJEITA_VSET() { return static_cast<JEITA_VSET_t>(getInt(JEITA_VSET)); }
+
 const char * getJEITA_VSET_string() { return getString(JEITA_VSET); }
 bool setAndWriteJEITA_VSET(JEITA_VSET_t val) { return setAndWriteEnum<JEITA_VSET_t>(JEITA_VSET, val); }
 
@@ -856,13 +940,17 @@ enum class JEITA_ISETH_t : uint8_t {
     JEITA_ISETH_SET_ICHG_TO_40 = 2, 
     JEITA_ISETH_ICHG_UNCHANGED = 3
 };
+
 strings_vector_t JEITA_ISETH_strings = {
     "Charge Suspend", 
     "Set ICHG to 20%* ICHG", 
     "Set ICHG to 40%* ICHG", 
     "ICHG unchanged" 
 };
+
 Setting JEITA_ISETH = { REG17_NTC_Control_0, false, "JEITA_ISETH", settings_type_t::ENUM, 2, 3, 0, 0, 0, 0, settings_flags_t::NONE, JEITA_ISETH_strings };
+JEITA_ISETH_t getJEITA_ISETH() { return static_cast<JEITA_ISETH_t>(getInt(JEITA_ISETH)); }
+
 const char * getJEITA_ISETH_string() { return getString(JEITA_ISETH); }
 bool setAndWriteJEITA_ISETH(JEITA_ISETH_t val) { return setAndWriteEnum<JEITA_ISETH_t>(JEITA_ISETH, val); }
 
@@ -876,13 +964,17 @@ enum class JEITA_ISETC_t : uint8_t {
     JEITA_ISETC_SET_ICHG_TO_40 = 2, 
     JEITA_ISETC_ICHG_UNCHANGED = 3
 };
+
 strings_vector_t JEITA_ISETC_strings = {
     "Charge Suspend", 
     "Set ICHG to 20%* ICHG (default)", 
     "Set ICHG to 40%* ICHG", 
     "ICHG unchanged" 
 };
+
 Setting JEITA_ISETC = { REG17_NTC_Control_0, false, "JEITA_ISETC", settings_type_t::ENUM, 2, 1, 0, 0, 0, 0, settings_flags_t::NONE, JEITA_ISETC_strings };
+JEITA_ISETC_t getJEITA_ISETC() { return static_cast<JEITA_ISETC_t>(getInt(JEITA_ISETC)); }
+
 const char * getJEITA_ISETC_string() { return getString(JEITA_ISETC); }
 bool setAndWriteJEITA_ISETC(JEITA_ISETC_t val) { return setAndWriteEnum<JEITA_ISETC_t>(JEITA_ISETC, val); }
 
@@ -896,13 +988,17 @@ enum class TS_COOL_t : uint8_t {
     TS_COOL_15 = 2, 
     TS_COOL_20 = 3
 };
+
 strings_vector_t TS_COOL_strings = {
     "5'C", 
     "10'C (default)", 
     "15'C", 
     "20'C" 
 };
+
 Setting TS_COOL = { REG18_NTC_Control_1, false, "TS_COOL", settings_type_t::ENUM, 2, 6, 0, 0, 0, 0, settings_flags_t::NONE, TS_COOL_strings };
+TS_COOL_t getTS_COOL() { return static_cast<TS_COOL_t>(getInt(TS_COOL)); }
+
 const char * getTS_COOL_string() { return getString(TS_COOL); }
 bool setAndWriteTS_COOL(TS_COOL_t val) { return setAndWriteEnum<TS_COOL_t>(TS_COOL, val); }
 
@@ -916,13 +1012,17 @@ enum class TS_WARM_t : uint8_t {
     TS_WARM_50 = 2, 
     TS_WARM_55 = 3
 };
+
 strings_vector_t TS_WARM_strings = {
     "40'C", 
     "45'C (default)", 
     "50'C", 
     "55'C" 
 };
+
 Setting TS_WARM = { REG18_NTC_Control_1, false, "TS_WARM", settings_type_t::ENUM, 2, 4, 0, 0, 0, 0, settings_flags_t::NONE, TS_WARM_strings };
+TS_WARM_t getTS_WARM() { return static_cast<TS_WARM_t>(getInt(TS_WARM)); }
+
 const char * getTS_WARM_string() { return getString(TS_WARM); }
 bool setAndWriteTS_WARM(TS_WARM_t val) { return setAndWriteEnum<TS_WARM_t>(TS_WARM, val); }
 
@@ -936,13 +1036,17 @@ enum class BHOT_t : uint8_t {
     TS_BHOT_65 = 2, 
     TS_BHOT_DISABLE = 3
 };
+
 strings_vector_t BHOT_strings = {
     "55'C", 
     "60'C (default)", 
     "65'C", 
     "Disabled" 
 };
+
 Setting BHOT = { REG18_NTC_Control_1, false, "BHOT", settings_type_t::ENUM, 2, 2, 0, 0, 0, 0, settings_flags_t::NONE, BHOT_strings };
+BHOT_t getBHOT() { return static_cast<BHOT_t>(getInt(BHOT)); }
+
 const char * getBHOT_string() { return getString(BHOT); }
 bool setAndWriteBHOT(BHOT_t val) { return setAndWriteEnum<BHOT_t>(BHOT, val); }
 
@@ -954,11 +1058,15 @@ enum class BCOLD_t : uint8_t {
     TS_BCOLD_MINUS_10 = 0, 
     TS_BCOLD_MINUS_20 = 1
 };
+
 strings_vector_t BCOLD_strings = {
     "-10'C (default)", 
     "-20'C" 
 };
+
 Setting BCOLD = { REG18_NTC_Control_1, false, "BCOLD", settings_type_t::ENUM, 1, 1, 0, 0, 0, 0, settings_flags_t::NONE, BCOLD_strings };
+BCOLD_t getBCOLD() { return static_cast<BCOLD_t>(getInt(BCOLD)); }
+
 const char * getBCOLD_string() { return getString(BCOLD); }
 bool setAndWriteBCOLD(BCOLD_t val) { return setAndWriteEnum<BCOLD_t>(BCOLD, val); }
 
@@ -985,11 +1093,15 @@ enum class IINDPM_STAT_t : uint8_t {
     IINDPM_STAT_NORMAL = 0, 
     IINDPM_STAT_REGULATION = 1
 };
+
 strings_vector_t IINDPM_STAT_strings = {
     "Normal", 
     "In IINDPM regulation or IOTG regulation" 
 };
+
 Setting IINDPM_STAT = { REG1B_Charger_Status_0, false, "IINDPM_STAT", settings_type_t::ENUM, 1, 7, 0, 0, 0, 0, settings_flags_t::NONE, IINDPM_STAT_strings };
+IINDPM_STAT_t getIINDPM_STAT() { return static_cast<IINDPM_STAT_t>(getInt(IINDPM_STAT)); }
+
 const char * getIINDPM_STAT_string() { return getString(IINDPM_STAT); }
 
 
@@ -1000,11 +1112,15 @@ enum class VINDPM_STAT_t : uint8_t {
     VINDPM_STAT_NORMAL = 0, 
     VINDPM_STAT_REGULATION = 1
 };
+
 strings_vector_t VINDPM_STAT_strings = {
     "Normal", 
     "In VINDPM regulation or VOTG regulation" 
 };
+
 Setting VINDPM_STAT = { REG1B_Charger_Status_0, false, "VINDPM_STAT", settings_type_t::ENUM, 1, 6, 0, 0, 0, 0, settings_flags_t::NONE, VINDPM_STAT_strings };
+VINDPM_STAT_t getVINDPM_STAT() { return static_cast<VINDPM_STAT_t>(getInt(VINDPM_STAT)); }
+
 const char * getVINDPM_STAT_string() { return getString(VINDPM_STAT); }
 
 
@@ -1015,11 +1131,15 @@ enum class WD_STAT_t : uint8_t {
     WD_STAT_NORMAL = 0, 
     WD_STAT_EXPIRED = 1
 };
+
 strings_vector_t WD_STAT_strings = {
     "Normal", 
     "Watchdog timer expired" 
 };
+
 Setting WD_STAT = { REG1B_Charger_Status_0, false, "WD_STAT", settings_type_t::ENUM, 1, 5, 0, 0, 0, 0, settings_flags_t::NONE, WD_STAT_strings };
+WD_STAT_t getWD_STAT() { return static_cast<WD_STAT_t>(getInt(WD_STAT)); }
+
 const char * getWD_STAT_string() { return getString(WD_STAT); }
 
 
@@ -1030,11 +1150,15 @@ enum class PG_STAT_t : uint8_t {
     PG_STAT_BAD = 0, 
     PG_STAT_GOOD = 1
 };
+
 strings_vector_t PG_STAT_strings = {
     "Not in power good status", 
     "Power good" 
 };
+
 Setting PG_STAT = { REG1B_Charger_Status_0, false, "PG_STAT", settings_type_t::ENUM, 1, 3, 0, 0, 0, 0, settings_flags_t::NONE, PG_STAT_strings };
+PG_STAT_t getPG_STAT() { return static_cast<PG_STAT_t>(getInt(PG_STAT)); }
+
 const char * getPG_STAT_string() { return getString(PG_STAT); }
 
 
@@ -1045,11 +1169,15 @@ enum class AC2_PRESENT_STAT_t : uint8_t {
     AC2_PRESENT_STAT_NOT_PRESENT = 0, 
     AC2_PRESENT_STAT_PRESENT = 1
 };
+
 strings_vector_t AC2_PRESENT_STAT_strings = {
     "VAC2 NOT present", 
     "VAC2 present (above present threshold)" 
 };
+
 Setting AC2_PRESENT_STAT = { REG1B_Charger_Status_0, false, "AC2_PRESENT_STAT", settings_type_t::ENUM, 1, 2, 0, 0, 0, 0, settings_flags_t::NONE, AC2_PRESENT_STAT_strings };
+AC2_PRESENT_STAT_t getAC2_PRESENT_STAT() { return static_cast<AC2_PRESENT_STAT_t>(getInt(AC2_PRESENT_STAT)); }
+
 const char * getAC2_PRESENT_STAT_string() { return getString(AC2_PRESENT_STAT); }
 
 
@@ -1060,11 +1188,15 @@ enum class AC1_PRESENT_STAT_t : uint8_t {
     AC1_PRESENT_STAT_NOT_PRESENT = 0, 
     AC1_PRESENT_STAT_PRESENT = 1
 };
+
 strings_vector_t AC1_PRESENT_STAT_strings = {
     "VAC1 NOT present", 
     "VAC1 present (above present threshold)" 
 };
+
 Setting AC1_PRESENT_STAT = { REG1B_Charger_Status_0, false, "AC1_PRESENT_STAT", settings_type_t::ENUM, 1, 1, 0, 0, 0, 0, settings_flags_t::NONE, AC1_PRESENT_STAT_strings };
+AC1_PRESENT_STAT_t getAC1_PRESENT_STAT() { return static_cast<AC1_PRESENT_STAT_t>(getInt(AC1_PRESENT_STAT)); }
+
 const char * getAC1_PRESENT_STAT_string() { return getString(AC1_PRESENT_STAT); }
 
 
@@ -1075,11 +1207,15 @@ enum class VBUS_PRESENT_STAT_t : uint8_t {
     VBUS_PRESENT_STAT_NOT_PRESENT = 0, 
     VBUS_PRESENT_STAT_PRESENT = 1
 };
+
 strings_vector_t VBUS_PRESENT_STAT_strings = {
     "VBUS NOT present", 
     "VBUS present (above present threshold)" 
 };
+
 Setting VBUS_PRESENT_STAT = { REG1B_Charger_Status_0, false, "VBUS_PRESENT_STAT", settings_type_t::ENUM, 1, 0, 0, 0, 0, 0, settings_flags_t::NONE, VBUS_PRESENT_STAT_strings };
+VBUS_PRESENT_STAT_t getVBUS_PRESENT_STAT() { return static_cast<VBUS_PRESENT_STAT_t>(getInt(VBUS_PRESENT_STAT)); }
+
 const char * getVBUS_PRESENT_STAT_string() { return getString(VBUS_PRESENT_STAT); }
 
 
@@ -1096,6 +1232,7 @@ enum class CHG_STAT_t : uint8_t {
     CHG_STAT_TOPOFF = 6, 
     CHG_STAT_TERMINATED = 7
 };
+
 strings_vector_t CHG_STAT_strings = {
     "Not Charging", 
     "Trickle Charge", 
@@ -1106,7 +1243,10 @@ strings_vector_t CHG_STAT_strings = {
     "Top-off Timer Active Charging", 
     "Charge Termination Done" 
 };
+
 Setting CHG_STAT = { REG1C_Charger_Status_1, false, "CHG_STAT", settings_type_t::ENUM, 3, 5, 0, 0, 0, 0, settings_flags_t::NONE, CHG_STAT_strings };
+CHG_STAT_t getCHG_STAT() { return static_cast<CHG_STAT_t>(getInt(CHG_STAT)); }
+
 const char * getCHG_STAT_string() { return getString(CHG_STAT); }
 
 
@@ -1131,6 +1271,7 @@ enum class VBUS_STAT_t : uint8_t {
     VBUS_STAT_RESERVED_E = 14, 
     VBUS_STAT_RESERVED_F = 15
 };
+
 strings_vector_t VBUS_STAT_strings = {
     "No Input or BHOT or BCOLD in OTG mode", 
     "USB SDP (500mA)", 
@@ -1149,7 +1290,10 @@ strings_vector_t VBUS_STAT_strings = {
     "Reserved", 
     "Reserved" 
 };
+
 Setting VBUS_STAT = { REG1C_Charger_Status_1, false, "VBUS_STAT", settings_type_t::ENUM, 4, 1, 0, 0, 0, 0, settings_flags_t::NONE, VBUS_STAT_strings };
+VBUS_STAT_t getVBUS_STAT() { return static_cast<VBUS_STAT_t>(getInt(VBUS_STAT)); }
+
 const char * getVBUS_STAT_string() { return getString(VBUS_STAT); }
 
 
@@ -1169,13 +1313,17 @@ enum class ICO_STAT_t : uint8_t {
     ICO_STAT_MAX_CURRENT_DETECTED = 2, 
     ICO_STAT_RESERVED = 3
 };
+
 strings_vector_t ICO_STAT_strings = {
     "ICO disabled", 
     "ICO optimization in progress", 
     "Maximum input current detected", 
     "Reserved" 
 };
+
 Setting ICO_STAT = { REG1D_Charger_Status_2, false, "ICO_STAT", settings_type_t::ENUM, 2, 6, 0, 0, 0, 0, settings_flags_t::NONE, ICO_STAT_strings };
+ICO_STAT_t getICO_STAT() { return static_cast<ICO_STAT_t>(getInt(ICO_STAT)); }
+
 const char * getICO_STAT_string() { return getString(ICO_STAT); }
 
 
@@ -1186,11 +1334,15 @@ enum class TREG_STAT_t : uint8_t {
     TREG_STAT_NORMAL = 0, 
     TREG_STAT_THERMAL_REGULATION = 1
 };
+
 strings_vector_t TREG_STAT_strings = {
     "Normal", 
     "Device in thermal regulation" 
 };
+
 Setting TREG_STAT = { REG1D_Charger_Status_2, false, "TREG_STAT", settings_type_t::ENUM, 1, 5, 0, 0, 0, 0, settings_flags_t::NONE, TREG_STAT_strings };
+TREG_STAT_t getTREG_STAT() { return static_cast<TREG_STAT_t>(getInt(TREG_STAT)); }
+
 const char * getTREG_STAT_string() { return getString(TREG_STAT); }
 
 
@@ -1201,11 +1353,15 @@ enum class DPDM_STAT_t : uint8_t {
     DPDM_STAT_NOT_STARTED = 0, 
     DPDM_STAT_IN_PROGRESS = 1
 };
+
 strings_vector_t DPDM_STAT_strings = {
     "D+/D- detection NOT started yet or done", 
     "D+/D- detection in progress" 
 };
+
 Setting DPDM_STAT = { REG1D_Charger_Status_2, false, "DPDM_STAT", settings_type_t::ENUM, 1, 4, 0, 0, 0, 0, settings_flags_t::NONE, DPDM_STAT_strings };
+DPDM_STAT_t getDPDM_STAT() { return static_cast<DPDM_STAT_t>(getInt(DPDM_STAT)); }
+
 const char * getDPDM_STAT_string() { return getString(DPDM_STAT); }
 
 
@@ -1216,11 +1372,15 @@ enum class VBAT_PRESENT_STAT_t : uint8_t {
     VBAT_PRESENT_STAT_NOT_PRESENT = 0, 
     VBAT_PRESENT_STAT_PRESENT = 1
 };
+
 strings_vector_t VBAT_PRESENT_STAT_strings = {
     "VBAT NOT present", 
     "VBAT present" 
 };
+
 Setting VBAT_PRESENT_STAT = { REG1D_Charger_Status_2, false, "VBAT_PRESENT_STAT", settings_type_t::ENUM, 1, 0, 0, 0, 0, 0, settings_flags_t::NONE, VBAT_PRESENT_STAT_strings };
+VBAT_PRESENT_STAT_t getVBAT_PRESENT_STAT() { return static_cast<VBAT_PRESENT_STAT_t>(getInt(VBAT_PRESENT_STAT)); }
+
 const char * getVBAT_PRESENT_STAT_string() { return getString(VBAT_PRESENT_STAT); }
 
 
@@ -1252,11 +1412,15 @@ enum class VSYS_STAT_t : uint8_t {
     VSYS_STAT_NOT_IN_VSYSMIN_REGULATION = 0, 
     VSYS_STAT_IN_VSYSMIN_REGULATION = 1
 };
+
 strings_vector_t VSYS_STAT_strings = {
     "Not in VSYSMIN regulation (VBAT > VSYSMIN)", 
     "In VSYSMIN regulation (VBAT < VSYSMIN)" 
 };
+
 Setting VSYS_STAT = { REG1E_Charger_Status_3, false, "VSYS_STAT", settings_type_t::ENUM, 1, 4, 0, 0, 0, 0, settings_flags_t::NONE, VSYS_STAT_strings };
+VSYS_STAT_t getVSYS_STAT() { return static_cast<VSYS_STAT_t>(getInt(VSYS_STAT)); }
+
 const char * getVSYS_STAT_string() { return getString(VSYS_STAT); }
 
 
@@ -1267,11 +1431,15 @@ enum class CHG_TMR_STAT_t : uint8_t {
     CHG_TMR_STAT_NORMAL = 0, 
     CHG_TMR_STAT_SAFETY_TIMER_EXPIRED = 1
 };
+
 strings_vector_t CHG_TMR_STAT_strings = {
     "Normal", 
     "Safety timer expired" 
 };
+
 Setting CHG_TMR_STAT = { REG1E_Charger_Status_3, false, "CHG_TMR_STAT", settings_type_t::ENUM, 1, 3, 0, 0, 0, 0, settings_flags_t::NONE, CHG_TMR_STAT_strings };
+CHG_TMR_STAT_t getCHG_TMR_STAT() { return static_cast<CHG_TMR_STAT_t>(getInt(CHG_TMR_STAT)); }
+
 const char * getCHG_TMR_STAT_string() { return getString(CHG_TMR_STAT); }
 
 
@@ -1282,11 +1450,15 @@ enum class TRICHG_TMR_STAT_t : uint8_t {
     TRICHG_TMR_STAT_NORMAL = 0, 
     TRICHG_TMR_STAT_SAFETY_TIMER_EXPIRED = 1
 };
+
 strings_vector_t TRICHG_TMR_STAT_strings = {
     "Normal", 
     "Safety timer expired" 
 };
+
 Setting TRICHG_TMR_STAT = { REG1E_Charger_Status_3, false, "TRICHG_TMR_STAT", settings_type_t::ENUM, 1, 2, 0, 0, 0, 0, settings_flags_t::NONE, TRICHG_TMR_STAT_strings };
+TRICHG_TMR_STAT_t getTRICHG_TMR_STAT() { return static_cast<TRICHG_TMR_STAT_t>(getInt(TRICHG_TMR_STAT)); }
+
 const char * getTRICHG_TMR_STAT_string() { return getString(TRICHG_TMR_STAT); }
 
 
@@ -1297,11 +1469,15 @@ enum class PRECHG_TMR_STAT_t : uint8_t {
     PRECHG_TMR_STAT_NORMAL = 0, 
     PRECHG_TMR_STAT_SAFETY_TIMER_EXPIRED = 1
 };
+
 strings_vector_t PRECHG_TMR_STAT_strings = {
     "Normal", 
     "Safety timer expired" 
 };
+
 Setting PRECHG_TMR_STAT = { REG1E_Charger_Status_3, false, "PRECHG_TMR_STAT", settings_type_t::ENUM, 1, 1, 0, 0, 0, 0, settings_flags_t::NONE, PRECHG_TMR_STAT_strings };
+PRECHG_TMR_STAT_t getPRECHG_TMR_STAT() { return static_cast<PRECHG_TMR_STAT_t>(getInt(PRECHG_TMR_STAT)); }
+
 const char * getPRECHG_TMR_STAT_string() { return getString(PRECHG_TMR_STAT); }
 
 
@@ -1312,11 +1488,15 @@ enum class VBATOTG_LOW_STAT_t : uint8_t {
     VBATOTG_LOW_STAT_VBATOTG_LOW = 0, 
     VBATOTG_LOW_STAT_VBATOTG_OK = 1
 };
+
 strings_vector_t VBATOTG_LOW_STAT_strings = {
     "VBAT is too low to enable OTG mode", 
     "VBAT is high enough to enable OTG operation" 
 };
+
 Setting VBATOTG_LOW_STAT = { REG1F_Charger_Status_4, false, "VBATOTG_LOW_STAT", settings_type_t::ENUM, 1, 4, 0, 0, 0, 0, settings_flags_t::NONE, VBATOTG_LOW_STAT_strings };
+VBATOTG_LOW_STAT_t getVBATOTG_LOW_STAT() { return static_cast<VBATOTG_LOW_STAT_t>(getInt(VBATOTG_LOW_STAT)); }
+
 const char * getVBATOTG_LOW_STAT_string() { return getString(VBATOTG_LOW_STAT); }
 
 
@@ -1327,11 +1507,15 @@ enum class TS_COLD_STAT_t : uint8_t {
     TS_COLD_STAT_NOT_COLD = 0, 
     TS_COLD_STAT_COLD = 1
 };
+
 strings_vector_t TS_COLD_STAT_strings = {
     "TS NOT in cold range", 
     "TS in cold range" 
 };
+
 Setting TS_COLD_STAT = { REG1F_Charger_Status_4, false, "TS_COLD_STAT", settings_type_t::ENUM, 1, 3, 0, 0, 0, 0, settings_flags_t::NONE, TS_COLD_STAT_strings };
+TS_COLD_STAT_t getTS_COLD_STAT() { return static_cast<TS_COLD_STAT_t>(getInt(TS_COLD_STAT)); }
+
 const char * getTS_COLD_STAT_string() { return getString(TS_COLD_STAT); }
 
 
@@ -1342,11 +1526,15 @@ enum class TS_COOL_STAT_t : uint8_t {
     TS_COOL_STAT_NOT_COOL = 0, 
     TS_COOL_STAT_COOL = 1
 };
+
 strings_vector_t TS_COOL_STAT_strings = {
     "TS NOT in cool range", 
     "TS in cool range" 
 };
+
 Setting TS_COOL_STAT = { REG1F_Charger_Status_4, false, "TS_COOL_STAT", settings_type_t::ENUM, 1, 2, 0, 0, 0, 0, settings_flags_t::NONE, TS_COOL_STAT_strings };
+TS_COOL_STAT_t getTS_COOL_STAT() { return static_cast<TS_COOL_STAT_t>(getInt(TS_COOL_STAT)); }
+
 const char * getTS_COOL_STAT_string() { return getString(TS_COOL_STAT); }
 
 
@@ -1357,11 +1545,15 @@ enum class TS_WARM_STAT_t : uint8_t {
     TS_WARM_STAT_NOT_WARM = 0, 
     TS_WARM_STAT_WARM = 1
 };
+
 strings_vector_t TS_WARM_STAT_strings = {
     "TS NOT in warm range", 
     "TS in warm range" 
 };
+
 Setting TS_WARM_STAT = { REG1F_Charger_Status_4, false, "TS_WARM_STAT", settings_type_t::ENUM, 1, 1, 0, 0, 0, 0, settings_flags_t::NONE, TS_WARM_STAT_strings };
+TS_WARM_STAT_t getTS_WARM_STAT() { return static_cast<TS_WARM_STAT_t>(getInt(TS_WARM_STAT)); }
+
 const char * getTS_WARM_STAT_string() { return getString(TS_WARM_STAT); }
 
 
@@ -1372,11 +1564,15 @@ enum class TS_HOT_STAT_t : uint8_t {
     TS_HOT_STAT_NOT_HOT = 0, 
     TS_HOT_STAT_HOT = 1
 };
+
 strings_vector_t TS_HOT_STAT_strings = {
     "TS NOT in hot range", 
     "TS in hot range" 
 };
+
 Setting TS_HOT_STAT = { REG1F_Charger_Status_4, false, "TS_HOT_STAT", settings_type_t::ENUM, 1, 0, 0, 0, 0, 0, settings_flags_t::NONE, TS_HOT_STAT_strings };
+TS_HOT_STAT_t getTS_HOT_STAT() { return static_cast<TS_HOT_STAT_t>(getInt(TS_HOT_STAT)); }
+
 const char * getTS_HOT_STAT_string() { return getString(TS_HOT_STAT); }
 
 
@@ -1759,11 +1955,15 @@ enum class ADC_RATE_t : uint8_t {
     ADC_RATE_CONTINUOUS = 0, 
     ADC_RATE_ONESHOT = 1
 };
+
 strings_vector_t ADC_RATE_strings = {
     "Continuous", 
     "One-shot" 
 };
+
 Setting ADC_RATE = { REG2E_ADC_Control, false, "ADC_RATE", settings_type_t::ENUM, 1, 6, 0, 0, 0, 0, settings_flags_t::NONE, ADC_RATE_strings };
+ADC_RATE_t getADC_RATE() { return static_cast<ADC_RATE_t>(getInt(ADC_RATE)); }
+
 const char * getADC_RATE_string() { return getString(ADC_RATE); }
 bool setAndWriteADC_RATE(ADC_RATE_t val) { return setAndWriteEnum<ADC_RATE_t>(ADC_RATE, val); }
 
@@ -1777,13 +1977,17 @@ enum class ADC_SAMPLE_t : uint8_t {
     ADC_SAMPLE_13BIT = 2, 
     ADC_SAMPLE_12BIT = 3
 };
+
 strings_vector_t ADC_SAMPLE_strings = {
     "15-bit", 
     "14-bit", 
     "13-bit", 
     "12-bit" 
 };
+
 Setting ADC_SAMPLE = { REG2E_ADC_Control, false, "ADC_SAMPLE", settings_type_t::ENUM, 2, 4, 0, 0, 0, 0, settings_flags_t::NONE, ADC_SAMPLE_strings };
+ADC_SAMPLE_t getADC_SAMPLE() { return static_cast<ADC_SAMPLE_t>(getInt(ADC_SAMPLE)); }
+
 const char * getADC_SAMPLE_string() { return getString(ADC_SAMPLE); }
 bool setAndWriteADC_SAMPLE(ADC_SAMPLE_t val) { return setAndWriteEnum<ADC_SAMPLE_t>(ADC_SAMPLE, val); }
 
@@ -1795,11 +1999,15 @@ enum class ADC_AVG_t : uint8_t {
     ADC_AVG_NO_AVERAGING = 0, 
     ADC_AVG_RUNNING_AVERAGE = 1
 };
+
 strings_vector_t ADC_AVG_strings = {
     "No averaging", 
     "Running average" 
 };
+
 Setting ADC_AVG = { REG2E_ADC_Control, false, "ADC_AVG", settings_type_t::ENUM, 1, 3, 0, 0, 0, 0, settings_flags_t::NONE, ADC_AVG_strings };
+ADC_AVG_t getADC_AVG() { return static_cast<ADC_AVG_t>(getInt(ADC_AVG)); }
+
 const char * getADC_AVG_string() { return getString(ADC_AVG); }
 bool setAndWriteADC_AVG(ADC_AVG_t val) { return setAndWriteEnum<ADC_AVG_t>(ADC_AVG, val); }
 
@@ -1990,6 +2198,7 @@ enum class DPLUS_DAC_t : uint8_t {
     DPLUS_DAC_VOUT_3_3 = 6, 
     DPLUS_DAC_DPLUS_DMINUS_SHORT = 7
 };
+
 strings_vector_t DPLUS_DAC_strings = {
     "HIZ", 
     "0V", 
@@ -2000,7 +2209,10 @@ strings_vector_t DPLUS_DAC_strings = {
     "3.3V", 
     "D+/D- Short" 
 };
+
 Setting DPLUS_DAC = { REG47_DPDM_Driver, false, "DPLUS_DAC", settings_type_t::ENUM, 3, 5, 0, 0, 0, 0, settings_flags_t::NONE, DPLUS_DAC_strings };
+DPLUS_DAC_t getDPLUS_DAC() { return static_cast<DPLUS_DAC_t>(getInt(DPLUS_DAC)); }
+
 const char * getDPLUS_DAC_string() { return getString(DPLUS_DAC); }
 bool setAndWriteDPLUS_DAC(DPLUS_DAC_t val) { return setAndWriteEnum<DPLUS_DAC_t>(DPLUS_DAC, val); }
 
@@ -2018,6 +2230,7 @@ enum class DMINUS_DAC_t : uint8_t {
     DMINUS_DAC_VOUT_3_3 = 6, 
     DMINUS_DAC_RESERVED = 7
 };
+
 strings_vector_t DMINUS_DAC_strings = {
     "HIZ", 
     "0V", 
@@ -2028,7 +2241,10 @@ strings_vector_t DMINUS_DAC_strings = {
     "3.3V", 
     "Reserved" 
 };
+
 Setting DMINUS_DAC = { REG47_DPDM_Driver, false, "DMINUS_DAC", settings_type_t::ENUM, 3, 2, 0, 0, 0, 0, settings_flags_t::NONE, DMINUS_DAC_strings };
+DMINUS_DAC_t getDMINUS_DAC() { return static_cast<DMINUS_DAC_t>(getInt(DMINUS_DAC)); }
+
 const char * getDMINUS_DAC_string() { return getString(DMINUS_DAC); }
 bool setAndWriteDMINUS_DAC(DMINUS_DAC_t val) { return setAndWriteEnum<DMINUS_DAC_t>(DMINUS_DAC, val); }
 
@@ -2046,6 +2262,7 @@ enum class PN_t : uint8_t {
     PN_RESERVED_6 = 6, 
     PN_RESERVED_7 = 7
 };
+
 strings_vector_t PN_strings = {
     "?", 
     "?", 
@@ -2056,7 +2273,10 @@ strings_vector_t PN_strings = {
     "?", 
     "?" 
 };
+
 Setting PN = { REG48_Part_Information, false, "PN", settings_type_t::ENUM, 3, 3, 0, 0, 0, 0, settings_flags_t::NONE, PN_strings };
+PN_t getPN() { return static_cast<PN_t>(getInt(PN)); }
+
 const char * getPN_string() { return getString(PN); }
 
 
@@ -2073,6 +2293,7 @@ enum class DEV_REV_t : uint8_t {
     DEV_REV_RESERVED_6 = 6, 
     DEV_REV_RESERVED_7 = 7
 };
+
 strings_vector_t DEV_REV_strings = {
     "?", 
     "BQ25798", 
@@ -2083,7 +2304,10 @@ strings_vector_t DEV_REV_strings = {
     "?", 
     "?" 
 };
+
 Setting DEV_REV = { REG48_Part_Information, false, "DEV_REV", settings_type_t::ENUM, 3, 0, 0, 0, 0, 0, settings_flags_t::NONE, DEV_REV_strings };
+DEV_REV_t getDEV_REV() { return static_cast<DEV_REV_t>(getInt(DEV_REV)); }
+
 const char * getDEV_REV_string() { return getString(DEV_REV); }
 
 
