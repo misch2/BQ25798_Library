@@ -43,10 +43,10 @@ bool setAndWriteIINDPM(int val) { return setAndWriteInt(IINDPM, val); }
 // REG08_Precharge_Control
 // ================================
 enum class VBAT_LOWV_t : uint8_t {
-    PCT_15 = 0, 
-    PCT_62 = 1, 
-    PCT_67 = 2, 
-    PCT_71 = 3
+    VBAT_LOWV_PCT_15 = 0, 
+    VBAT_LOWV_PCT_62 = 1, 
+    VBAT_LOWV_PCT_67 = 2, 
+    VBAT_LOWV_PCT_71 = 3
 };
 strings_vector_t VBAT_LOWV_strings = {
     "15%(VREG)", 
@@ -427,10 +427,10 @@ bool setAndWriteHVDCP_EN(bool val) { return setAndWriteBool(HVDCP_EN, val); }
 // REG11_Charger_Control_2
 // ================================
 enum class SDRV_CTRL_t : uint8_t {
-    IDLE = 0, 
-    SHUTDOWN = 1, 
-    SHIP = 2, 
-    SYS_PWR_RST = 3
+    SDRV_CTRL_IDLE = 0, 
+    SDRV_CTRL_SHUTDOWN = 1, 
+    SDRV_CTRL_SHIP = 2, 
+    SDRV_CTRL_SYS_PWR_RST = 3
 };
 strings_vector_t SDRV_CTRL_strings = {
     "Idle", 
@@ -807,8 +807,8 @@ bool setAndWriteVAC2_PD_EN(bool val) { return setAndWriteBool(VAC2_PD_EN, val); 
 // REG16_Temperature_Control
 // ================================
 enum class BKUP_ACFET1_ON_t : uint8_t {
-    IDLE = 0, 
-    TURN_ON = 1
+    BKUP_ACFET1_ON_IDLE = 0, 
+    BKUP_ACFET1_ON_TURN_ON = 1
 };
 strings_vector_t BKUP_ACFET1_ON_strings = {
     "Idle", 
@@ -823,14 +823,14 @@ bool setAndWriteBKUP_ACFET1_ON(BKUP_ACFET1_ON_t val) { return setAndWriteEnum<BK
 // REG17_NTC_Control_0
 // ================================
 enum class JEITA_VSET_t : uint8_t {
-    CHARGE_SUSPEND = 0, 
-    SET_VREG_TO_VREG_800MV = 1, 
-    SET_VREG_TO_VREG_600MV = 2, 
-    SET_VREG_TO_VREG_400MV = 3, 
-    SET_VREG_TO_VREG_300MV = 4, 
-    SET_VREG_TO_VREG_200MV = 5, 
-    SET_VREG_TO_VREG_100MV = 6, 
-    VREG_UNCHANGED = 7
+    JEITA_VSET_CHARGE_SUSPEND = 0, 
+    JEITA_VSET_SET_VREG_TO_VREG_800MV = 1, 
+    JEITA_VSET_SET_VREG_TO_VREG_600MV = 2, 
+    JEITA_VSET_SET_VREG_TO_VREG_400MV = 3, 
+    JEITA_VSET_SET_VREG_TO_VREG_300MV = 4, 
+    JEITA_VSET_SET_VREG_TO_VREG_200MV = 5, 
+    JEITA_VSET_SET_VREG_TO_VREG_100MV = 6, 
+    JEITA_VSET_VREG_UNCHANGED = 7
 };
 strings_vector_t JEITA_VSET_strings = {
     "Charge Suspend", 
@@ -851,10 +851,10 @@ bool setAndWriteJEITA_VSET(JEITA_VSET_t val) { return setAndWriteEnum<JEITA_VSET
 // REG17_NTC_Control_0
 // ================================
 enum class JEITA_ISETH_t : uint8_t {
-    CHARGE_SUSPEND = 0, 
-    SET_ICHG_TO_20 = 1, 
-    SET_ICHG_TO_40 = 2, 
-    ICHG_UNCHANGED = 3
+    JEITA_ISETH_CHARGE_SUSPEND = 0, 
+    JEITA_ISETH_SET_ICHG_TO_20 = 1, 
+    JEITA_ISETH_SET_ICHG_TO_40 = 2, 
+    JEITA_ISETH_ICHG_UNCHANGED = 3
 };
 strings_vector_t JEITA_ISETH_strings = {
     "Charge Suspend", 
@@ -871,10 +871,10 @@ bool setAndWriteJEITA_ISETH(JEITA_ISETH_t val) { return setAndWriteEnum<JEITA_IS
 // REG17_NTC_Control_0
 // ================================
 enum class JEITA_ISETC_t : uint8_t {
-    CHARGE_SUSPEND = 0, 
-    SET_ICHG_TO_20 = 1, 
-    SET_ICHG_TO_40 = 2, 
-    ICHG_UNCHANGED = 3
+    JEITA_ISETC_CHARGE_SUSPEND = 0, 
+    JEITA_ISETC_SET_ICHG_TO_20 = 1, 
+    JEITA_ISETC_SET_ICHG_TO_40 = 2, 
+    JEITA_ISETC_ICHG_UNCHANGED = 3
 };
 strings_vector_t JEITA_ISETC_strings = {
     "Charge Suspend", 
@@ -891,10 +891,10 @@ bool setAndWriteJEITA_ISETC(JEITA_ISETC_t val) { return setAndWriteEnum<JEITA_IS
 // REG18_NTC_Control_1
 // ================================
 enum class TS_COOL_t : uint8_t {
-    TS_5 = 0, 
-    TS_10 = 1, 
-    TS_15 = 2, 
-    TS_20 = 3
+    TS_COOL_5 = 0, 
+    TS_COOL_10 = 1, 
+    TS_COOL_15 = 2, 
+    TS_COOL_20 = 3
 };
 strings_vector_t TS_COOL_strings = {
     "5'C", 
@@ -911,10 +911,10 @@ bool setAndWriteTS_COOL(TS_COOL_t val) { return setAndWriteEnum<TS_COOL_t>(TS_CO
 // REG18_NTC_Control_1
 // ================================
 enum class TS_WARM_t : uint8_t {
-    TS_40 = 0, 
-    TS_45 = 1, 
-    TS_50 = 2, 
-    TS_55 = 3
+    TS_WARM_40 = 0, 
+    TS_WARM_45 = 1, 
+    TS_WARM_50 = 2, 
+    TS_WARM_55 = 3
 };
 strings_vector_t TS_WARM_strings = {
     "40'C", 
@@ -931,10 +931,10 @@ bool setAndWriteTS_WARM(TS_WARM_t val) { return setAndWriteEnum<TS_WARM_t>(TS_WA
 // REG18_NTC_Control_1
 // ================================
 enum class BHOT_t : uint8_t {
-    TS_55 = 0, 
-    TS_60 = 1, 
-    TS_65 = 2, 
-    DISABLE = 3
+    TS_BHOT_55 = 0, 
+    TS_BHOT_60 = 1, 
+    TS_BHOT_65 = 2, 
+    TS_BHOT_DISABLE = 3
 };
 strings_vector_t BHOT_strings = {
     "55'C", 
@@ -951,8 +951,8 @@ bool setAndWriteBHOT(BHOT_t val) { return setAndWriteEnum<BHOT_t>(BHOT, val); }
 // REG18_NTC_Control_1
 // ================================
 enum class BCOLD_t : uint8_t {
-    MINUS_10 = 0, 
-    MINUS_20 = 1
+    TS_BCOLD_MINUS_10 = 0, 
+    TS_BCOLD_MINUS_20 = 1
 };
 strings_vector_t BCOLD_strings = {
     "-10'C (default)", 
@@ -982,8 +982,8 @@ int getICO_ILIM() { return getInt(ICO_ILIM); }
 // REG1B_Charger_Status_0
 // ================================
 enum class IINDPM_STAT_t : uint8_t {
-    NORMAL = 0, 
-    REGULATION = 1
+    IINDPM_STAT_NORMAL = 0, 
+    IINDPM_STAT_REGULATION = 1
 };
 strings_vector_t IINDPM_STAT_strings = {
     "Normal", 
@@ -997,8 +997,8 @@ const char * getIINDPM_STAT_string() { return getString(IINDPM_STAT); }
 // REG1B_Charger_Status_0
 // ================================
 enum class VINDPM_STAT_t : uint8_t {
-    NORMAL = 0, 
-    REGULATION = 1
+    VINDPM_STAT_NORMAL = 0, 
+    VINDPM_STAT_REGULATION = 1
 };
 strings_vector_t VINDPM_STAT_strings = {
     "Normal", 
@@ -1012,8 +1012,8 @@ const char * getVINDPM_STAT_string() { return getString(VINDPM_STAT); }
 // REG1B_Charger_Status_0
 // ================================
 enum class WD_STAT_t : uint8_t {
-    NORMAL = 0, 
-    EXPIRED = 1
+    WD_STAT_NORMAL = 0, 
+    WD_STAT_EXPIRED = 1
 };
 strings_vector_t WD_STAT_strings = {
     "Normal", 
@@ -1027,8 +1027,8 @@ const char * getWD_STAT_string() { return getString(WD_STAT); }
 // REG1B_Charger_Status_0
 // ================================
 enum class PG_STAT_t : uint8_t {
-    BAD = 0, 
-    GOOD = 1
+    PG_STAT_BAD = 0, 
+    PG_STAT_GOOD = 1
 };
 strings_vector_t PG_STAT_strings = {
     "Not in power good status", 
@@ -1042,8 +1042,8 @@ const char * getPG_STAT_string() { return getString(PG_STAT); }
 // REG1B_Charger_Status_0
 // ================================
 enum class AC2_PRESENT_STAT_t : uint8_t {
-    NOT_PRESENT = 0, 
-    PRESENT = 1
+    AC2_PRESENT_STAT_NOT_PRESENT = 0, 
+    AC2_PRESENT_STAT_PRESENT = 1
 };
 strings_vector_t AC2_PRESENT_STAT_strings = {
     "VAC2 NOT present", 
@@ -1057,8 +1057,8 @@ const char * getAC2_PRESENT_STAT_string() { return getString(AC2_PRESENT_STAT); 
 // REG1B_Charger_Status_0
 // ================================
 enum class AC1_PRESENT_STAT_t : uint8_t {
-    NOT_PRESENT = 0, 
-    PRESENT = 1
+    AC1_PRESENT_STAT_NOT_PRESENT = 0, 
+    AC1_PRESENT_STAT_PRESENT = 1
 };
 strings_vector_t AC1_PRESENT_STAT_strings = {
     "VAC1 NOT present", 
@@ -1072,8 +1072,8 @@ const char * getAC1_PRESENT_STAT_string() { return getString(AC1_PRESENT_STAT); 
 // REG1B_Charger_Status_0
 // ================================
 enum class VBUS_PRESENT_STAT_t : uint8_t {
-    NOT_PRESENT = 0, 
-    PRESENT = 1
+    VBUS_PRESENT_STAT_NOT_PRESENT = 0, 
+    VBUS_PRESENT_STAT_PRESENT = 1
 };
 strings_vector_t VBUS_PRESENT_STAT_strings = {
     "VBUS NOT present", 
@@ -1087,14 +1087,14 @@ const char * getVBUS_PRESENT_STAT_string() { return getString(VBUS_PRESENT_STAT)
 // REG1C_Charger_Status_1
 // ================================
 enum class CHG_STAT_t : uint8_t {
-    NOT_CHARGING = 0, 
-    TRICKLECHARGE = 1, 
-    PRECHARGE = 2, 
-    FASTCHARGE_CC = 3, 
-    FASTCHARGE_CV = 4, 
-    RESERVED_5 = 5, 
-    TOPOFF = 6, 
-    TERMINATED = 7
+    CHG_STAT_NOT_CHARGING = 0, 
+    CHG_STAT_TRICKLECHARGE = 1, 
+    CHG_STAT_PRECHARGE = 2, 
+    CHG_STAT_FASTCHARGE_CC = 3, 
+    CHG_STAT_FASTCHARGE_CV = 4, 
+    CHG_STAT_RESERVED_5 = 5, 
+    CHG_STAT_TOPOFF = 6, 
+    CHG_STAT_TERMINATED = 7
 };
 strings_vector_t CHG_STAT_strings = {
     "Not Charging", 
@@ -1114,22 +1114,22 @@ const char * getCHG_STAT_string() { return getString(CHG_STAT); }
 // REG1C_Charger_Status_1
 // ================================
 enum class VBUS_STAT_t : uint8_t {
-    NO_INPUT = 0, 
-    USB_SDP = 1, 
-    USB_CDP = 2, 
-    USB_DCP = 3, 
-    ADJUSTABLE_HVDCP = 4, 
-    UNKNOWN_ADAPTOR = 5, 
-    NON_STANDARD_ADAPTER = 6, 
-    OTG_MODE = 7, 
-    NOT_QUALIFIED_ADAPTOR = 8, 
-    RESERVED_9 = 9, 
-    RESERVED_A = 10, 
-    DEVICE_POWERED_FROM_VBUS = 11, 
-    BACKUP_MODE = 12, 
-    RESERVED_D = 13, 
-    RESERVED_E = 14, 
-    RESERVED_F = 15
+    VBUS_STAT_NO_INPUT = 0, 
+    VBUS_STAT_USB_SDP = 1, 
+    VBUS_STAT_USB_CDP = 2, 
+    VBUS_STAT_USB_DCP = 3, 
+    VBUS_STAT_ADJUSTABLE_HVDCP = 4, 
+    VBUS_STAT_UNKNOWN_ADAPTOR = 5, 
+    VBUS_STAT_NON_STANDARD_ADAPTER = 6, 
+    VBUS_STAT_OTG_MODE = 7, 
+    VBUS_STAT_NOT_QUALIFIED_ADAPTOR = 8, 
+    VBUS_STAT_RESERVED_9 = 9, 
+    VBUS_STAT_RESERVED_A = 10, 
+    VBUS_STAT_DEVICE_POWERED_FROM_VBUS = 11, 
+    VBUS_STAT_BACKUP_MODE = 12, 
+    VBUS_STAT_RESERVED_D = 13, 
+    VBUS_STAT_RESERVED_E = 14, 
+    VBUS_STAT_RESERVED_F = 15
 };
 strings_vector_t VBUS_STAT_strings = {
     "No Input or BHOT or BCOLD in OTG mode", 
@@ -1164,10 +1164,10 @@ bool getBC12_DONE_STAT() { return getBool(BC12_DONE_STAT); }
 // REG1D_Charger_Status_2
 // ================================
 enum class ICO_STAT_t : uint8_t {
-    ICO_DISABLED = 0, 
-    ICO_IN_PROGRESS = 1, 
-    ICO_MAX_CURRENT_DETECTED = 2, 
-    ICO_RESERVED = 3
+    ICO_STAT_DISABLED = 0, 
+    ICO_STAT_IN_PROGRESS = 1, 
+    ICO_STAT_MAX_CURRENT_DETECTED = 2, 
+    ICO_STAT_RESERVED = 3
 };
 strings_vector_t ICO_STAT_strings = {
     "ICO disabled", 
@@ -1183,8 +1183,8 @@ const char * getICO_STAT_string() { return getString(ICO_STAT); }
 // REG1D_Charger_Status_2
 // ================================
 enum class TREG_STAT_t : uint8_t {
-    NORMAL = 0, 
-    THERMAL_REGULATION = 1
+    TREG_STAT_NORMAL = 0, 
+    TREG_STAT_THERMAL_REGULATION = 1
 };
 strings_vector_t TREG_STAT_strings = {
     "Normal", 
@@ -1198,8 +1198,8 @@ const char * getTREG_STAT_string() { return getString(TREG_STAT); }
 // REG1D_Charger_Status_2
 // ================================
 enum class DPDM_STAT_t : uint8_t {
-    NOT_STARTED = 0, 
-    IN_PROGRESS = 1
+    DPDM_STAT_NOT_STARTED = 0, 
+    DPDM_STAT_IN_PROGRESS = 1
 };
 strings_vector_t DPDM_STAT_strings = {
     "D+/D- detection NOT started yet or done", 
@@ -1213,8 +1213,8 @@ const char * getDPDM_STAT_string() { return getString(DPDM_STAT); }
 // REG1D_Charger_Status_2
 // ================================
 enum class VBAT_PRESENT_STAT_t : uint8_t {
-    NOT_PRESENT = 0, 
-    PRESENT = 1
+    VBAT_PRESENT_STAT_NOT_PRESENT = 0, 
+    VBAT_PRESENT_STAT_PRESENT = 1
 };
 strings_vector_t VBAT_PRESENT_STAT_strings = {
     "VBAT NOT present", 
@@ -1249,8 +1249,8 @@ bool getADC_DONE_STAT() { return getBool(ADC_DONE_STAT); }
 // REG1E_Charger_Status_3
 // ================================
 enum class VSYS_STAT_t : uint8_t {
-    NOT_IN_VSYSMIN_REGULATION = 0, 
-    IN_VSYSMIN_REGULATION = 1
+    VSYS_STAT_NOT_IN_VSYSMIN_REGULATION = 0, 
+    VSYS_STAT_IN_VSYSMIN_REGULATION = 1
 };
 strings_vector_t VSYS_STAT_strings = {
     "Not in VSYSMIN regulation (VBAT > VSYSMIN)", 
@@ -1264,8 +1264,8 @@ const char * getVSYS_STAT_string() { return getString(VSYS_STAT); }
 // REG1E_Charger_Status_3
 // ================================
 enum class CHG_TMR_STAT_t : uint8_t {
-    NORMAL = 0, 
-    SAFETY_TIMER_EXPIRED = 1
+    CHG_TMR_STAT_NORMAL = 0, 
+    CHG_TMR_STAT_SAFETY_TIMER_EXPIRED = 1
 };
 strings_vector_t CHG_TMR_STAT_strings = {
     "Normal", 
@@ -1279,8 +1279,8 @@ const char * getCHG_TMR_STAT_string() { return getString(CHG_TMR_STAT); }
 // REG1E_Charger_Status_3
 // ================================
 enum class TRICHG_TMR_STAT_t : uint8_t {
-    NORMAL = 0, 
-    SAFETY_TIMER_EXPIRED = 1
+    TRICHG_TMR_STAT_NORMAL = 0, 
+    TRICHG_TMR_STAT_SAFETY_TIMER_EXPIRED = 1
 };
 strings_vector_t TRICHG_TMR_STAT_strings = {
     "Normal", 
@@ -1294,8 +1294,8 @@ const char * getTRICHG_TMR_STAT_string() { return getString(TRICHG_TMR_STAT); }
 // REG1E_Charger_Status_3
 // ================================
 enum class PRECHG_TMR_STAT_t : uint8_t {
-    NORMAL = 0, 
-    SAFETY_TIMER_EXPIRED = 1
+    PRECHG_TMR_STAT_NORMAL = 0, 
+    PRECHG_TMR_STAT_SAFETY_TIMER_EXPIRED = 1
 };
 strings_vector_t PRECHG_TMR_STAT_strings = {
     "Normal", 
@@ -1309,8 +1309,8 @@ const char * getPRECHG_TMR_STAT_string() { return getString(PRECHG_TMR_STAT); }
 // REG1F_Charger_Status_4
 // ================================
 enum class VBATOTG_LOW_STAT_t : uint8_t {
-    VBATOTG_LOW = 0, 
-    VBATOTG_OK = 1
+    VBATOTG_LOW_STAT_VBATOTG_LOW = 0, 
+    VBATOTG_LOW_STAT_VBATOTG_OK = 1
 };
 strings_vector_t VBATOTG_LOW_STAT_strings = {
     "VBAT is too low to enable OTG mode", 
@@ -1324,8 +1324,8 @@ const char * getVBATOTG_LOW_STAT_string() { return getString(VBATOTG_LOW_STAT); 
 // REG1F_Charger_Status_4
 // ================================
 enum class TS_COLD_STAT_t : uint8_t {
-    NOT_COLD = 0, 
-    COLD = 1
+    TS_COLD_STAT_NOT_COLD = 0, 
+    TS_COLD_STAT_COLD = 1
 };
 strings_vector_t TS_COLD_STAT_strings = {
     "TS NOT in cold range", 
@@ -1339,8 +1339,8 @@ const char * getTS_COLD_STAT_string() { return getString(TS_COLD_STAT); }
 // REG1F_Charger_Status_4
 // ================================
 enum class TS_COOL_STAT_t : uint8_t {
-    NOT_COOL = 0, 
-    COOL = 1
+    TS_COOL_STAT_NOT_COOL = 0, 
+    TS_COOL_STAT_COOL = 1
 };
 strings_vector_t TS_COOL_STAT_strings = {
     "TS NOT in cool range", 
@@ -1354,8 +1354,8 @@ const char * getTS_COOL_STAT_string() { return getString(TS_COOL_STAT); }
 // REG1F_Charger_Status_4
 // ================================
 enum class TS_WARM_STAT_t : uint8_t {
-    NOT_WARM = 0, 
-    WARM = 1
+    TS_WARM_STAT_NOT_WARM = 0, 
+    TS_WARM_STAT_WARM = 1
 };
 strings_vector_t TS_WARM_STAT_strings = {
     "TS NOT in warm range", 
@@ -1369,8 +1369,8 @@ const char * getTS_WARM_STAT_string() { return getString(TS_WARM_STAT); }
 // REG1F_Charger_Status_4
 // ================================
 enum class TS_HOT_STAT_t : uint8_t {
-    NOT_HOT = 0, 
-    HOT = 1
+    TS_HOT_STAT_NOT_HOT = 0, 
+    TS_HOT_STAT_HOT = 1
 };
 strings_vector_t TS_HOT_STAT_strings = {
     "TS NOT in hot range", 
@@ -1756,8 +1756,8 @@ bool setAndWriteADC_EN(bool val) { return setAndWriteBool(ADC_EN, val); }
 // REG2E_ADC_Control
 // ================================
 enum class ADC_RATE_t : uint8_t {
-    CONTINUOUS = 0, 
-    ONESHOT = 1
+    ADC_RATE_CONTINUOUS = 0, 
+    ADC_RATE_ONESHOT = 1
 };
 strings_vector_t ADC_RATE_strings = {
     "Continuous", 
@@ -1792,8 +1792,8 @@ bool setAndWriteADC_SAMPLE(ADC_SAMPLE_t val) { return setAndWriteEnum<ADC_SAMPLE
 // REG2E_ADC_Control
 // ================================
 enum class ADC_AVG_t : uint8_t {
-    NO_AVERAGING = 0, 
-    RUNNING_AVERAGE = 1
+    ADC_AVG_NO_AVERAGING = 0, 
+    ADC_AVG_RUNNING_AVERAGE = 1
 };
 strings_vector_t ADC_AVG_strings = {
     "No averaging", 
@@ -1981,14 +1981,14 @@ int getDMINUS_ADC() { return getInt(DMINUS_ADC); }
 // REG47_DPDM_Driver
 // ================================
 enum class DPLUS_DAC_t : uint8_t {
-    HIZ = 0, 
-    VOUT_0 = 1, 
-    VOUT_0_6 = 2, 
-    VOUT_1_2 = 3, 
-    VOUT_2_0 = 4, 
-    VOUT_2_7 = 5, 
-    VOUT_3_3 = 6, 
-    DPLUS_DMINUS_SHORT = 7
+    DPLUS_DAC_HIZ = 0, 
+    DPLUS_DAC_VOUT_0 = 1, 
+    DPLUS_DAC_VOUT_0_6 = 2, 
+    DPLUS_DAC_VOUT_1_2 = 3, 
+    DPLUS_DAC_VOUT_2_0 = 4, 
+    DPLUS_DAC_VOUT_2_7 = 5, 
+    DPLUS_DAC_VOUT_3_3 = 6, 
+    DPLUS_DAC_DPLUS_DMINUS_SHORT = 7
 };
 strings_vector_t DPLUS_DAC_strings = {
     "HIZ", 
@@ -2009,14 +2009,14 @@ bool setAndWriteDPLUS_DAC(DPLUS_DAC_t val) { return setAndWriteEnum<DPLUS_DAC_t>
 // REG47_DPDM_Driver
 // ================================
 enum class DMINUS_DAC_t : uint8_t {
-    HIZ = 0, 
-    VOUT_0 = 1, 
-    VOUT_0_6 = 2, 
-    VOUT_1_2 = 3, 
-    VOUT_2_0 = 4, 
-    VOUT_2_7 = 5, 
-    VOUT_3_3 = 6, 
-    RESERVED = 7
+    DMINUS_DAC_HIZ = 0, 
+    DMINUS_DAC_VOUT_0 = 1, 
+    DMINUS_DAC_VOUT_0_6 = 2, 
+    DMINUS_DAC_VOUT_1_2 = 3, 
+    DMINUS_DAC_VOUT_2_0 = 4, 
+    DMINUS_DAC_VOUT_2_7 = 5, 
+    DMINUS_DAC_VOUT_3_3 = 6, 
+    DMINUS_DAC_RESERVED = 7
 };
 strings_vector_t DMINUS_DAC_strings = {
     "HIZ", 
@@ -2037,14 +2037,14 @@ bool setAndWriteDMINUS_DAC(DMINUS_DAC_t val) { return setAndWriteEnum<DMINUS_DAC
 // REG48_Part_Information
 // ================================
 enum class PN_t : uint8_t {
-    RESERVED_0 = 0, 
-    RESERVED_1 = 1, 
-    RESERVED_2 = 2, 
-    BQ25798 = 3, 
-    RESERVED_4 = 4, 
-    RESERVED_5 = 5, 
-    RESERVED_6 = 6, 
-    RESERVED_7 = 7
+    PN_RESERVED_0 = 0, 
+    PN_RESERVED_1 = 1, 
+    PN_RESERVED_2 = 2, 
+    PN_BQ25798 = 3, 
+    PN_RESERVED_4 = 4, 
+    PN_RESERVED_5 = 5, 
+    PN_RESERVED_6 = 6, 
+    PN_RESERVED_7 = 7
 };
 strings_vector_t PN_strings = {
     "?", 
@@ -2064,14 +2064,14 @@ const char * getPN_string() { return getString(PN); }
 // REG48_Part_Information
 // ================================
 enum class DEV_REV_t : uint8_t {
-    RESERVED_0 = 0, 
-    BQ25798 = 1, 
-    RESERVED_2 = 2, 
-    RESERVED_3 = 3, 
-    RESERVED_4 = 4, 
-    RESERVED_5 = 5, 
-    RESERVED_6 = 6, 
-    RESERVED_7 = 7
+    DEV_REV_RESERVED_0 = 0, 
+    DEV_REV_BQ25798 = 1, 
+    DEV_REV_RESERVED_2 = 2, 
+    DEV_REV_RESERVED_3 = 3, 
+    DEV_REV_RESERVED_4 = 4, 
+    DEV_REV_RESERVED_5 = 5, 
+    DEV_REV_RESERVED_6 = 6, 
+    DEV_REV_RESERVED_7 = 7
 };
 strings_vector_t DEV_REV_strings = {
     "?", 

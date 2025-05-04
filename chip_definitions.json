@@ -1,4 +1,5 @@
 {
+    "default_address_hex": "0x6B",
     "registers": [
         {
             "name": "REG00_Minimal_System_Voltage",
@@ -377,10 +378,10 @@
                 "71.4%(VREG)"
             ],
             "enum_constants": [
-                "PCT_15",
-                "PCT_62",
-                "PCT_67",
-                "PCT_71"
+                "VBAT_LOWV_PCT_15",
+                "VBAT_LOWV_PCT_62",
+                "VBAT_LOWV_PCT_67",
+                "VBAT_LOWV_PCT_71"
             ],
             "mode": "rw"
         },
@@ -931,10 +932,10 @@
                 "System Power Reset"
             ],
             "enum_constants": [
-                "IDLE",
-                "SHUTDOWN",
-                "SHIP",
-                "SYS_PWR_RST"
+                "SDRV_CTRL_IDLE",
+                "SDRV_CTRL_SHUTDOWN",
+                "SDRV_CTRL_SHIP",
+                "SDRV_CTRL_SYS_PWR_RST"
             ],
             "mode": "rw"
         },
@@ -1474,8 +1475,8 @@
                 "Turn on ACFET1 in backup mode"
             ],
             "enum_constants": [
-                "IDLE",
-                "TURN_ON"
+                "BKUP_ACFET1_ON_IDLE",
+                "BKUP_ACFET1_ON_TURN_ON"
             ],
             "mode": "rw"
         },
@@ -1501,14 +1502,14 @@
                 "VREG unchanged"
             ],
             "enum_constants": [
-                "CHARGE_SUSPEND",
-                "SET_VREG_TO_VREG_800MV",
-                "SET_VREG_TO_VREG_600MV",
-                "SET_VREG_TO_VREG_400MV",
-                "SET_VREG_TO_VREG_300MV",
-                "SET_VREG_TO_VREG_200MV",
-                "SET_VREG_TO_VREG_100MV",
-                "VREG_UNCHANGED"
+                "JEITA_VSET_CHARGE_SUSPEND",
+                "JEITA_VSET_SET_VREG_TO_VREG_800MV",
+                "JEITA_VSET_SET_VREG_TO_VREG_600MV",
+                "JEITA_VSET_SET_VREG_TO_VREG_400MV",
+                "JEITA_VSET_SET_VREG_TO_VREG_300MV",
+                "JEITA_VSET_SET_VREG_TO_VREG_200MV",
+                "JEITA_VSET_SET_VREG_TO_VREG_100MV",
+                "JEITA_VSET_VREG_UNCHANGED"
             ],
             "mode": "rw"
         },
@@ -1530,10 +1531,10 @@
                 "ICHG unchanged"
             ],
             "enum_constants": [
-                "CHARGE_SUSPEND",
-                "SET_ICHG_TO_20",
-                "SET_ICHG_TO_40",
-                "ICHG_UNCHANGED"
+                "JEITA_ISETH_CHARGE_SUSPEND",
+                "JEITA_ISETH_SET_ICHG_TO_20",
+                "JEITA_ISETH_SET_ICHG_TO_40",
+                "JEITA_ISETH_ICHG_UNCHANGED"
             ],
             "mode": "rw"
         },
@@ -1555,10 +1556,10 @@
                 "ICHG unchanged"
             ],
             "enum_constants": [
-                "CHARGE_SUSPEND",
-                "SET_ICHG_TO_20",
-                "SET_ICHG_TO_40",
-                "ICHG_UNCHANGED"
+                "JEITA_ISETC_CHARGE_SUSPEND",
+                "JEITA_ISETC_SET_ICHG_TO_20",
+                "JEITA_ISETC_SET_ICHG_TO_40",
+                "JEITA_ISETC_ICHG_UNCHANGED"
             ],
             "mode": "rw"
         },
@@ -1580,10 +1581,10 @@
                 "20'C"
             ],
             "enum_constants": [
-                "TS_5",
-                "TS_10",
-                "TS_15",
-                "TS_20"
+                "TS_COOL_5",
+                "TS_COOL_10",
+                "TS_COOL_15",
+                "TS_COOL_20"
             ],
             "mode": "rw"
         },
@@ -1605,10 +1606,10 @@
                 "55'C"
             ],
             "enum_constants": [
-                "TS_40",
-                "TS_45",
-                "TS_50",
-                "TS_55"
+                "TS_WARM_40",
+                "TS_WARM_45",
+                "TS_WARM_50",
+                "TS_WARM_55"
             ],
             "mode": "rw"
         },
@@ -1630,10 +1631,10 @@
                 "Disabled"
             ],
             "enum_constants": [
-                "TS_55",
-                "TS_60",
-                "TS_65",
-                "DISABLE"
+                "TS_BHOT_55",
+                "TS_BHOT_60",
+                "TS_BHOT_65",
+                "TS_BHOT_DISABLE"
             ],
             "mode": "rw"
         },
@@ -1653,8 +1654,8 @@
                 "-20'C"
             ],
             "enum_constants": [
-                "MINUS_10",
-                "MINUS_20"
+                "TS_BCOLD_MINUS_10",
+                "TS_BCOLD_MINUS_20"
             ],
             "mode": "rw"
         },
@@ -1700,8 +1701,8 @@
                 "In IINDPM regulation or IOTG regulation"
             ],
             "enum_constants": [
-                "NORMAL",
-                "REGULATION"
+                "IINDPM_STAT_NORMAL",
+                "IINDPM_STAT_REGULATION"
             ],
             "mode": "ro"
         },
@@ -1721,8 +1722,8 @@
                 "In VINDPM regulation or VOTG regulation"
             ],
             "enum_constants": [
-                "NORMAL",
-                "REGULATION"
+                "VINDPM_STAT_NORMAL",
+                "VINDPM_STAT_REGULATION"
             ],
             "mode": "ro"
         },
@@ -1742,8 +1743,8 @@
                 "Watchdog timer expired"
             ],
             "enum_constants": [
-                "NORMAL",
-                "EXPIRED"
+                "WD_STAT_NORMAL",
+                "WD_STAT_EXPIRED"
             ],
             "mode": "ro"
         },
@@ -1763,8 +1764,8 @@
                 "Power good"
             ],
             "enum_constants": [
-                "BAD",
-                "GOOD"
+                "PG_STAT_BAD",
+                "PG_STAT_GOOD"
             ],
             "mode": "ro"
         },
@@ -1784,8 +1785,8 @@
                 "VAC2 present (above present threshold)"
             ],
             "enum_constants": [
-                "NOT_PRESENT",
-                "PRESENT"
+                "AC2_PRESENT_STAT_NOT_PRESENT",
+                "AC2_PRESENT_STAT_PRESENT"
             ],
             "mode": "ro"
         },
@@ -1805,8 +1806,8 @@
                 "VAC1 present (above present threshold)"
             ],
             "enum_constants": [
-                "NOT_PRESENT",
-                "PRESENT"
+                "AC1_PRESENT_STAT_NOT_PRESENT",
+                "AC1_PRESENT_STAT_PRESENT"
             ],
             "mode": "ro"
         },
@@ -1826,8 +1827,8 @@
                 "VBUS present (above present threshold)"
             ],
             "enum_constants": [
-                "NOT_PRESENT",
-                "PRESENT"
+                "VBUS_PRESENT_STAT_NOT_PRESENT",
+                "VBUS_PRESENT_STAT_PRESENT"
             ],
             "mode": "ro"
         },
@@ -1853,14 +1854,14 @@
                 "Charge Termination Done"
             ],
             "enum_constants": [
-                "NOT_CHARGING",
-                "TRICKLECHARGE",
-                "PRECHARGE",
-                "FASTCHARGE_CC",
-                "FASTCHARGE_CV",
-                "RESERVED_5",
-                "TOPOFF",
-                "TERMINATED"
+                "CHG_STAT_NOT_CHARGING",
+                "CHG_STAT_TRICKLECHARGE",
+                "CHG_STAT_PRECHARGE",
+                "CHG_STAT_FASTCHARGE_CC",
+                "CHG_STAT_FASTCHARGE_CV",
+                "CHG_STAT_RESERVED_5",
+                "CHG_STAT_TOPOFF",
+                "CHG_STAT_TERMINATED"
             ],
             "mode": "ro"
         },
@@ -1894,22 +1895,22 @@
                 "Reserved"
             ],
             "enum_constants": [
-                "NO_INPUT",
-                "USB_SDP",
-                "USB_CDP",
-                "USB_DCP",
-                "ADJUSTABLE_HVDCP",
-                "UNKNOWN_ADAPTOR",
-                "NON_STANDARD_ADAPTER",
-                "OTG_MODE",
-                "NOT_QUALIFIED_ADAPTOR",
-                "RESERVED_9",
-                "RESERVED_A",
-                "DEVICE_POWERED_FROM_VBUS",
-                "BACKUP_MODE",
-                "RESERVED_D",
-                "RESERVED_E",
-                "RESERVED_F"
+                "VBUS_STAT_NO_INPUT",
+                "VBUS_STAT_USB_SDP",
+                "VBUS_STAT_USB_CDP",
+                "VBUS_STAT_USB_DCP",
+                "VBUS_STAT_ADJUSTABLE_HVDCP",
+                "VBUS_STAT_UNKNOWN_ADAPTOR",
+                "VBUS_STAT_NON_STANDARD_ADAPTER",
+                "VBUS_STAT_OTG_MODE",
+                "VBUS_STAT_NOT_QUALIFIED_ADAPTOR",
+                "VBUS_STAT_RESERVED_9",
+                "VBUS_STAT_RESERVED_A",
+                "VBUS_STAT_DEVICE_POWERED_FROM_VBUS",
+                "VBUS_STAT_BACKUP_MODE",
+                "VBUS_STAT_RESERVED_D",
+                "VBUS_STAT_RESERVED_E",
+                "VBUS_STAT_RESERVED_F"
             ],
             "mode": "ro"
         },
@@ -1944,10 +1945,10 @@
                 "Reserved"
             ],
             "enum_constants": [
-                "ICO_DISABLED",
-                "ICO_IN_PROGRESS",
-                "ICO_MAX_CURRENT_DETECTED",
-                "ICO_RESERVED"
+                "ICO_STAT_DISABLED",
+                "ICO_STAT_IN_PROGRESS",
+                "ICO_STAT_MAX_CURRENT_DETECTED",
+                "ICO_STAT_RESERVED"
             ],
             "mode": "ro"
         },
@@ -1967,8 +1968,8 @@
                 "Device in thermal regulation"
             ],
             "enum_constants": [
-                "NORMAL",
-                "THERMAL_REGULATION"
+                "TREG_STAT_NORMAL",
+                "TREG_STAT_THERMAL_REGULATION"
             ],
             "mode": "ro"
         },
@@ -1988,8 +1989,8 @@
                 "D+/D- detection in progress"
             ],
             "enum_constants": [
-                "NOT_STARTED",
-                "IN_PROGRESS"
+                "DPDM_STAT_NOT_STARTED",
+                "DPDM_STAT_IN_PROGRESS"
             ],
             "mode": "ro"
         },
@@ -2009,8 +2010,8 @@
                 "VBAT present"
             ],
             "enum_constants": [
-                "NOT_PRESENT",
-                "PRESENT"
+                "VBAT_PRESENT_STAT_NOT_PRESENT",
+                "VBAT_PRESENT_STAT_PRESENT"
             ],
             "mode": "ro"
         },
@@ -2069,8 +2070,8 @@
                 "In VSYSMIN regulation (VBAT < VSYSMIN)"
             ],
             "enum_constants": [
-                "NOT_IN_VSYSMIN_REGULATION",
-                "IN_VSYSMIN_REGULATION"
+                "VSYS_STAT_NOT_IN_VSYSMIN_REGULATION",
+                "VSYS_STAT_IN_VSYSMIN_REGULATION"
             ],
             "mode": "ro"
         },
@@ -2090,8 +2091,8 @@
                 "Safety timer expired"
             ],
             "enum_constants": [
-                "NORMAL",
-                "SAFETY_TIMER_EXPIRED"
+                "CHG_TMR_STAT_NORMAL",
+                "CHG_TMR_STAT_SAFETY_TIMER_EXPIRED"
             ],
             "mode": "ro"
         },
@@ -2111,8 +2112,8 @@
                 "Safety timer expired"
             ],
             "enum_constants": [
-                "NORMAL",
-                "SAFETY_TIMER_EXPIRED"
+                "TRICHG_TMR_STAT_NORMAL",
+                "TRICHG_TMR_STAT_SAFETY_TIMER_EXPIRED"
             ],
             "mode": "ro"
         },
@@ -2132,8 +2133,8 @@
                 "Safety timer expired"
             ],
             "enum_constants": [
-                "NORMAL",
-                "SAFETY_TIMER_EXPIRED"
+                "PRECHG_TMR_STAT_NORMAL",
+                "PRECHG_TMR_STAT_SAFETY_TIMER_EXPIRED"
             ],
             "mode": "ro"
         },
@@ -2153,8 +2154,8 @@
                 "VBAT is high enough to enable OTG operation"
             ],
             "enum_constants": [
-                "VBATOTG_LOW",
-                "VBATOTG_OK"
+                "VBATOTG_LOW_STAT_VBATOTG_LOW",
+                "VBATOTG_LOW_STAT_VBATOTG_OK"
             ],
             "mode": "ro"
         },
@@ -2174,8 +2175,8 @@
                 "TS in cold range"
             ],
             "enum_constants": [
-                "NOT_COLD",
-                "COLD"
+                "TS_COLD_STAT_NOT_COLD",
+                "TS_COLD_STAT_COLD"
             ],
             "mode": "ro"
         },
@@ -2195,8 +2196,8 @@
                 "TS in cool range"
             ],
             "enum_constants": [
-                "NOT_COOL",
-                "COOL"
+                "TS_COOL_STAT_NOT_COOL",
+                "TS_COOL_STAT_COOL"
             ],
             "mode": "ro"
         },
@@ -2216,8 +2217,8 @@
                 "TS in warm range"
             ],
             "enum_constants": [
-                "NOT_WARM",
-                "WARM"
+                "TS_WARM_STAT_NOT_WARM",
+                "TS_WARM_STAT_WARM"
             ],
             "mode": "ro"
         },
@@ -2237,8 +2238,8 @@
                 "TS in hot range"
             ],
             "enum_constants": [
-                "NOT_HOT",
-                "HOT"
+                "TS_HOT_STAT_NOT_HOT",
+                "TS_HOT_STAT_HOT"
             ],
             "mode": "ro"
         },
@@ -2947,8 +2948,8 @@
                 "One-shot"
             ],
             "enum_constants": [
-                "CONTINUOUS",
-                "ONESHOT"
+                "ADC_RATE_CONTINUOUS",
+                "ADC_RATE_ONESHOT"
             ],
             "mode": "rw"
         },
@@ -2993,8 +2994,8 @@
                 "Running average"
             ],
             "enum_constants": [
-                "NO_AVERAGING",
-                "RUNNING_AVERAGE"
+                "ADC_AVG_NO_AVERAGING",
+                "ADC_AVG_RUNNING_AVERAGE"
             ],
             "mode": "rw"
         },
@@ -3322,14 +3323,14 @@
                 "D+/D- Short"
             ],
             "enum_constants": [
-                "HIZ",
-                "VOUT_0",
-                "VOUT_0_6",
-                "VOUT_1_2",
-                "VOUT_2_0",
-                "VOUT_2_7",
-                "VOUT_3_3",
-                "DPLUS_DMINUS_SHORT"
+                "DPLUS_DAC_HIZ",
+                "DPLUS_DAC_VOUT_0",
+                "DPLUS_DAC_VOUT_0_6",
+                "DPLUS_DAC_VOUT_1_2",
+                "DPLUS_DAC_VOUT_2_0",
+                "DPLUS_DAC_VOUT_2_7",
+                "DPLUS_DAC_VOUT_3_3",
+                "DPLUS_DAC_DPLUS_DMINUS_SHORT"
             ],
             "mode": "rw"
         },
@@ -3355,14 +3356,14 @@
                 "Reserved"
             ],
             "enum_constants": [
-                "HIZ",
-                "VOUT_0",
-                "VOUT_0_6",
-                "VOUT_1_2",
-                "VOUT_2_0",
-                "VOUT_2_7",
-                "VOUT_3_3",
-                "RESERVED"
+                "DMINUS_DAC_HIZ",
+                "DMINUS_DAC_VOUT_0",
+                "DMINUS_DAC_VOUT_0_6",
+                "DMINUS_DAC_VOUT_1_2",
+                "DMINUS_DAC_VOUT_2_0",
+                "DMINUS_DAC_VOUT_2_7",
+                "DMINUS_DAC_VOUT_3_3",
+                "DMINUS_DAC_RESERVED"
             ],
             "mode": "rw"
         },
@@ -3388,14 +3389,14 @@
                 "?"
             ],
             "enum_constants": [
-                "RESERVED_0",
-                "RESERVED_1",
-                "RESERVED_2",
-                "BQ25798",
-                "RESERVED_4",
-                "RESERVED_5",
-                "RESERVED_6",
-                "RESERVED_7"
+                "PN_RESERVED_0",
+                "PN_RESERVED_1",
+                "PN_RESERVED_2",
+                "PN_BQ25798",
+                "PN_RESERVED_4",
+                "PN_RESERVED_5",
+                "PN_RESERVED_6",
+                "PN_RESERVED_7"
             ],
             "mode": "ro"
         },
@@ -3421,14 +3422,14 @@
                 "?"
             ],
             "enum_constants": [
-                "RESERVED_0",
-                "BQ25798",
-                "RESERVED_2",
-                "RESERVED_3",
-                "RESERVED_4",
-                "RESERVED_5",
-                "RESERVED_6",
-                "RESERVED_7"
+                "DEV_REV_RESERVED_0",
+                "DEV_REV_BQ25798",
+                "DEV_REV_RESERVED_2",
+                "DEV_REV_RESERVED_3",
+                "DEV_REV_RESERVED_4",
+                "DEV_REV_RESERVED_5",
+                "DEV_REV_RESERVED_6",
+                "DEV_REV_RESERVED_7"
             ],
             "mode": "ro"
         }
