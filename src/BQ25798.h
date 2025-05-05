@@ -8,7 +8,7 @@
 #include <vector>
 
 #include "Arduino.h"
-#include "BQ25798Core.h"
+#include "../lib/BQ25798Core/BQ25798Core.h"
 #include "I2CWire.h"
 #include "utility/debug.h"
 

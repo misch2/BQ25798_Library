@@ -3,7 +3,7 @@
 
 #include <Wire.h>
 
-#include "I2CGeneric.h"
+#include "../lib/I2CGeneric/I2CGeneric.h"
 
 class I2CWire : public I2CGeneric {
  public:
