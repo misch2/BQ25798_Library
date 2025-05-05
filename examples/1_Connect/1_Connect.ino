@@ -7,8 +7,9 @@ void setup() {
   Serial.begin(115200);
   Wire.begin();
 
-  if (!bq25798.begin()) {
+  if (!bq25798.i2c_begin(BQ25798_DEFAULT_ADDRESS)) {
     Serial.println("BQ25798 not found!");
+    return;
   }
 
   Serial.printf("Part number: %s\n", bq25798.getPN_string());

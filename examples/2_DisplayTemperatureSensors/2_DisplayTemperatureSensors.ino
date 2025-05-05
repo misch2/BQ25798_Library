@@ -12,7 +12,7 @@ void setup() {
     delay(1000);
   }
 
-  Serial.println("BQ25798 found, setting up ADC");
+  Serial.println("Setting up ADC");
   bq.setAndWriteADC_EN(true);
   bq.setAndWriteADC_SAMPLE(BQ25798::ADC_SAMPLE_t::ADC_SAMPLE_15BIT);
   bq.setAndWriteADC_RATE(BQ25798::ADC_RATE_t::ADC_RATE_CONTINUOUS);
@@ -21,12 +21,6 @@ void setup() {
 }
 
 void loop() {
-  if (!bq.readAll()) {
-    Serial.println("BQ25798 readAll failed!");
-    delay(1000);
-    return;
-  }
-
   Serial.printf("Chip die temperature = %.2f degC\n", bq.getTDIE_ADC());
   Serial.printf("External thermal sensor value = %.2f degC ", bq.getTS_ADC());
   if (static_cast<bool>(bq.getTS_COOL_STAT())) {
@@ -44,6 +38,10 @@ void loop() {
   Serial.println();
 
   Serial.println();
+  if (bq.lastError()) {
+    Serial.printf("BQ25798 error: %d\n", bq.lastError());
+    bq.clearError();
+  }
 
   delay(1000);
 }

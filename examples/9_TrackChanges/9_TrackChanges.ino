@@ -58,13 +58,6 @@ void printMostImportantStats() {
 }
 
 void trackChanges() {
-  if (!bq25798.readAll()) {
-    Serial.printf("Error reading BQ25798 registers: %d\n", bq25798.lastError());
-    bq25798.clearError();
-    delay(10000);
-    return;
-  }
-
   for (int i = 0; i < BQ25798::SETTINGS_COUNT; i++) {
     BQ25798::Setting setting = bq25798.getSetting(i);
     newRawValues[i] = bq25798.getRaw(setting);
@@ -156,15 +149,6 @@ void trackChanges() {
   }
 }
 
-void repeatedSetup() {
-  // Disable HIZ mode (high impedance mode):
-  bq25798.setAndWriteEN_HIZ(false);
-
-  // Enable OTG and BACKUP mode:
-  // bq25798.setAndWriteBool(bq25798.EN_OTG, 1);
-  bq25798.setAndWriteEN_BACKUP(true);
-}
-
 void setup() {
   Serial.begin(115200);
   Serial.println("Serial port initialized");
@@ -182,7 +166,6 @@ void setup() {
   // Reset the chip and wait for it to finish:
   bq25798.setAndWriteREG_RST(true);
   while (bq25798.getREG_RST()) {
-    bq25798.readAll();
     delay(10);
   }
   Serial.println("Reset successful.");
@@ -205,7 +188,6 @@ void setup() {
 }
 
 void loop() {
-  repeatedSetup();  // this is needed to keep the chip in the right mode??? FIXME
   trackChanges();
   delay(100);
 }
