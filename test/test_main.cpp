@@ -50,7 +50,7 @@ void test_reg16_fields(void) {
 }
 
 void test_bool(void) {
-  BQ25798MockTest::Setting boolSetting = {reg0.address, false, "TEST_BOOL", BQ25798MockTest::settings_type_t::BOOL, 1, 0};
+  BQ25798MockTest::Setting boolSetting = {reg0.address, false, "TEST_BOOL", "", BQ25798MockTest::settings_type_t::BOOL, 1, 0};
 
   bq.setAndWriteREG_RST(true);
   TEST_ASSERT_EQUAL(BQ25798MockTest::Error::ERROR_NONE, bq.lastError());
@@ -77,7 +77,7 @@ void test_bool(void) {
 }
 
 void test_int(void) {
-  BQ25798MockTest::Setting intSetting = {reg0.address, false, "TEST_INT", BQ25798MockTest::settings_type_t::INT, 0xFF, 0};
+  BQ25798MockTest::Setting intSetting = {reg0.address, false, "TEST_INT", "foo", BQ25798MockTest::settings_type_t::INT, 0xFF, 0};
 
   bq.setAndWriteVINDPM(12345);
   TEST_ASSERT_EQUAL(BQ25798MockTest::Error::ERROR_NONE, bq.lastError());
@@ -98,8 +98,18 @@ void test_int(void) {
   TEST_ASSERT_EQUAL(0x100, bq.intToRaw(256, intSetting));
   TEST_ASSERT_EQUAL(BQ25798MockTest::Error::ERROR_NONE, bq.lastError());
 
-  BQ25798MockTest::Setting signedIntSetting = {
-      reg0.address, true, "TEST_SIGNED_INT", BQ25798MockTest::settings_type_t::INT, 0xFF, 0, 0, 0, 0, 0, BQ25798MockTest::settings_flags_t::IS_2COMPLEMENT};
+  BQ25798MockTest::Setting signedIntSetting = {reg0.address,
+                                               true,
+                                               "TEST_SIGNED_INT",
+                                               "bar",
+                                               BQ25798MockTest::settings_type_t::INT,
+                                               0xFF,
+                                               0,
+                                               0,
+                                               0,
+                                               0,
+                                               0,
+                                               BQ25798MockTest::settings_flags_t::IS_2COMPLEMENT};
 
   TEST_ASSERT_EQUAL(0, bq.rawToInt(0x00, signedIntSetting));
   TEST_ASSERT_EQUAL(BQ25798MockTest::Error::ERROR_NONE, bq.lastError());
@@ -115,7 +125,7 @@ void test_int(void) {
   TEST_ASSERT_EQUAL(0xFFFB, bq.intToRaw(-5, signedIntSetting));
   TEST_ASSERT_EQUAL(BQ25798MockTest::Error::ERROR_NONE, bq.lastError());
 
-  BQ25798MockTest::Setting calculatedIntSetting = {reg0.address,    true,        "TEST_INT", BQ25798MockTest::settings_type_t::INT, 0xFF, 0,
+  BQ25798MockTest::Setting calculatedIntSetting = {reg0.address,    true,        "TEST_INT", "baz", BQ25798MockTest::settings_type_t::INT, 0xFF, 0,
                                                    /* range */ 10,  100,
                                                    /* offset */ 50, /* step */ 2};
   TEST_ASSERT_EQUAL(50, bq.rawToInt(0x00, calculatedIntSetting));
@@ -137,7 +147,7 @@ void test_int(void) {
 }
 
 void test_float(void) {
-  BQ25798MockTest::Setting floatSetting = {reg0.address,      true,          "TEST_FLOAT", BQ25798MockTest::settings_type_t::FLOAT, 0xFF, 0,
+  BQ25798MockTest::Setting floatSetting = {reg0.address,      true,          "TEST_FLOAT", "quux", BQ25798MockTest::settings_type_t::FLOAT, 0xFF, 0,
                                            /* range */ 10.0,  100.0,
                                            /* offset */ 50.0, /* step */ 2.0};
   TEST_ASSERT_EQUAL(50.0, bq.rawToFloat(0x00, floatSetting));
@@ -164,6 +174,7 @@ void test_enum(void) {
   BQ25798MockTest::Setting stringSetting = {reg0.address,
                                             false,
                                             "TEST_ENUM",
+                                            "",
                                             BQ25798MockTest::settings_type_t::ENUM,
                                             0xFF,
                                             0,

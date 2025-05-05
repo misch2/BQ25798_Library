@@ -11,7 +11,7 @@
 
 
 {%-     if def.type == 'bool' %}
-Setting {{ def.name }} = { {{def.regname}}, {{ "true" if def.long_reg else "false" }}, "{{def.name}}", settings_type_t::BOOL, {{def.bits}}, {{def.shift}} };
+Setting {{ def.name }} = { {{def.regname}}, {{ "true" if def.long_reg else "false" }}, "{{def.name}}", "{{def.unit}}", settings_type_t::BOOL, {{def.bits}}, {{def.shift}} };
 bool get{{ def.name }}() { return getBool({{def.name}}); }
 {%-         if def.mode == 'rw' %}
 void setAndWrite{{ def.name }}(bool val) { setAndWriteBool({{def.name}}, val); }
@@ -19,17 +19,29 @@ void setAndWrite{{ def.name }}(bool val) { setAndWriteBool({{def.name}}, val); }
 
 
 {%-     elif def.type == 'int' %}
-Setting {{ def.name }} = { {{def.regname}}, {{ "true" if def.long_reg else "false" }}, "{{def.name}}", settings_type_t::INT, {{def.bits}}, {{def.shift}}, {{def.range_low}}, {{def.range_high}}, {{def.fixed_offset}}, {{def.bit_step_size}}, settings_flags_t::{{ def.flags if def.flags else "NONE" }} };
+Setting {{ def.name }} = { {{def.regname}}, {{ "true" if def.long_reg else "false" }}, "{{def.name}}", "{{def.unit}}", settings_type_t::INT, {{def.bits}}, {{def.shift}}, {{def.range_low}}, {{def.range_high}}, {{def.fixed_offset}}, {{def.bit_step_size}}, settings_flags_t::{{ def.flags if def.flags else "NONE" }} };
+{%-         if def.unit %}
+/// Returns {{ def.name }} in {{ def.unit }}
+{%-         endif %}
 int get{{ def.name }}() { return getInt({{def.name}}); }
 {%-         if def.mode == 'rw' %}
+{%-             if def.unit %}
+/// Sets {{ def.name }} in {{ def.unit }}
+{%-             endif %}
 void setAndWrite{{ def.name }}(int val) { setAndWriteInt({{def.name}}, val); }
 {%-         endif %}
 
 
 {%-     elif def.type == 'float' %}
-Setting {{ def.name }} = { {{def.regname}}, {{ "true" if def.long_reg else "false" }}, "{{def.name}}", settings_type_t::FLOAT, {{def.bits}}, {{def.shift}}, {{def.range_low}}, {{def.range_high}}, {{def.fixed_offset}}, {{def.bit_step_size}}, settings_flags_t::{{ def.flags if def.flags else "NONE" }} };
+Setting {{ def.name }} = { {{def.regname}}, {{ "true" if def.long_reg else "false" }}, "{{def.name}}", "{{def.unit}}", settings_type_t::FLOAT, {{def.bits}}, {{def.shift}}, {{def.range_low}}, {{def.range_high}}, {{def.fixed_offset}}, {{def.bit_step_size}}, settings_flags_t::{{ def.flags if def.flags else "NONE" }} };
+{%-         if def.unit %}
+/// Returns {{ def.name }} in {{ def.unit }}
+{%-         endif %}
 float get{{ def.name }}() { return getFloat({{def.name}}); }
 {%-         if def.mode == 'rw' %}
+{%-             if def.unit %}
+/// Sets {{ def.name }} in {{ def.unit }}
+{%-             endif %}
 void setAndWrite{{ def.name }}(float val) { setAndWriteFloat({{def.name}}, val); }
 {%-         endif %}
 
@@ -47,7 +59,7 @@ strings_vector_t {{ def.name }}_strings = {
 {%-         endfor %} 
 };
 
-Setting {{ def.name }} = { {{def.regname}}, {{ "true" if def.long_reg else "false" }}, "{{def.name}}", settings_type_t::ENUM, {{def.bits}}, {{def.shift}}, {{def.range_low}}, {{def.range_high}}, {{def.fixed_offset}}, {{def.bit_step_size}}, settings_flags_t::{{ def.flags if def.flags else "NONE" }}, {{ def.name }}_strings };
+Setting {{ def.name }} = { {{def.regname}}, {{ "true" if def.long_reg else "false" }}, "{{def.name}}", "{{def.unit}}", settings_type_t::ENUM, {{def.bits}}, {{def.shift}}, {{def.range_low}}, {{def.range_high}}, {{def.fixed_offset}}, {{def.bit_step_size}}, settings_flags_t::{{ def.flags if def.flags else "NONE" }}, {{ def.name }}_strings };
 {{ def.name }}_t get{{ def.name }}() { return static_cast<{{ def.name }}_t>(getInt({{def.name}})); }
 const char * get{{ def.name }}_string() { return getString({{def.name}}); }
 {%-         if def.mode == 'rw' %}

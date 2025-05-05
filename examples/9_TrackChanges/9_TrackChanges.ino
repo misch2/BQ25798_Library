@@ -174,9 +174,6 @@ void setup() {
   // Disable watchdog timer (it would otherwise reset the chip if not cleared in time):
   bq25798.setAndWriteWATCHDOG(BQ25798::WATCHDOG_t::WATCHDOG_DISABLE);
 
-  // Disable thermal sensor (not connected):
-  bq25798.setAndWriteTS_IGNORE(true);
-
   // Enable ADC one shot mode. ADC_EN will be set to 0 after the readout is done.
   // A continuous ADC would otherwise produce too much visual noise (a lot of changes).
   bq25798.setAndWriteADC_RATE(BQ25798::ADC_RATE_t::ADC_RATE_ONESHOT);

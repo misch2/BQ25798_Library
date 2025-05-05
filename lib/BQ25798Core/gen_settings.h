@@ -2,40 +2,50 @@
 // ================================
 // REG00_Minimal_System_Voltage
 // ================================
-Setting VSYSMIN = { REG00_Minimal_System_Voltage, false, "VSYSMIN", settings_type_t::INT, 6, 0, 2500, 16000, 2500, 250, settings_flags_t::NONE };
+Setting VSYSMIN = { REG00_Minimal_System_Voltage, false, "VSYSMIN", "mV", settings_type_t::INT, 6, 0, 2500, 16000, 2500, 250, settings_flags_t::NONE };
+/// Returns VSYSMIN in mV
 int getVSYSMIN() { return getInt(VSYSMIN); }
+/// Sets VSYSMIN in mV
 void setAndWriteVSYSMIN(int val) { setAndWriteInt(VSYSMIN, val); }
 
 
 // ================================
 // REG01_Charge_Voltage_Limit
 // ================================
-Setting VREG = { REG01_Charge_Voltage_Limit, true, "VREG", settings_type_t::INT, 11, 0, 3000, 18800, 0, 10, settings_flags_t::NONE };
+Setting VREG = { REG01_Charge_Voltage_Limit, true, "VREG", "mV", settings_type_t::INT, 11, 0, 3000, 18800, 0, 10, settings_flags_t::NONE };
+/// Returns VREG in mV
 int getVREG() { return getInt(VREG); }
+/// Sets VREG in mV
 void setAndWriteVREG(int val) { setAndWriteInt(VREG, val); }
 
 
 // ================================
 // REG03_Charge_Current_Limit
 // ================================
-Setting ICHG = { REG03_Charge_Current_Limit, true, "ICHG", settings_type_t::INT, 9, 0, 50, 5000, 0, 10, settings_flags_t::NONE };
+Setting ICHG = { REG03_Charge_Current_Limit, true, "ICHG", "mA", settings_type_t::INT, 9, 0, 50, 5000, 0, 10, settings_flags_t::NONE };
+/// Returns ICHG in mA
 int getICHG() { return getInt(ICHG); }
+/// Sets ICHG in mA
 void setAndWriteICHG(int val) { setAndWriteInt(ICHG, val); }
 
 
 // ================================
 // REG05_Input_Voltage_Limit
 // ================================
-Setting VINDPM = { REG05_Input_Voltage_Limit, false, "VINDPM", settings_type_t::INT, 8, 0, 3600, 22000, 0, 100, settings_flags_t::NONE };
+Setting VINDPM = { REG05_Input_Voltage_Limit, false, "VINDPM", "mV", settings_type_t::INT, 8, 0, 3600, 22000, 0, 100, settings_flags_t::NONE };
+/// Returns VINDPM in mV
 int getVINDPM() { return getInt(VINDPM); }
+/// Sets VINDPM in mV
 void setAndWriteVINDPM(int val) { setAndWriteInt(VINDPM, val); }
 
 
 // ================================
 // REG06_Input_Current_Limit
 // ================================
-Setting IINDPM = { REG06_Input_Current_Limit, true, "IINDPM", settings_type_t::INT, 9, 0, 100, 3300, 0, 10, settings_flags_t::NONE };
+Setting IINDPM = { REG06_Input_Current_Limit, true, "IINDPM", "mA", settings_type_t::INT, 9, 0, 100, 3300, 0, 10, settings_flags_t::NONE };
+/// Returns IINDPM in mA
 int getIINDPM() { return getInt(IINDPM); }
+/// Sets IINDPM in mA
 void setAndWriteIINDPM(int val) { setAndWriteInt(IINDPM, val); }
 
 
@@ -56,7 +66,7 @@ strings_vector_t VBAT_LOWV_strings = {
     "71.4%(VREG)" 
 };
 
-Setting VBAT_LOWV = { REG08_Precharge_Control, false, "VBAT_LOWV", settings_type_t::ENUM, 2, 6, 0, 0, 0, 0, settings_flags_t::NONE, VBAT_LOWV_strings };
+Setting VBAT_LOWV = { REG08_Precharge_Control, false, "VBAT_LOWV", "", settings_type_t::ENUM, 2, 6, 0, 0, 0, 0, settings_flags_t::NONE, VBAT_LOWV_strings };
 VBAT_LOWV_t getVBAT_LOWV() { return static_cast<VBAT_LOWV_t>(getInt(VBAT_LOWV)); }
 const char * getVBAT_LOWV_string() { return getString(VBAT_LOWV); }
 void setAndWriteVBAT_LOWV(VBAT_LOWV_t val) { setAndWriteEnum<VBAT_LOWV_t>(VBAT_LOWV, val); }
@@ -65,15 +75,17 @@ void setAndWriteVBAT_LOWV(VBAT_LOWV_t val) { setAndWriteEnum<VBAT_LOWV_t>(VBAT_L
 // ================================
 // REG08_Precharge_Control
 // ================================
-Setting IPRECHG = { REG08_Precharge_Control, false, "IPRECHG", settings_type_t::INT, 6, 0, 40, 2000, 0, 40, settings_flags_t::NONE };
+Setting IPRECHG = { REG08_Precharge_Control, false, "IPRECHG", "mA", settings_type_t::INT, 6, 0, 40, 2000, 0, 40, settings_flags_t::NONE };
+/// Returns IPRECHG in mA
 int getIPRECHG() { return getInt(IPRECHG); }
+/// Sets IPRECHG in mA
 void setAndWriteIPRECHG(int val) { setAndWriteInt(IPRECHG, val); }
 
 
 // ================================
 // REG09_Termination_Control
 // ================================
-Setting REG_RST = { REG09_Termination_Control, false, "REG_RST", settings_type_t::BOOL, 1, 6 };
+Setting REG_RST = { REG09_Termination_Control, false, "REG_RST", "", settings_type_t::BOOL, 1, 6 };
 bool getREG_RST() { return getBool(REG_RST); }
 void setAndWriteREG_RST(bool val) { setAndWriteBool(REG_RST, val); }
 
@@ -81,7 +93,7 @@ void setAndWriteREG_RST(bool val) { setAndWriteBool(REG_RST, val); }
 // ================================
 // REG09_Termination_Control
 // ================================
-Setting STOP_WD_CHG = { REG09_Termination_Control, false, "STOP_WD_CHG", settings_type_t::BOOL, 1, 5 };
+Setting STOP_WD_CHG = { REG09_Termination_Control, false, "STOP_WD_CHG", "", settings_type_t::BOOL, 1, 5 };
 bool getSTOP_WD_CHG() { return getBool(STOP_WD_CHG); }
 void setAndWriteSTOP_WD_CHG(bool val) { setAndWriteBool(STOP_WD_CHG, val); }
 
@@ -89,8 +101,10 @@ void setAndWriteSTOP_WD_CHG(bool val) { setAndWriteBool(STOP_WD_CHG, val); }
 // ================================
 // REG09_Termination_Control
 // ================================
-Setting ITERM = { REG09_Termination_Control, false, "ITERM", settings_type_t::INT, 5, 0, 40, 1000, 0, 40, settings_flags_t::NONE };
+Setting ITERM = { REG09_Termination_Control, false, "ITERM", "mA", settings_type_t::INT, 5, 0, 40, 1000, 0, 40, settings_flags_t::NONE };
+/// Returns ITERM in mA
 int getITERM() { return getInt(ITERM); }
+/// Sets ITERM in mA
 void setAndWriteITERM(int val) { setAndWriteInt(ITERM, val); }
 
 
@@ -111,7 +125,7 @@ strings_vector_t CELL_strings = {
     "4S" 
 };
 
-Setting CELL = { REG0A_Recharge_Control, false, "CELL", settings_type_t::ENUM, 2, 6, 0, 0, 0, 0, settings_flags_t::NONE, CELL_strings };
+Setting CELL = { REG0A_Recharge_Control, false, "CELL", "", settings_type_t::ENUM, 2, 6, 0, 0, 0, 0, settings_flags_t::NONE, CELL_strings };
 CELL_t getCELL() { return static_cast<CELL_t>(getInt(CELL)); }
 const char * getCELL_string() { return getString(CELL); }
 void setAndWriteCELL(CELL_t val) { setAndWriteEnum<CELL_t>(CELL, val); }
@@ -134,7 +148,7 @@ strings_vector_t TRECHG_strings = {
     "2048 ms" 
 };
 
-Setting TRECHG = { REG0A_Recharge_Control, false, "TRECHG", settings_type_t::ENUM, 2, 4, 0, 0, 0, 0, settings_flags_t::NONE, TRECHG_strings };
+Setting TRECHG = { REG0A_Recharge_Control, false, "TRECHG", "", settings_type_t::ENUM, 2, 4, 0, 0, 0, 0, settings_flags_t::NONE, TRECHG_strings };
 TRECHG_t getTRECHG() { return static_cast<TRECHG_t>(getInt(TRECHG)); }
 const char * getTRECHG_string() { return getString(TRECHG); }
 void setAndWriteTRECHG(TRECHG_t val) { setAndWriteEnum<TRECHG_t>(TRECHG, val); }
@@ -143,16 +157,20 @@ void setAndWriteTRECHG(TRECHG_t val) { setAndWriteEnum<TRECHG_t>(TRECHG, val); }
 // ================================
 // REG0A_Recharge_Control
 // ================================
-Setting VRECHG = { REG0A_Recharge_Control, false, "VRECHG", settings_type_t::INT, 4, 0, 50, 800, 50, 50, settings_flags_t::NONE };
+Setting VRECHG = { REG0A_Recharge_Control, false, "VRECHG", "mV", settings_type_t::INT, 4, 0, 50, 800, 50, 50, settings_flags_t::NONE };
+/// Returns VRECHG in mV
 int getVRECHG() { return getInt(VRECHG); }
+/// Sets VRECHG in mV
 void setAndWriteVRECHG(int val) { setAndWriteInt(VRECHG, val); }
 
 
 // ================================
 // REG0B_VOTG_regulation
 // ================================
-Setting VOTG = { REG0B_VOTG_regulation, true, "VOTG", settings_type_t::INT, 11, 0, 2800, 22000, 2800, 10, settings_flags_t::NONE };
+Setting VOTG = { REG0B_VOTG_regulation, true, "VOTG", "mV", settings_type_t::INT, 11, 0, 2800, 22000, 2800, 10, settings_flags_t::NONE };
+/// Returns VOTG in mV
 int getVOTG() { return getInt(VOTG); }
+/// Sets VOTG in mV
 void setAndWriteVOTG(int val) { setAndWriteInt(VOTG, val); }
 
 
@@ -169,7 +187,7 @@ strings_vector_t PRECHG_TMR_strings = {
     "30 minutes" 
 };
 
-Setting PRECHG_TMR = { REG0D_IOTG_regulation, false, "PRECHG_TMR", settings_type_t::ENUM, 1, 7, 0, 0, 0, 0, settings_flags_t::NONE, PRECHG_TMR_strings };
+Setting PRECHG_TMR = { REG0D_IOTG_regulation, false, "PRECHG_TMR", "", settings_type_t::ENUM, 1, 7, 0, 0, 0, 0, settings_flags_t::NONE, PRECHG_TMR_strings };
 PRECHG_TMR_t getPRECHG_TMR() { return static_cast<PRECHG_TMR_t>(getInt(PRECHG_TMR)); }
 const char * getPRECHG_TMR_string() { return getString(PRECHG_TMR); }
 void setAndWritePRECHG_TMR(PRECHG_TMR_t val) { setAndWriteEnum<PRECHG_TMR_t>(PRECHG_TMR, val); }
@@ -178,8 +196,10 @@ void setAndWritePRECHG_TMR(PRECHG_TMR_t val) { setAndWriteEnum<PRECHG_TMR_t>(PRE
 // ================================
 // REG0D_IOTG_regulation
 // ================================
-Setting IOTG = { REG0D_IOTG_regulation, false, "IOTG", settings_type_t::INT, 7, 0, 160, 3360, 0, 40, settings_flags_t::NONE };
+Setting IOTG = { REG0D_IOTG_regulation, false, "IOTG", "mA", settings_type_t::INT, 7, 0, 160, 3360, 0, 40, settings_flags_t::NONE };
+/// Returns IOTG in mA
 int getIOTG() { return getInt(IOTG); }
+/// Sets IOTG in mA
 void setAndWriteIOTG(int val) { setAndWriteInt(IOTG, val); }
 
 
@@ -200,7 +220,7 @@ strings_vector_t TOPOFF_TMR_strings = {
     "45 minutes" 
 };
 
-Setting TOPOFF_TMR = { REG0E_Timer_Control, false, "TOPOFF_TMR", settings_type_t::ENUM, 2, 6, 0, 0, 0, 0, settings_flags_t::NONE, TOPOFF_TMR_strings };
+Setting TOPOFF_TMR = { REG0E_Timer_Control, false, "TOPOFF_TMR", "", settings_type_t::ENUM, 2, 6, 0, 0, 0, 0, settings_flags_t::NONE, TOPOFF_TMR_strings };
 TOPOFF_TMR_t getTOPOFF_TMR() { return static_cast<TOPOFF_TMR_t>(getInt(TOPOFF_TMR)); }
 const char * getTOPOFF_TMR_string() { return getString(TOPOFF_TMR); }
 void setAndWriteTOPOFF_TMR(TOPOFF_TMR_t val) { setAndWriteEnum<TOPOFF_TMR_t>(TOPOFF_TMR, val); }
@@ -209,7 +229,7 @@ void setAndWriteTOPOFF_TMR(TOPOFF_TMR_t val) { setAndWriteEnum<TOPOFF_TMR_t>(TOP
 // ================================
 // REG0E_Timer_Control
 // ================================
-Setting EN_TRICHG_TMR = { REG0E_Timer_Control, false, "EN_TRICHG_TMR", settings_type_t::BOOL, 1, 5 };
+Setting EN_TRICHG_TMR = { REG0E_Timer_Control, false, "EN_TRICHG_TMR", "", settings_type_t::BOOL, 1, 5 };
 bool getEN_TRICHG_TMR() { return getBool(EN_TRICHG_TMR); }
 void setAndWriteEN_TRICHG_TMR(bool val) { setAndWriteBool(EN_TRICHG_TMR, val); }
 
@@ -217,7 +237,7 @@ void setAndWriteEN_TRICHG_TMR(bool val) { setAndWriteBool(EN_TRICHG_TMR, val); }
 // ================================
 // REG0E_Timer_Control
 // ================================
-Setting EN_PRECHG_TMR = { REG0E_Timer_Control, false, "EN_PRECHG_TMR", settings_type_t::BOOL, 1, 4 };
+Setting EN_PRECHG_TMR = { REG0E_Timer_Control, false, "EN_PRECHG_TMR", "", settings_type_t::BOOL, 1, 4 };
 bool getEN_PRECHG_TMR() { return getBool(EN_PRECHG_TMR); }
 void setAndWriteEN_PRECHG_TMR(bool val) { setAndWriteBool(EN_PRECHG_TMR, val); }
 
@@ -225,7 +245,7 @@ void setAndWriteEN_PRECHG_TMR(bool val) { setAndWriteBool(EN_PRECHG_TMR, val); }
 // ================================
 // REG0E_Timer_Control
 // ================================
-Setting EN_CHG_TMR = { REG0E_Timer_Control, false, "EN_CHG_TMR", settings_type_t::BOOL, 1, 3 };
+Setting EN_CHG_TMR = { REG0E_Timer_Control, false, "EN_CHG_TMR", "", settings_type_t::BOOL, 1, 3 };
 bool getEN_CHG_TMR() { return getBool(EN_CHG_TMR); }
 void setAndWriteEN_CHG_TMR(bool val) { setAndWriteBool(EN_CHG_TMR, val); }
 
@@ -247,7 +267,7 @@ strings_vector_t CHG_TMR_strings = {
     "24 hours" 
 };
 
-Setting CHG_TMR = { REG0E_Timer_Control, false, "CHG_TMR", settings_type_t::ENUM, 2, 1, 0, 0, 0, 0, settings_flags_t::NONE, CHG_TMR_strings };
+Setting CHG_TMR = { REG0E_Timer_Control, false, "CHG_TMR", "", settings_type_t::ENUM, 2, 1, 0, 0, 0, 0, settings_flags_t::NONE, CHG_TMR_strings };
 CHG_TMR_t getCHG_TMR() { return static_cast<CHG_TMR_t>(getInt(CHG_TMR)); }
 const char * getCHG_TMR_string() { return getString(CHG_TMR); }
 void setAndWriteCHG_TMR(CHG_TMR_t val) { setAndWriteEnum<CHG_TMR_t>(CHG_TMR, val); }
@@ -256,7 +276,7 @@ void setAndWriteCHG_TMR(CHG_TMR_t val) { setAndWriteEnum<CHG_TMR_t>(CHG_TMR, val
 // ================================
 // REG0E_Timer_Control
 // ================================
-Setting TMR2X_EN = { REG0E_Timer_Control, false, "TMR2X_EN", settings_type_t::BOOL, 1, 0 };
+Setting TMR2X_EN = { REG0E_Timer_Control, false, "TMR2X_EN", "", settings_type_t::BOOL, 1, 0 };
 bool getTMR2X_EN() { return getBool(TMR2X_EN); }
 void setAndWriteTMR2X_EN(bool val) { setAndWriteBool(TMR2X_EN, val); }
 
@@ -264,7 +284,7 @@ void setAndWriteTMR2X_EN(bool val) { setAndWriteBool(TMR2X_EN, val); }
 // ================================
 // REG0F_Charger_Control_0
 // ================================
-Setting EN_AUTO_IBATDIS = { REG0F_Charger_Control_0, false, "EN_AUTO_IBATDIS", settings_type_t::BOOL, 1, 7 };
+Setting EN_AUTO_IBATDIS = { REG0F_Charger_Control_0, false, "EN_AUTO_IBATDIS", "", settings_type_t::BOOL, 1, 7 };
 bool getEN_AUTO_IBATDIS() { return getBool(EN_AUTO_IBATDIS); }
 void setAndWriteEN_AUTO_IBATDIS(bool val) { setAndWriteBool(EN_AUTO_IBATDIS, val); }
 
@@ -272,7 +292,7 @@ void setAndWriteEN_AUTO_IBATDIS(bool val) { setAndWriteBool(EN_AUTO_IBATDIS, val
 // ================================
 // REG0F_Charger_Control_0
 // ================================
-Setting FORCE_IBATDIS = { REG0F_Charger_Control_0, false, "FORCE_IBATDIS", settings_type_t::BOOL, 1, 6 };
+Setting FORCE_IBATDIS = { REG0F_Charger_Control_0, false, "FORCE_IBATDIS", "", settings_type_t::BOOL, 1, 6 };
 bool getFORCE_IBATDIS() { return getBool(FORCE_IBATDIS); }
 void setAndWriteFORCE_IBATDIS(bool val) { setAndWriteBool(FORCE_IBATDIS, val); }
 
@@ -280,7 +300,7 @@ void setAndWriteFORCE_IBATDIS(bool val) { setAndWriteBool(FORCE_IBATDIS, val); }
 // ================================
 // REG0F_Charger_Control_0
 // ================================
-Setting EN_CHG = { REG0F_Charger_Control_0, false, "EN_CHG", settings_type_t::BOOL, 1, 5 };
+Setting EN_CHG = { REG0F_Charger_Control_0, false, "EN_CHG", "", settings_type_t::BOOL, 1, 5 };
 bool getEN_CHG() { return getBool(EN_CHG); }
 void setAndWriteEN_CHG(bool val) { setAndWriteBool(EN_CHG, val); }
 
@@ -288,7 +308,7 @@ void setAndWriteEN_CHG(bool val) { setAndWriteBool(EN_CHG, val); }
 // ================================
 // REG0F_Charger_Control_0
 // ================================
-Setting EN_ICO = { REG0F_Charger_Control_0, false, "EN_ICO", settings_type_t::BOOL, 1, 4 };
+Setting EN_ICO = { REG0F_Charger_Control_0, false, "EN_ICO", "", settings_type_t::BOOL, 1, 4 };
 bool getEN_ICO() { return getBool(EN_ICO); }
 void setAndWriteEN_ICO(bool val) { setAndWriteBool(EN_ICO, val); }
 
@@ -296,7 +316,7 @@ void setAndWriteEN_ICO(bool val) { setAndWriteBool(EN_ICO, val); }
 // ================================
 // REG0F_Charger_Control_0
 // ================================
-Setting FORCE_ICO = { REG0F_Charger_Control_0, false, "FORCE_ICO", settings_type_t::BOOL, 1, 3 };
+Setting FORCE_ICO = { REG0F_Charger_Control_0, false, "FORCE_ICO", "", settings_type_t::BOOL, 1, 3 };
 bool getFORCE_ICO() { return getBool(FORCE_ICO); }
 void setAndWriteFORCE_ICO(bool val) { setAndWriteBool(FORCE_ICO, val); }
 
@@ -304,7 +324,7 @@ void setAndWriteFORCE_ICO(bool val) { setAndWriteBool(FORCE_ICO, val); }
 // ================================
 // REG0F_Charger_Control_0
 // ================================
-Setting EN_HIZ = { REG0F_Charger_Control_0, false, "EN_HIZ", settings_type_t::BOOL, 1, 2 };
+Setting EN_HIZ = { REG0F_Charger_Control_0, false, "EN_HIZ", "", settings_type_t::BOOL, 1, 2 };
 bool getEN_HIZ() { return getBool(EN_HIZ); }
 void setAndWriteEN_HIZ(bool val) { setAndWriteBool(EN_HIZ, val); }
 
@@ -312,7 +332,7 @@ void setAndWriteEN_HIZ(bool val) { setAndWriteBool(EN_HIZ, val); }
 // ================================
 // REG0F_Charger_Control_0
 // ================================
-Setting EN_TERM = { REG0F_Charger_Control_0, false, "EN_TERM", settings_type_t::BOOL, 1, 1 };
+Setting EN_TERM = { REG0F_Charger_Control_0, false, "EN_TERM", "", settings_type_t::BOOL, 1, 1 };
 bool getEN_TERM() { return getBool(EN_TERM); }
 void setAndWriteEN_TERM(bool val) { setAndWriteBool(EN_TERM, val); }
 
@@ -320,7 +340,7 @@ void setAndWriteEN_TERM(bool val) { setAndWriteBool(EN_TERM, val); }
 // ================================
 // REG0F_Charger_Control_0
 // ================================
-Setting EN_BACKUP = { REG0F_Charger_Control_0, false, "EN_BACKUP", settings_type_t::BOOL, 1, 0 };
+Setting EN_BACKUP = { REG0F_Charger_Control_0, false, "EN_BACKUP", "", settings_type_t::BOOL, 1, 0 };
 bool getEN_BACKUP() { return getBool(EN_BACKUP); }
 void setAndWriteEN_BACKUP(bool val) { setAndWriteBool(EN_BACKUP, val); }
 
@@ -342,7 +362,7 @@ strings_vector_t VBUS_BACKUP_strings = {
     "<100%(VINDPM)" 
 };
 
-Setting VBUS_BACKUP = { REG10_Charger_Control_1, false, "VBUS_BACKUP", settings_type_t::ENUM, 2, 6, 0, 0, 0, 0, settings_flags_t::NONE, VBUS_BACKUP_strings };
+Setting VBUS_BACKUP = { REG10_Charger_Control_1, false, "VBUS_BACKUP", "", settings_type_t::ENUM, 2, 6, 0, 0, 0, 0, settings_flags_t::NONE, VBUS_BACKUP_strings };
 VBUS_BACKUP_t getVBUS_BACKUP() { return static_cast<VBUS_BACKUP_t>(getInt(VBUS_BACKUP)); }
 const char * getVBUS_BACKUP_string() { return getString(VBUS_BACKUP); }
 void setAndWriteVBUS_BACKUP(VBUS_BACKUP_t val) { setAndWriteEnum<VBUS_BACKUP_t>(VBUS_BACKUP, val); }
@@ -365,7 +385,7 @@ strings_vector_t VAC_OVP_strings = {
     ">7V" 
 };
 
-Setting VAC_OVP = { REG10_Charger_Control_1, false, "VAC_OVP", settings_type_t::ENUM, 2, 4, 0, 0, 0, 0, settings_flags_t::NONE, VAC_OVP_strings };
+Setting VAC_OVP = { REG10_Charger_Control_1, false, "VAC_OVP", "", settings_type_t::ENUM, 2, 4, 0, 0, 0, 0, settings_flags_t::NONE, VAC_OVP_strings };
 VAC_OVP_t getVAC_OVP() { return static_cast<VAC_OVP_t>(getInt(VAC_OVP)); }
 const char * getVAC_OVP_string() { return getString(VAC_OVP); }
 void setAndWriteVAC_OVP(VAC_OVP_t val) { setAndWriteEnum<VAC_OVP_t>(VAC_OVP, val); }
@@ -374,7 +394,7 @@ void setAndWriteVAC_OVP(VAC_OVP_t val) { setAndWriteEnum<VAC_OVP_t>(VAC_OVP, val
 // ================================
 // REG10_Charger_Control_1
 // ================================
-Setting WD_RST = { REG10_Charger_Control_1, false, "WD_RST", settings_type_t::BOOL, 1, 3 };
+Setting WD_RST = { REG10_Charger_Control_1, false, "WD_RST", "", settings_type_t::BOOL, 1, 3 };
 bool getWD_RST() { return getBool(WD_RST); }
 void setAndWriteWD_RST(bool val) { setAndWriteBool(WD_RST, val); }
 
@@ -404,7 +424,7 @@ strings_vector_t WATCHDOG_strings = {
     "160s" 
 };
 
-Setting WATCHDOG = { REG10_Charger_Control_1, false, "WATCHDOG", settings_type_t::ENUM, 3, 0, 0, 0, 0, 0, settings_flags_t::NONE, WATCHDOG_strings };
+Setting WATCHDOG = { REG10_Charger_Control_1, false, "WATCHDOG", "", settings_type_t::ENUM, 3, 0, 0, 0, 0, 0, settings_flags_t::NONE, WATCHDOG_strings };
 WATCHDOG_t getWATCHDOG() { return static_cast<WATCHDOG_t>(getInt(WATCHDOG)); }
 const char * getWATCHDOG_string() { return getString(WATCHDOG); }
 void setAndWriteWATCHDOG(WATCHDOG_t val) { setAndWriteEnum<WATCHDOG_t>(WATCHDOG, val); }
@@ -413,7 +433,7 @@ void setAndWriteWATCHDOG(WATCHDOG_t val) { setAndWriteEnum<WATCHDOG_t>(WATCHDOG,
 // ================================
 // REG11_Charger_Control_2
 // ================================
-Setting FORCE_INDET = { REG11_Charger_Control_2, false, "FORCE_INDET", settings_type_t::BOOL, 1, 7 };
+Setting FORCE_INDET = { REG11_Charger_Control_2, false, "FORCE_INDET", "", settings_type_t::BOOL, 1, 7 };
 bool getFORCE_INDET() { return getBool(FORCE_INDET); }
 void setAndWriteFORCE_INDET(bool val) { setAndWriteBool(FORCE_INDET, val); }
 
@@ -421,7 +441,7 @@ void setAndWriteFORCE_INDET(bool val) { setAndWriteBool(FORCE_INDET, val); }
 // ================================
 // REG11_Charger_Control_2
 // ================================
-Setting AUTO_INDET_EN = { REG11_Charger_Control_2, false, "AUTO_INDET_EN", settings_type_t::BOOL, 1, 6 };
+Setting AUTO_INDET_EN = { REG11_Charger_Control_2, false, "AUTO_INDET_EN", "", settings_type_t::BOOL, 1, 6 };
 bool getAUTO_INDET_EN() { return getBool(AUTO_INDET_EN); }
 void setAndWriteAUTO_INDET_EN(bool val) { setAndWriteBool(AUTO_INDET_EN, val); }
 
@@ -429,7 +449,7 @@ void setAndWriteAUTO_INDET_EN(bool val) { setAndWriteBool(AUTO_INDET_EN, val); }
 // ================================
 // REG11_Charger_Control_2
 // ================================
-Setting EN_12V = { REG11_Charger_Control_2, false, "EN_12V", settings_type_t::BOOL, 1, 5 };
+Setting EN_12V = { REG11_Charger_Control_2, false, "EN_12V", "", settings_type_t::BOOL, 1, 5 };
 bool getEN_12V() { return getBool(EN_12V); }
 void setAndWriteEN_12V(bool val) { setAndWriteBool(EN_12V, val); }
 
@@ -437,7 +457,7 @@ void setAndWriteEN_12V(bool val) { setAndWriteBool(EN_12V, val); }
 // ================================
 // REG11_Charger_Control_2
 // ================================
-Setting EN_9V = { REG11_Charger_Control_2, false, "EN_9V", settings_type_t::BOOL, 1, 4 };
+Setting EN_9V = { REG11_Charger_Control_2, false, "EN_9V", "", settings_type_t::BOOL, 1, 4 };
 bool getEN_9V() { return getBool(EN_9V); }
 void setAndWriteEN_9V(bool val) { setAndWriteBool(EN_9V, val); }
 
@@ -445,7 +465,7 @@ void setAndWriteEN_9V(bool val) { setAndWriteBool(EN_9V, val); }
 // ================================
 // REG11_Charger_Control_2
 // ================================
-Setting HVDCP_EN = { REG11_Charger_Control_2, false, "HVDCP_EN", settings_type_t::BOOL, 1, 3 };
+Setting HVDCP_EN = { REG11_Charger_Control_2, false, "HVDCP_EN", "", settings_type_t::BOOL, 1, 3 };
 bool getHVDCP_EN() { return getBool(HVDCP_EN); }
 void setAndWriteHVDCP_EN(bool val) { setAndWriteBool(HVDCP_EN, val); }
 
@@ -467,7 +487,7 @@ strings_vector_t SDRV_CTRL_strings = {
     "System Power Reset" 
 };
 
-Setting SDRV_CTRL = { REG11_Charger_Control_2, false, "SDRV_CTRL", settings_type_t::ENUM, 2, 1, 0, 0, 0, 0, settings_flags_t::NONE, SDRV_CTRL_strings };
+Setting SDRV_CTRL = { REG11_Charger_Control_2, false, "SDRV_CTRL", "", settings_type_t::ENUM, 2, 1, 0, 0, 0, 0, settings_flags_t::NONE, SDRV_CTRL_strings };
 SDRV_CTRL_t getSDRV_CTRL() { return static_cast<SDRV_CTRL_t>(getInt(SDRV_CTRL)); }
 const char * getSDRV_CTRL_string() { return getString(SDRV_CTRL); }
 void setAndWriteSDRV_CTRL(SDRV_CTRL_t val) { setAndWriteEnum<SDRV_CTRL_t>(SDRV_CTRL, val); }
@@ -486,7 +506,7 @@ strings_vector_t SDRV_DLY_strings = {
     "0s" 
 };
 
-Setting SDRV_DLY = { REG11_Charger_Control_2, false, "SDRV_DLY", settings_type_t::ENUM, 1, 0, 0, 0, 0, 0, settings_flags_t::NONE, SDRV_DLY_strings };
+Setting SDRV_DLY = { REG11_Charger_Control_2, false, "SDRV_DLY", "", settings_type_t::ENUM, 1, 0, 0, 0, 0, 0, settings_flags_t::NONE, SDRV_DLY_strings };
 SDRV_DLY_t getSDRV_DLY() { return static_cast<SDRV_DLY_t>(getInt(SDRV_DLY)); }
 const char * getSDRV_DLY_string() { return getString(SDRV_DLY); }
 void setAndWriteSDRV_DLY(SDRV_DLY_t val) { setAndWriteEnum<SDRV_DLY_t>(SDRV_DLY, val); }
@@ -495,7 +515,7 @@ void setAndWriteSDRV_DLY(SDRV_DLY_t val) { setAndWriteEnum<SDRV_DLY_t>(SDRV_DLY,
 // ================================
 // REG12_Charger_Control_3
 // ================================
-Setting DIS_ACDRV = { REG12_Charger_Control_3, false, "DIS_ACDRV", settings_type_t::BOOL, 1, 7 };
+Setting DIS_ACDRV = { REG12_Charger_Control_3, false, "DIS_ACDRV", "", settings_type_t::BOOL, 1, 7 };
 bool getDIS_ACDRV() { return getBool(DIS_ACDRV); }
 void setAndWriteDIS_ACDRV(bool val) { setAndWriteBool(DIS_ACDRV, val); }
 
@@ -503,7 +523,7 @@ void setAndWriteDIS_ACDRV(bool val) { setAndWriteBool(DIS_ACDRV, val); }
 // ================================
 // REG12_Charger_Control_3
 // ================================
-Setting EN_OTG = { REG12_Charger_Control_3, false, "EN_OTG", settings_type_t::BOOL, 1, 6 };
+Setting EN_OTG = { REG12_Charger_Control_3, false, "EN_OTG", "", settings_type_t::BOOL, 1, 6 };
 bool getEN_OTG() { return getBool(EN_OTG); }
 void setAndWriteEN_OTG(bool val) { setAndWriteBool(EN_OTG, val); }
 
@@ -511,7 +531,7 @@ void setAndWriteEN_OTG(bool val) { setAndWriteBool(EN_OTG, val); }
 // ================================
 // REG12_Charger_Control_3
 // ================================
-Setting PFM_OTG_DIS = { REG12_Charger_Control_3, false, "PFM_OTG_DIS", settings_type_t::BOOL, 1, 5 };
+Setting PFM_OTG_DIS = { REG12_Charger_Control_3, false, "PFM_OTG_DIS", "", settings_type_t::BOOL, 1, 5 };
 bool getPFM_OTG_DIS() { return getBool(PFM_OTG_DIS); }
 void setAndWritePFM_OTG_DIS(bool val) { setAndWriteBool(PFM_OTG_DIS, val); }
 
@@ -519,7 +539,7 @@ void setAndWritePFM_OTG_DIS(bool val) { setAndWriteBool(PFM_OTG_DIS, val); }
 // ================================
 // REG12_Charger_Control_3
 // ================================
-Setting PFM_FWD_DIS = { REG12_Charger_Control_3, false, "PFM_FWD_DIS", settings_type_t::BOOL, 1, 4 };
+Setting PFM_FWD_DIS = { REG12_Charger_Control_3, false, "PFM_FWD_DIS", "", settings_type_t::BOOL, 1, 4 };
 bool getPFM_FWD_DIS() { return getBool(PFM_FWD_DIS); }
 void setAndWritePFM_FWD_DIS(bool val) { setAndWriteBool(PFM_FWD_DIS, val); }
 
@@ -537,7 +557,7 @@ strings_vector_t WKUP_DLY_strings = {
     "15ms" 
 };
 
-Setting WKUP_DLY = { REG12_Charger_Control_3, false, "WKUP_DLY", settings_type_t::ENUM, 1, 3, 0, 0, 0, 0, settings_flags_t::NONE, WKUP_DLY_strings };
+Setting WKUP_DLY = { REG12_Charger_Control_3, false, "WKUP_DLY", "", settings_type_t::ENUM, 1, 3, 0, 0, 0, 0, settings_flags_t::NONE, WKUP_DLY_strings };
 WKUP_DLY_t getWKUP_DLY() { return static_cast<WKUP_DLY_t>(getInt(WKUP_DLY)); }
 const char * getWKUP_DLY_string() { return getString(WKUP_DLY); }
 void setAndWriteWKUP_DLY(WKUP_DLY_t val) { setAndWriteEnum<WKUP_DLY_t>(WKUP_DLY, val); }
@@ -546,7 +566,7 @@ void setAndWriteWKUP_DLY(WKUP_DLY_t val) { setAndWriteEnum<WKUP_DLY_t>(WKUP_DLY,
 // ================================
 // REG12_Charger_Control_3
 // ================================
-Setting DIS_LDO = { REG12_Charger_Control_3, false, "DIS_LDO", settings_type_t::BOOL, 1, 2 };
+Setting DIS_LDO = { REG12_Charger_Control_3, false, "DIS_LDO", "", settings_type_t::BOOL, 1, 2 };
 bool getDIS_LDO() { return getBool(DIS_LDO); }
 void setAndWriteDIS_LDO(bool val) { setAndWriteBool(DIS_LDO, val); }
 
@@ -554,7 +574,7 @@ void setAndWriteDIS_LDO(bool val) { setAndWriteBool(DIS_LDO, val); }
 // ================================
 // REG12_Charger_Control_3
 // ================================
-Setting DIS_OTG_OOA = { REG12_Charger_Control_3, false, "DIS_OTG_OOA", settings_type_t::BOOL, 1, 1 };
+Setting DIS_OTG_OOA = { REG12_Charger_Control_3, false, "DIS_OTG_OOA", "", settings_type_t::BOOL, 1, 1 };
 bool getDIS_OTG_OOA() { return getBool(DIS_OTG_OOA); }
 void setAndWriteDIS_OTG_OOA(bool val) { setAndWriteBool(DIS_OTG_OOA, val); }
 
@@ -562,7 +582,7 @@ void setAndWriteDIS_OTG_OOA(bool val) { setAndWriteBool(DIS_OTG_OOA, val); }
 // ================================
 // REG12_Charger_Control_3
 // ================================
-Setting DIS_FWD_OOA = { REG12_Charger_Control_3, false, "DIS_FWD_OOA", settings_type_t::BOOL, 1, 0 };
+Setting DIS_FWD_OOA = { REG12_Charger_Control_3, false, "DIS_FWD_OOA", "", settings_type_t::BOOL, 1, 0 };
 bool getDIS_FWD_OOA() { return getBool(DIS_FWD_OOA); }
 void setAndWriteDIS_FWD_OOA(bool val) { setAndWriteBool(DIS_FWD_OOA, val); }
 
@@ -570,7 +590,7 @@ void setAndWriteDIS_FWD_OOA(bool val) { setAndWriteBool(DIS_FWD_OOA, val); }
 // ================================
 // REG13_Charger_Control_4
 // ================================
-Setting EN_ACDRV2 = { REG13_Charger_Control_4, false, "EN_ACDRV2", settings_type_t::BOOL, 1, 7 };
+Setting EN_ACDRV2 = { REG13_Charger_Control_4, false, "EN_ACDRV2", "", settings_type_t::BOOL, 1, 7 };
 bool getEN_ACDRV2() { return getBool(EN_ACDRV2); }
 void setAndWriteEN_ACDRV2(bool val) { setAndWriteBool(EN_ACDRV2, val); }
 
@@ -578,7 +598,7 @@ void setAndWriteEN_ACDRV2(bool val) { setAndWriteBool(EN_ACDRV2, val); }
 // ================================
 // REG13_Charger_Control_4
 // ================================
-Setting EN_ACDRV1 = { REG13_Charger_Control_4, false, "EN_ACDRV1", settings_type_t::BOOL, 1, 6 };
+Setting EN_ACDRV1 = { REG13_Charger_Control_4, false, "EN_ACDRV1", "", settings_type_t::BOOL, 1, 6 };
 bool getEN_ACDRV1() { return getBool(EN_ACDRV1); }
 void setAndWriteEN_ACDRV1(bool val) { setAndWriteBool(EN_ACDRV1, val); }
 
@@ -596,7 +616,7 @@ strings_vector_t PWM_FREQ_strings = {
     "750 kHz" 
 };
 
-Setting PWM_FREQ = { REG13_Charger_Control_4, false, "PWM_FREQ", settings_type_t::ENUM, 1, 5, 0, 0, 0, 0, settings_flags_t::NONE, PWM_FREQ_strings };
+Setting PWM_FREQ = { REG13_Charger_Control_4, false, "PWM_FREQ", "", settings_type_t::ENUM, 1, 5, 0, 0, 0, 0, settings_flags_t::NONE, PWM_FREQ_strings };
 PWM_FREQ_t getPWM_FREQ() { return static_cast<PWM_FREQ_t>(getInt(PWM_FREQ)); }
 const char * getPWM_FREQ_string() { return getString(PWM_FREQ); }
 void setAndWritePWM_FREQ(PWM_FREQ_t val) { setAndWriteEnum<PWM_FREQ_t>(PWM_FREQ, val); }
@@ -605,7 +625,7 @@ void setAndWritePWM_FREQ(PWM_FREQ_t val) { setAndWriteEnum<PWM_FREQ_t>(PWM_FREQ,
 // ================================
 // REG13_Charger_Control_4
 // ================================
-Setting DIS_STAT = { REG13_Charger_Control_4, false, "DIS_STAT", settings_type_t::BOOL, 1, 4 };
+Setting DIS_STAT = { REG13_Charger_Control_4, false, "DIS_STAT", "", settings_type_t::BOOL, 1, 4 };
 bool getDIS_STAT() { return getBool(DIS_STAT); }
 void setAndWriteDIS_STAT(bool val) { setAndWriteBool(DIS_STAT, val); }
 
@@ -613,7 +633,7 @@ void setAndWriteDIS_STAT(bool val) { setAndWriteBool(DIS_STAT, val); }
 // ================================
 // REG13_Charger_Control_4
 // ================================
-Setting DIS_VSYS_SHORT = { REG13_Charger_Control_4, false, "DIS_VSYS_SHORT", settings_type_t::BOOL, 1, 3 };
+Setting DIS_VSYS_SHORT = { REG13_Charger_Control_4, false, "DIS_VSYS_SHORT", "", settings_type_t::BOOL, 1, 3 };
 bool getDIS_VSYS_SHORT() { return getBool(DIS_VSYS_SHORT); }
 void setAndWriteDIS_VSYS_SHORT(bool val) { setAndWriteBool(DIS_VSYS_SHORT, val); }
 
@@ -621,7 +641,7 @@ void setAndWriteDIS_VSYS_SHORT(bool val) { setAndWriteBool(DIS_VSYS_SHORT, val);
 // ================================
 // REG13_Charger_Control_4
 // ================================
-Setting DIS_VOTG_UVP = { REG13_Charger_Control_4, false, "DIS_VOTG_UVP", settings_type_t::BOOL, 1, 2 };
+Setting DIS_VOTG_UVP = { REG13_Charger_Control_4, false, "DIS_VOTG_UVP", "", settings_type_t::BOOL, 1, 2 };
 bool getDIS_VOTG_UVP() { return getBool(DIS_VOTG_UVP); }
 void setAndWriteDIS_VOTG_UVP(bool val) { setAndWriteBool(DIS_VOTG_UVP, val); }
 
@@ -629,7 +649,7 @@ void setAndWriteDIS_VOTG_UVP(bool val) { setAndWriteBool(DIS_VOTG_UVP, val); }
 // ================================
 // REG13_Charger_Control_4
 // ================================
-Setting FORCE_VINDPM_DET = { REG13_Charger_Control_4, false, "FORCE_VINDPM_DET", settings_type_t::BOOL, 1, 1 };
+Setting FORCE_VINDPM_DET = { REG13_Charger_Control_4, false, "FORCE_VINDPM_DET", "", settings_type_t::BOOL, 1, 1 };
 bool getFORCE_VINDPM_DET() { return getBool(FORCE_VINDPM_DET); }
 void setAndWriteFORCE_VINDPM_DET(bool val) { setAndWriteBool(FORCE_VINDPM_DET, val); }
 
@@ -637,7 +657,7 @@ void setAndWriteFORCE_VINDPM_DET(bool val) { setAndWriteBool(FORCE_VINDPM_DET, v
 // ================================
 // REG13_Charger_Control_4
 // ================================
-Setting EN_IBUS_OCP = { REG13_Charger_Control_4, false, "EN_IBUS_OCP", settings_type_t::BOOL, 1, 0 };
+Setting EN_IBUS_OCP = { REG13_Charger_Control_4, false, "EN_IBUS_OCP", "", settings_type_t::BOOL, 1, 0 };
 bool getEN_IBUS_OCP() { return getBool(EN_IBUS_OCP); }
 void setAndWriteEN_IBUS_OCP(bool val) { setAndWriteBool(EN_IBUS_OCP, val); }
 
@@ -645,7 +665,7 @@ void setAndWriteEN_IBUS_OCP(bool val) { setAndWriteBool(EN_IBUS_OCP, val); }
 // ================================
 // REG14_Charger_Control_5
 // ================================
-Setting SFET_PRESENT = { REG14_Charger_Control_5, false, "SFET_PRESENT", settings_type_t::BOOL, 1, 7 };
+Setting SFET_PRESENT = { REG14_Charger_Control_5, false, "SFET_PRESENT", "", settings_type_t::BOOL, 1, 7 };
 bool getSFET_PRESENT() { return getBool(SFET_PRESENT); }
 void setAndWriteSFET_PRESENT(bool val) { setAndWriteBool(SFET_PRESENT, val); }
 
@@ -653,7 +673,7 @@ void setAndWriteSFET_PRESENT(bool val) { setAndWriteBool(SFET_PRESENT, val); }
 // ================================
 // REG14_Charger_Control_5
 // ================================
-Setting EN_IBAT = { REG14_Charger_Control_5, false, "EN_IBAT", settings_type_t::BOOL, 1, 5 };
+Setting EN_IBAT = { REG14_Charger_Control_5, false, "EN_IBAT", "", settings_type_t::BOOL, 1, 5 };
 bool getEN_IBAT() { return getBool(EN_IBAT); }
 void setAndWriteEN_IBAT(bool val) { setAndWriteBool(EN_IBAT, val); }
 
@@ -675,7 +695,7 @@ strings_vector_t IBAT_REG_strings = {
     "Disabled" 
 };
 
-Setting IBAT_REG = { REG14_Charger_Control_5, false, "IBAT_REG", settings_type_t::ENUM, 2, 3, 0, 0, 0, 0, settings_flags_t::NONE, IBAT_REG_strings };
+Setting IBAT_REG = { REG14_Charger_Control_5, false, "IBAT_REG", "", settings_type_t::ENUM, 2, 3, 0, 0, 0, 0, settings_flags_t::NONE, IBAT_REG_strings };
 IBAT_REG_t getIBAT_REG() { return static_cast<IBAT_REG_t>(getInt(IBAT_REG)); }
 const char * getIBAT_REG_string() { return getString(IBAT_REG); }
 void setAndWriteIBAT_REG(IBAT_REG_t val) { setAndWriteEnum<IBAT_REG_t>(IBAT_REG, val); }
@@ -684,7 +704,7 @@ void setAndWriteIBAT_REG(IBAT_REG_t val) { setAndWriteEnum<IBAT_REG_t>(IBAT_REG,
 // ================================
 // REG14_Charger_Control_5
 // ================================
-Setting EN_IINDPM = { REG14_Charger_Control_5, false, "EN_IINDPM", settings_type_t::BOOL, 1, 2 };
+Setting EN_IINDPM = { REG14_Charger_Control_5, false, "EN_IINDPM", "", settings_type_t::BOOL, 1, 2 };
 bool getEN_IINDPM() { return getBool(EN_IINDPM); }
 void setAndWriteEN_IINDPM(bool val) { setAndWriteBool(EN_IINDPM, val); }
 
@@ -692,7 +712,7 @@ void setAndWriteEN_IINDPM(bool val) { setAndWriteBool(EN_IINDPM, val); }
 // ================================
 // REG14_Charger_Control_5
 // ================================
-Setting EN_EXTILIM = { REG14_Charger_Control_5, false, "EN_EXTILIM", settings_type_t::BOOL, 1, 1 };
+Setting EN_EXTILIM = { REG14_Charger_Control_5, false, "EN_EXTILIM", "", settings_type_t::BOOL, 1, 1 };
 bool getEN_EXTILIM() { return getBool(EN_EXTILIM); }
 void setAndWriteEN_EXTILIM(bool val) { setAndWriteBool(EN_EXTILIM, val); }
 
@@ -700,7 +720,7 @@ void setAndWriteEN_EXTILIM(bool val) { setAndWriteBool(EN_EXTILIM, val); }
 // ================================
 // REG14_Charger_Control_5
 // ================================
-Setting EN_BATOC = { REG14_Charger_Control_5, false, "EN_BATOC", settings_type_t::BOOL, 1, 0 };
+Setting EN_BATOC = { REG14_Charger_Control_5, false, "EN_BATOC", "", settings_type_t::BOOL, 1, 0 };
 bool getEN_BATOC() { return getBool(EN_BATOC); }
 void setAndWriteEN_BATOC(bool val) { setAndWriteBool(EN_BATOC, val); }
 
@@ -730,7 +750,7 @@ strings_vector_t VOC_PCT_strings = {
     "1" 
 };
 
-Setting VOC_PCT = { REG15_MPPT_Control, false, "VOC_PCT", settings_type_t::ENUM, 3, 5, 0, 0, 0, 0, settings_flags_t::NONE, VOC_PCT_strings };
+Setting VOC_PCT = { REG15_MPPT_Control, false, "VOC_PCT", "", settings_type_t::ENUM, 3, 5, 0, 0, 0, 0, settings_flags_t::NONE, VOC_PCT_strings };
 VOC_PCT_t getVOC_PCT() { return static_cast<VOC_PCT_t>(getInt(VOC_PCT)); }
 const char * getVOC_PCT_string() { return getString(VOC_PCT); }
 void setAndWriteVOC_PCT(VOC_PCT_t val) { setAndWriteEnum<VOC_PCT_t>(VOC_PCT, val); }
@@ -753,7 +773,7 @@ strings_vector_t VOC_DLY_strings = {
     "5s" 
 };
 
-Setting VOC_DLY = { REG15_MPPT_Control, false, "VOC_DLY", settings_type_t::ENUM, 2, 4, 0, 0, 0, 0, settings_flags_t::NONE, VOC_DLY_strings };
+Setting VOC_DLY = { REG15_MPPT_Control, false, "VOC_DLY", "", settings_type_t::ENUM, 2, 4, 0, 0, 0, 0, settings_flags_t::NONE, VOC_DLY_strings };
 VOC_DLY_t getVOC_DLY() { return static_cast<VOC_DLY_t>(getInt(VOC_DLY)); }
 const char * getVOC_DLY_string() { return getString(VOC_DLY); }
 void setAndWriteVOC_DLY(VOC_DLY_t val) { setAndWriteEnum<VOC_DLY_t>(VOC_DLY, val); }
@@ -776,7 +796,7 @@ strings_vector_t VOC_RATE_strings = {
     "30min" 
 };
 
-Setting VOC_RATE = { REG15_MPPT_Control, false, "VOC_RATE", settings_type_t::ENUM, 2, 2, 0, 0, 0, 0, settings_flags_t::NONE, VOC_RATE_strings };
+Setting VOC_RATE = { REG15_MPPT_Control, false, "VOC_RATE", "", settings_type_t::ENUM, 2, 2, 0, 0, 0, 0, settings_flags_t::NONE, VOC_RATE_strings };
 VOC_RATE_t getVOC_RATE() { return static_cast<VOC_RATE_t>(getInt(VOC_RATE)); }
 const char * getVOC_RATE_string() { return getString(VOC_RATE); }
 void setAndWriteVOC_RATE(VOC_RATE_t val) { setAndWriteEnum<VOC_RATE_t>(VOC_RATE, val); }
@@ -785,7 +805,7 @@ void setAndWriteVOC_RATE(VOC_RATE_t val) { setAndWriteEnum<VOC_RATE_t>(VOC_RATE,
 // ================================
 // REG15_MPPT_Control
 // ================================
-Setting EN_MPPT = { REG15_MPPT_Control, false, "EN_MPPT", settings_type_t::BOOL, 1, 0 };
+Setting EN_MPPT = { REG15_MPPT_Control, false, "EN_MPPT", "", settings_type_t::BOOL, 1, 0 };
 bool getEN_MPPT() { return getBool(EN_MPPT); }
 void setAndWriteEN_MPPT(bool val) { setAndWriteBool(EN_MPPT, val); }
 
@@ -807,7 +827,7 @@ strings_vector_t TREG_strings = {
     "120'C" 
 };
 
-Setting TREG = { REG16_Temperature_Control, false, "TREG", settings_type_t::ENUM, 2, 6, 0, 0, 0, 0, settings_flags_t::NONE, TREG_strings };
+Setting TREG = { REG16_Temperature_Control, false, "TREG", "", settings_type_t::ENUM, 2, 6, 0, 0, 0, 0, settings_flags_t::NONE, TREG_strings };
 TREG_t getTREG() { return static_cast<TREG_t>(getInt(TREG)); }
 const char * getTREG_string() { return getString(TREG); }
 void setAndWriteTREG(TREG_t val) { setAndWriteEnum<TREG_t>(TREG, val); }
@@ -830,7 +850,7 @@ strings_vector_t TSHUT_strings = {
     "85'C" 
 };
 
-Setting TSHUT = { REG16_Temperature_Control, false, "TSHUT", settings_type_t::ENUM, 2, 4, 0, 0, 0, 0, settings_flags_t::NONE, TSHUT_strings };
+Setting TSHUT = { REG16_Temperature_Control, false, "TSHUT", "", settings_type_t::ENUM, 2, 4, 0, 0, 0, 0, settings_flags_t::NONE, TSHUT_strings };
 TSHUT_t getTSHUT() { return static_cast<TSHUT_t>(getInt(TSHUT)); }
 const char * getTSHUT_string() { return getString(TSHUT); }
 void setAndWriteTSHUT(TSHUT_t val) { setAndWriteEnum<TSHUT_t>(TSHUT, val); }
@@ -839,7 +859,7 @@ void setAndWriteTSHUT(TSHUT_t val) { setAndWriteEnum<TSHUT_t>(TSHUT, val); }
 // ================================
 // REG16_Temperature_Control
 // ================================
-Setting VBUS_PD_EN = { REG16_Temperature_Control, false, "VBUS_PD_EN", settings_type_t::BOOL, 1, 3 };
+Setting VBUS_PD_EN = { REG16_Temperature_Control, false, "VBUS_PD_EN", "", settings_type_t::BOOL, 1, 3 };
 bool getVBUS_PD_EN() { return getBool(VBUS_PD_EN); }
 void setAndWriteVBUS_PD_EN(bool val) { setAndWriteBool(VBUS_PD_EN, val); }
 
@@ -847,7 +867,7 @@ void setAndWriteVBUS_PD_EN(bool val) { setAndWriteBool(VBUS_PD_EN, val); }
 // ================================
 // REG16_Temperature_Control
 // ================================
-Setting VAC1_PD_EN = { REG16_Temperature_Control, false, "VAC1_PD_EN", settings_type_t::BOOL, 1, 2 };
+Setting VAC1_PD_EN = { REG16_Temperature_Control, false, "VAC1_PD_EN", "", settings_type_t::BOOL, 1, 2 };
 bool getVAC1_PD_EN() { return getBool(VAC1_PD_EN); }
 void setAndWriteVAC1_PD_EN(bool val) { setAndWriteBool(VAC1_PD_EN, val); }
 
@@ -855,7 +875,7 @@ void setAndWriteVAC1_PD_EN(bool val) { setAndWriteBool(VAC1_PD_EN, val); }
 // ================================
 // REG16_Temperature_Control
 // ================================
-Setting VAC2_PD_EN = { REG16_Temperature_Control, false, "VAC2_PD_EN", settings_type_t::BOOL, 1, 1 };
+Setting VAC2_PD_EN = { REG16_Temperature_Control, false, "VAC2_PD_EN", "", settings_type_t::BOOL, 1, 1 };
 bool getVAC2_PD_EN() { return getBool(VAC2_PD_EN); }
 void setAndWriteVAC2_PD_EN(bool val) { setAndWriteBool(VAC2_PD_EN, val); }
 
@@ -873,7 +893,7 @@ strings_vector_t BKUP_ACFET1_ON_strings = {
     "Turn on ACFET1 in backup mode" 
 };
 
-Setting BKUP_ACFET1_ON = { REG16_Temperature_Control, false, "BKUP_ACFET1_ON", settings_type_t::ENUM, 1, 0, 0, 0, 0, 0, settings_flags_t::NONE, BKUP_ACFET1_ON_strings };
+Setting BKUP_ACFET1_ON = { REG16_Temperature_Control, false, "BKUP_ACFET1_ON", "", settings_type_t::ENUM, 1, 0, 0, 0, 0, 0, settings_flags_t::NONE, BKUP_ACFET1_ON_strings };
 BKUP_ACFET1_ON_t getBKUP_ACFET1_ON() { return static_cast<BKUP_ACFET1_ON_t>(getInt(BKUP_ACFET1_ON)); }
 const char * getBKUP_ACFET1_ON_string() { return getString(BKUP_ACFET1_ON); }
 void setAndWriteBKUP_ACFET1_ON(BKUP_ACFET1_ON_t val) { setAndWriteEnum<BKUP_ACFET1_ON_t>(BKUP_ACFET1_ON, val); }
@@ -904,7 +924,7 @@ strings_vector_t JEITA_VSET_strings = {
     "VREG unchanged" 
 };
 
-Setting JEITA_VSET = { REG17_NTC_Control_0, false, "JEITA_VSET", settings_type_t::ENUM, 3, 5, 0, 0, 0, 0, settings_flags_t::NONE, JEITA_VSET_strings };
+Setting JEITA_VSET = { REG17_NTC_Control_0, false, "JEITA_VSET", "", settings_type_t::ENUM, 3, 5, 0, 0, 0, 0, settings_flags_t::NONE, JEITA_VSET_strings };
 JEITA_VSET_t getJEITA_VSET() { return static_cast<JEITA_VSET_t>(getInt(JEITA_VSET)); }
 const char * getJEITA_VSET_string() { return getString(JEITA_VSET); }
 void setAndWriteJEITA_VSET(JEITA_VSET_t val) { setAndWriteEnum<JEITA_VSET_t>(JEITA_VSET, val); }
@@ -927,7 +947,7 @@ strings_vector_t JEITA_ISETH_strings = {
     "ICHG unchanged" 
 };
 
-Setting JEITA_ISETH = { REG17_NTC_Control_0, false, "JEITA_ISETH", settings_type_t::ENUM, 2, 3, 0, 0, 0, 0, settings_flags_t::NONE, JEITA_ISETH_strings };
+Setting JEITA_ISETH = { REG17_NTC_Control_0, false, "JEITA_ISETH", "", settings_type_t::ENUM, 2, 3, 0, 0, 0, 0, settings_flags_t::NONE, JEITA_ISETH_strings };
 JEITA_ISETH_t getJEITA_ISETH() { return static_cast<JEITA_ISETH_t>(getInt(JEITA_ISETH)); }
 const char * getJEITA_ISETH_string() { return getString(JEITA_ISETH); }
 void setAndWriteJEITA_ISETH(JEITA_ISETH_t val) { setAndWriteEnum<JEITA_ISETH_t>(JEITA_ISETH, val); }
@@ -950,7 +970,7 @@ strings_vector_t JEITA_ISETC_strings = {
     "ICHG unchanged" 
 };
 
-Setting JEITA_ISETC = { REG17_NTC_Control_0, false, "JEITA_ISETC", settings_type_t::ENUM, 2, 1, 0, 0, 0, 0, settings_flags_t::NONE, JEITA_ISETC_strings };
+Setting JEITA_ISETC = { REG17_NTC_Control_0, false, "JEITA_ISETC", "", settings_type_t::ENUM, 2, 1, 0, 0, 0, 0, settings_flags_t::NONE, JEITA_ISETC_strings };
 JEITA_ISETC_t getJEITA_ISETC() { return static_cast<JEITA_ISETC_t>(getInt(JEITA_ISETC)); }
 const char * getJEITA_ISETC_string() { return getString(JEITA_ISETC); }
 void setAndWriteJEITA_ISETC(JEITA_ISETC_t val) { setAndWriteEnum<JEITA_ISETC_t>(JEITA_ISETC, val); }
@@ -973,7 +993,7 @@ strings_vector_t TS_COOL_strings = {
     "20'C" 
 };
 
-Setting TS_COOL = { REG18_NTC_Control_1, false, "TS_COOL", settings_type_t::ENUM, 2, 6, 0, 0, 0, 0, settings_flags_t::NONE, TS_COOL_strings };
+Setting TS_COOL = { REG18_NTC_Control_1, false, "TS_COOL", "", settings_type_t::ENUM, 2, 6, 0, 0, 0, 0, settings_flags_t::NONE, TS_COOL_strings };
 TS_COOL_t getTS_COOL() { return static_cast<TS_COOL_t>(getInt(TS_COOL)); }
 const char * getTS_COOL_string() { return getString(TS_COOL); }
 void setAndWriteTS_COOL(TS_COOL_t val) { setAndWriteEnum<TS_COOL_t>(TS_COOL, val); }
@@ -996,7 +1016,7 @@ strings_vector_t TS_WARM_strings = {
     "55'C" 
 };
 
-Setting TS_WARM = { REG18_NTC_Control_1, false, "TS_WARM", settings_type_t::ENUM, 2, 4, 0, 0, 0, 0, settings_flags_t::NONE, TS_WARM_strings };
+Setting TS_WARM = { REG18_NTC_Control_1, false, "TS_WARM", "", settings_type_t::ENUM, 2, 4, 0, 0, 0, 0, settings_flags_t::NONE, TS_WARM_strings };
 TS_WARM_t getTS_WARM() { return static_cast<TS_WARM_t>(getInt(TS_WARM)); }
 const char * getTS_WARM_string() { return getString(TS_WARM); }
 void setAndWriteTS_WARM(TS_WARM_t val) { setAndWriteEnum<TS_WARM_t>(TS_WARM, val); }
@@ -1019,7 +1039,7 @@ strings_vector_t BHOT_strings = {
     "Disabled" 
 };
 
-Setting BHOT = { REG18_NTC_Control_1, false, "BHOT", settings_type_t::ENUM, 2, 2, 0, 0, 0, 0, settings_flags_t::NONE, BHOT_strings };
+Setting BHOT = { REG18_NTC_Control_1, false, "BHOT", "", settings_type_t::ENUM, 2, 2, 0, 0, 0, 0, settings_flags_t::NONE, BHOT_strings };
 BHOT_t getBHOT() { return static_cast<BHOT_t>(getInt(BHOT)); }
 const char * getBHOT_string() { return getString(BHOT); }
 void setAndWriteBHOT(BHOT_t val) { setAndWriteEnum<BHOT_t>(BHOT, val); }
@@ -1038,7 +1058,7 @@ strings_vector_t BCOLD_strings = {
     "-20'C" 
 };
 
-Setting BCOLD = { REG18_NTC_Control_1, false, "BCOLD", settings_type_t::ENUM, 1, 1, 0, 0, 0, 0, settings_flags_t::NONE, BCOLD_strings };
+Setting BCOLD = { REG18_NTC_Control_1, false, "BCOLD", "", settings_type_t::ENUM, 1, 1, 0, 0, 0, 0, settings_flags_t::NONE, BCOLD_strings };
 BCOLD_t getBCOLD() { return static_cast<BCOLD_t>(getInt(BCOLD)); }
 const char * getBCOLD_string() { return getString(BCOLD); }
 void setAndWriteBCOLD(BCOLD_t val) { setAndWriteEnum<BCOLD_t>(BCOLD, val); }
@@ -1047,7 +1067,7 @@ void setAndWriteBCOLD(BCOLD_t val) { setAndWriteEnum<BCOLD_t>(BCOLD, val); }
 // ================================
 // REG18_NTC_Control_1
 // ================================
-Setting TS_IGNORE = { REG18_NTC_Control_1, false, "TS_IGNORE", settings_type_t::BOOL, 1, 0 };
+Setting TS_IGNORE = { REG18_NTC_Control_1, false, "TS_IGNORE", "", settings_type_t::BOOL, 1, 0 };
 bool getTS_IGNORE() { return getBool(TS_IGNORE); }
 void setAndWriteTS_IGNORE(bool val) { setAndWriteBool(TS_IGNORE, val); }
 
@@ -1055,7 +1075,8 @@ void setAndWriteTS_IGNORE(bool val) { setAndWriteBool(TS_IGNORE, val); }
 // ================================
 // REG19_ICO_Current_Limit
 // ================================
-Setting ICO_ILIM = { REG19_ICO_Current_Limit, true, "ICO_ILIM", settings_type_t::INT, 9, 0, 100, 3300, 0, 10, settings_flags_t::NONE };
+Setting ICO_ILIM = { REG19_ICO_Current_Limit, true, "ICO_ILIM", "mA", settings_type_t::INT, 9, 0, 100, 3300, 0, 10, settings_flags_t::NONE };
+/// Returns ICO_ILIM in mA
 int getICO_ILIM() { return getInt(ICO_ILIM); }
 
 
@@ -1072,7 +1093,7 @@ strings_vector_t IINDPM_STAT_strings = {
     "In IINDPM regulation or IOTG regulation" 
 };
 
-Setting IINDPM_STAT = { REG1B_Charger_Status_0, false, "IINDPM_STAT", settings_type_t::ENUM, 1, 7, 0, 0, 0, 0, settings_flags_t::NONE, IINDPM_STAT_strings };
+Setting IINDPM_STAT = { REG1B_Charger_Status_0, false, "IINDPM_STAT", "", settings_type_t::ENUM, 1, 7, 0, 0, 0, 0, settings_flags_t::NONE, IINDPM_STAT_strings };
 IINDPM_STAT_t getIINDPM_STAT() { return static_cast<IINDPM_STAT_t>(getInt(IINDPM_STAT)); }
 const char * getIINDPM_STAT_string() { return getString(IINDPM_STAT); }
 
@@ -1090,7 +1111,7 @@ strings_vector_t VINDPM_STAT_strings = {
     "In VINDPM regulation or VOTG regulation" 
 };
 
-Setting VINDPM_STAT = { REG1B_Charger_Status_0, false, "VINDPM_STAT", settings_type_t::ENUM, 1, 6, 0, 0, 0, 0, settings_flags_t::NONE, VINDPM_STAT_strings };
+Setting VINDPM_STAT = { REG1B_Charger_Status_0, false, "VINDPM_STAT", "", settings_type_t::ENUM, 1, 6, 0, 0, 0, 0, settings_flags_t::NONE, VINDPM_STAT_strings };
 VINDPM_STAT_t getVINDPM_STAT() { return static_cast<VINDPM_STAT_t>(getInt(VINDPM_STAT)); }
 const char * getVINDPM_STAT_string() { return getString(VINDPM_STAT); }
 
@@ -1108,7 +1129,7 @@ strings_vector_t WD_STAT_strings = {
     "Watchdog timer expired" 
 };
 
-Setting WD_STAT = { REG1B_Charger_Status_0, false, "WD_STAT", settings_type_t::ENUM, 1, 5, 0, 0, 0, 0, settings_flags_t::NONE, WD_STAT_strings };
+Setting WD_STAT = { REG1B_Charger_Status_0, false, "WD_STAT", "", settings_type_t::ENUM, 1, 5, 0, 0, 0, 0, settings_flags_t::NONE, WD_STAT_strings };
 WD_STAT_t getWD_STAT() { return static_cast<WD_STAT_t>(getInt(WD_STAT)); }
 const char * getWD_STAT_string() { return getString(WD_STAT); }
 
@@ -1126,7 +1147,7 @@ strings_vector_t PG_STAT_strings = {
     "Power good" 
 };
 
-Setting PG_STAT = { REG1B_Charger_Status_0, false, "PG_STAT", settings_type_t::ENUM, 1, 3, 0, 0, 0, 0, settings_flags_t::NONE, PG_STAT_strings };
+Setting PG_STAT = { REG1B_Charger_Status_0, false, "PG_STAT", "", settings_type_t::ENUM, 1, 3, 0, 0, 0, 0, settings_flags_t::NONE, PG_STAT_strings };
 PG_STAT_t getPG_STAT() { return static_cast<PG_STAT_t>(getInt(PG_STAT)); }
 const char * getPG_STAT_string() { return getString(PG_STAT); }
 
@@ -1144,7 +1165,7 @@ strings_vector_t AC2_PRESENT_STAT_strings = {
     "VAC2 present (above present threshold)" 
 };
 
-Setting AC2_PRESENT_STAT = { REG1B_Charger_Status_0, false, "AC2_PRESENT_STAT", settings_type_t::ENUM, 1, 2, 0, 0, 0, 0, settings_flags_t::NONE, AC2_PRESENT_STAT_strings };
+Setting AC2_PRESENT_STAT = { REG1B_Charger_Status_0, false, "AC2_PRESENT_STAT", "", settings_type_t::ENUM, 1, 2, 0, 0, 0, 0, settings_flags_t::NONE, AC2_PRESENT_STAT_strings };
 AC2_PRESENT_STAT_t getAC2_PRESENT_STAT() { return static_cast<AC2_PRESENT_STAT_t>(getInt(AC2_PRESENT_STAT)); }
 const char * getAC2_PRESENT_STAT_string() { return getString(AC2_PRESENT_STAT); }
 
@@ -1162,7 +1183,7 @@ strings_vector_t AC1_PRESENT_STAT_strings = {
     "VAC1 present (above present threshold)" 
 };
 
-Setting AC1_PRESENT_STAT = { REG1B_Charger_Status_0, false, "AC1_PRESENT_STAT", settings_type_t::ENUM, 1, 1, 0, 0, 0, 0, settings_flags_t::NONE, AC1_PRESENT_STAT_strings };
+Setting AC1_PRESENT_STAT = { REG1B_Charger_Status_0, false, "AC1_PRESENT_STAT", "", settings_type_t::ENUM, 1, 1, 0, 0, 0, 0, settings_flags_t::NONE, AC1_PRESENT_STAT_strings };
 AC1_PRESENT_STAT_t getAC1_PRESENT_STAT() { return static_cast<AC1_PRESENT_STAT_t>(getInt(AC1_PRESENT_STAT)); }
 const char * getAC1_PRESENT_STAT_string() { return getString(AC1_PRESENT_STAT); }
 
@@ -1180,7 +1201,7 @@ strings_vector_t VBUS_PRESENT_STAT_strings = {
     "VBUS present (above present threshold)" 
 };
 
-Setting VBUS_PRESENT_STAT = { REG1B_Charger_Status_0, false, "VBUS_PRESENT_STAT", settings_type_t::ENUM, 1, 0, 0, 0, 0, 0, settings_flags_t::NONE, VBUS_PRESENT_STAT_strings };
+Setting VBUS_PRESENT_STAT = { REG1B_Charger_Status_0, false, "VBUS_PRESENT_STAT", "", settings_type_t::ENUM, 1, 0, 0, 0, 0, 0, settings_flags_t::NONE, VBUS_PRESENT_STAT_strings };
 VBUS_PRESENT_STAT_t getVBUS_PRESENT_STAT() { return static_cast<VBUS_PRESENT_STAT_t>(getInt(VBUS_PRESENT_STAT)); }
 const char * getVBUS_PRESENT_STAT_string() { return getString(VBUS_PRESENT_STAT); }
 
@@ -1210,7 +1231,7 @@ strings_vector_t CHG_STAT_strings = {
     "Charge Termination Done" 
 };
 
-Setting CHG_STAT = { REG1C_Charger_Status_1, false, "CHG_STAT", settings_type_t::ENUM, 3, 5, 0, 0, 0, 0, settings_flags_t::NONE, CHG_STAT_strings };
+Setting CHG_STAT = { REG1C_Charger_Status_1, false, "CHG_STAT", "", settings_type_t::ENUM, 3, 5, 0, 0, 0, 0, settings_flags_t::NONE, CHG_STAT_strings };
 CHG_STAT_t getCHG_STAT() { return static_cast<CHG_STAT_t>(getInt(CHG_STAT)); }
 const char * getCHG_STAT_string() { return getString(CHG_STAT); }
 
@@ -1256,7 +1277,7 @@ strings_vector_t VBUS_STAT_strings = {
     "Reserved" 
 };
 
-Setting VBUS_STAT = { REG1C_Charger_Status_1, false, "VBUS_STAT", settings_type_t::ENUM, 4, 1, 0, 0, 0, 0, settings_flags_t::NONE, VBUS_STAT_strings };
+Setting VBUS_STAT = { REG1C_Charger_Status_1, false, "VBUS_STAT", "", settings_type_t::ENUM, 4, 1, 0, 0, 0, 0, settings_flags_t::NONE, VBUS_STAT_strings };
 VBUS_STAT_t getVBUS_STAT() { return static_cast<VBUS_STAT_t>(getInt(VBUS_STAT)); }
 const char * getVBUS_STAT_string() { return getString(VBUS_STAT); }
 
@@ -1264,7 +1285,7 @@ const char * getVBUS_STAT_string() { return getString(VBUS_STAT); }
 // ================================
 // REG1C_Charger_Status_1
 // ================================
-Setting BC12_DONE_STAT = { REG1C_Charger_Status_1, false, "BC12_DONE_STAT", settings_type_t::BOOL, 1, 0 };
+Setting BC12_DONE_STAT = { REG1C_Charger_Status_1, false, "BC12_DONE_STAT", "", settings_type_t::BOOL, 1, 0 };
 bool getBC12_DONE_STAT() { return getBool(BC12_DONE_STAT); }
 
 
@@ -1285,7 +1306,7 @@ strings_vector_t ICO_STAT_strings = {
     "Reserved" 
 };
 
-Setting ICO_STAT = { REG1D_Charger_Status_2, false, "ICO_STAT", settings_type_t::ENUM, 2, 6, 0, 0, 0, 0, settings_flags_t::NONE, ICO_STAT_strings };
+Setting ICO_STAT = { REG1D_Charger_Status_2, false, "ICO_STAT", "", settings_type_t::ENUM, 2, 6, 0, 0, 0, 0, settings_flags_t::NONE, ICO_STAT_strings };
 ICO_STAT_t getICO_STAT() { return static_cast<ICO_STAT_t>(getInt(ICO_STAT)); }
 const char * getICO_STAT_string() { return getString(ICO_STAT); }
 
@@ -1303,7 +1324,7 @@ strings_vector_t TREG_STAT_strings = {
     "Device in thermal regulation" 
 };
 
-Setting TREG_STAT = { REG1D_Charger_Status_2, false, "TREG_STAT", settings_type_t::ENUM, 1, 5, 0, 0, 0, 0, settings_flags_t::NONE, TREG_STAT_strings };
+Setting TREG_STAT = { REG1D_Charger_Status_2, false, "TREG_STAT", "", settings_type_t::ENUM, 1, 5, 0, 0, 0, 0, settings_flags_t::NONE, TREG_STAT_strings };
 TREG_STAT_t getTREG_STAT() { return static_cast<TREG_STAT_t>(getInt(TREG_STAT)); }
 const char * getTREG_STAT_string() { return getString(TREG_STAT); }
 
@@ -1321,7 +1342,7 @@ strings_vector_t DPDM_STAT_strings = {
     "D+/D- detection in progress" 
 };
 
-Setting DPDM_STAT = { REG1D_Charger_Status_2, false, "DPDM_STAT", settings_type_t::ENUM, 1, 4, 0, 0, 0, 0, settings_flags_t::NONE, DPDM_STAT_strings };
+Setting DPDM_STAT = { REG1D_Charger_Status_2, false, "DPDM_STAT", "", settings_type_t::ENUM, 1, 4, 0, 0, 0, 0, settings_flags_t::NONE, DPDM_STAT_strings };
 DPDM_STAT_t getDPDM_STAT() { return static_cast<DPDM_STAT_t>(getInt(DPDM_STAT)); }
 const char * getDPDM_STAT_string() { return getString(DPDM_STAT); }
 
@@ -1339,7 +1360,7 @@ strings_vector_t VBAT_PRESENT_STAT_strings = {
     "VBAT present" 
 };
 
-Setting VBAT_PRESENT_STAT = { REG1D_Charger_Status_2, false, "VBAT_PRESENT_STAT", settings_type_t::ENUM, 1, 0, 0, 0, 0, 0, settings_flags_t::NONE, VBAT_PRESENT_STAT_strings };
+Setting VBAT_PRESENT_STAT = { REG1D_Charger_Status_2, false, "VBAT_PRESENT_STAT", "", settings_type_t::ENUM, 1, 0, 0, 0, 0, 0, settings_flags_t::NONE, VBAT_PRESENT_STAT_strings };
 VBAT_PRESENT_STAT_t getVBAT_PRESENT_STAT() { return static_cast<VBAT_PRESENT_STAT_t>(getInt(VBAT_PRESENT_STAT)); }
 const char * getVBAT_PRESENT_STAT_string() { return getString(VBAT_PRESENT_STAT); }
 
@@ -1347,21 +1368,21 @@ const char * getVBAT_PRESENT_STAT_string() { return getString(VBAT_PRESENT_STAT)
 // ================================
 // REG1E_Charger_Status_3
 // ================================
-Setting ACRB2_STAT = { REG1E_Charger_Status_3, false, "ACRB2_STAT", settings_type_t::BOOL, 1, 7 };
+Setting ACRB2_STAT = { REG1E_Charger_Status_3, false, "ACRB2_STAT", "", settings_type_t::BOOL, 1, 7 };
 bool getACRB2_STAT() { return getBool(ACRB2_STAT); }
 
 
 // ================================
 // REG1E_Charger_Status_3
 // ================================
-Setting ACRB1_STAT = { REG1E_Charger_Status_3, false, "ACRB1_STAT", settings_type_t::BOOL, 1, 6 };
+Setting ACRB1_STAT = { REG1E_Charger_Status_3, false, "ACRB1_STAT", "", settings_type_t::BOOL, 1, 6 };
 bool getACRB1_STAT() { return getBool(ACRB1_STAT); }
 
 
 // ================================
 // REG1E_Charger_Status_3
 // ================================
-Setting ADC_DONE_STAT = { REG1E_Charger_Status_3, false, "ADC_DONE_STAT", settings_type_t::BOOL, 1, 5 };
+Setting ADC_DONE_STAT = { REG1E_Charger_Status_3, false, "ADC_DONE_STAT", "", settings_type_t::BOOL, 1, 5 };
 bool getADC_DONE_STAT() { return getBool(ADC_DONE_STAT); }
 
 
@@ -1378,7 +1399,7 @@ strings_vector_t VSYS_STAT_strings = {
     "In VSYSMIN regulation (VBAT < VSYSMIN)" 
 };
 
-Setting VSYS_STAT = { REG1E_Charger_Status_3, false, "VSYS_STAT", settings_type_t::ENUM, 1, 4, 0, 0, 0, 0, settings_flags_t::NONE, VSYS_STAT_strings };
+Setting VSYS_STAT = { REG1E_Charger_Status_3, false, "VSYS_STAT", "", settings_type_t::ENUM, 1, 4, 0, 0, 0, 0, settings_flags_t::NONE, VSYS_STAT_strings };
 VSYS_STAT_t getVSYS_STAT() { return static_cast<VSYS_STAT_t>(getInt(VSYS_STAT)); }
 const char * getVSYS_STAT_string() { return getString(VSYS_STAT); }
 
@@ -1396,7 +1417,7 @@ strings_vector_t CHG_TMR_STAT_strings = {
     "Safety timer expired" 
 };
 
-Setting CHG_TMR_STAT = { REG1E_Charger_Status_3, false, "CHG_TMR_STAT", settings_type_t::ENUM, 1, 3, 0, 0, 0, 0, settings_flags_t::NONE, CHG_TMR_STAT_strings };
+Setting CHG_TMR_STAT = { REG1E_Charger_Status_3, false, "CHG_TMR_STAT", "", settings_type_t::ENUM, 1, 3, 0, 0, 0, 0, settings_flags_t::NONE, CHG_TMR_STAT_strings };
 CHG_TMR_STAT_t getCHG_TMR_STAT() { return static_cast<CHG_TMR_STAT_t>(getInt(CHG_TMR_STAT)); }
 const char * getCHG_TMR_STAT_string() { return getString(CHG_TMR_STAT); }
 
@@ -1414,7 +1435,7 @@ strings_vector_t TRICHG_TMR_STAT_strings = {
     "Safety timer expired" 
 };
 
-Setting TRICHG_TMR_STAT = { REG1E_Charger_Status_3, false, "TRICHG_TMR_STAT", settings_type_t::ENUM, 1, 2, 0, 0, 0, 0, settings_flags_t::NONE, TRICHG_TMR_STAT_strings };
+Setting TRICHG_TMR_STAT = { REG1E_Charger_Status_3, false, "TRICHG_TMR_STAT", "", settings_type_t::ENUM, 1, 2, 0, 0, 0, 0, settings_flags_t::NONE, TRICHG_TMR_STAT_strings };
 TRICHG_TMR_STAT_t getTRICHG_TMR_STAT() { return static_cast<TRICHG_TMR_STAT_t>(getInt(TRICHG_TMR_STAT)); }
 const char * getTRICHG_TMR_STAT_string() { return getString(TRICHG_TMR_STAT); }
 
@@ -1432,7 +1453,7 @@ strings_vector_t PRECHG_TMR_STAT_strings = {
     "Safety timer expired" 
 };
 
-Setting PRECHG_TMR_STAT = { REG1E_Charger_Status_3, false, "PRECHG_TMR_STAT", settings_type_t::ENUM, 1, 1, 0, 0, 0, 0, settings_flags_t::NONE, PRECHG_TMR_STAT_strings };
+Setting PRECHG_TMR_STAT = { REG1E_Charger_Status_3, false, "PRECHG_TMR_STAT", "", settings_type_t::ENUM, 1, 1, 0, 0, 0, 0, settings_flags_t::NONE, PRECHG_TMR_STAT_strings };
 PRECHG_TMR_STAT_t getPRECHG_TMR_STAT() { return static_cast<PRECHG_TMR_STAT_t>(getInt(PRECHG_TMR_STAT)); }
 const char * getPRECHG_TMR_STAT_string() { return getString(PRECHG_TMR_STAT); }
 
@@ -1450,7 +1471,7 @@ strings_vector_t VBATOTG_LOW_STAT_strings = {
     "VBAT is high enough to enable OTG operation" 
 };
 
-Setting VBATOTG_LOW_STAT = { REG1F_Charger_Status_4, false, "VBATOTG_LOW_STAT", settings_type_t::ENUM, 1, 4, 0, 0, 0, 0, settings_flags_t::NONE, VBATOTG_LOW_STAT_strings };
+Setting VBATOTG_LOW_STAT = { REG1F_Charger_Status_4, false, "VBATOTG_LOW_STAT", "", settings_type_t::ENUM, 1, 4, 0, 0, 0, 0, settings_flags_t::NONE, VBATOTG_LOW_STAT_strings };
 VBATOTG_LOW_STAT_t getVBATOTG_LOW_STAT() { return static_cast<VBATOTG_LOW_STAT_t>(getInt(VBATOTG_LOW_STAT)); }
 const char * getVBATOTG_LOW_STAT_string() { return getString(VBATOTG_LOW_STAT); }
 
@@ -1468,7 +1489,7 @@ strings_vector_t TS_COLD_STAT_strings = {
     "TS in cold range" 
 };
 
-Setting TS_COLD_STAT = { REG1F_Charger_Status_4, false, "TS_COLD_STAT", settings_type_t::ENUM, 1, 3, 0, 0, 0, 0, settings_flags_t::NONE, TS_COLD_STAT_strings };
+Setting TS_COLD_STAT = { REG1F_Charger_Status_4, false, "TS_COLD_STAT", "", settings_type_t::ENUM, 1, 3, 0, 0, 0, 0, settings_flags_t::NONE, TS_COLD_STAT_strings };
 TS_COLD_STAT_t getTS_COLD_STAT() { return static_cast<TS_COLD_STAT_t>(getInt(TS_COLD_STAT)); }
 const char * getTS_COLD_STAT_string() { return getString(TS_COLD_STAT); }
 
@@ -1486,7 +1507,7 @@ strings_vector_t TS_COOL_STAT_strings = {
     "TS in cool range" 
 };
 
-Setting TS_COOL_STAT = { REG1F_Charger_Status_4, false, "TS_COOL_STAT", settings_type_t::ENUM, 1, 2, 0, 0, 0, 0, settings_flags_t::NONE, TS_COOL_STAT_strings };
+Setting TS_COOL_STAT = { REG1F_Charger_Status_4, false, "TS_COOL_STAT", "", settings_type_t::ENUM, 1, 2, 0, 0, 0, 0, settings_flags_t::NONE, TS_COOL_STAT_strings };
 TS_COOL_STAT_t getTS_COOL_STAT() { return static_cast<TS_COOL_STAT_t>(getInt(TS_COOL_STAT)); }
 const char * getTS_COOL_STAT_string() { return getString(TS_COOL_STAT); }
 
@@ -1504,7 +1525,7 @@ strings_vector_t TS_WARM_STAT_strings = {
     "TS in warm range" 
 };
 
-Setting TS_WARM_STAT = { REG1F_Charger_Status_4, false, "TS_WARM_STAT", settings_type_t::ENUM, 1, 1, 0, 0, 0, 0, settings_flags_t::NONE, TS_WARM_STAT_strings };
+Setting TS_WARM_STAT = { REG1F_Charger_Status_4, false, "TS_WARM_STAT", "", settings_type_t::ENUM, 1, 1, 0, 0, 0, 0, settings_flags_t::NONE, TS_WARM_STAT_strings };
 TS_WARM_STAT_t getTS_WARM_STAT() { return static_cast<TS_WARM_STAT_t>(getInt(TS_WARM_STAT)); }
 const char * getTS_WARM_STAT_string() { return getString(TS_WARM_STAT); }
 
@@ -1522,7 +1543,7 @@ strings_vector_t TS_HOT_STAT_strings = {
     "TS in hot range" 
 };
 
-Setting TS_HOT_STAT = { REG1F_Charger_Status_4, false, "TS_HOT_STAT", settings_type_t::ENUM, 1, 0, 0, 0, 0, 0, settings_flags_t::NONE, TS_HOT_STAT_strings };
+Setting TS_HOT_STAT = { REG1F_Charger_Status_4, false, "TS_HOT_STAT", "", settings_type_t::ENUM, 1, 0, 0, 0, 0, 0, settings_flags_t::NONE, TS_HOT_STAT_strings };
 TS_HOT_STAT_t getTS_HOT_STAT() { return static_cast<TS_HOT_STAT_t>(getInt(TS_HOT_STAT)); }
 const char * getTS_HOT_STAT_string() { return getString(TS_HOT_STAT); }
 
@@ -1530,371 +1551,371 @@ const char * getTS_HOT_STAT_string() { return getString(TS_HOT_STAT); }
 // ================================
 // REG20_FAULT_Status_0
 // ================================
-Setting IBAT_REG_STAT = { REG20_FAULT_Status_0, false, "IBAT_REG_STAT", settings_type_t::BOOL, 1, 7 };
+Setting IBAT_REG_STAT = { REG20_FAULT_Status_0, false, "IBAT_REG_STAT", "", settings_type_t::BOOL, 1, 7 };
 bool getIBAT_REG_STAT() { return getBool(IBAT_REG_STAT); }
 
 
 // ================================
 // REG20_FAULT_Status_0
 // ================================
-Setting VBUS_OVP_STAT = { REG20_FAULT_Status_0, false, "VBUS_OVP_STAT", settings_type_t::BOOL, 1, 6 };
+Setting VBUS_OVP_STAT = { REG20_FAULT_Status_0, false, "VBUS_OVP_STAT", "", settings_type_t::BOOL, 1, 6 };
 bool getVBUS_OVP_STAT() { return getBool(VBUS_OVP_STAT); }
 
 
 // ================================
 // REG20_FAULT_Status_0
 // ================================
-Setting VBAT_OVP_STAT = { REG20_FAULT_Status_0, false, "VBAT_OVP_STAT", settings_type_t::BOOL, 1, 5 };
+Setting VBAT_OVP_STAT = { REG20_FAULT_Status_0, false, "VBAT_OVP_STAT", "", settings_type_t::BOOL, 1, 5 };
 bool getVBAT_OVP_STAT() { return getBool(VBAT_OVP_STAT); }
 
 
 // ================================
 // REG20_FAULT_Status_0
 // ================================
-Setting IBUS_OCP_STAT = { REG20_FAULT_Status_0, false, "IBUS_OCP_STAT", settings_type_t::BOOL, 1, 4 };
+Setting IBUS_OCP_STAT = { REG20_FAULT_Status_0, false, "IBUS_OCP_STAT", "", settings_type_t::BOOL, 1, 4 };
 bool getIBUS_OCP_STAT() { return getBool(IBUS_OCP_STAT); }
 
 
 // ================================
 // REG20_FAULT_Status_0
 // ================================
-Setting IBAT_OCP_STAT = { REG20_FAULT_Status_0, false, "IBAT_OCP_STAT", settings_type_t::BOOL, 1, 3 };
+Setting IBAT_OCP_STAT = { REG20_FAULT_Status_0, false, "IBAT_OCP_STAT", "", settings_type_t::BOOL, 1, 3 };
 bool getIBAT_OCP_STAT() { return getBool(IBAT_OCP_STAT); }
 
 
 // ================================
 // REG20_FAULT_Status_0
 // ================================
-Setting CONV_OCP_STAT = { REG20_FAULT_Status_0, false, "CONV_OCP_STAT", settings_type_t::BOOL, 1, 2 };
+Setting CONV_OCP_STAT = { REG20_FAULT_Status_0, false, "CONV_OCP_STAT", "", settings_type_t::BOOL, 1, 2 };
 bool getCONV_OCP_STAT() { return getBool(CONV_OCP_STAT); }
 
 
 // ================================
 // REG20_FAULT_Status_0
 // ================================
-Setting VAC2_OVP_STAT = { REG20_FAULT_Status_0, false, "VAC2_OVP_STAT", settings_type_t::BOOL, 1, 1 };
+Setting VAC2_OVP_STAT = { REG20_FAULT_Status_0, false, "VAC2_OVP_STAT", "", settings_type_t::BOOL, 1, 1 };
 bool getVAC2_OVP_STAT() { return getBool(VAC2_OVP_STAT); }
 
 
 // ================================
 // REG20_FAULT_Status_0
 // ================================
-Setting VAC1_OVP_STAT = { REG20_FAULT_Status_0, false, "VAC1_OVP_STAT", settings_type_t::BOOL, 1, 0 };
+Setting VAC1_OVP_STAT = { REG20_FAULT_Status_0, false, "VAC1_OVP_STAT", "", settings_type_t::BOOL, 1, 0 };
 bool getVAC1_OVP_STAT() { return getBool(VAC1_OVP_STAT); }
 
 
 // ================================
 // REG21_FAULT_Status_1
 // ================================
-Setting VSYS_SHORT_STAT = { REG21_FAULT_Status_1, false, "VSYS_SHORT_STAT", settings_type_t::BOOL, 1, 7 };
+Setting VSYS_SHORT_STAT = { REG21_FAULT_Status_1, false, "VSYS_SHORT_STAT", "", settings_type_t::BOOL, 1, 7 };
 bool getVSYS_SHORT_STAT() { return getBool(VSYS_SHORT_STAT); }
 
 
 // ================================
 // REG21_FAULT_Status_1
 // ================================
-Setting VSYS_OVP_STAT = { REG21_FAULT_Status_1, false, "VSYS_OVP_STAT", settings_type_t::BOOL, 1, 6 };
+Setting VSYS_OVP_STAT = { REG21_FAULT_Status_1, false, "VSYS_OVP_STAT", "", settings_type_t::BOOL, 1, 6 };
 bool getVSYS_OVP_STAT() { return getBool(VSYS_OVP_STAT); }
 
 
 // ================================
 // REG21_FAULT_Status_1
 // ================================
-Setting OTG_OVP_STAT = { REG21_FAULT_Status_1, false, "OTG_OVP_STAT", settings_type_t::BOOL, 1, 5 };
+Setting OTG_OVP_STAT = { REG21_FAULT_Status_1, false, "OTG_OVP_STAT", "", settings_type_t::BOOL, 1, 5 };
 bool getOTG_OVP_STAT() { return getBool(OTG_OVP_STAT); }
 
 
 // ================================
 // REG21_FAULT_Status_1
 // ================================
-Setting OTG_UVP_STAT = { REG21_FAULT_Status_1, false, "OTG_UVP_STAT", settings_type_t::BOOL, 1, 4 };
+Setting OTG_UVP_STAT = { REG21_FAULT_Status_1, false, "OTG_UVP_STAT", "", settings_type_t::BOOL, 1, 4 };
 bool getOTG_UVP_STAT() { return getBool(OTG_UVP_STAT); }
 
 
 // ================================
 // REG21_FAULT_Status_1
 // ================================
-Setting TSHUT_STAT = { REG21_FAULT_Status_1, false, "TSHUT_STAT", settings_type_t::BOOL, 1, 2 };
+Setting TSHUT_STAT = { REG21_FAULT_Status_1, false, "TSHUT_STAT", "", settings_type_t::BOOL, 1, 2 };
 bool getTSHUT_STAT() { return getBool(TSHUT_STAT); }
 
 
 // ================================
 // REG22_Charger_Flag_0
 // ================================
-Setting IINDPM_FLAG = { REG22_Charger_Flag_0, false, "IINDPM_FLAG", settings_type_t::BOOL, 1, 7 };
+Setting IINDPM_FLAG = { REG22_Charger_Flag_0, false, "IINDPM_FLAG", "", settings_type_t::BOOL, 1, 7 };
 bool getIINDPM_FLAG() { return getBool(IINDPM_FLAG); }
 
 
 // ================================
 // REG22_Charger_Flag_0
 // ================================
-Setting VINDPM_FLAG = { REG22_Charger_Flag_0, false, "VINDPM_FLAG", settings_type_t::BOOL, 1, 6 };
+Setting VINDPM_FLAG = { REG22_Charger_Flag_0, false, "VINDPM_FLAG", "", settings_type_t::BOOL, 1, 6 };
 bool getVINDPM_FLAG() { return getBool(VINDPM_FLAG); }
 
 
 // ================================
 // REG22_Charger_Flag_0
 // ================================
-Setting WD_FLAG = { REG22_Charger_Flag_0, false, "WD_FLAG", settings_type_t::BOOL, 1, 5 };
+Setting WD_FLAG = { REG22_Charger_Flag_0, false, "WD_FLAG", "", settings_type_t::BOOL, 1, 5 };
 bool getWD_FLAG() { return getBool(WD_FLAG); }
 
 
 // ================================
 // REG22_Charger_Flag_0
 // ================================
-Setting POORSRC_FLAG = { REG22_Charger_Flag_0, false, "POORSRC_FLAG", settings_type_t::BOOL, 1, 4 };
+Setting POORSRC_FLAG = { REG22_Charger_Flag_0, false, "POORSRC_FLAG", "", settings_type_t::BOOL, 1, 4 };
 bool getPOORSRC_FLAG() { return getBool(POORSRC_FLAG); }
 
 
 // ================================
 // REG22_Charger_Flag_0
 // ================================
-Setting PG_FLAG = { REG22_Charger_Flag_0, false, "PG_FLAG", settings_type_t::BOOL, 1, 3 };
+Setting PG_FLAG = { REG22_Charger_Flag_0, false, "PG_FLAG", "", settings_type_t::BOOL, 1, 3 };
 bool getPG_FLAG() { return getBool(PG_FLAG); }
 
 
 // ================================
 // REG22_Charger_Flag_0
 // ================================
-Setting AC2_PRESENT_FLAG = { REG22_Charger_Flag_0, false, "AC2_PRESENT_FLAG", settings_type_t::BOOL, 1, 2 };
+Setting AC2_PRESENT_FLAG = { REG22_Charger_Flag_0, false, "AC2_PRESENT_FLAG", "", settings_type_t::BOOL, 1, 2 };
 bool getAC2_PRESENT_FLAG() { return getBool(AC2_PRESENT_FLAG); }
 
 
 // ================================
 // REG22_Charger_Flag_0
 // ================================
-Setting AC1_PRESENT_FLAG = { REG22_Charger_Flag_0, false, "AC1_PRESENT_FLAG", settings_type_t::BOOL, 1, 1 };
+Setting AC1_PRESENT_FLAG = { REG22_Charger_Flag_0, false, "AC1_PRESENT_FLAG", "", settings_type_t::BOOL, 1, 1 };
 bool getAC1_PRESENT_FLAG() { return getBool(AC1_PRESENT_FLAG); }
 
 
 // ================================
 // REG22_Charger_Flag_0
 // ================================
-Setting VBUS_PRESENT_FLAG = { REG22_Charger_Flag_0, false, "VBUS_PRESENT_FLAG", settings_type_t::BOOL, 1, 0 };
+Setting VBUS_PRESENT_FLAG = { REG22_Charger_Flag_0, false, "VBUS_PRESENT_FLAG", "", settings_type_t::BOOL, 1, 0 };
 bool getVBUS_PRESENT_FLAG() { return getBool(VBUS_PRESENT_FLAG); }
 
 
 // ================================
 // REG23_Charger_Flag_1
 // ================================
-Setting CHG_FLAG = { REG23_Charger_Flag_1, false, "CHG_FLAG", settings_type_t::BOOL, 1, 7 };
+Setting CHG_FLAG = { REG23_Charger_Flag_1, false, "CHG_FLAG", "", settings_type_t::BOOL, 1, 7 };
 bool getCHG_FLAG() { return getBool(CHG_FLAG); }
 
 
 // ================================
 // REG23_Charger_Flag_1
 // ================================
-Setting ICO_FLAG = { REG23_Charger_Flag_1, false, "ICO_FLAG", settings_type_t::BOOL, 1, 6 };
+Setting ICO_FLAG = { REG23_Charger_Flag_1, false, "ICO_FLAG", "", settings_type_t::BOOL, 1, 6 };
 bool getICO_FLAG() { return getBool(ICO_FLAG); }
 
 
 // ================================
 // REG23_Charger_Flag_1
 // ================================
-Setting VBUS_FLAG = { REG23_Charger_Flag_1, false, "VBUS_FLAG", settings_type_t::BOOL, 1, 4 };
+Setting VBUS_FLAG = { REG23_Charger_Flag_1, false, "VBUS_FLAG", "", settings_type_t::BOOL, 1, 4 };
 bool getVBUS_FLAG() { return getBool(VBUS_FLAG); }
 
 
 // ================================
 // REG23_Charger_Flag_1
 // ================================
-Setting TREG_FLAG = { REG23_Charger_Flag_1, false, "TREG_FLAG", settings_type_t::BOOL, 1, 2 };
+Setting TREG_FLAG = { REG23_Charger_Flag_1, false, "TREG_FLAG", "", settings_type_t::BOOL, 1, 2 };
 bool getTREG_FLAG() { return getBool(TREG_FLAG); }
 
 
 // ================================
 // REG23_Charger_Flag_1
 // ================================
-Setting VBAT_PRESENT_FLAG = { REG23_Charger_Flag_1, false, "VBAT_PRESENT_FLAG", settings_type_t::BOOL, 1, 1 };
+Setting VBAT_PRESENT_FLAG = { REG23_Charger_Flag_1, false, "VBAT_PRESENT_FLAG", "", settings_type_t::BOOL, 1, 1 };
 bool getVBAT_PRESENT_FLAG() { return getBool(VBAT_PRESENT_FLAG); }
 
 
 // ================================
 // REG23_Charger_Flag_1
 // ================================
-Setting BC1_2_DONE_FLAG = { REG23_Charger_Flag_1, false, "BC1_2_DONE_FLAG", settings_type_t::BOOL, 1, 0 };
+Setting BC1_2_DONE_FLAG = { REG23_Charger_Flag_1, false, "BC1_2_DONE_FLAG", "", settings_type_t::BOOL, 1, 0 };
 bool getBC1_2_DONE_FLAG() { return getBool(BC1_2_DONE_FLAG); }
 
 
 // ================================
 // REG24_Charger_Flag_2
 // ================================
-Setting DPDM_DONE_FLAG = { REG24_Charger_Flag_2, false, "DPDM_DONE_FLAG", settings_type_t::BOOL, 1, 6 };
+Setting DPDM_DONE_FLAG = { REG24_Charger_Flag_2, false, "DPDM_DONE_FLAG", "", settings_type_t::BOOL, 1, 6 };
 bool getDPDM_DONE_FLAG() { return getBool(DPDM_DONE_FLAG); }
 
 
 // ================================
 // REG24_Charger_Flag_2
 // ================================
-Setting ADC_DONE_FLAG = { REG24_Charger_Flag_2, false, "ADC_DONE_FLAG", settings_type_t::BOOL, 1, 5 };
+Setting ADC_DONE_FLAG = { REG24_Charger_Flag_2, false, "ADC_DONE_FLAG", "", settings_type_t::BOOL, 1, 5 };
 bool getADC_DONE_FLAG() { return getBool(ADC_DONE_FLAG); }
 
 
 // ================================
 // REG24_Charger_Flag_2
 // ================================
-Setting VSYS_FLAG = { REG24_Charger_Flag_2, false, "VSYS_FLAG", settings_type_t::BOOL, 1, 4 };
+Setting VSYS_FLAG = { REG24_Charger_Flag_2, false, "VSYS_FLAG", "", settings_type_t::BOOL, 1, 4 };
 bool getVSYS_FLAG() { return getBool(VSYS_FLAG); }
 
 
 // ================================
 // REG24_Charger_Flag_2
 // ================================
-Setting CHG_TMR_FLAG = { REG24_Charger_Flag_2, false, "CHG_TMR_FLAG", settings_type_t::BOOL, 1, 3 };
+Setting CHG_TMR_FLAG = { REG24_Charger_Flag_2, false, "CHG_TMR_FLAG", "", settings_type_t::BOOL, 1, 3 };
 bool getCHG_TMR_FLAG() { return getBool(CHG_TMR_FLAG); }
 
 
 // ================================
 // REG24_Charger_Flag_2
 // ================================
-Setting TRICHG_TMR_FLAG = { REG24_Charger_Flag_2, false, "TRICHG_TMR_FLAG", settings_type_t::BOOL, 1, 2 };
+Setting TRICHG_TMR_FLAG = { REG24_Charger_Flag_2, false, "TRICHG_TMR_FLAG", "", settings_type_t::BOOL, 1, 2 };
 bool getTRICHG_TMR_FLAG() { return getBool(TRICHG_TMR_FLAG); }
 
 
 // ================================
 // REG24_Charger_Flag_2
 // ================================
-Setting PRECHG_TMR_FLAG = { REG24_Charger_Flag_2, false, "PRECHG_TMR_FLAG", settings_type_t::BOOL, 1, 1 };
+Setting PRECHG_TMR_FLAG = { REG24_Charger_Flag_2, false, "PRECHG_TMR_FLAG", "", settings_type_t::BOOL, 1, 1 };
 bool getPRECHG_TMR_FLAG() { return getBool(PRECHG_TMR_FLAG); }
 
 
 // ================================
 // REG24_Charger_Flag_2
 // ================================
-Setting TOPOFF_TMR_FLAG = { REG24_Charger_Flag_2, false, "TOPOFF_TMR_FLAG", settings_type_t::BOOL, 1, 0 };
+Setting TOPOFF_TMR_FLAG = { REG24_Charger_Flag_2, false, "TOPOFF_TMR_FLAG", "", settings_type_t::BOOL, 1, 0 };
 bool getTOPOFF_TMR_FLAG() { return getBool(TOPOFF_TMR_FLAG); }
 
 
 // ================================
 // REG25_Charger_Flag_3
 // ================================
-Setting VBATOTG_LOW_FLAG = { REG25_Charger_Flag_3, false, "VBATOTG_LOW_FLAG", settings_type_t::BOOL, 1, 4 };
+Setting VBATOTG_LOW_FLAG = { REG25_Charger_Flag_3, false, "VBATOTG_LOW_FLAG", "", settings_type_t::BOOL, 1, 4 };
 bool getVBATOTG_LOW_FLAG() { return getBool(VBATOTG_LOW_FLAG); }
 
 
 // ================================
 // REG25_Charger_Flag_3
 // ================================
-Setting TS_COLD_FLAG = { REG25_Charger_Flag_3, false, "TS_COLD_FLAG", settings_type_t::BOOL, 1, 3 };
+Setting TS_COLD_FLAG = { REG25_Charger_Flag_3, false, "TS_COLD_FLAG", "", settings_type_t::BOOL, 1, 3 };
 bool getTS_COLD_FLAG() { return getBool(TS_COLD_FLAG); }
 
 
 // ================================
 // REG25_Charger_Flag_3
 // ================================
-Setting TS_COOL_FLAG = { REG25_Charger_Flag_3, false, "TS_COOL_FLAG", settings_type_t::BOOL, 1, 2 };
+Setting TS_COOL_FLAG = { REG25_Charger_Flag_3, false, "TS_COOL_FLAG", "", settings_type_t::BOOL, 1, 2 };
 bool getTS_COOL_FLAG() { return getBool(TS_COOL_FLAG); }
 
 
 // ================================
 // REG25_Charger_Flag_3
 // ================================
-Setting TS_WARM_FLAG = { REG25_Charger_Flag_3, false, "TS_WARM_FLAG", settings_type_t::BOOL, 1, 1 };
+Setting TS_WARM_FLAG = { REG25_Charger_Flag_3, false, "TS_WARM_FLAG", "", settings_type_t::BOOL, 1, 1 };
 bool getTS_WARM_FLAG() { return getBool(TS_WARM_FLAG); }
 
 
 // ================================
 // REG25_Charger_Flag_3
 // ================================
-Setting TS_HOT_FLAG = { REG25_Charger_Flag_3, false, "TS_HOT_FLAG", settings_type_t::BOOL, 1, 0 };
+Setting TS_HOT_FLAG = { REG25_Charger_Flag_3, false, "TS_HOT_FLAG", "", settings_type_t::BOOL, 1, 0 };
 bool getTS_HOT_FLAG() { return getBool(TS_HOT_FLAG); }
 
 
 // ================================
 // REG26_FAULT_Flag_0
 // ================================
-Setting IBAT_REG_FLAG = { REG26_FAULT_Flag_0, false, "IBAT_REG_FLAG", settings_type_t::BOOL, 1, 7 };
+Setting IBAT_REG_FLAG = { REG26_FAULT_Flag_0, false, "IBAT_REG_FLAG", "", settings_type_t::BOOL, 1, 7 };
 bool getIBAT_REG_FLAG() { return getBool(IBAT_REG_FLAG); }
 
 
 // ================================
 // REG26_FAULT_Flag_0
 // ================================
-Setting VBUS_OVP_FLAG = { REG26_FAULT_Flag_0, false, "VBUS_OVP_FLAG", settings_type_t::BOOL, 1, 6 };
+Setting VBUS_OVP_FLAG = { REG26_FAULT_Flag_0, false, "VBUS_OVP_FLAG", "", settings_type_t::BOOL, 1, 6 };
 bool getVBUS_OVP_FLAG() { return getBool(VBUS_OVP_FLAG); }
 
 
 // ================================
 // REG26_FAULT_Flag_0
 // ================================
-Setting VBAT_OVP_FLAG = { REG26_FAULT_Flag_0, false, "VBAT_OVP_FLAG", settings_type_t::BOOL, 1, 5 };
+Setting VBAT_OVP_FLAG = { REG26_FAULT_Flag_0, false, "VBAT_OVP_FLAG", "", settings_type_t::BOOL, 1, 5 };
 bool getVBAT_OVP_FLAG() { return getBool(VBAT_OVP_FLAG); }
 
 
 // ================================
 // REG26_FAULT_Flag_0
 // ================================
-Setting IBUS_OCP_FLAG = { REG26_FAULT_Flag_0, false, "IBUS_OCP_FLAG", settings_type_t::BOOL, 1, 4 };
+Setting IBUS_OCP_FLAG = { REG26_FAULT_Flag_0, false, "IBUS_OCP_FLAG", "", settings_type_t::BOOL, 1, 4 };
 bool getIBUS_OCP_FLAG() { return getBool(IBUS_OCP_FLAG); }
 
 
 // ================================
 // REG26_FAULT_Flag_0
 // ================================
-Setting IBAT_OCP_FLAG = { REG26_FAULT_Flag_0, false, "IBAT_OCP_FLAG", settings_type_t::BOOL, 1, 3 };
+Setting IBAT_OCP_FLAG = { REG26_FAULT_Flag_0, false, "IBAT_OCP_FLAG", "", settings_type_t::BOOL, 1, 3 };
 bool getIBAT_OCP_FLAG() { return getBool(IBAT_OCP_FLAG); }
 
 
 // ================================
 // REG26_FAULT_Flag_0
 // ================================
-Setting CONV_OCP_FLAG = { REG26_FAULT_Flag_0, false, "CONV_OCP_FLAG", settings_type_t::BOOL, 1, 2 };
+Setting CONV_OCP_FLAG = { REG26_FAULT_Flag_0, false, "CONV_OCP_FLAG", "", settings_type_t::BOOL, 1, 2 };
 bool getCONV_OCP_FLAG() { return getBool(CONV_OCP_FLAG); }
 
 
 // ================================
 // REG26_FAULT_Flag_0
 // ================================
-Setting VAC2_OVP_FLAG = { REG26_FAULT_Flag_0, false, "VAC2_OVP_FLAG", settings_type_t::BOOL, 1, 1 };
+Setting VAC2_OVP_FLAG = { REG26_FAULT_Flag_0, false, "VAC2_OVP_FLAG", "", settings_type_t::BOOL, 1, 1 };
 bool getVAC2_OVP_FLAG() { return getBool(VAC2_OVP_FLAG); }
 
 
 // ================================
 // REG26_FAULT_Flag_0
 // ================================
-Setting VAC1_OVP_FLAG = { REG26_FAULT_Flag_0, false, "VAC1_OVP_FLAG", settings_type_t::BOOL, 1, 0 };
+Setting VAC1_OVP_FLAG = { REG26_FAULT_Flag_0, false, "VAC1_OVP_FLAG", "", settings_type_t::BOOL, 1, 0 };
 bool getVAC1_OVP_FLAG() { return getBool(VAC1_OVP_FLAG); }
 
 
 // ================================
 // REG27_FAULT_Flag_1
 // ================================
-Setting VSYS_SHORT_FLAG = { REG27_FAULT_Flag_1, false, "VSYS_SHORT_FLAG", settings_type_t::BOOL, 1, 7 };
+Setting VSYS_SHORT_FLAG = { REG27_FAULT_Flag_1, false, "VSYS_SHORT_FLAG", "", settings_type_t::BOOL, 1, 7 };
 bool getVSYS_SHORT_FLAG() { return getBool(VSYS_SHORT_FLAG); }
 
 
 // ================================
 // REG27_FAULT_Flag_1
 // ================================
-Setting VSYS_OVP_FLAG = { REG27_FAULT_Flag_1, false, "VSYS_OVP_FLAG", settings_type_t::BOOL, 1, 6 };
+Setting VSYS_OVP_FLAG = { REG27_FAULT_Flag_1, false, "VSYS_OVP_FLAG", "", settings_type_t::BOOL, 1, 6 };
 bool getVSYS_OVP_FLAG() { return getBool(VSYS_OVP_FLAG); }
 
 
 // ================================
 // REG27_FAULT_Flag_1
 // ================================
-Setting OTG_OVP_FLAG = { REG27_FAULT_Flag_1, false, "OTG_OVP_FLAG", settings_type_t::BOOL, 1, 5 };
+Setting OTG_OVP_FLAG = { REG27_FAULT_Flag_1, false, "OTG_OVP_FLAG", "", settings_type_t::BOOL, 1, 5 };
 bool getOTG_OVP_FLAG() { return getBool(OTG_OVP_FLAG); }
 
 
 // ================================
 // REG27_FAULT_Flag_1
 // ================================
-Setting OTG_UVP_FLAG = { REG27_FAULT_Flag_1, false, "OTG_UVP_FLAG", settings_type_t::BOOL, 1, 4 };
+Setting OTG_UVP_FLAG = { REG27_FAULT_Flag_1, false, "OTG_UVP_FLAG", "", settings_type_t::BOOL, 1, 4 };
 bool getOTG_UVP_FLAG() { return getBool(OTG_UVP_FLAG); }
 
 
 // ================================
 // REG27_FAULT_Flag_1
 // ================================
-Setting TSHUT_FLAG = { REG27_FAULT_Flag_1, false, "TSHUT_FLAG", settings_type_t::BOOL, 1, 2 };
+Setting TSHUT_FLAG = { REG27_FAULT_Flag_1, false, "TSHUT_FLAG", "", settings_type_t::BOOL, 1, 2 };
 bool getTSHUT_FLAG() { return getBool(TSHUT_FLAG); }
 
 
 // ================================
 // REG2E_ADC_Control
 // ================================
-Setting ADC_EN = { REG2E_ADC_Control, false, "ADC_EN", settings_type_t::BOOL, 1, 7 };
+Setting ADC_EN = { REG2E_ADC_Control, false, "ADC_EN", "", settings_type_t::BOOL, 1, 7 };
 bool getADC_EN() { return getBool(ADC_EN); }
 void setAndWriteADC_EN(bool val) { setAndWriteBool(ADC_EN, val); }
 
@@ -1912,7 +1933,7 @@ strings_vector_t ADC_RATE_strings = {
     "One-shot" 
 };
 
-Setting ADC_RATE = { REG2E_ADC_Control, false, "ADC_RATE", settings_type_t::ENUM, 1, 6, 0, 0, 0, 0, settings_flags_t::NONE, ADC_RATE_strings };
+Setting ADC_RATE = { REG2E_ADC_Control, false, "ADC_RATE", "", settings_type_t::ENUM, 1, 6, 0, 0, 0, 0, settings_flags_t::NONE, ADC_RATE_strings };
 ADC_RATE_t getADC_RATE() { return static_cast<ADC_RATE_t>(getInt(ADC_RATE)); }
 const char * getADC_RATE_string() { return getString(ADC_RATE); }
 void setAndWriteADC_RATE(ADC_RATE_t val) { setAndWriteEnum<ADC_RATE_t>(ADC_RATE, val); }
@@ -1935,7 +1956,7 @@ strings_vector_t ADC_SAMPLE_strings = {
     "12-bit" 
 };
 
-Setting ADC_SAMPLE = { REG2E_ADC_Control, false, "ADC_SAMPLE", settings_type_t::ENUM, 2, 4, 0, 0, 0, 0, settings_flags_t::NONE, ADC_SAMPLE_strings };
+Setting ADC_SAMPLE = { REG2E_ADC_Control, false, "ADC_SAMPLE", "", settings_type_t::ENUM, 2, 4, 0, 0, 0, 0, settings_flags_t::NONE, ADC_SAMPLE_strings };
 ADC_SAMPLE_t getADC_SAMPLE() { return static_cast<ADC_SAMPLE_t>(getInt(ADC_SAMPLE)); }
 const char * getADC_SAMPLE_string() { return getString(ADC_SAMPLE); }
 void setAndWriteADC_SAMPLE(ADC_SAMPLE_t val) { setAndWriteEnum<ADC_SAMPLE_t>(ADC_SAMPLE, val); }
@@ -1954,7 +1975,7 @@ strings_vector_t ADC_AVG_strings = {
     "Running average" 
 };
 
-Setting ADC_AVG = { REG2E_ADC_Control, false, "ADC_AVG", settings_type_t::ENUM, 1, 3, 0, 0, 0, 0, settings_flags_t::NONE, ADC_AVG_strings };
+Setting ADC_AVG = { REG2E_ADC_Control, false, "ADC_AVG", "", settings_type_t::ENUM, 1, 3, 0, 0, 0, 0, settings_flags_t::NONE, ADC_AVG_strings };
 ADC_AVG_t getADC_AVG() { return static_cast<ADC_AVG_t>(getInt(ADC_AVG)); }
 const char * getADC_AVG_string() { return getString(ADC_AVG); }
 void setAndWriteADC_AVG(ADC_AVG_t val) { setAndWriteEnum<ADC_AVG_t>(ADC_AVG, val); }
@@ -1963,7 +1984,7 @@ void setAndWriteADC_AVG(ADC_AVG_t val) { setAndWriteEnum<ADC_AVG_t>(ADC_AVG, val
 // ================================
 // REG2E_ADC_Control
 // ================================
-Setting ADC_AVG_INIT = { REG2E_ADC_Control, false, "ADC_AVG_INIT", settings_type_t::BOOL, 1, 2 };
+Setting ADC_AVG_INIT = { REG2E_ADC_Control, false, "ADC_AVG_INIT", "", settings_type_t::BOOL, 1, 2 };
 bool getADC_AVG_INIT() { return getBool(ADC_AVG_INIT); }
 void setAndWriteADC_AVG_INIT(bool val) { setAndWriteBool(ADC_AVG_INIT, val); }
 
@@ -1971,7 +1992,7 @@ void setAndWriteADC_AVG_INIT(bool val) { setAndWriteBool(ADC_AVG_INIT, val); }
 // ================================
 // REG2F_ADC_Function_Disable_0
 // ================================
-Setting IBUS_ADC_DIS = { REG2F_ADC_Function_Disable_0, false, "IBUS_ADC_DIS", settings_type_t::BOOL, 1, 7 };
+Setting IBUS_ADC_DIS = { REG2F_ADC_Function_Disable_0, false, "IBUS_ADC_DIS", "", settings_type_t::BOOL, 1, 7 };
 bool getIBUS_ADC_DIS() { return getBool(IBUS_ADC_DIS); }
 void setAndWriteIBUS_ADC_DIS(bool val) { setAndWriteBool(IBUS_ADC_DIS, val); }
 
@@ -1979,7 +2000,7 @@ void setAndWriteIBUS_ADC_DIS(bool val) { setAndWriteBool(IBUS_ADC_DIS, val); }
 // ================================
 // REG2F_ADC_Function_Disable_0
 // ================================
-Setting IBAT_ADC_DIS = { REG2F_ADC_Function_Disable_0, false, "IBAT_ADC_DIS", settings_type_t::BOOL, 1, 6 };
+Setting IBAT_ADC_DIS = { REG2F_ADC_Function_Disable_0, false, "IBAT_ADC_DIS", "", settings_type_t::BOOL, 1, 6 };
 bool getIBAT_ADC_DIS() { return getBool(IBAT_ADC_DIS); }
 void setAndWriteIBAT_ADC_DIS(bool val) { setAndWriteBool(IBAT_ADC_DIS, val); }
 
@@ -1987,7 +2008,7 @@ void setAndWriteIBAT_ADC_DIS(bool val) { setAndWriteBool(IBAT_ADC_DIS, val); }
 // ================================
 // REG2F_ADC_Function_Disable_0
 // ================================
-Setting VBUS_ADC_DIS = { REG2F_ADC_Function_Disable_0, false, "VBUS_ADC_DIS", settings_type_t::BOOL, 1, 5 };
+Setting VBUS_ADC_DIS = { REG2F_ADC_Function_Disable_0, false, "VBUS_ADC_DIS", "", settings_type_t::BOOL, 1, 5 };
 bool getVBUS_ADC_DIS() { return getBool(VBUS_ADC_DIS); }
 void setAndWriteVBUS_ADC_DIS(bool val) { setAndWriteBool(VBUS_ADC_DIS, val); }
 
@@ -1995,7 +2016,7 @@ void setAndWriteVBUS_ADC_DIS(bool val) { setAndWriteBool(VBUS_ADC_DIS, val); }
 // ================================
 // REG2F_ADC_Function_Disable_0
 // ================================
-Setting VBAT_ADC_DIS = { REG2F_ADC_Function_Disable_0, false, "VBAT_ADC_DIS", settings_type_t::BOOL, 1, 4 };
+Setting VBAT_ADC_DIS = { REG2F_ADC_Function_Disable_0, false, "VBAT_ADC_DIS", "", settings_type_t::BOOL, 1, 4 };
 bool getVBAT_ADC_DIS() { return getBool(VBAT_ADC_DIS); }
 void setAndWriteVBAT_ADC_DIS(bool val) { setAndWriteBool(VBAT_ADC_DIS, val); }
 
@@ -2003,7 +2024,7 @@ void setAndWriteVBAT_ADC_DIS(bool val) { setAndWriteBool(VBAT_ADC_DIS, val); }
 // ================================
 // REG2F_ADC_Function_Disable_0
 // ================================
-Setting VSYS_ADC_DIS = { REG2F_ADC_Function_Disable_0, false, "VSYS_ADC_DIS", settings_type_t::BOOL, 1, 3 };
+Setting VSYS_ADC_DIS = { REG2F_ADC_Function_Disable_0, false, "VSYS_ADC_DIS", "", settings_type_t::BOOL, 1, 3 };
 bool getVSYS_ADC_DIS() { return getBool(VSYS_ADC_DIS); }
 void setAndWriteVSYS_ADC_DIS(bool val) { setAndWriteBool(VSYS_ADC_DIS, val); }
 
@@ -2011,7 +2032,7 @@ void setAndWriteVSYS_ADC_DIS(bool val) { setAndWriteBool(VSYS_ADC_DIS, val); }
 // ================================
 // REG2F_ADC_Function_Disable_0
 // ================================
-Setting TS_ADC_DIS = { REG2F_ADC_Function_Disable_0, false, "TS_ADC_DIS", settings_type_t::BOOL, 1, 2 };
+Setting TS_ADC_DIS = { REG2F_ADC_Function_Disable_0, false, "TS_ADC_DIS", "", settings_type_t::BOOL, 1, 2 };
 bool getTS_ADC_DIS() { return getBool(TS_ADC_DIS); }
 void setAndWriteTS_ADC_DIS(bool val) { setAndWriteBool(TS_ADC_DIS, val); }
 
@@ -2019,7 +2040,7 @@ void setAndWriteTS_ADC_DIS(bool val) { setAndWriteBool(TS_ADC_DIS, val); }
 // ================================
 // REG2F_ADC_Function_Disable_0
 // ================================
-Setting TDIE_ADC_DIS = { REG2F_ADC_Function_Disable_0, false, "TDIE_ADC_DIS", settings_type_t::BOOL, 1, 1 };
+Setting TDIE_ADC_DIS = { REG2F_ADC_Function_Disable_0, false, "TDIE_ADC_DIS", "", settings_type_t::BOOL, 1, 1 };
 bool getTDIE_ADC_DIS() { return getBool(TDIE_ADC_DIS); }
 void setAndWriteTDIE_ADC_DIS(bool val) { setAndWriteBool(TDIE_ADC_DIS, val); }
 
@@ -2027,7 +2048,7 @@ void setAndWriteTDIE_ADC_DIS(bool val) { setAndWriteBool(TDIE_ADC_DIS, val); }
 // ================================
 // REG30_ADC_Function_Disable_1
 // ================================
-Setting DPLUS_ADC_DIS = { REG30_ADC_Function_Disable_1, false, "DPLUS_ADC_DIS", settings_type_t::BOOL, 1, 7 };
+Setting DPLUS_ADC_DIS = { REG30_ADC_Function_Disable_1, false, "DPLUS_ADC_DIS", "", settings_type_t::BOOL, 1, 7 };
 bool getDPLUS_ADC_DIS() { return getBool(DPLUS_ADC_DIS); }
 void setAndWriteDPLUS_ADC_DIS(bool val) { setAndWriteBool(DPLUS_ADC_DIS, val); }
 
@@ -2035,7 +2056,7 @@ void setAndWriteDPLUS_ADC_DIS(bool val) { setAndWriteBool(DPLUS_ADC_DIS, val); }
 // ================================
 // REG30_ADC_Function_Disable_1
 // ================================
-Setting DMINUS_ADC_DIS = { REG30_ADC_Function_Disable_1, false, "DMINUS_ADC_DIS", settings_type_t::BOOL, 1, 6 };
+Setting DMINUS_ADC_DIS = { REG30_ADC_Function_Disable_1, false, "DMINUS_ADC_DIS", "", settings_type_t::BOOL, 1, 6 };
 bool getDMINUS_ADC_DIS() { return getBool(DMINUS_ADC_DIS); }
 void setAndWriteDMINUS_ADC_DIS(bool val) { setAndWriteBool(DMINUS_ADC_DIS, val); }
 
@@ -2043,7 +2064,7 @@ void setAndWriteDMINUS_ADC_DIS(bool val) { setAndWriteBool(DMINUS_ADC_DIS, val);
 // ================================
 // REG30_ADC_Function_Disable_1
 // ================================
-Setting VAC2_ADC_DIS = { REG30_ADC_Function_Disable_1, false, "VAC2_ADC_DIS", settings_type_t::BOOL, 1, 5 };
+Setting VAC2_ADC_DIS = { REG30_ADC_Function_Disable_1, false, "VAC2_ADC_DIS", "", settings_type_t::BOOL, 1, 5 };
 bool getVAC2_ADC_DIS() { return getBool(VAC2_ADC_DIS); }
 void setAndWriteVAC2_ADC_DIS(bool val) { setAndWriteBool(VAC2_ADC_DIS, val); }
 
@@ -2051,7 +2072,7 @@ void setAndWriteVAC2_ADC_DIS(bool val) { setAndWriteBool(VAC2_ADC_DIS, val); }
 // ================================
 // REG30_ADC_Function_Disable_1
 // ================================
-Setting VAC1_ADC_DIS = { REG30_ADC_Function_Disable_1, false, "VAC1_ADC_DIS", settings_type_t::BOOL, 1, 4 };
+Setting VAC1_ADC_DIS = { REG30_ADC_Function_Disable_1, false, "VAC1_ADC_DIS", "", settings_type_t::BOOL, 1, 4 };
 bool getVAC1_ADC_DIS() { return getBool(VAC1_ADC_DIS); }
 void setAndWriteVAC1_ADC_DIS(bool val) { setAndWriteBool(VAC1_ADC_DIS, val); }
 
@@ -2059,77 +2080,88 @@ void setAndWriteVAC1_ADC_DIS(bool val) { setAndWriteBool(VAC1_ADC_DIS, val); }
 // ================================
 // REG31_IBUS_ADC
 // ================================
-Setting IBUS_ADC = { REG31_IBUS_ADC, true, "IBUS_ADC", settings_type_t::INT, 16, 0, 0, 5000, 0, 1, settings_flags_t::IS_2COMPLEMENT };
+Setting IBUS_ADC = { REG31_IBUS_ADC, true, "IBUS_ADC", "mA", settings_type_t::INT, 16, 0, 0, 5000, 0, 1, settings_flags_t::IS_2COMPLEMENT };
+/// Returns IBUS_ADC in mA
 int getIBUS_ADC() { return getInt(IBUS_ADC); }
 
 
 // ================================
 // REG33_IBAT_ADC
 // ================================
-Setting IBAT_ADC = { REG33_IBAT_ADC, true, "IBAT_ADC", settings_type_t::INT, 16, 0, 0, 8000, 0, 1, settings_flags_t::IS_2COMPLEMENT };
+Setting IBAT_ADC = { REG33_IBAT_ADC, true, "IBAT_ADC", "mA", settings_type_t::INT, 16, 0, 0, 8000, 0, 1, settings_flags_t::IS_2COMPLEMENT };
+/// Returns IBAT_ADC in mA
 int getIBAT_ADC() { return getInt(IBAT_ADC); }
 
 
 // ================================
 // REG35_VBUS_ADC
 // ================================
-Setting VBUS_ADC = { REG35_VBUS_ADC, true, "VBUS_ADC", settings_type_t::INT, 16, 0, 0, 30000, 0, 1, settings_flags_t::NONE };
+Setting VBUS_ADC = { REG35_VBUS_ADC, true, "VBUS_ADC", "mV", settings_type_t::INT, 16, 0, 0, 30000, 0, 1, settings_flags_t::NONE };
+/// Returns VBUS_ADC in mV
 int getVBUS_ADC() { return getInt(VBUS_ADC); }
 
 
 // ================================
 // REG37_VAC1_ADC
 // ================================
-Setting VAC1_ADC = { REG37_VAC1_ADC, true, "VAC1_ADC", settings_type_t::INT, 16, 0, 0, 30000, 0, 1, settings_flags_t::NONE };
+Setting VAC1_ADC = { REG37_VAC1_ADC, true, "VAC1_ADC", "mV", settings_type_t::INT, 16, 0, 0, 30000, 0, 1, settings_flags_t::NONE };
+/// Returns VAC1_ADC in mV
 int getVAC1_ADC() { return getInt(VAC1_ADC); }
 
 
 // ================================
 // REG39_VAC2_ADC
 // ================================
-Setting VAC2_ADC = { REG39_VAC2_ADC, true, "VAC2_ADC", settings_type_t::INT, 16, 0, 0, 30000, 0, 1, settings_flags_t::NONE };
+Setting VAC2_ADC = { REG39_VAC2_ADC, true, "VAC2_ADC", "mV", settings_type_t::INT, 16, 0, 0, 30000, 0, 1, settings_flags_t::NONE };
+/// Returns VAC2_ADC in mV
 int getVAC2_ADC() { return getInt(VAC2_ADC); }
 
 
 // ================================
 // REG3B_VBAT_ADC
 // ================================
-Setting VBAT_ADC = { REG3B_VBAT_ADC, true, "VBAT_ADC", settings_type_t::INT, 16, 0, 0, 20000, 0, 1, settings_flags_t::NONE };
+Setting VBAT_ADC = { REG3B_VBAT_ADC, true, "VBAT_ADC", "mV", settings_type_t::INT, 16, 0, 0, 20000, 0, 1, settings_flags_t::NONE };
+/// Returns VBAT_ADC in mV
 int getVBAT_ADC() { return getInt(VBAT_ADC); }
 
 
 // ================================
 // REG3D_VSYS_ADC
 // ================================
-Setting VSYS_ADC = { REG3D_VSYS_ADC, true, "VSYS_ADC", settings_type_t::INT, 16, 0, 0, 24000, 0, 1, settings_flags_t::NONE };
+Setting VSYS_ADC = { REG3D_VSYS_ADC, true, "VSYS_ADC", "mV", settings_type_t::INT, 16, 0, 0, 24000, 0, 1, settings_flags_t::NONE };
+/// Returns VSYS_ADC in mV
 int getVSYS_ADC() { return getInt(VSYS_ADC); }
 
 
 // ================================
 // REG3F_TS_ADC
 // ================================
-Setting TS_ADC = { REG3F_TS_ADC, true, "TS_ADC", settings_type_t::FLOAT, 16, 0, 0, -99.9023, 0, 0.0976563, settings_flags_t::NONE };
+Setting TS_ADC = { REG3F_TS_ADC, true, "TS_ADC", "%", settings_type_t::FLOAT, 16, 0, 0, -99.9023, 0, 0.0976563, settings_flags_t::NONE };
+/// Returns TS_ADC in %
 float getTS_ADC() { return getFloat(TS_ADC); }
 
 
 // ================================
 // REG41_TDIE_ADC
 // ================================
-Setting TDIE_ADC = { REG41_TDIE_ADC, true, "TDIE_ADC", settings_type_t::FLOAT, 16, 0, -40, 150, 0, 0.5, settings_flags_t::IS_2COMPLEMENT };
+Setting TDIE_ADC = { REG41_TDIE_ADC, true, "TDIE_ADC", "degC", settings_type_t::FLOAT, 16, 0, -40, 150, 0, 0.5, settings_flags_t::IS_2COMPLEMENT };
+/// Returns TDIE_ADC in degC
 float getTDIE_ADC() { return getFloat(TDIE_ADC); }
 
 
 // ================================
 // REG43_DPLUS_ADC
 // ================================
-Setting DPLUS_ADC = { REG43_DPLUS_ADC, true, "DPLUS_ADC", settings_type_t::INT, 16, 0, 0, 3600, 0, 1, settings_flags_t::NONE };
+Setting DPLUS_ADC = { REG43_DPLUS_ADC, true, "DPLUS_ADC", "mV", settings_type_t::INT, 16, 0, 0, 3600, 0, 1, settings_flags_t::NONE };
+/// Returns DPLUS_ADC in mV
 int getDPLUS_ADC() { return getInt(DPLUS_ADC); }
 
 
 // ================================
 // REG45_DMINUS_ADC
 // ================================
-Setting DMINUS_ADC = { REG45_DMINUS_ADC, true, "DMINUS_ADC", settings_type_t::INT, 16, 0, 0, 3600, 0, 1, settings_flags_t::NONE };
+Setting DMINUS_ADC = { REG45_DMINUS_ADC, true, "DMINUS_ADC", "mV", settings_type_t::INT, 16, 0, 0, 3600, 0, 1, settings_flags_t::NONE };
+/// Returns DMINUS_ADC in mV
 int getDMINUS_ADC() { return getInt(DMINUS_ADC); }
 
 
@@ -2158,7 +2190,7 @@ strings_vector_t DPLUS_DAC_strings = {
     "D+/D- Short" 
 };
 
-Setting DPLUS_DAC = { REG47_DPDM_Driver, false, "DPLUS_DAC", settings_type_t::ENUM, 3, 5, 0, 0, 0, 0, settings_flags_t::NONE, DPLUS_DAC_strings };
+Setting DPLUS_DAC = { REG47_DPDM_Driver, false, "DPLUS_DAC", "", settings_type_t::ENUM, 3, 5, 0, 0, 0, 0, settings_flags_t::NONE, DPLUS_DAC_strings };
 DPLUS_DAC_t getDPLUS_DAC() { return static_cast<DPLUS_DAC_t>(getInt(DPLUS_DAC)); }
 const char * getDPLUS_DAC_string() { return getString(DPLUS_DAC); }
 void setAndWriteDPLUS_DAC(DPLUS_DAC_t val) { setAndWriteEnum<DPLUS_DAC_t>(DPLUS_DAC, val); }
@@ -2189,7 +2221,7 @@ strings_vector_t DMINUS_DAC_strings = {
     "Reserved" 
 };
 
-Setting DMINUS_DAC = { REG47_DPDM_Driver, false, "DMINUS_DAC", settings_type_t::ENUM, 3, 2, 0, 0, 0, 0, settings_flags_t::NONE, DMINUS_DAC_strings };
+Setting DMINUS_DAC = { REG47_DPDM_Driver, false, "DMINUS_DAC", "", settings_type_t::ENUM, 3, 2, 0, 0, 0, 0, settings_flags_t::NONE, DMINUS_DAC_strings };
 DMINUS_DAC_t getDMINUS_DAC() { return static_cast<DMINUS_DAC_t>(getInt(DMINUS_DAC)); }
 const char * getDMINUS_DAC_string() { return getString(DMINUS_DAC); }
 void setAndWriteDMINUS_DAC(DMINUS_DAC_t val) { setAndWriteEnum<DMINUS_DAC_t>(DMINUS_DAC, val); }
@@ -2220,7 +2252,7 @@ strings_vector_t PN_strings = {
     "?" 
 };
 
-Setting PN = { REG48_Part_Information, false, "PN", settings_type_t::ENUM, 3, 3, 0, 0, 0, 0, settings_flags_t::NONE, PN_strings };
+Setting PN = { REG48_Part_Information, false, "PN", "", settings_type_t::ENUM, 3, 3, 0, 0, 0, 0, settings_flags_t::NONE, PN_strings };
 PN_t getPN() { return static_cast<PN_t>(getInt(PN)); }
 const char * getPN_string() { return getString(PN); }
 
@@ -2250,7 +2282,7 @@ strings_vector_t DEV_REV_strings = {
     "?" 
 };
 
-Setting DEV_REV = { REG48_Part_Information, false, "DEV_REV", settings_type_t::ENUM, 3, 0, 0, 0, 0, 0, settings_flags_t::NONE, DEV_REV_strings };
+Setting DEV_REV = { REG48_Part_Information, false, "DEV_REV", "", settings_type_t::ENUM, 3, 0, 0, 0, 0, 0, settings_flags_t::NONE, DEV_REV_strings };
 DEV_REV_t getDEV_REV() { return static_cast<DEV_REV_t>(getInt(DEV_REV)); }
 const char * getDEV_REV_string() { return getString(DEV_REV); }
 
