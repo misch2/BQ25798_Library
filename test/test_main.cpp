@@ -52,9 +52,9 @@ void test_reg16_fields(void) {
 void test_bool(void) {
   BQ25798MockTest::Setting boolSetting = {reg0.address, false, "TEST_BOOL", "", BQ25798MockTest::settings_type_t::BOOL, 1, 0};
 
-  bq.setAndWriteREG_RST(true);
+  bq.setREG_RST(true);
   TEST_ASSERT_EQUAL(BQ25798MockTest::Error::ERROR_NONE, bq.lastError());
-  bq.setAndWriteEN_BACKUP(false);
+  bq.setEN_BACKUP(false);
   TEST_ASSERT_EQUAL(BQ25798MockTest::Error::ERROR_NONE, bq.lastError());
   TEST_ASSERT_EQUAL(false, bq.getAC1_PRESENT_FLAG());
   TEST_ASSERT_EQUAL(BQ25798MockTest::Error::ERROR_NONE, bq.lastError());
@@ -79,7 +79,7 @@ void test_bool(void) {
 void test_int(void) {
   BQ25798MockTest::Setting intSetting = {reg0.address, false, "TEST_INT", "foo", BQ25798MockTest::settings_type_t::INT, 0xFF, 0};
 
-  bq.setAndWriteVINDPM(12345);
+  bq.setVINDPM(12345);
   TEST_ASSERT_EQUAL(BQ25798MockTest::Error::ERROR_NONE, bq.lastError());
   TEST_ASSERT_EQUAL(12300, bq.getVINDPM());
   TEST_ASSERT_EQUAL(BQ25798MockTest::Error::ERROR_NONE, bq.lastError());

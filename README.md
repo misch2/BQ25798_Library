@@ -1,20 +1,21 @@
 # BQ25798 library for Arduino
 
-This library offers a simple interface to communicate with the BQ25798 battery charger IC from Texas Instruments. No bit manipulation is needed. No search for register addresses. No need to remember what different enum values mean. Just use the enum names and the library will take care of the rest.
+This library offers a simple interface to communicate with the BQ25798 battery charger IC from Texas Instruments.
 
 ## Features
 
-Easy use with clearly named registers and bitfields.
+Easy to use with named registers and bitfields:
 
 ```
 BQ25798 bq = BQ25798();
 
-bq.setAndWriteADC_EN(true);
-bq.setAndWriteTS_IGNORE(true);
-bq.setAndWriteEN_BACKUP(true);
+bq.setADC_EN(true);
+bq.setTS_IGNORE(true);
+bq.setEN_BACKUP(true);
 
-bq.setAndWriteADC_RATE(BQ25798::ADC_RATE_t::ONESHOT);
+bq.setADC_RATE(BQ25798::ADC_RATE_t::ONESHOT);
 
+printf("VSYSMIN: %d millivolts\n", bq.getVSYSMIN());
 printf("Charging status: %s\n", bq.getCHG_STAT_string());
 ```
 

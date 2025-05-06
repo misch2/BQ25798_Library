@@ -13,11 +13,11 @@ void setup() {
   }
 
   Serial.println("Setting up ADC");
-  bq.setAndWriteADC_EN(true);
-  bq.setAndWriteADC_SAMPLE(BQ25798::ADC_SAMPLE_t::ADC_SAMPLE_15BIT);
-  bq.setAndWriteADC_RATE(BQ25798::ADC_RATE_t::ADC_RATE_CONTINUOUS);
+  bq.setADC_EN(true);
+  bq.setADC_SAMPLE(BQ25798::ADC_SAMPLE_t::ADC_SAMPLE_15BIT);
+  bq.setADC_RATE(BQ25798::ADC_RATE_t::ADC_RATE_CONTINUOUS);
 
-  bq.setAndWriteTS_IGNORE(false);
+  bq.setTS_IGNORE(false);
 }
 
 void loop() {

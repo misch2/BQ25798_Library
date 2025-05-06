@@ -6,7 +6,7 @@ Setting VSYSMIN = { REG00_Minimal_System_Voltage, false, "VSYSMIN", "mV", settin
 /// Returns VSYSMIN in mV
 int getVSYSMIN() { return getInt(VSYSMIN); }
 /// Sets VSYSMIN in mV
-void setAndWriteVSYSMIN(int val) { setAndWriteInt(VSYSMIN, val); }
+void setVSYSMIN(int val) { setInt(VSYSMIN, val); }
 
 
 // ================================
@@ -16,7 +16,7 @@ Setting VREG = { REG01_Charge_Voltage_Limit, true, "VREG", "mV", settings_type_t
 /// Returns VREG in mV
 int getVREG() { return getInt(VREG); }
 /// Sets VREG in mV
-void setAndWriteVREG(int val) { setAndWriteInt(VREG, val); }
+void setVREG(int val) { setInt(VREG, val); }
 
 
 // ================================
@@ -26,7 +26,7 @@ Setting ICHG = { REG03_Charge_Current_Limit, true, "ICHG", "mA", settings_type_t
 /// Returns ICHG in mA
 int getICHG() { return getInt(ICHG); }
 /// Sets ICHG in mA
-void setAndWriteICHG(int val) { setAndWriteInt(ICHG, val); }
+void setICHG(int val) { setInt(ICHG, val); }
 
 
 // ================================
@@ -36,7 +36,7 @@ Setting VINDPM = { REG05_Input_Voltage_Limit, false, "VINDPM", "mV", settings_ty
 /// Returns VINDPM in mV
 int getVINDPM() { return getInt(VINDPM); }
 /// Sets VINDPM in mV
-void setAndWriteVINDPM(int val) { setAndWriteInt(VINDPM, val); }
+void setVINDPM(int val) { setInt(VINDPM, val); }
 
 
 // ================================
@@ -46,7 +46,7 @@ Setting IINDPM = { REG06_Input_Current_Limit, true, "IINDPM", "mA", settings_typ
 /// Returns IINDPM in mA
 int getIINDPM() { return getInt(IINDPM); }
 /// Sets IINDPM in mA
-void setAndWriteIINDPM(int val) { setAndWriteInt(IINDPM, val); }
+void setIINDPM(int val) { setInt(IINDPM, val); }
 
 
 // ================================
@@ -69,7 +69,7 @@ strings_vector_t VBAT_LOWV_strings = {
 Setting VBAT_LOWV = { REG08_Precharge_Control, false, "VBAT_LOWV", "", settings_type_t::ENUM, 2, 6, 0, 0, 0, 0, settings_flags_t::NONE, VBAT_LOWV_strings };
 VBAT_LOWV_t getVBAT_LOWV() { return static_cast<VBAT_LOWV_t>(getInt(VBAT_LOWV)); }
 const char * getVBAT_LOWV_string() { return getString(VBAT_LOWV); }
-void setAndWriteVBAT_LOWV(VBAT_LOWV_t val) { setAndWriteEnum<VBAT_LOWV_t>(VBAT_LOWV, val); }
+void setVBAT_LOWV(VBAT_LOWV_t val) { setEnum<VBAT_LOWV_t>(VBAT_LOWV, val); }
 
 
 // ================================
@@ -79,7 +79,7 @@ Setting IPRECHG = { REG08_Precharge_Control, false, "IPRECHG", "mA", settings_ty
 /// Returns IPRECHG in mA
 int getIPRECHG() { return getInt(IPRECHG); }
 /// Sets IPRECHG in mA
-void setAndWriteIPRECHG(int val) { setAndWriteInt(IPRECHG, val); }
+void setIPRECHG(int val) { setInt(IPRECHG, val); }
 
 
 // ================================
@@ -87,7 +87,7 @@ void setAndWriteIPRECHG(int val) { setAndWriteInt(IPRECHG, val); }
 // ================================
 Setting REG_RST = { REG09_Termination_Control, false, "REG_RST", "", settings_type_t::BOOL, 1, 6 };
 bool getREG_RST() { return getBool(REG_RST); }
-void setAndWriteREG_RST(bool val) { setAndWriteBool(REG_RST, val); }
+void setREG_RST(bool val) { setBool(REG_RST, val); }
 
 
 // ================================
@@ -95,7 +95,7 @@ void setAndWriteREG_RST(bool val) { setAndWriteBool(REG_RST, val); }
 // ================================
 Setting STOP_WD_CHG = { REG09_Termination_Control, false, "STOP_WD_CHG", "", settings_type_t::BOOL, 1, 5 };
 bool getSTOP_WD_CHG() { return getBool(STOP_WD_CHG); }
-void setAndWriteSTOP_WD_CHG(bool val) { setAndWriteBool(STOP_WD_CHG, val); }
+void setSTOP_WD_CHG(bool val) { setBool(STOP_WD_CHG, val); }
 
 
 // ================================
@@ -105,7 +105,7 @@ Setting ITERM = { REG09_Termination_Control, false, "ITERM", "mA", settings_type
 /// Returns ITERM in mA
 int getITERM() { return getInt(ITERM); }
 /// Sets ITERM in mA
-void setAndWriteITERM(int val) { setAndWriteInt(ITERM, val); }
+void setITERM(int val) { setInt(ITERM, val); }
 
 
 // ================================
@@ -128,7 +128,7 @@ strings_vector_t CELL_strings = {
 Setting CELL = { REG0A_Recharge_Control, false, "CELL", "", settings_type_t::ENUM, 2, 6, 0, 0, 0, 0, settings_flags_t::NONE, CELL_strings };
 CELL_t getCELL() { return static_cast<CELL_t>(getInt(CELL)); }
 const char * getCELL_string() { return getString(CELL); }
-void setAndWriteCELL(CELL_t val) { setAndWriteEnum<CELL_t>(CELL, val); }
+void setCELL(CELL_t val) { setEnum<CELL_t>(CELL, val); }
 
 
 // ================================
@@ -151,7 +151,7 @@ strings_vector_t TRECHG_strings = {
 Setting TRECHG = { REG0A_Recharge_Control, false, "TRECHG", "", settings_type_t::ENUM, 2, 4, 0, 0, 0, 0, settings_flags_t::NONE, TRECHG_strings };
 TRECHG_t getTRECHG() { return static_cast<TRECHG_t>(getInt(TRECHG)); }
 const char * getTRECHG_string() { return getString(TRECHG); }
-void setAndWriteTRECHG(TRECHG_t val) { setAndWriteEnum<TRECHG_t>(TRECHG, val); }
+void setTRECHG(TRECHG_t val) { setEnum<TRECHG_t>(TRECHG, val); }
 
 
 // ================================
@@ -161,7 +161,7 @@ Setting VRECHG = { REG0A_Recharge_Control, false, "VRECHG", "mV", settings_type_
 /// Returns VRECHG in mV
 int getVRECHG() { return getInt(VRECHG); }
 /// Sets VRECHG in mV
-void setAndWriteVRECHG(int val) { setAndWriteInt(VRECHG, val); }
+void setVRECHG(int val) { setInt(VRECHG, val); }
 
 
 // ================================
@@ -171,7 +171,7 @@ Setting VOTG = { REG0B_VOTG_regulation, true, "VOTG", "mV", settings_type_t::INT
 /// Returns VOTG in mV
 int getVOTG() { return getInt(VOTG); }
 /// Sets VOTG in mV
-void setAndWriteVOTG(int val) { setAndWriteInt(VOTG, val); }
+void setVOTG(int val) { setInt(VOTG, val); }
 
 
 // ================================
@@ -190,7 +190,7 @@ strings_vector_t PRECHG_TMR_strings = {
 Setting PRECHG_TMR = { REG0D_IOTG_regulation, false, "PRECHG_TMR", "", settings_type_t::ENUM, 1, 7, 0, 0, 0, 0, settings_flags_t::NONE, PRECHG_TMR_strings };
 PRECHG_TMR_t getPRECHG_TMR() { return static_cast<PRECHG_TMR_t>(getInt(PRECHG_TMR)); }
 const char * getPRECHG_TMR_string() { return getString(PRECHG_TMR); }
-void setAndWritePRECHG_TMR(PRECHG_TMR_t val) { setAndWriteEnum<PRECHG_TMR_t>(PRECHG_TMR, val); }
+void setPRECHG_TMR(PRECHG_TMR_t val) { setEnum<PRECHG_TMR_t>(PRECHG_TMR, val); }
 
 
 // ================================
@@ -200,7 +200,7 @@ Setting IOTG = { REG0D_IOTG_regulation, false, "IOTG", "mA", settings_type_t::IN
 /// Returns IOTG in mA
 int getIOTG() { return getInt(IOTG); }
 /// Sets IOTG in mA
-void setAndWriteIOTG(int val) { setAndWriteInt(IOTG, val); }
+void setIOTG(int val) { setInt(IOTG, val); }
 
 
 // ================================
@@ -223,7 +223,7 @@ strings_vector_t TOPOFF_TMR_strings = {
 Setting TOPOFF_TMR = { REG0E_Timer_Control, false, "TOPOFF_TMR", "", settings_type_t::ENUM, 2, 6, 0, 0, 0, 0, settings_flags_t::NONE, TOPOFF_TMR_strings };
 TOPOFF_TMR_t getTOPOFF_TMR() { return static_cast<TOPOFF_TMR_t>(getInt(TOPOFF_TMR)); }
 const char * getTOPOFF_TMR_string() { return getString(TOPOFF_TMR); }
-void setAndWriteTOPOFF_TMR(TOPOFF_TMR_t val) { setAndWriteEnum<TOPOFF_TMR_t>(TOPOFF_TMR, val); }
+void setTOPOFF_TMR(TOPOFF_TMR_t val) { setEnum<TOPOFF_TMR_t>(TOPOFF_TMR, val); }
 
 
 // ================================
@@ -231,7 +231,7 @@ void setAndWriteTOPOFF_TMR(TOPOFF_TMR_t val) { setAndWriteEnum<TOPOFF_TMR_t>(TOP
 // ================================
 Setting EN_TRICHG_TMR = { REG0E_Timer_Control, false, "EN_TRICHG_TMR", "", settings_type_t::BOOL, 1, 5 };
 bool getEN_TRICHG_TMR() { return getBool(EN_TRICHG_TMR); }
-void setAndWriteEN_TRICHG_TMR(bool val) { setAndWriteBool(EN_TRICHG_TMR, val); }
+void setEN_TRICHG_TMR(bool val) { setBool(EN_TRICHG_TMR, val); }
 
 
 // ================================
@@ -239,7 +239,7 @@ void setAndWriteEN_TRICHG_TMR(bool val) { setAndWriteBool(EN_TRICHG_TMR, val); }
 // ================================
 Setting EN_PRECHG_TMR = { REG0E_Timer_Control, false, "EN_PRECHG_TMR", "", settings_type_t::BOOL, 1, 4 };
 bool getEN_PRECHG_TMR() { return getBool(EN_PRECHG_TMR); }
-void setAndWriteEN_PRECHG_TMR(bool val) { setAndWriteBool(EN_PRECHG_TMR, val); }
+void setEN_PRECHG_TMR(bool val) { setBool(EN_PRECHG_TMR, val); }
 
 
 // ================================
@@ -247,7 +247,7 @@ void setAndWriteEN_PRECHG_TMR(bool val) { setAndWriteBool(EN_PRECHG_TMR, val); }
 // ================================
 Setting EN_CHG_TMR = { REG0E_Timer_Control, false, "EN_CHG_TMR", "", settings_type_t::BOOL, 1, 3 };
 bool getEN_CHG_TMR() { return getBool(EN_CHG_TMR); }
-void setAndWriteEN_CHG_TMR(bool val) { setAndWriteBool(EN_CHG_TMR, val); }
+void setEN_CHG_TMR(bool val) { setBool(EN_CHG_TMR, val); }
 
 
 // ================================
@@ -270,7 +270,7 @@ strings_vector_t CHG_TMR_strings = {
 Setting CHG_TMR = { REG0E_Timer_Control, false, "CHG_TMR", "", settings_type_t::ENUM, 2, 1, 0, 0, 0, 0, settings_flags_t::NONE, CHG_TMR_strings };
 CHG_TMR_t getCHG_TMR() { return static_cast<CHG_TMR_t>(getInt(CHG_TMR)); }
 const char * getCHG_TMR_string() { return getString(CHG_TMR); }
-void setAndWriteCHG_TMR(CHG_TMR_t val) { setAndWriteEnum<CHG_TMR_t>(CHG_TMR, val); }
+void setCHG_TMR(CHG_TMR_t val) { setEnum<CHG_TMR_t>(CHG_TMR, val); }
 
 
 // ================================
@@ -278,7 +278,7 @@ void setAndWriteCHG_TMR(CHG_TMR_t val) { setAndWriteEnum<CHG_TMR_t>(CHG_TMR, val
 // ================================
 Setting TMR2X_EN = { REG0E_Timer_Control, false, "TMR2X_EN", "", settings_type_t::BOOL, 1, 0 };
 bool getTMR2X_EN() { return getBool(TMR2X_EN); }
-void setAndWriteTMR2X_EN(bool val) { setAndWriteBool(TMR2X_EN, val); }
+void setTMR2X_EN(bool val) { setBool(TMR2X_EN, val); }
 
 
 // ================================
@@ -286,7 +286,7 @@ void setAndWriteTMR2X_EN(bool val) { setAndWriteBool(TMR2X_EN, val); }
 // ================================
 Setting EN_AUTO_IBATDIS = { REG0F_Charger_Control_0, false, "EN_AUTO_IBATDIS", "", settings_type_t::BOOL, 1, 7 };
 bool getEN_AUTO_IBATDIS() { return getBool(EN_AUTO_IBATDIS); }
-void setAndWriteEN_AUTO_IBATDIS(bool val) { setAndWriteBool(EN_AUTO_IBATDIS, val); }
+void setEN_AUTO_IBATDIS(bool val) { setBool(EN_AUTO_IBATDIS, val); }
 
 
 // ================================
@@ -294,7 +294,7 @@ void setAndWriteEN_AUTO_IBATDIS(bool val) { setAndWriteBool(EN_AUTO_IBATDIS, val
 // ================================
 Setting FORCE_IBATDIS = { REG0F_Charger_Control_0, false, "FORCE_IBATDIS", "", settings_type_t::BOOL, 1, 6 };
 bool getFORCE_IBATDIS() { return getBool(FORCE_IBATDIS); }
-void setAndWriteFORCE_IBATDIS(bool val) { setAndWriteBool(FORCE_IBATDIS, val); }
+void setFORCE_IBATDIS(bool val) { setBool(FORCE_IBATDIS, val); }
 
 
 // ================================
@@ -302,7 +302,7 @@ void setAndWriteFORCE_IBATDIS(bool val) { setAndWriteBool(FORCE_IBATDIS, val); }
 // ================================
 Setting EN_CHG = { REG0F_Charger_Control_0, false, "EN_CHG", "", settings_type_t::BOOL, 1, 5 };
 bool getEN_CHG() { return getBool(EN_CHG); }
-void setAndWriteEN_CHG(bool val) { setAndWriteBool(EN_CHG, val); }
+void setEN_CHG(bool val) { setBool(EN_CHG, val); }
 
 
 // ================================
@@ -310,7 +310,7 @@ void setAndWriteEN_CHG(bool val) { setAndWriteBool(EN_CHG, val); }
 // ================================
 Setting EN_ICO = { REG0F_Charger_Control_0, false, "EN_ICO", "", settings_type_t::BOOL, 1, 4 };
 bool getEN_ICO() { return getBool(EN_ICO); }
-void setAndWriteEN_ICO(bool val) { setAndWriteBool(EN_ICO, val); }
+void setEN_ICO(bool val) { setBool(EN_ICO, val); }
 
 
 // ================================
@@ -318,7 +318,7 @@ void setAndWriteEN_ICO(bool val) { setAndWriteBool(EN_ICO, val); }
 // ================================
 Setting FORCE_ICO = { REG0F_Charger_Control_0, false, "FORCE_ICO", "", settings_type_t::BOOL, 1, 3 };
 bool getFORCE_ICO() { return getBool(FORCE_ICO); }
-void setAndWriteFORCE_ICO(bool val) { setAndWriteBool(FORCE_ICO, val); }
+void setFORCE_ICO(bool val) { setBool(FORCE_ICO, val); }
 
 
 // ================================
@@ -326,7 +326,7 @@ void setAndWriteFORCE_ICO(bool val) { setAndWriteBool(FORCE_ICO, val); }
 // ================================
 Setting EN_HIZ = { REG0F_Charger_Control_0, false, "EN_HIZ", "", settings_type_t::BOOL, 1, 2 };
 bool getEN_HIZ() { return getBool(EN_HIZ); }
-void setAndWriteEN_HIZ(bool val) { setAndWriteBool(EN_HIZ, val); }
+void setEN_HIZ(bool val) { setBool(EN_HIZ, val); }
 
 
 // ================================
@@ -334,7 +334,7 @@ void setAndWriteEN_HIZ(bool val) { setAndWriteBool(EN_HIZ, val); }
 // ================================
 Setting EN_TERM = { REG0F_Charger_Control_0, false, "EN_TERM", "", settings_type_t::BOOL, 1, 1 };
 bool getEN_TERM() { return getBool(EN_TERM); }
-void setAndWriteEN_TERM(bool val) { setAndWriteBool(EN_TERM, val); }
+void setEN_TERM(bool val) { setBool(EN_TERM, val); }
 
 
 // ================================
@@ -342,7 +342,7 @@ void setAndWriteEN_TERM(bool val) { setAndWriteBool(EN_TERM, val); }
 // ================================
 Setting EN_BACKUP = { REG0F_Charger_Control_0, false, "EN_BACKUP", "", settings_type_t::BOOL, 1, 0 };
 bool getEN_BACKUP() { return getBool(EN_BACKUP); }
-void setAndWriteEN_BACKUP(bool val) { setAndWriteBool(EN_BACKUP, val); }
+void setEN_BACKUP(bool val) { setBool(EN_BACKUP, val); }
 
 
 // ================================
@@ -365,7 +365,7 @@ strings_vector_t VBUS_BACKUP_strings = {
 Setting VBUS_BACKUP = { REG10_Charger_Control_1, false, "VBUS_BACKUP", "", settings_type_t::ENUM, 2, 6, 0, 0, 0, 0, settings_flags_t::NONE, VBUS_BACKUP_strings };
 VBUS_BACKUP_t getVBUS_BACKUP() { return static_cast<VBUS_BACKUP_t>(getInt(VBUS_BACKUP)); }
 const char * getVBUS_BACKUP_string() { return getString(VBUS_BACKUP); }
-void setAndWriteVBUS_BACKUP(VBUS_BACKUP_t val) { setAndWriteEnum<VBUS_BACKUP_t>(VBUS_BACKUP, val); }
+void setVBUS_BACKUP(VBUS_BACKUP_t val) { setEnum<VBUS_BACKUP_t>(VBUS_BACKUP, val); }
 
 
 // ================================
@@ -388,7 +388,7 @@ strings_vector_t VAC_OVP_strings = {
 Setting VAC_OVP = { REG10_Charger_Control_1, false, "VAC_OVP", "", settings_type_t::ENUM, 2, 4, 0, 0, 0, 0, settings_flags_t::NONE, VAC_OVP_strings };
 VAC_OVP_t getVAC_OVP() { return static_cast<VAC_OVP_t>(getInt(VAC_OVP)); }
 const char * getVAC_OVP_string() { return getString(VAC_OVP); }
-void setAndWriteVAC_OVP(VAC_OVP_t val) { setAndWriteEnum<VAC_OVP_t>(VAC_OVP, val); }
+void setVAC_OVP(VAC_OVP_t val) { setEnum<VAC_OVP_t>(VAC_OVP, val); }
 
 
 // ================================
@@ -396,7 +396,7 @@ void setAndWriteVAC_OVP(VAC_OVP_t val) { setAndWriteEnum<VAC_OVP_t>(VAC_OVP, val
 // ================================
 Setting WD_RST = { REG10_Charger_Control_1, false, "WD_RST", "", settings_type_t::BOOL, 1, 3 };
 bool getWD_RST() { return getBool(WD_RST); }
-void setAndWriteWD_RST(bool val) { setAndWriteBool(WD_RST, val); }
+void setWD_RST(bool val) { setBool(WD_RST, val); }
 
 
 // ================================
@@ -427,7 +427,7 @@ strings_vector_t WATCHDOG_strings = {
 Setting WATCHDOG = { REG10_Charger_Control_1, false, "WATCHDOG", "", settings_type_t::ENUM, 3, 0, 0, 0, 0, 0, settings_flags_t::NONE, WATCHDOG_strings };
 WATCHDOG_t getWATCHDOG() { return static_cast<WATCHDOG_t>(getInt(WATCHDOG)); }
 const char * getWATCHDOG_string() { return getString(WATCHDOG); }
-void setAndWriteWATCHDOG(WATCHDOG_t val) { setAndWriteEnum<WATCHDOG_t>(WATCHDOG, val); }
+void setWATCHDOG(WATCHDOG_t val) { setEnum<WATCHDOG_t>(WATCHDOG, val); }
 
 
 // ================================
@@ -435,7 +435,7 @@ void setAndWriteWATCHDOG(WATCHDOG_t val) { setAndWriteEnum<WATCHDOG_t>(WATCHDOG,
 // ================================
 Setting FORCE_INDET = { REG11_Charger_Control_2, false, "FORCE_INDET", "", settings_type_t::BOOL, 1, 7 };
 bool getFORCE_INDET() { return getBool(FORCE_INDET); }
-void setAndWriteFORCE_INDET(bool val) { setAndWriteBool(FORCE_INDET, val); }
+void setFORCE_INDET(bool val) { setBool(FORCE_INDET, val); }
 
 
 // ================================
@@ -443,7 +443,7 @@ void setAndWriteFORCE_INDET(bool val) { setAndWriteBool(FORCE_INDET, val); }
 // ================================
 Setting AUTO_INDET_EN = { REG11_Charger_Control_2, false, "AUTO_INDET_EN", "", settings_type_t::BOOL, 1, 6 };
 bool getAUTO_INDET_EN() { return getBool(AUTO_INDET_EN); }
-void setAndWriteAUTO_INDET_EN(bool val) { setAndWriteBool(AUTO_INDET_EN, val); }
+void setAUTO_INDET_EN(bool val) { setBool(AUTO_INDET_EN, val); }
 
 
 // ================================
@@ -451,7 +451,7 @@ void setAndWriteAUTO_INDET_EN(bool val) { setAndWriteBool(AUTO_INDET_EN, val); }
 // ================================
 Setting EN_12V = { REG11_Charger_Control_2, false, "EN_12V", "", settings_type_t::BOOL, 1, 5 };
 bool getEN_12V() { return getBool(EN_12V); }
-void setAndWriteEN_12V(bool val) { setAndWriteBool(EN_12V, val); }
+void setEN_12V(bool val) { setBool(EN_12V, val); }
 
 
 // ================================
@@ -459,7 +459,7 @@ void setAndWriteEN_12V(bool val) { setAndWriteBool(EN_12V, val); }
 // ================================
 Setting EN_9V = { REG11_Charger_Control_2, false, "EN_9V", "", settings_type_t::BOOL, 1, 4 };
 bool getEN_9V() { return getBool(EN_9V); }
-void setAndWriteEN_9V(bool val) { setAndWriteBool(EN_9V, val); }
+void setEN_9V(bool val) { setBool(EN_9V, val); }
 
 
 // ================================
@@ -467,7 +467,7 @@ void setAndWriteEN_9V(bool val) { setAndWriteBool(EN_9V, val); }
 // ================================
 Setting HVDCP_EN = { REG11_Charger_Control_2, false, "HVDCP_EN", "", settings_type_t::BOOL, 1, 3 };
 bool getHVDCP_EN() { return getBool(HVDCP_EN); }
-void setAndWriteHVDCP_EN(bool val) { setAndWriteBool(HVDCP_EN, val); }
+void setHVDCP_EN(bool val) { setBool(HVDCP_EN, val); }
 
 
 // ================================
@@ -490,7 +490,7 @@ strings_vector_t SDRV_CTRL_strings = {
 Setting SDRV_CTRL = { REG11_Charger_Control_2, false, "SDRV_CTRL", "", settings_type_t::ENUM, 2, 1, 0, 0, 0, 0, settings_flags_t::NONE, SDRV_CTRL_strings };
 SDRV_CTRL_t getSDRV_CTRL() { return static_cast<SDRV_CTRL_t>(getInt(SDRV_CTRL)); }
 const char * getSDRV_CTRL_string() { return getString(SDRV_CTRL); }
-void setAndWriteSDRV_CTRL(SDRV_CTRL_t val) { setAndWriteEnum<SDRV_CTRL_t>(SDRV_CTRL, val); }
+void setSDRV_CTRL(SDRV_CTRL_t val) { setEnum<SDRV_CTRL_t>(SDRV_CTRL, val); }
 
 
 // ================================
@@ -509,7 +509,7 @@ strings_vector_t SDRV_DLY_strings = {
 Setting SDRV_DLY = { REG11_Charger_Control_2, false, "SDRV_DLY", "", settings_type_t::ENUM, 1, 0, 0, 0, 0, 0, settings_flags_t::NONE, SDRV_DLY_strings };
 SDRV_DLY_t getSDRV_DLY() { return static_cast<SDRV_DLY_t>(getInt(SDRV_DLY)); }
 const char * getSDRV_DLY_string() { return getString(SDRV_DLY); }
-void setAndWriteSDRV_DLY(SDRV_DLY_t val) { setAndWriteEnum<SDRV_DLY_t>(SDRV_DLY, val); }
+void setSDRV_DLY(SDRV_DLY_t val) { setEnum<SDRV_DLY_t>(SDRV_DLY, val); }
 
 
 // ================================
@@ -517,7 +517,7 @@ void setAndWriteSDRV_DLY(SDRV_DLY_t val) { setAndWriteEnum<SDRV_DLY_t>(SDRV_DLY,
 // ================================
 Setting DIS_ACDRV = { REG12_Charger_Control_3, false, "DIS_ACDRV", "", settings_type_t::BOOL, 1, 7 };
 bool getDIS_ACDRV() { return getBool(DIS_ACDRV); }
-void setAndWriteDIS_ACDRV(bool val) { setAndWriteBool(DIS_ACDRV, val); }
+void setDIS_ACDRV(bool val) { setBool(DIS_ACDRV, val); }
 
 
 // ================================
@@ -525,7 +525,7 @@ void setAndWriteDIS_ACDRV(bool val) { setAndWriteBool(DIS_ACDRV, val); }
 // ================================
 Setting EN_OTG = { REG12_Charger_Control_3, false, "EN_OTG", "", settings_type_t::BOOL, 1, 6 };
 bool getEN_OTG() { return getBool(EN_OTG); }
-void setAndWriteEN_OTG(bool val) { setAndWriteBool(EN_OTG, val); }
+void setEN_OTG(bool val) { setBool(EN_OTG, val); }
 
 
 // ================================
@@ -533,7 +533,7 @@ void setAndWriteEN_OTG(bool val) { setAndWriteBool(EN_OTG, val); }
 // ================================
 Setting PFM_OTG_DIS = { REG12_Charger_Control_3, false, "PFM_OTG_DIS", "", settings_type_t::BOOL, 1, 5 };
 bool getPFM_OTG_DIS() { return getBool(PFM_OTG_DIS); }
-void setAndWritePFM_OTG_DIS(bool val) { setAndWriteBool(PFM_OTG_DIS, val); }
+void setPFM_OTG_DIS(bool val) { setBool(PFM_OTG_DIS, val); }
 
 
 // ================================
@@ -541,7 +541,7 @@ void setAndWritePFM_OTG_DIS(bool val) { setAndWriteBool(PFM_OTG_DIS, val); }
 // ================================
 Setting PFM_FWD_DIS = { REG12_Charger_Control_3, false, "PFM_FWD_DIS", "", settings_type_t::BOOL, 1, 4 };
 bool getPFM_FWD_DIS() { return getBool(PFM_FWD_DIS); }
-void setAndWritePFM_FWD_DIS(bool val) { setAndWriteBool(PFM_FWD_DIS, val); }
+void setPFM_FWD_DIS(bool val) { setBool(PFM_FWD_DIS, val); }
 
 
 // ================================
@@ -560,7 +560,7 @@ strings_vector_t WKUP_DLY_strings = {
 Setting WKUP_DLY = { REG12_Charger_Control_3, false, "WKUP_DLY", "", settings_type_t::ENUM, 1, 3, 0, 0, 0, 0, settings_flags_t::NONE, WKUP_DLY_strings };
 WKUP_DLY_t getWKUP_DLY() { return static_cast<WKUP_DLY_t>(getInt(WKUP_DLY)); }
 const char * getWKUP_DLY_string() { return getString(WKUP_DLY); }
-void setAndWriteWKUP_DLY(WKUP_DLY_t val) { setAndWriteEnum<WKUP_DLY_t>(WKUP_DLY, val); }
+void setWKUP_DLY(WKUP_DLY_t val) { setEnum<WKUP_DLY_t>(WKUP_DLY, val); }
 
 
 // ================================
@@ -568,7 +568,7 @@ void setAndWriteWKUP_DLY(WKUP_DLY_t val) { setAndWriteEnum<WKUP_DLY_t>(WKUP_DLY,
 // ================================
 Setting DIS_LDO = { REG12_Charger_Control_3, false, "DIS_LDO", "", settings_type_t::BOOL, 1, 2 };
 bool getDIS_LDO() { return getBool(DIS_LDO); }
-void setAndWriteDIS_LDO(bool val) { setAndWriteBool(DIS_LDO, val); }
+void setDIS_LDO(bool val) { setBool(DIS_LDO, val); }
 
 
 // ================================
@@ -576,7 +576,7 @@ void setAndWriteDIS_LDO(bool val) { setAndWriteBool(DIS_LDO, val); }
 // ================================
 Setting DIS_OTG_OOA = { REG12_Charger_Control_3, false, "DIS_OTG_OOA", "", settings_type_t::BOOL, 1, 1 };
 bool getDIS_OTG_OOA() { return getBool(DIS_OTG_OOA); }
-void setAndWriteDIS_OTG_OOA(bool val) { setAndWriteBool(DIS_OTG_OOA, val); }
+void setDIS_OTG_OOA(bool val) { setBool(DIS_OTG_OOA, val); }
 
 
 // ================================
@@ -584,7 +584,7 @@ void setAndWriteDIS_OTG_OOA(bool val) { setAndWriteBool(DIS_OTG_OOA, val); }
 // ================================
 Setting DIS_FWD_OOA = { REG12_Charger_Control_3, false, "DIS_FWD_OOA", "", settings_type_t::BOOL, 1, 0 };
 bool getDIS_FWD_OOA() { return getBool(DIS_FWD_OOA); }
-void setAndWriteDIS_FWD_OOA(bool val) { setAndWriteBool(DIS_FWD_OOA, val); }
+void setDIS_FWD_OOA(bool val) { setBool(DIS_FWD_OOA, val); }
 
 
 // ================================
@@ -592,7 +592,7 @@ void setAndWriteDIS_FWD_OOA(bool val) { setAndWriteBool(DIS_FWD_OOA, val); }
 // ================================
 Setting EN_ACDRV2 = { REG13_Charger_Control_4, false, "EN_ACDRV2", "", settings_type_t::BOOL, 1, 7 };
 bool getEN_ACDRV2() { return getBool(EN_ACDRV2); }
-void setAndWriteEN_ACDRV2(bool val) { setAndWriteBool(EN_ACDRV2, val); }
+void setEN_ACDRV2(bool val) { setBool(EN_ACDRV2, val); }
 
 
 // ================================
@@ -600,7 +600,7 @@ void setAndWriteEN_ACDRV2(bool val) { setAndWriteBool(EN_ACDRV2, val); }
 // ================================
 Setting EN_ACDRV1 = { REG13_Charger_Control_4, false, "EN_ACDRV1", "", settings_type_t::BOOL, 1, 6 };
 bool getEN_ACDRV1() { return getBool(EN_ACDRV1); }
-void setAndWriteEN_ACDRV1(bool val) { setAndWriteBool(EN_ACDRV1, val); }
+void setEN_ACDRV1(bool val) { setBool(EN_ACDRV1, val); }
 
 
 // ================================
@@ -619,7 +619,7 @@ strings_vector_t PWM_FREQ_strings = {
 Setting PWM_FREQ = { REG13_Charger_Control_4, false, "PWM_FREQ", "", settings_type_t::ENUM, 1, 5, 0, 0, 0, 0, settings_flags_t::NONE, PWM_FREQ_strings };
 PWM_FREQ_t getPWM_FREQ() { return static_cast<PWM_FREQ_t>(getInt(PWM_FREQ)); }
 const char * getPWM_FREQ_string() { return getString(PWM_FREQ); }
-void setAndWritePWM_FREQ(PWM_FREQ_t val) { setAndWriteEnum<PWM_FREQ_t>(PWM_FREQ, val); }
+void setPWM_FREQ(PWM_FREQ_t val) { setEnum<PWM_FREQ_t>(PWM_FREQ, val); }
 
 
 // ================================
@@ -627,7 +627,7 @@ void setAndWritePWM_FREQ(PWM_FREQ_t val) { setAndWriteEnum<PWM_FREQ_t>(PWM_FREQ,
 // ================================
 Setting DIS_STAT = { REG13_Charger_Control_4, false, "DIS_STAT", "", settings_type_t::BOOL, 1, 4 };
 bool getDIS_STAT() { return getBool(DIS_STAT); }
-void setAndWriteDIS_STAT(bool val) { setAndWriteBool(DIS_STAT, val); }
+void setDIS_STAT(bool val) { setBool(DIS_STAT, val); }
 
 
 // ================================
@@ -635,7 +635,7 @@ void setAndWriteDIS_STAT(bool val) { setAndWriteBool(DIS_STAT, val); }
 // ================================
 Setting DIS_VSYS_SHORT = { REG13_Charger_Control_4, false, "DIS_VSYS_SHORT", "", settings_type_t::BOOL, 1, 3 };
 bool getDIS_VSYS_SHORT() { return getBool(DIS_VSYS_SHORT); }
-void setAndWriteDIS_VSYS_SHORT(bool val) { setAndWriteBool(DIS_VSYS_SHORT, val); }
+void setDIS_VSYS_SHORT(bool val) { setBool(DIS_VSYS_SHORT, val); }
 
 
 // ================================
@@ -643,7 +643,7 @@ void setAndWriteDIS_VSYS_SHORT(bool val) { setAndWriteBool(DIS_VSYS_SHORT, val);
 // ================================
 Setting DIS_VOTG_UVP = { REG13_Charger_Control_4, false, "DIS_VOTG_UVP", "", settings_type_t::BOOL, 1, 2 };
 bool getDIS_VOTG_UVP() { return getBool(DIS_VOTG_UVP); }
-void setAndWriteDIS_VOTG_UVP(bool val) { setAndWriteBool(DIS_VOTG_UVP, val); }
+void setDIS_VOTG_UVP(bool val) { setBool(DIS_VOTG_UVP, val); }
 
 
 // ================================
@@ -651,7 +651,7 @@ void setAndWriteDIS_VOTG_UVP(bool val) { setAndWriteBool(DIS_VOTG_UVP, val); }
 // ================================
 Setting FORCE_VINDPM_DET = { REG13_Charger_Control_4, false, "FORCE_VINDPM_DET", "", settings_type_t::BOOL, 1, 1 };
 bool getFORCE_VINDPM_DET() { return getBool(FORCE_VINDPM_DET); }
-void setAndWriteFORCE_VINDPM_DET(bool val) { setAndWriteBool(FORCE_VINDPM_DET, val); }
+void setFORCE_VINDPM_DET(bool val) { setBool(FORCE_VINDPM_DET, val); }
 
 
 // ================================
@@ -659,7 +659,7 @@ void setAndWriteFORCE_VINDPM_DET(bool val) { setAndWriteBool(FORCE_VINDPM_DET, v
 // ================================
 Setting EN_IBUS_OCP = { REG13_Charger_Control_4, false, "EN_IBUS_OCP", "", settings_type_t::BOOL, 1, 0 };
 bool getEN_IBUS_OCP() { return getBool(EN_IBUS_OCP); }
-void setAndWriteEN_IBUS_OCP(bool val) { setAndWriteBool(EN_IBUS_OCP, val); }
+void setEN_IBUS_OCP(bool val) { setBool(EN_IBUS_OCP, val); }
 
 
 // ================================
@@ -667,7 +667,7 @@ void setAndWriteEN_IBUS_OCP(bool val) { setAndWriteBool(EN_IBUS_OCP, val); }
 // ================================
 Setting SFET_PRESENT = { REG14_Charger_Control_5, false, "SFET_PRESENT", "", settings_type_t::BOOL, 1, 7 };
 bool getSFET_PRESENT() { return getBool(SFET_PRESENT); }
-void setAndWriteSFET_PRESENT(bool val) { setAndWriteBool(SFET_PRESENT, val); }
+void setSFET_PRESENT(bool val) { setBool(SFET_PRESENT, val); }
 
 
 // ================================
@@ -675,7 +675,7 @@ void setAndWriteSFET_PRESENT(bool val) { setAndWriteBool(SFET_PRESENT, val); }
 // ================================
 Setting EN_IBAT = { REG14_Charger_Control_5, false, "EN_IBAT", "", settings_type_t::BOOL, 1, 5 };
 bool getEN_IBAT() { return getBool(EN_IBAT); }
-void setAndWriteEN_IBAT(bool val) { setAndWriteBool(EN_IBAT, val); }
+void setEN_IBAT(bool val) { setBool(EN_IBAT, val); }
 
 
 // ================================
@@ -698,7 +698,7 @@ strings_vector_t IBAT_REG_strings = {
 Setting IBAT_REG = { REG14_Charger_Control_5, false, "IBAT_REG", "", settings_type_t::ENUM, 2, 3, 0, 0, 0, 0, settings_flags_t::NONE, IBAT_REG_strings };
 IBAT_REG_t getIBAT_REG() { return static_cast<IBAT_REG_t>(getInt(IBAT_REG)); }
 const char * getIBAT_REG_string() { return getString(IBAT_REG); }
-void setAndWriteIBAT_REG(IBAT_REG_t val) { setAndWriteEnum<IBAT_REG_t>(IBAT_REG, val); }
+void setIBAT_REG(IBAT_REG_t val) { setEnum<IBAT_REG_t>(IBAT_REG, val); }
 
 
 // ================================
@@ -706,7 +706,7 @@ void setAndWriteIBAT_REG(IBAT_REG_t val) { setAndWriteEnum<IBAT_REG_t>(IBAT_REG,
 // ================================
 Setting EN_IINDPM = { REG14_Charger_Control_5, false, "EN_IINDPM", "", settings_type_t::BOOL, 1, 2 };
 bool getEN_IINDPM() { return getBool(EN_IINDPM); }
-void setAndWriteEN_IINDPM(bool val) { setAndWriteBool(EN_IINDPM, val); }
+void setEN_IINDPM(bool val) { setBool(EN_IINDPM, val); }
 
 
 // ================================
@@ -714,7 +714,7 @@ void setAndWriteEN_IINDPM(bool val) { setAndWriteBool(EN_IINDPM, val); }
 // ================================
 Setting EN_EXTILIM = { REG14_Charger_Control_5, false, "EN_EXTILIM", "", settings_type_t::BOOL, 1, 1 };
 bool getEN_EXTILIM() { return getBool(EN_EXTILIM); }
-void setAndWriteEN_EXTILIM(bool val) { setAndWriteBool(EN_EXTILIM, val); }
+void setEN_EXTILIM(bool val) { setBool(EN_EXTILIM, val); }
 
 
 // ================================
@@ -722,7 +722,7 @@ void setAndWriteEN_EXTILIM(bool val) { setAndWriteBool(EN_EXTILIM, val); }
 // ================================
 Setting EN_BATOC = { REG14_Charger_Control_5, false, "EN_BATOC", "", settings_type_t::BOOL, 1, 0 };
 bool getEN_BATOC() { return getBool(EN_BATOC); }
-void setAndWriteEN_BATOC(bool val) { setAndWriteBool(EN_BATOC, val); }
+void setEN_BATOC(bool val) { setBool(EN_BATOC, val); }
 
 
 // ================================
@@ -753,7 +753,7 @@ strings_vector_t VOC_PCT_strings = {
 Setting VOC_PCT = { REG15_MPPT_Control, false, "VOC_PCT", "", settings_type_t::ENUM, 3, 5, 0, 0, 0, 0, settings_flags_t::NONE, VOC_PCT_strings };
 VOC_PCT_t getVOC_PCT() { return static_cast<VOC_PCT_t>(getInt(VOC_PCT)); }
 const char * getVOC_PCT_string() { return getString(VOC_PCT); }
-void setAndWriteVOC_PCT(VOC_PCT_t val) { setAndWriteEnum<VOC_PCT_t>(VOC_PCT, val); }
+void setVOC_PCT(VOC_PCT_t val) { setEnum<VOC_PCT_t>(VOC_PCT, val); }
 
 
 // ================================
@@ -776,7 +776,7 @@ strings_vector_t VOC_DLY_strings = {
 Setting VOC_DLY = { REG15_MPPT_Control, false, "VOC_DLY", "", settings_type_t::ENUM, 2, 4, 0, 0, 0, 0, settings_flags_t::NONE, VOC_DLY_strings };
 VOC_DLY_t getVOC_DLY() { return static_cast<VOC_DLY_t>(getInt(VOC_DLY)); }
 const char * getVOC_DLY_string() { return getString(VOC_DLY); }
-void setAndWriteVOC_DLY(VOC_DLY_t val) { setAndWriteEnum<VOC_DLY_t>(VOC_DLY, val); }
+void setVOC_DLY(VOC_DLY_t val) { setEnum<VOC_DLY_t>(VOC_DLY, val); }
 
 
 // ================================
@@ -799,7 +799,7 @@ strings_vector_t VOC_RATE_strings = {
 Setting VOC_RATE = { REG15_MPPT_Control, false, "VOC_RATE", "", settings_type_t::ENUM, 2, 2, 0, 0, 0, 0, settings_flags_t::NONE, VOC_RATE_strings };
 VOC_RATE_t getVOC_RATE() { return static_cast<VOC_RATE_t>(getInt(VOC_RATE)); }
 const char * getVOC_RATE_string() { return getString(VOC_RATE); }
-void setAndWriteVOC_RATE(VOC_RATE_t val) { setAndWriteEnum<VOC_RATE_t>(VOC_RATE, val); }
+void setVOC_RATE(VOC_RATE_t val) { setEnum<VOC_RATE_t>(VOC_RATE, val); }
 
 
 // ================================
@@ -807,7 +807,7 @@ void setAndWriteVOC_RATE(VOC_RATE_t val) { setAndWriteEnum<VOC_RATE_t>(VOC_RATE,
 // ================================
 Setting EN_MPPT = { REG15_MPPT_Control, false, "EN_MPPT", "", settings_type_t::BOOL, 1, 0 };
 bool getEN_MPPT() { return getBool(EN_MPPT); }
-void setAndWriteEN_MPPT(bool val) { setAndWriteBool(EN_MPPT, val); }
+void setEN_MPPT(bool val) { setBool(EN_MPPT, val); }
 
 
 // ================================
@@ -830,7 +830,7 @@ strings_vector_t TREG_strings = {
 Setting TREG = { REG16_Temperature_Control, false, "TREG", "", settings_type_t::ENUM, 2, 6, 0, 0, 0, 0, settings_flags_t::NONE, TREG_strings };
 TREG_t getTREG() { return static_cast<TREG_t>(getInt(TREG)); }
 const char * getTREG_string() { return getString(TREG); }
-void setAndWriteTREG(TREG_t val) { setAndWriteEnum<TREG_t>(TREG, val); }
+void setTREG(TREG_t val) { setEnum<TREG_t>(TREG, val); }
 
 
 // ================================
@@ -853,7 +853,7 @@ strings_vector_t TSHUT_strings = {
 Setting TSHUT = { REG16_Temperature_Control, false, "TSHUT", "", settings_type_t::ENUM, 2, 4, 0, 0, 0, 0, settings_flags_t::NONE, TSHUT_strings };
 TSHUT_t getTSHUT() { return static_cast<TSHUT_t>(getInt(TSHUT)); }
 const char * getTSHUT_string() { return getString(TSHUT); }
-void setAndWriteTSHUT(TSHUT_t val) { setAndWriteEnum<TSHUT_t>(TSHUT, val); }
+void setTSHUT(TSHUT_t val) { setEnum<TSHUT_t>(TSHUT, val); }
 
 
 // ================================
@@ -861,7 +861,7 @@ void setAndWriteTSHUT(TSHUT_t val) { setAndWriteEnum<TSHUT_t>(TSHUT, val); }
 // ================================
 Setting VBUS_PD_EN = { REG16_Temperature_Control, false, "VBUS_PD_EN", "", settings_type_t::BOOL, 1, 3 };
 bool getVBUS_PD_EN() { return getBool(VBUS_PD_EN); }
-void setAndWriteVBUS_PD_EN(bool val) { setAndWriteBool(VBUS_PD_EN, val); }
+void setVBUS_PD_EN(bool val) { setBool(VBUS_PD_EN, val); }
 
 
 // ================================
@@ -869,7 +869,7 @@ void setAndWriteVBUS_PD_EN(bool val) { setAndWriteBool(VBUS_PD_EN, val); }
 // ================================
 Setting VAC1_PD_EN = { REG16_Temperature_Control, false, "VAC1_PD_EN", "", settings_type_t::BOOL, 1, 2 };
 bool getVAC1_PD_EN() { return getBool(VAC1_PD_EN); }
-void setAndWriteVAC1_PD_EN(bool val) { setAndWriteBool(VAC1_PD_EN, val); }
+void setVAC1_PD_EN(bool val) { setBool(VAC1_PD_EN, val); }
 
 
 // ================================
@@ -877,7 +877,7 @@ void setAndWriteVAC1_PD_EN(bool val) { setAndWriteBool(VAC1_PD_EN, val); }
 // ================================
 Setting VAC2_PD_EN = { REG16_Temperature_Control, false, "VAC2_PD_EN", "", settings_type_t::BOOL, 1, 1 };
 bool getVAC2_PD_EN() { return getBool(VAC2_PD_EN); }
-void setAndWriteVAC2_PD_EN(bool val) { setAndWriteBool(VAC2_PD_EN, val); }
+void setVAC2_PD_EN(bool val) { setBool(VAC2_PD_EN, val); }
 
 
 // ================================
@@ -896,7 +896,7 @@ strings_vector_t BKUP_ACFET1_ON_strings = {
 Setting BKUP_ACFET1_ON = { REG16_Temperature_Control, false, "BKUP_ACFET1_ON", "", settings_type_t::ENUM, 1, 0, 0, 0, 0, 0, settings_flags_t::NONE, BKUP_ACFET1_ON_strings };
 BKUP_ACFET1_ON_t getBKUP_ACFET1_ON() { return static_cast<BKUP_ACFET1_ON_t>(getInt(BKUP_ACFET1_ON)); }
 const char * getBKUP_ACFET1_ON_string() { return getString(BKUP_ACFET1_ON); }
-void setAndWriteBKUP_ACFET1_ON(BKUP_ACFET1_ON_t val) { setAndWriteEnum<BKUP_ACFET1_ON_t>(BKUP_ACFET1_ON, val); }
+void setBKUP_ACFET1_ON(BKUP_ACFET1_ON_t val) { setEnum<BKUP_ACFET1_ON_t>(BKUP_ACFET1_ON, val); }
 
 
 // ================================
@@ -927,7 +927,7 @@ strings_vector_t JEITA_VSET_strings = {
 Setting JEITA_VSET = { REG17_NTC_Control_0, false, "JEITA_VSET", "", settings_type_t::ENUM, 3, 5, 0, 0, 0, 0, settings_flags_t::NONE, JEITA_VSET_strings };
 JEITA_VSET_t getJEITA_VSET() { return static_cast<JEITA_VSET_t>(getInt(JEITA_VSET)); }
 const char * getJEITA_VSET_string() { return getString(JEITA_VSET); }
-void setAndWriteJEITA_VSET(JEITA_VSET_t val) { setAndWriteEnum<JEITA_VSET_t>(JEITA_VSET, val); }
+void setJEITA_VSET(JEITA_VSET_t val) { setEnum<JEITA_VSET_t>(JEITA_VSET, val); }
 
 
 // ================================
@@ -950,7 +950,7 @@ strings_vector_t JEITA_ISETH_strings = {
 Setting JEITA_ISETH = { REG17_NTC_Control_0, false, "JEITA_ISETH", "", settings_type_t::ENUM, 2, 3, 0, 0, 0, 0, settings_flags_t::NONE, JEITA_ISETH_strings };
 JEITA_ISETH_t getJEITA_ISETH() { return static_cast<JEITA_ISETH_t>(getInt(JEITA_ISETH)); }
 const char * getJEITA_ISETH_string() { return getString(JEITA_ISETH); }
-void setAndWriteJEITA_ISETH(JEITA_ISETH_t val) { setAndWriteEnum<JEITA_ISETH_t>(JEITA_ISETH, val); }
+void setJEITA_ISETH(JEITA_ISETH_t val) { setEnum<JEITA_ISETH_t>(JEITA_ISETH, val); }
 
 
 // ================================
@@ -973,7 +973,7 @@ strings_vector_t JEITA_ISETC_strings = {
 Setting JEITA_ISETC = { REG17_NTC_Control_0, false, "JEITA_ISETC", "", settings_type_t::ENUM, 2, 1, 0, 0, 0, 0, settings_flags_t::NONE, JEITA_ISETC_strings };
 JEITA_ISETC_t getJEITA_ISETC() { return static_cast<JEITA_ISETC_t>(getInt(JEITA_ISETC)); }
 const char * getJEITA_ISETC_string() { return getString(JEITA_ISETC); }
-void setAndWriteJEITA_ISETC(JEITA_ISETC_t val) { setAndWriteEnum<JEITA_ISETC_t>(JEITA_ISETC, val); }
+void setJEITA_ISETC(JEITA_ISETC_t val) { setEnum<JEITA_ISETC_t>(JEITA_ISETC, val); }
 
 
 // ================================
@@ -996,7 +996,7 @@ strings_vector_t TS_COOL_strings = {
 Setting TS_COOL = { REG18_NTC_Control_1, false, "TS_COOL", "", settings_type_t::ENUM, 2, 6, 0, 0, 0, 0, settings_flags_t::NONE, TS_COOL_strings };
 TS_COOL_t getTS_COOL() { return static_cast<TS_COOL_t>(getInt(TS_COOL)); }
 const char * getTS_COOL_string() { return getString(TS_COOL); }
-void setAndWriteTS_COOL(TS_COOL_t val) { setAndWriteEnum<TS_COOL_t>(TS_COOL, val); }
+void setTS_COOL(TS_COOL_t val) { setEnum<TS_COOL_t>(TS_COOL, val); }
 
 
 // ================================
@@ -1019,7 +1019,7 @@ strings_vector_t TS_WARM_strings = {
 Setting TS_WARM = { REG18_NTC_Control_1, false, "TS_WARM", "", settings_type_t::ENUM, 2, 4, 0, 0, 0, 0, settings_flags_t::NONE, TS_WARM_strings };
 TS_WARM_t getTS_WARM() { return static_cast<TS_WARM_t>(getInt(TS_WARM)); }
 const char * getTS_WARM_string() { return getString(TS_WARM); }
-void setAndWriteTS_WARM(TS_WARM_t val) { setAndWriteEnum<TS_WARM_t>(TS_WARM, val); }
+void setTS_WARM(TS_WARM_t val) { setEnum<TS_WARM_t>(TS_WARM, val); }
 
 
 // ================================
@@ -1042,7 +1042,7 @@ strings_vector_t BHOT_strings = {
 Setting BHOT = { REG18_NTC_Control_1, false, "BHOT", "", settings_type_t::ENUM, 2, 2, 0, 0, 0, 0, settings_flags_t::NONE, BHOT_strings };
 BHOT_t getBHOT() { return static_cast<BHOT_t>(getInt(BHOT)); }
 const char * getBHOT_string() { return getString(BHOT); }
-void setAndWriteBHOT(BHOT_t val) { setAndWriteEnum<BHOT_t>(BHOT, val); }
+void setBHOT(BHOT_t val) { setEnum<BHOT_t>(BHOT, val); }
 
 
 // ================================
@@ -1061,7 +1061,7 @@ strings_vector_t BCOLD_strings = {
 Setting BCOLD = { REG18_NTC_Control_1, false, "BCOLD", "", settings_type_t::ENUM, 1, 1, 0, 0, 0, 0, settings_flags_t::NONE, BCOLD_strings };
 BCOLD_t getBCOLD() { return static_cast<BCOLD_t>(getInt(BCOLD)); }
 const char * getBCOLD_string() { return getString(BCOLD); }
-void setAndWriteBCOLD(BCOLD_t val) { setAndWriteEnum<BCOLD_t>(BCOLD, val); }
+void setBCOLD(BCOLD_t val) { setEnum<BCOLD_t>(BCOLD, val); }
 
 
 // ================================
@@ -1069,7 +1069,7 @@ void setAndWriteBCOLD(BCOLD_t val) { setAndWriteEnum<BCOLD_t>(BCOLD, val); }
 // ================================
 Setting TS_IGNORE = { REG18_NTC_Control_1, false, "TS_IGNORE", "", settings_type_t::BOOL, 1, 0 };
 bool getTS_IGNORE() { return getBool(TS_IGNORE); }
-void setAndWriteTS_IGNORE(bool val) { setAndWriteBool(TS_IGNORE, val); }
+void setTS_IGNORE(bool val) { setBool(TS_IGNORE, val); }
 
 
 // ================================
@@ -1917,7 +1917,7 @@ bool getTSHUT_FLAG() { return getBool(TSHUT_FLAG); }
 // ================================
 Setting ADC_EN = { REG2E_ADC_Control, false, "ADC_EN", "", settings_type_t::BOOL, 1, 7 };
 bool getADC_EN() { return getBool(ADC_EN); }
-void setAndWriteADC_EN(bool val) { setAndWriteBool(ADC_EN, val); }
+void setADC_EN(bool val) { setBool(ADC_EN, val); }
 
 
 // ================================
@@ -1936,7 +1936,7 @@ strings_vector_t ADC_RATE_strings = {
 Setting ADC_RATE = { REG2E_ADC_Control, false, "ADC_RATE", "", settings_type_t::ENUM, 1, 6, 0, 0, 0, 0, settings_flags_t::NONE, ADC_RATE_strings };
 ADC_RATE_t getADC_RATE() { return static_cast<ADC_RATE_t>(getInt(ADC_RATE)); }
 const char * getADC_RATE_string() { return getString(ADC_RATE); }
-void setAndWriteADC_RATE(ADC_RATE_t val) { setAndWriteEnum<ADC_RATE_t>(ADC_RATE, val); }
+void setADC_RATE(ADC_RATE_t val) { setEnum<ADC_RATE_t>(ADC_RATE, val); }
 
 
 // ================================
@@ -1959,7 +1959,7 @@ strings_vector_t ADC_SAMPLE_strings = {
 Setting ADC_SAMPLE = { REG2E_ADC_Control, false, "ADC_SAMPLE", "", settings_type_t::ENUM, 2, 4, 0, 0, 0, 0, settings_flags_t::NONE, ADC_SAMPLE_strings };
 ADC_SAMPLE_t getADC_SAMPLE() { return static_cast<ADC_SAMPLE_t>(getInt(ADC_SAMPLE)); }
 const char * getADC_SAMPLE_string() { return getString(ADC_SAMPLE); }
-void setAndWriteADC_SAMPLE(ADC_SAMPLE_t val) { setAndWriteEnum<ADC_SAMPLE_t>(ADC_SAMPLE, val); }
+void setADC_SAMPLE(ADC_SAMPLE_t val) { setEnum<ADC_SAMPLE_t>(ADC_SAMPLE, val); }
 
 
 // ================================
@@ -1978,7 +1978,7 @@ strings_vector_t ADC_AVG_strings = {
 Setting ADC_AVG = { REG2E_ADC_Control, false, "ADC_AVG", "", settings_type_t::ENUM, 1, 3, 0, 0, 0, 0, settings_flags_t::NONE, ADC_AVG_strings };
 ADC_AVG_t getADC_AVG() { return static_cast<ADC_AVG_t>(getInt(ADC_AVG)); }
 const char * getADC_AVG_string() { return getString(ADC_AVG); }
-void setAndWriteADC_AVG(ADC_AVG_t val) { setAndWriteEnum<ADC_AVG_t>(ADC_AVG, val); }
+void setADC_AVG(ADC_AVG_t val) { setEnum<ADC_AVG_t>(ADC_AVG, val); }
 
 
 // ================================
@@ -1986,7 +1986,7 @@ void setAndWriteADC_AVG(ADC_AVG_t val) { setAndWriteEnum<ADC_AVG_t>(ADC_AVG, val
 // ================================
 Setting ADC_AVG_INIT = { REG2E_ADC_Control, false, "ADC_AVG_INIT", "", settings_type_t::BOOL, 1, 2 };
 bool getADC_AVG_INIT() { return getBool(ADC_AVG_INIT); }
-void setAndWriteADC_AVG_INIT(bool val) { setAndWriteBool(ADC_AVG_INIT, val); }
+void setADC_AVG_INIT(bool val) { setBool(ADC_AVG_INIT, val); }
 
 
 // ================================
@@ -1994,7 +1994,7 @@ void setAndWriteADC_AVG_INIT(bool val) { setAndWriteBool(ADC_AVG_INIT, val); }
 // ================================
 Setting IBUS_ADC_DIS = { REG2F_ADC_Function_Disable_0, false, "IBUS_ADC_DIS", "", settings_type_t::BOOL, 1, 7 };
 bool getIBUS_ADC_DIS() { return getBool(IBUS_ADC_DIS); }
-void setAndWriteIBUS_ADC_DIS(bool val) { setAndWriteBool(IBUS_ADC_DIS, val); }
+void setIBUS_ADC_DIS(bool val) { setBool(IBUS_ADC_DIS, val); }
 
 
 // ================================
@@ -2002,7 +2002,7 @@ void setAndWriteIBUS_ADC_DIS(bool val) { setAndWriteBool(IBUS_ADC_DIS, val); }
 // ================================
 Setting IBAT_ADC_DIS = { REG2F_ADC_Function_Disable_0, false, "IBAT_ADC_DIS", "", settings_type_t::BOOL, 1, 6 };
 bool getIBAT_ADC_DIS() { return getBool(IBAT_ADC_DIS); }
-void setAndWriteIBAT_ADC_DIS(bool val) { setAndWriteBool(IBAT_ADC_DIS, val); }
+void setIBAT_ADC_DIS(bool val) { setBool(IBAT_ADC_DIS, val); }
 
 
 // ================================
@@ -2010,7 +2010,7 @@ void setAndWriteIBAT_ADC_DIS(bool val) { setAndWriteBool(IBAT_ADC_DIS, val); }
 // ================================
 Setting VBUS_ADC_DIS = { REG2F_ADC_Function_Disable_0, false, "VBUS_ADC_DIS", "", settings_type_t::BOOL, 1, 5 };
 bool getVBUS_ADC_DIS() { return getBool(VBUS_ADC_DIS); }
-void setAndWriteVBUS_ADC_DIS(bool val) { setAndWriteBool(VBUS_ADC_DIS, val); }
+void setVBUS_ADC_DIS(bool val) { setBool(VBUS_ADC_DIS, val); }
 
 
 // ================================
@@ -2018,7 +2018,7 @@ void setAndWriteVBUS_ADC_DIS(bool val) { setAndWriteBool(VBUS_ADC_DIS, val); }
 // ================================
 Setting VBAT_ADC_DIS = { REG2F_ADC_Function_Disable_0, false, "VBAT_ADC_DIS", "", settings_type_t::BOOL, 1, 4 };
 bool getVBAT_ADC_DIS() { return getBool(VBAT_ADC_DIS); }
-void setAndWriteVBAT_ADC_DIS(bool val) { setAndWriteBool(VBAT_ADC_DIS, val); }
+void setVBAT_ADC_DIS(bool val) { setBool(VBAT_ADC_DIS, val); }
 
 
 // ================================
@@ -2026,7 +2026,7 @@ void setAndWriteVBAT_ADC_DIS(bool val) { setAndWriteBool(VBAT_ADC_DIS, val); }
 // ================================
 Setting VSYS_ADC_DIS = { REG2F_ADC_Function_Disable_0, false, "VSYS_ADC_DIS", "", settings_type_t::BOOL, 1, 3 };
 bool getVSYS_ADC_DIS() { return getBool(VSYS_ADC_DIS); }
-void setAndWriteVSYS_ADC_DIS(bool val) { setAndWriteBool(VSYS_ADC_DIS, val); }
+void setVSYS_ADC_DIS(bool val) { setBool(VSYS_ADC_DIS, val); }
 
 
 // ================================
@@ -2034,7 +2034,7 @@ void setAndWriteVSYS_ADC_DIS(bool val) { setAndWriteBool(VSYS_ADC_DIS, val); }
 // ================================
 Setting TS_ADC_DIS = { REG2F_ADC_Function_Disable_0, false, "TS_ADC_DIS", "", settings_type_t::BOOL, 1, 2 };
 bool getTS_ADC_DIS() { return getBool(TS_ADC_DIS); }
-void setAndWriteTS_ADC_DIS(bool val) { setAndWriteBool(TS_ADC_DIS, val); }
+void setTS_ADC_DIS(bool val) { setBool(TS_ADC_DIS, val); }
 
 
 // ================================
@@ -2042,7 +2042,7 @@ void setAndWriteTS_ADC_DIS(bool val) { setAndWriteBool(TS_ADC_DIS, val); }
 // ================================
 Setting TDIE_ADC_DIS = { REG2F_ADC_Function_Disable_0, false, "TDIE_ADC_DIS", "", settings_type_t::BOOL, 1, 1 };
 bool getTDIE_ADC_DIS() { return getBool(TDIE_ADC_DIS); }
-void setAndWriteTDIE_ADC_DIS(bool val) { setAndWriteBool(TDIE_ADC_DIS, val); }
+void setTDIE_ADC_DIS(bool val) { setBool(TDIE_ADC_DIS, val); }
 
 
 // ================================
@@ -2050,7 +2050,7 @@ void setAndWriteTDIE_ADC_DIS(bool val) { setAndWriteBool(TDIE_ADC_DIS, val); }
 // ================================
 Setting DPLUS_ADC_DIS = { REG30_ADC_Function_Disable_1, false, "DPLUS_ADC_DIS", "", settings_type_t::BOOL, 1, 7 };
 bool getDPLUS_ADC_DIS() { return getBool(DPLUS_ADC_DIS); }
-void setAndWriteDPLUS_ADC_DIS(bool val) { setAndWriteBool(DPLUS_ADC_DIS, val); }
+void setDPLUS_ADC_DIS(bool val) { setBool(DPLUS_ADC_DIS, val); }
 
 
 // ================================
@@ -2058,7 +2058,7 @@ void setAndWriteDPLUS_ADC_DIS(bool val) { setAndWriteBool(DPLUS_ADC_DIS, val); }
 // ================================
 Setting DMINUS_ADC_DIS = { REG30_ADC_Function_Disable_1, false, "DMINUS_ADC_DIS", "", settings_type_t::BOOL, 1, 6 };
 bool getDMINUS_ADC_DIS() { return getBool(DMINUS_ADC_DIS); }
-void setAndWriteDMINUS_ADC_DIS(bool val) { setAndWriteBool(DMINUS_ADC_DIS, val); }
+void setDMINUS_ADC_DIS(bool val) { setBool(DMINUS_ADC_DIS, val); }
 
 
 // ================================
@@ -2066,7 +2066,7 @@ void setAndWriteDMINUS_ADC_DIS(bool val) { setAndWriteBool(DMINUS_ADC_DIS, val);
 // ================================
 Setting VAC2_ADC_DIS = { REG30_ADC_Function_Disable_1, false, "VAC2_ADC_DIS", "", settings_type_t::BOOL, 1, 5 };
 bool getVAC2_ADC_DIS() { return getBool(VAC2_ADC_DIS); }
-void setAndWriteVAC2_ADC_DIS(bool val) { setAndWriteBool(VAC2_ADC_DIS, val); }
+void setVAC2_ADC_DIS(bool val) { setBool(VAC2_ADC_DIS, val); }
 
 
 // ================================
@@ -2074,7 +2074,7 @@ void setAndWriteVAC2_ADC_DIS(bool val) { setAndWriteBool(VAC2_ADC_DIS, val); }
 // ================================
 Setting VAC1_ADC_DIS = { REG30_ADC_Function_Disable_1, false, "VAC1_ADC_DIS", "", settings_type_t::BOOL, 1, 4 };
 bool getVAC1_ADC_DIS() { return getBool(VAC1_ADC_DIS); }
-void setAndWriteVAC1_ADC_DIS(bool val) { setAndWriteBool(VAC1_ADC_DIS, val); }
+void setVAC1_ADC_DIS(bool val) { setBool(VAC1_ADC_DIS, val); }
 
 
 // ================================
@@ -2193,7 +2193,7 @@ strings_vector_t DPLUS_DAC_strings = {
 Setting DPLUS_DAC = { REG47_DPDM_Driver, false, "DPLUS_DAC", "", settings_type_t::ENUM, 3, 5, 0, 0, 0, 0, settings_flags_t::NONE, DPLUS_DAC_strings };
 DPLUS_DAC_t getDPLUS_DAC() { return static_cast<DPLUS_DAC_t>(getInt(DPLUS_DAC)); }
 const char * getDPLUS_DAC_string() { return getString(DPLUS_DAC); }
-void setAndWriteDPLUS_DAC(DPLUS_DAC_t val) { setAndWriteEnum<DPLUS_DAC_t>(DPLUS_DAC, val); }
+void setDPLUS_DAC(DPLUS_DAC_t val) { setEnum<DPLUS_DAC_t>(DPLUS_DAC, val); }
 
 
 // ================================
@@ -2224,7 +2224,7 @@ strings_vector_t DMINUS_DAC_strings = {
 Setting DMINUS_DAC = { REG47_DPDM_Driver, false, "DMINUS_DAC", "", settings_type_t::ENUM, 3, 2, 0, 0, 0, 0, settings_flags_t::NONE, DMINUS_DAC_strings };
 DMINUS_DAC_t getDMINUS_DAC() { return static_cast<DMINUS_DAC_t>(getInt(DMINUS_DAC)); }
 const char * getDMINUS_DAC_string() { return getString(DMINUS_DAC); }
-void setAndWriteDMINUS_DAC(DMINUS_DAC_t val) { setAndWriteEnum<DMINUS_DAC_t>(DMINUS_DAC, val); }
+void setDMINUS_DAC(DMINUS_DAC_t val) { setEnum<DMINUS_DAC_t>(DMINUS_DAC, val); }
 
 
 // ================================

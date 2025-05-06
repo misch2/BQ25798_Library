@@ -224,14 +224,14 @@ class BQ25798Core : public C {
 
   const char* rawToString(uint16_t raw, const Setting& setting);
 
-  void setAndWriteRaw(const BQ25798Core::Setting& setting, uint16_t value);
-  void setAndWriteInt(const BQ25798Core::Setting& setting, int value);
-  void setAndWriteBool(const BQ25798Core::Setting& setting, bool value);
-  void setAndWriteFloat(const BQ25798Core::Setting& setting, float value);
+  void setRaw(const BQ25798Core::Setting& setting, uint16_t value);
+  void setInt(const BQ25798Core::Setting& setting, int value);
+  void setBool(const BQ25798Core::Setting& setting, bool value);
+  void setFloat(const BQ25798Core::Setting& setting, float value);
   template <typename T_ENUM>
-  void setAndWriteEnum(const Setting& setting, T_ENUM value) {
+  void setEnum(const Setting& setting, T_ENUM value) {
     // the same as int, but with enum value
-    setAndWriteInt(setting, static_cast<int>(value));
+    setInt(setting, static_cast<int>(value));
   };
 
   uint8_t readSettingFromReg8(int reg, int bitLength, int bitShift);
@@ -590,8 +590,8 @@ void BQ25798Core<C>::_setError(Error errorCode) {
 }
 
 template <class C>
-void BQ25798Core<C>::setAndWriteRaw(const Setting& setting, uint16_t value) {
-  DEBUG_PRINT("[setAndWriteRaw] [reg=0x%02X, bitLength=%d, bitShift=%d] := %d\n", setting.reg, setting.bitlength, setting.bitshift, value);
+void BQ25798Core<C>::setRaw(const Setting& setting, uint16_t value) {
+  DEBUG_PRINT("[setRaw] [reg=0x%02X, bitLength=%d, bitShift=%d] := %d\n", setting.reg, setting.bitlength, setting.bitshift, value);
 
   if (setting.long_reg) {
     writeSettingToReg16(setting.reg, value, setting.bitlength, setting.bitshift);
@@ -601,21 +601,21 @@ void BQ25798Core<C>::setAndWriteRaw(const Setting& setting, uint16_t value) {
 }
 
 template <class C>
-void BQ25798Core<C>::setAndWriteInt(const Setting& setting, int value) {
+void BQ25798Core<C>::setInt(const Setting& setting, int value) {
   uint16_t raw_value = intToRaw(value, setting);
-  setAndWriteRaw(setting, raw_value);
+  setRaw(setting, raw_value);
 }
 
 template <class C>
-void BQ25798Core<C>::setAndWriteBool(const Setting& setting, bool value) {
+void BQ25798Core<C>::setBool(const Setting& setting, bool value) {
   uint16_t raw_value = boolToRaw(value, setting);
-  setAndWriteRaw(setting, raw_value);
+  setRaw(setting, raw_value);
 }
 
 template <class C>
-void BQ25798Core<C>::setAndWriteFloat(const Setting& setting, float value) {
+void BQ25798Core<C>::setFloat(const Setting& setting, float value) {
   uint16_t raw_value = floatToRaw(value, setting);
-  setAndWriteRaw(setting, raw_value);
+  setRaw(setting, raw_value);
 }
 
 #endif

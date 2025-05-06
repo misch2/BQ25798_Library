@@ -14,7 +14,7 @@
 Setting {{ def.name }} = { {{def.regname}}, {{ "true" if def.long_reg else "false" }}, "{{def.name}}", "{{def.unit}}", settings_type_t::BOOL, {{def.bits}}, {{def.shift}} };
 bool get{{ def.name }}() { return getBool({{def.name}}); }
 {%-         if def.mode == 'rw' %}
-void setAndWrite{{ def.name }}(bool val) { setAndWriteBool({{def.name}}, val); }
+void set{{ def.name }}(bool val) { setBool({{def.name}}, val); }
 {%-         endif -%}
 
 
@@ -28,7 +28,7 @@ int get{{ def.name }}() { return getInt({{def.name}}); }
 {%-             if def.unit %}
 /// Sets {{ def.name }} in {{ def.unit }}
 {%-             endif %}
-void setAndWrite{{ def.name }}(int val) { setAndWriteInt({{def.name}}, val); }
+void set{{ def.name }}(int val) { setInt({{def.name}}, val); }
 {%-         endif %}
 
 
@@ -42,7 +42,7 @@ float get{{ def.name }}() { return getFloat({{def.name}}); }
 {%-             if def.unit %}
 /// Sets {{ def.name }} in {{ def.unit }}
 {%-             endif %}
-void setAndWrite{{ def.name }}(float val) { setAndWriteFloat({{def.name}}, val); }
+void set{{ def.name }}(float val) { setFloat({{def.name}}, val); }
 {%-         endif %}
 
 
@@ -63,7 +63,7 @@ Setting {{ def.name }} = { {{def.regname}}, {{ "true" if def.long_reg else "fals
 {{ def.name }}_t get{{ def.name }}() { return static_cast<{{ def.name }}_t>(getInt({{def.name}})); }
 const char * get{{ def.name }}_string() { return getString({{def.name}}); }
 {%-         if def.mode == 'rw' %}
-void setAndWrite{{ def.name }}({{ def.name }}_t val) { setAndWriteEnum<{{ def.name }}_t>({{def.name}}, val); }
+void set{{ def.name }}({{ def.name }}_t val) { setEnum<{{ def.name }}_t>({{def.name}}, val); }
 {%-         endif %}
 
 

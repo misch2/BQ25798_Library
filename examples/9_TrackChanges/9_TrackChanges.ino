@@ -145,7 +145,7 @@ void trackChanges() {
   if (elapsedADCMillis >= ADC_readout_time_millis) {
     // Serial.printf("ADC readout elapsed time: %ld ms\n", elapsedADCMillis);
     lastADCReadMillis = millis();
-    bq25798.setAndWriteADC_EN(true);  // trigger ADC one-shot mode
+    bq25798.setADC_EN(true);  // trigger ADC one-shot mode
   }
 }
 
@@ -164,7 +164,7 @@ void setup() {
 
   Serial.print("Resetting the IC completely...");
   // Reset the chip and wait for it to finish:
-  bq25798.setAndWriteREG_RST(true);
+  bq25798.setREG_RST(true);
   while (bq25798.getREG_RST()) {
     delay(10);
   }
@@ -172,12 +172,12 @@ void setup() {
 
   Serial.print("Setting up BQ25798...");
   // Disable watchdog timer (it would otherwise reset the chip if not cleared in time):
-  bq25798.setAndWriteWATCHDOG(BQ25798::WATCHDOG_t::WATCHDOG_DISABLE);
+  bq25798.setWATCHDOG(BQ25798::WATCHDOG_t::WATCHDOG_DISABLE);
 
   // Enable ADC one shot mode. ADC_EN will be set to 0 after the readout is done.
   // A continuous ADC would otherwise produce too much visual noise (a lot of changes).
-  bq25798.setAndWriteADC_RATE(BQ25798::ADC_RATE_t::ADC_RATE_ONESHOT);
-  bq25798.setAndWriteADC_EN(true);  // trigger ADC one-shot mode
+  bq25798.setADC_RATE(BQ25798::ADC_RATE_t::ADC_RATE_ONESHOT);
+  bq25798.setADC_EN(true);  // trigger ADC one-shot mode
   delay(10);
 
   Serial.println("BQ25798 setup complete.");
