@@ -8,7 +8,6 @@
 #include <vector>
 
 #include "../../src/utility/debug.h"
-#include "../I2CGeneric/I2CGeneric.h"
 #include "gen_others.h"
 #include "gen_registers.h"
 
