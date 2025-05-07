@@ -34,19 +34,19 @@ void tearDown(void) {
 }
 
 void test_reg8_fields(void) {
-  bq.writeSettingToReg8(reg0.address, 0xFF, /* len */ 3, /* shift */ 1);  // 0xFF = 0b11111111 -> mask len 3 = 0b00000111 -> shift 1 = 0b00001110
+  BQ25798MockTest::Setting setting1 = {reg0.address, false, "TEST", "", BQ25798MockTest::settings_type_t::INT, /* len */ 3, /* shift */ 1};
+
+  bq.writeSettingToReg8(0xFF, setting1);  // 0xFF = 0b11111111 -> mask len 3 = 0b00000111 -> shift 1 = 0b00001110
   TEST_ASSERT_EQUAL_MESSAGE(0b00001110, bq.i2c_readReg8(reg0.address), "bit shifting and masking works for writeSettingToReg8");
-  TEST_ASSERT_EQUAL_MESSAGE(0b00000111, bq.readSettingFromReg8(reg0.address, /* len */ 3, /* shift */ 1),
-                            "bit shifting and masking works for readSettingFromReg8");
+  TEST_ASSERT_EQUAL_MESSAGE(0b00000111, bq.readSettingFromReg8(setting1), "bit shifting and masking works for readSettingFromReg8");
 }
 
 void test_reg16_fields(void) {
-  bq.writeSettingToReg16(reg0.address, 0xFFFF, /* len */ 4,
-                         /* shift */ 7);  // 0xFFFF = 0b11111111_11111111 -> mask len 4 = 0b0000000_000001111 -> shift 7 = 0b00000111_10000000
+  BQ25798MockTest::Setting setting1 = {reg0.address, true, "TEST", "", BQ25798MockTest::settings_type_t::INT, /* len */ 4, /* shift */ 7};
+  bq.writeSettingToReg16(0xFFFF, setting1);  // 0xFFFF = 0b11111111_11111111 -> mask len 4 = 0b0000000_000001111 -> shift 7 = 0b00000111_10000000
   TEST_ASSERT_EQUAL_MESSAGE(0b00000111, bq.i2c_readReg8(reg0.address), "bit shifting and masking works for writeSettingToReg16 big endian");
   TEST_ASSERT_EQUAL_MESSAGE(0b10000000, bq.i2c_readReg8(reg1.address), "bit shifting and masking works for writeSettingToReg16 big endian");
-  TEST_ASSERT_EQUAL_MESSAGE(0x000F, bq.readSettingFromReg16(reg0.address, /* len */ 4, /* shift */ 7),
-                            "bit shifting and masking works for readSettingFromReg16");
+  TEST_ASSERT_EQUAL_MESSAGE(0x000F, bq.readSettingFromReg16(setting1), "bit shifting and masking works for readSettingFromReg16");
 }
 
 void test_bool(void) {
