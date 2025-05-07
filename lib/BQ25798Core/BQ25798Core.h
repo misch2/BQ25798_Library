@@ -180,7 +180,7 @@ class BQ25798Core : public C {
 #ifdef BQ25798_MEMORY_SAVER
           unit(""),
 #else
-          unit(name),
+          unit(unit),
 #endif
           type(type),
           bitlength(bitlength),
@@ -241,7 +241,7 @@ class BQ25798Core : public C {
   const char* toString(int value, strings_vector_t map);
 
   protected:
-  bool _flagIsSet(settings_flags_t flagset, settings_flags_t flag);
+  bool _settingsFlagIsSet(settings_flags_t flagset, settings_flags_t flag);
   void _setError(Error errorCode);
   void _setError(int errorCode);
 
@@ -377,7 +377,7 @@ void BQ25798Core<C>::writeSettingToReg16(uint16_t value, const BQ25798Core::Sett
 }
 
 template <class C>
-bool BQ25798Core<C>::_flagIsSet(settings_flags_t flagset, settings_flags_t flag) {
+bool BQ25798Core<C>::_settingsFlagIsSet(settings_flags_t flagset, settings_flags_t flag) {
   return (static_cast<uint8_t>(flagset) & static_cast<uint8_t>(flag)) != 0;
 }
 
@@ -441,7 +441,7 @@ int BQ25798Core<C>::rawToInt(uint16_t raw, const Setting& setting) {
   // anything can be converted to int, no need to check the type
 
   int value;
-  if (_flagIsSet(setting.flags, settings_flags_t::IS_2COMPLEMENT)) {
+  if (_settingsFlagIsSet(setting.flags, settings_flags_t::IS_2COMPLEMENT)) {
     if (!setting.long_reg) {
       _setError(Error::ERROR_INVALID_SETTING);
       return 0;
@@ -490,7 +490,7 @@ uint16_t BQ25798Core<C>::intToRaw(int value, const Setting& setting) {
     value /= setting.bit_step_size;
   };
 
-  if (_flagIsSet(setting.flags, settings_flags_t::IS_2COMPLEMENT)) {
+  if (_settingsFlagIsSet(setting.flags, settings_flags_t::IS_2COMPLEMENT)) {
     if (!setting.long_reg) {
       _setError(Error::ERROR_INVALID_SETTING);
       return 0;  // Handle error case
@@ -544,7 +544,7 @@ uint16_t BQ25798Core<C>::floatToRaw(float value, const Setting& setting) {
     value /= setting.bit_step_size;
   };
 
-  if (_flagIsSet(setting.flags, settings_flags_t::IS_2COMPLEMENT)) {
+  if (_settingsFlagIsSet(setting.flags, settings_flags_t::IS_2COMPLEMENT)) {
     _setError(Error::ERROR_INVALID_SETTING);
     return 0.0f;
   }
