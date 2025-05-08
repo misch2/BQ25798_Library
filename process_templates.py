@@ -15,7 +15,12 @@ def process_templates(root_dir, data):
         for file in files:
             if file.endswith(".j2"):
                 try:
-                    jenv = jinja2.Environment(loader=jinja2.FileSystemLoader(folder))
+                    jenv = jinja2.Environment(
+                        loader=jinja2.FileSystemLoader(folder),
+                        # see https://ttl255.com/jinja2-tutorial-part-3-whitespace-control/
+                        trim_blocks=True,
+                        lstrip_blocks=True,
+                    )
 
                     template_full_path = os.path.join(folder, file)
                     output_full_path = template_full_path.replace(".j2", "")

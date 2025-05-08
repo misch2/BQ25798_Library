@@ -1,5 +1,6 @@
 enum {
   // There must be all 8-bit registers in the list (no skipping for 16-bit registers, no skipping for unused registers)!
+
   REG00_Minimal_System_Voltage = 0x00,
   REG01_Charge_Voltage_Limit = 0x01,
   REG02_dummy_fill = 0x02,
@@ -72,5 +73,4 @@ enum {
   REG45_DMINUS_ADC = 0x45,
   REG46_dummy_fill = 0x46,
   REG47_DPDM_Driver = 0x47,
-  REG48_Part_Information = 0x48
-  };
+  REG48_Part_Information = 0x48};

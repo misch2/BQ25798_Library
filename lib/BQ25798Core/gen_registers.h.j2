@@ -1,6 +1,7 @@
 enum {
   // There must be all 8-bit registers in the list (no skipping for 16-bit registers, no skipping for unused registers)!
-  {% for reg in registers -%}
+{% for reg in registers %}
+
   {{ reg.name }} = {{ "0x%02x" | format(reg.address | int) }}{% if not loop.last %},{% endif %}
-  {% endfor -%}
+{% endfor %}
 };
