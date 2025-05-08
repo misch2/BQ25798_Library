@@ -15,41 +15,42 @@ long lastADCReadMillis = 0;
 void printMostImportantStats() {
   Serial.printf("Main stats: ");
 
-  if (bq25798.getBool(bq25798.IINDPM_STAT) || bq25798.getBool(bq25798.VINDPM_STAT)) {
+  if (bq25798.getIINDPM_STAT() == BQ25798::IINDPM_STAT_t::IINDPM_STAT_REGULATION ||
+      bq25798.getVINDPM_STAT() == BQ25798::VINDPM_STAT_t::VINDPM_STAT_REGULATION) {
     Serial.printf("DPM! ");
   };
-  if (!bq25798.getBool(bq25798.PG_STAT)) {  // inverted logic
+  if (bq25798.getPG_STAT() == BQ25798::PG_STAT_t::PG_STAT_BAD) {
     Serial.printf("PG! ");
   };
-  if (bq25798.getBool(bq25798.EN_HIZ)) {
+  if (bq25798.getEN_HIZ()) {
     Serial.printf("HIZ! ");
   };
-  if (bq25798.getBool(bq25798.VSYS_STAT)) {
+  if (bq25798.getVSYS_STAT() == BQ25798::VSYS_STAT_t::VSYS_STAT_IN_VSYSMIN_REGULATION) {
     Serial.printf("VSYS! ");
   };
-  if (!bq25798.getBool(bq25798.VBUS_PRESENT_STAT)) {  // inverted logic
+  if (bq25798.getVBUS_PRESENT_STAT() == BQ25798::VBUS_PRESENT_STAT_t::VBUS_PRESENT_STAT_NOT_PRESENT) {
     Serial.printf("VBUS! ");
   };
-  if (!bq25798.getBool(bq25798.AC1_PRESENT_STAT)) {  // inverted logic
+  if (bq25798.getAC1_PRESENT_STAT() == BQ25798::AC1_PRESENT_STAT_t::AC1_PRESENT_STAT_NOT_PRESENT) {
     Serial.printf("AC1! ");
   };
-  if (!bq25798.getBool(bq25798.VBAT_PRESENT_STAT)) {  // inverted logic
+  if (bq25798.getVBAT_PRESENT_STAT() == BQ25798::VBAT_PRESENT_STAT_t::VBAT_PRESENT_STAT_NOT_PRESENT) {
     Serial.printf("VBAT! ");
   };
 
-  if (bq25798.getBool(bq25798.TS_IGNORE)) {
+  if (bq25798.getTS_IGNORE()) {
     Serial.printf("+TS_IGNORE ");
   };
-  if (bq25798.getBool(bq25798.EN_BACKUP)) {
+  if (bq25798.getEN_BACKUP()) {
     Serial.printf("+EN_BACKUP ");
   };
-  if (bq25798.getBool(bq25798.EN_OTG)) {
+  if (bq25798.getEN_OTG()) {
     Serial.printf("+EN_OTG ");
   };
-  if (bq25798.getBool(bq25798.EN_CHG)) {
+  if (bq25798.getEN_CHG()) {
     Serial.printf("+EN_CHG ");
   };
-  if (bq25798.getBool(bq25798.EN_ACDRV1)) {
+  if (bq25798.getEN_ACDRV1()) {
     Serial.printf("+EN_ACDRV1 ");
   };
   Serial.printf("CHG=[%d]\"%s\" ", bq25798.getInt(bq25798.CHG_STAT), bq25798.getString(bq25798.CHG_STAT));

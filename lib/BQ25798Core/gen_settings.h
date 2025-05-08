@@ -1224,7 +1224,7 @@ strings_vector_t CHG_STAT_strings = {
     "Not Charging", 
     "Trickle Charge", 
     "Pre-charge", 
-    "Fast harge (CC mode)", 
+    "Fast Charge (CC mode)", 
     "Taper Charge (CV mode)", 
     "Reserved", 
     "Top-off Timer Active Charging", 
