@@ -156,6 +156,7 @@ class BQ25798Core : public C {
     uint8_t bitlength;     // Bit length for the setting
     uint8_t bitshift;      // Bit shift for the setting
     // optional:
+    bool is_flag;  // Is this a flag, i.e. a bool value set by the chip to TRUE only and cleared automatically when read from the chip?
     float range_low;
     float range_high;
     float fixed_offset;   // Fixed offset for the setting (e.g., for voltage settings)
@@ -168,8 +169,8 @@ class BQ25798Core : public C {
 
     Setting(regaddr_t reg, bool long_reg, const char* name, const char* unit, settings_type_t type, uint8_t bitlength, uint8_t bitshift,
             // optional parameters:
-            float range_low = 0, float range_high = 0, float fixed_offset = 0, float bit_step_size = 0, settings_flags_t flags = settings_flags_t::NONE,
-            strings_vector_t strings_vector = {})
+            bool is_flag = false, float range_low = 0, float range_high = 0, float fixed_offset = 0, float bit_step_size = 0,
+            settings_flags_t flags = settings_flags_t::NONE, strings_vector_t strings_vector = {})
         : reg(reg),
           long_reg(long_reg),
 #ifdef BQ25798_MEMORY_SAVER
@@ -185,6 +186,7 @@ class BQ25798Core : public C {
           type(type),
           bitlength(bitlength),
           bitshift(bitshift),
+          is_flag(is_flag),
           range_low(range_low),
           range_high(range_high),
           fixed_offset(fixed_offset),
@@ -192,7 +194,7 @@ class BQ25798Core : public C {
           flags(flags),
           strings_vector(strings_vector) {};
     static Setting invalid() {
-      return Setting{RegisterDefinition::invalid().address, false, "INVALID", "", settings_type_t::INT, 0, 0, 0, 0, 0, 0, settings_flags_t::NONE, {}};
+      return Setting{RegisterDefinition::invalid().address, false, "INVALID", "", settings_type_t::INT, 0, 0, false, 0, 0, 0, 0, settings_flags_t::NONE, {}};
     };
     bool isValid() const { return bitlength != 0; };
   };

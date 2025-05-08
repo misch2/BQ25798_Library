@@ -11,7 +11,7 @@
 
 
 {%-     if def.type == 'bool' %}
-Setting {{ def.name }} = { {{def.regname}}, {{ "true" if def.long_reg else "false" }}, "{{def.name}}", "{{def.unit}}", settings_type_t::BOOL, {{def.bits}}, {{def.shift}} };
+Setting {{ def.name }} = { {{def.regname}}, {{ "true" if def.long_reg else "false" }}, "{{def.name}}", "{{def.unit}}", settings_type_t::BOOL, {{def.bits}}, {{def.shift}}, {{ "true" if def.is_flag else "false" }} };
 bool get{{ def.name }}() { return getBool({{def.name}}); }
 {%-         if def.mode == 'rw' %}
 void set{{ def.name }}(bool val) { setBool({{def.name}}, val); }
@@ -19,7 +19,7 @@ void set{{ def.name }}(bool val) { setBool({{def.name}}, val); }
 
 
 {%-     elif def.type == 'int' %}
-Setting {{ def.name }} = { {{def.regname}}, {{ "true" if def.long_reg else "false" }}, "{{def.name}}", "{{def.unit}}", settings_type_t::INT, {{def.bits}}, {{def.shift}}, {{def.range_low}}, {{def.range_high}}, {{def.fixed_offset}}, {{def.bit_step_size}}, settings_flags_t::{{ def.flags if def.flags else "NONE" }} };
+Setting {{ def.name }} = { {{def.regname}}, {{ "true" if def.long_reg else "false" }}, "{{def.name}}", "{{def.unit}}", settings_type_t::INT, {{def.bits}}, {{def.shift}}, {{ "true" if def.is_flag else "false" }}, {{def.range_low}}, {{def.range_high}}, {{def.fixed_offset}}, {{def.bit_step_size}}, settings_flags_t::{{ def.flags if def.flags else "NONE" }} };
 {%-         if def.unit %}
 /// Returns {{ def.name }} in {{ def.unit }}
 {%-         endif %}
@@ -33,7 +33,7 @@ void set{{ def.name }}(int val) { setInt({{def.name}}, val); }
 
 
 {%-     elif def.type == 'float' %}
-Setting {{ def.name }} = { {{def.regname}}, {{ "true" if def.long_reg else "false" }}, "{{def.name}}", "{{def.unit}}", settings_type_t::FLOAT, {{def.bits}}, {{def.shift}}, {{def.range_low}}, {{def.range_high}}, {{def.fixed_offset}}, {{def.bit_step_size}}, settings_flags_t::{{ def.flags if def.flags else "NONE" }} };
+Setting {{ def.name }} = { {{def.regname}}, {{ "true" if def.long_reg else "false" }}, "{{def.name}}", "{{def.unit}}", settings_type_t::FLOAT, {{def.bits}}, {{def.shift}}, {{ "true" if def.is_flag else "false" }}, {{def.range_low}}, {{def.range_high}}, {{def.fixed_offset}}, {{def.bit_step_size}}, settings_flags_t::{{ def.flags if def.flags else "NONE" }} };
 {%-         if def.unit %}
 /// Returns {{ def.name }} in {{ def.unit }}
 {%-         endif %}
@@ -59,7 +59,7 @@ strings_vector_t {{ def.name }}_strings = {
 {%-         endfor %} 
 };
 
-Setting {{ def.name }} = { {{def.regname}}, {{ "true" if def.long_reg else "false" }}, "{{def.name}}", "{{def.unit}}", settings_type_t::ENUM, {{def.bits}}, {{def.shift}}, {{def.range_low}}, {{def.range_high}}, {{def.fixed_offset}}, {{def.bit_step_size}}, settings_flags_t::{{ def.flags if def.flags else "NONE" }}, {{ def.name }}_strings };
+Setting {{ def.name }} = { {{def.regname}}, {{ "true" if def.long_reg else "false" }}, "{{def.name}}", "{{def.unit}}", settings_type_t::ENUM, {{def.bits}}, {{def.shift}}, {{ "true" if def.is_flag else "false" }}, {{def.range_low}}, {{def.range_high}}, {{def.fixed_offset}}, {{def.bit_step_size}}, settings_flags_t::{{ def.flags if def.flags else "NONE" }}, {{ def.name }}_strings };
 {{ def.name }}_t get{{ def.name }}() { return static_cast<{{ def.name }}_t>(getInt({{def.name}})); }
 const char * get{{ def.name }}_string() { return getString({{def.name}}); }
 {%-         if def.mode == 'rw' %}

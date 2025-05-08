@@ -91,10 +91,8 @@ void trackChanges() {
       BQ25798::Setting setting = bq25798.getSetting(i);
 
       // exception: do not notify about flags set to FALSE because any read operation will reset them to FALSE
-      if (setting.type == BQ25798::settings_type_t::BOOL && strstr(setting.name, "_FLAG") != nullptr) {
-        if (newRawValues[i] == 0) {
-          continue;
-        }
+      if (setting.is_flag && newRawValues[i] == 0) {
+        continue;
       }
 
       changed = true;
