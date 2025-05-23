@@ -1935,14 +1935,14 @@ const char * getPRECHG_TMR_STAT_enum_string() { return getString(PRECHG_TMR_STAT
 
 enum class VBATOTG_LOW_STAT_t : uint8_t {
 
-    VBATOTG_LOW_STAT_VBATOTG_LOW = 0, 
-    VBATOTG_LOW_STAT_VBATOTG_OK = 1
+    VBATOTG_LOW_STAT_VBATOTG_OK = 0, 
+    VBATOTG_LOW_STAT_VBATOTG_LOW = 1
 };
 
 strings_vector_t VBATOTG_LOW_STAT_strings = {
 
-    "VBAT is too low to enable OTG mode", 
-    "VBAT is high enough to enable OTG operation"
+    "VBAT is high enough to enable OTG operation", 
+    "VBAT is too low to enable OTG mode"
 };
 
 Setting VBATOTG_LOW_STAT = { REG1F_Charger_Status_4, false, "VBATOTG_LOW_STAT", "", settings_type_t::ENUM, 1, 4, false, 0, 1, 0, 1, settings_flags_t::NONE, VBATOTG_LOW_STAT_strings };

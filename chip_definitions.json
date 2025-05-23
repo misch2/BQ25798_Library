@@ -2291,7 +2291,7 @@
             "regname": "REG1F_Charger_Status_4",
             "long_reg": false,
             "name": "VBATOTG_LOW_STAT",
-            "description": "VBAT too low to enable OTG flag",
+            "description": "The battery voltage is too low to enable OTG mode",
             "ha_device_class": "status",
             "type": "enum",
             "bits": 1,
@@ -2301,12 +2301,12 @@
             "fixed_offset": 0,
             "bit_step_size": 1,
             "enum_strings": [
-                "VBAT is too low to enable OTG mode",
-                "VBAT is high enough to enable OTG operation"
+                "VBAT is high enough to enable OTG operation",
+                "VBAT is too low to enable OTG mode"
             ],
             "enum_constants": [
-                "VBATOTG_LOW_STAT_VBATOTG_LOW",
-                "VBATOTG_LOW_STAT_VBATOTG_OK"
+                "VBATOTG_LOW_STAT_VBATOTG_OK",
+                "VBATOTG_LOW_STAT_VBATOTG_LOW"
             ],
             "mode": "ro"
         },
@@ -2406,7 +2406,7 @@
             "regname": "REG20_FAULT_Status_0",
             "long_reg": false,
             "name": "IBAT_REG_STAT",
-            "description": "IBAT regulation status",
+            "description": "In battery discharging current regulation",
             "ha_device_class": "status",
             "type": "bool",
             "bits": 1,
