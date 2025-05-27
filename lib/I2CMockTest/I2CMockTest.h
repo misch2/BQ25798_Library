@@ -3,7 +3,7 @@
 
 #include "I2CGeneric.h"
 
-constexpr int MAX_REGISTERS_COUNT = 256;  // Maximum number of registers
+constexpr int MOCK_REGISTERS_COUNT = 256;  // Maximum number of registers
 
 class I2CMockTest : public I2CGeneric {
  public:
@@ -12,13 +12,11 @@ class I2CMockTest : public I2CGeneric {
   bool i2c_begin(uint8_t chip_address) override;
   void i2c_end() override;
   bool i2c_isConnected() override;
-  uint8_t i2c_readReg8(int reg) override;
-  void i2c_writeReg8(int reg, uint8_t value) override;
-  uint16_t i2c_readReg16(int reg) override;
-  void i2c_writeReg16(int reg, uint16_t value) override;
+  void i2c_readBytes(int startReg, int count, uint8_t *values) override;
+  void i2c_writeBytes(int startReg, int count, const uint8_t *values) override;
 
  private:
-  uint8_t _reg8Values[MAX_REGISTERS_COUNT];
+  uint8_t _reg8Values[MOCK_REGISTERS_COUNT];
 };
 
 #endif

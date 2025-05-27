@@ -16,15 +16,27 @@ void setUp(void) {
   bq._registerDefinitions[0] = reg0;
   bq._registerDefinitions[1] = reg1;
 
-  bq.i2c_writeReg8(reg0.address, 0x12);
-  bq.i2c_writeReg8(reg1.address, 0x34);
-  TEST_ASSERT_EQUAL(0x12, bq.i2c_readReg8(reg0.address));
-  TEST_ASSERT_EQUAL(0x34, bq.i2c_readReg8(reg1.address));
+  uint8_t dataToRead[100];
 
-  bq.i2c_writeReg8(reg0.address, 0x00);
-  bq.i2c_writeReg8(reg1.address, 0x00);
-  TEST_ASSERT_EQUAL(0x00, bq.i2c_readReg8(reg0.address));
-  TEST_ASSERT_EQUAL(0x00, bq.i2c_readReg8(reg1.address));
+  const uint8_t dataToWrite[] = {0x12, 0x34, 0xFF, 0xFF};
+  bq.i2c_writeBytes(reg0.address, 1, &dataToWrite[0]);
+  bq.i2c_writeBytes(reg1.address, 1, &dataToWrite[1]);
+
+  bq.readAllRegisters();
+  bq.i2c_readBytes(reg0.address, 1, dataToRead);
+  TEST_ASSERT_EQUAL(0x12, dataToRead[0]);
+  bq.i2c_readBytes(reg1.address, 1, dataToRead);
+  TEST_ASSERT_EQUAL(0x34, dataToRead[0]);
+
+  const uint8_t dataToWrite2[] = {0x00, 0x00};
+  bq.i2c_writeBytes(reg0.address, 1, &dataToWrite2[0]);
+  bq.i2c_writeBytes(reg1.address, 1, &dataToWrite2[1]);
+
+  bq.readAllRegisters();
+  bq.i2c_readBytes(reg0.address, 1, &dataToRead[0]);
+  TEST_ASSERT_EQUAL(0x00, dataToRead[0]);
+  bq.i2c_readBytes(reg1.address, 1, &dataToRead[1]);
+  TEST_ASSERT_EQUAL(0x00, dataToRead[1]);
 
   bq.clearError();  // clear error for next test
 }
@@ -37,15 +49,22 @@ void test_reg8_fields(void) {
   BQ25798MockTest::Setting setting1 = {reg0.address, false, "TEST", "", BQ25798MockTest::settings_type_t::INT, /* len */ 3, /* shift */ 1, false};
 
   bq.writeSettingToReg8(0xFF, setting1);  // 0xFF = 0b11111111 -> mask len 3 = 0b00000111 -> shift 1 = 0b00001110
-  TEST_ASSERT_EQUAL_MESSAGE(0b00001110, bq.i2c_readReg8(reg0.address), "bit shifting and masking works for writeSettingToReg8");
+  uint8_t dataToRead[1];
+  bq.i2c_readBytes(reg0.address, 1, dataToRead);
+
+  TEST_ASSERT_EQUAL_MESSAGE(0b00001110, dataToRead[0], "bit shifting and masking works for writeSettingToReg8");
   TEST_ASSERT_EQUAL_MESSAGE(0b00000111, bq.readSettingFromReg8(setting1), "bit shifting and masking works for readSettingFromReg8");
 }
 
 void test_reg16_fields(void) {
   BQ25798MockTest::Setting setting1 = {reg0.address, true, "TEST", "", BQ25798MockTest::settings_type_t::INT, /* len */ 4, /* shift */ 7, false};
   bq.writeSettingToReg16(0xFFFF, setting1);  // 0xFFFF = 0b11111111_11111111 -> mask len 4 = 0b0000000_000001111 -> shift 7 = 0b00000111_10000000
-  TEST_ASSERT_EQUAL_MESSAGE(0b00000111, bq.i2c_readReg8(reg0.address), "bit shifting and masking works for writeSettingToReg16 big endian");
-  TEST_ASSERT_EQUAL_MESSAGE(0b10000000, bq.i2c_readReg8(reg1.address), "bit shifting and masking works for writeSettingToReg16 big endian");
+  uint8_t dataToRead[2];
+  bq.i2c_readBytes(reg0.address, 1, &dataToRead[0]);
+  bq.i2c_readBytes(reg1.address, 1, &dataToRead[1]);
+
+  TEST_ASSERT_EQUAL_MESSAGE(0b00000111, dataToRead[0], "bit shifting and masking works for writeSettingToReg16 big endian");
+  TEST_ASSERT_EQUAL_MESSAGE(0b10000000, dataToRead[1], "bit shifting and masking works for writeSettingToReg16 big endian");
   TEST_ASSERT_EQUAL_MESSAGE(0x000F, bq.readSettingFromReg16(setting1), "bit shifting and masking works for readSettingFromReg16");
 }
 

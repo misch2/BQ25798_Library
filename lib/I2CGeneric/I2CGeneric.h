@@ -15,10 +15,8 @@ class I2CGeneric {
   virtual void i2c_end() = 0;
 
   virtual bool i2c_isConnected() = 0;
-  virtual uint8_t i2c_readReg8(int reg) = 0;
-  virtual void i2c_writeReg8(int reg, uint8_t value) = 0;
-  virtual uint16_t i2c_readReg16(int reg) = 0;
-  virtual void i2c_writeReg16(int reg, uint16_t value) = 0;
+  virtual void i2c_readBytes(int startReg, int count, uint8_t *values) = 0;
+  virtual void i2c_writeBytes(int startReg, int count, const uint8_t *values) = 0;
 
   bool i2c_isError() const { return _isI2CError; }  // Check if an error occurred
 

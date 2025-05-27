@@ -12,10 +12,8 @@ class BQ25798NoI2C : public BQ25798Core<I2CGeneric> {
   void i2c_end() override {};
 
   bool i2c_isConnected() override { return false; }
-  uint8_t i2c_readReg8(int reg) override { return 0; };
-  void i2c_writeReg8(int reg, uint8_t value) override {};
-  uint16_t i2c_readReg16(int reg) override { return 0; };
-  void i2c_writeReg16(int reg, uint16_t value) {};
+  void i2c_readBytes(int startReg, int count, uint8_t *values) override { for (int i = 0; i < count; i++) { values[i] = 0; } };
+  void i2c_writeBytes(int startReg, int count, const uint8_t *values) override {};
 };
 
 #endif

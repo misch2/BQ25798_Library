@@ -1,7 +1,12 @@
 enum {
   // There must be all 8-bit registers in the list (no skipping for 16-bit registers, no skipping for unused registers)!
 {% for reg in registers %}
-
   {{ reg.name }} = {{ "0x%02x" | format(reg.address | int) }}{% if not loop.last %},{% endif %}
+
 {% endfor %}
 };
+
+static constexpr uint8_t REGISTERS_COUNT = {{ registers | length }};
+static constexpr uint8_t FIRST_REGISTER_ADDRESS = {{ registers[0].name }};
+static constexpr uint8_t LAST_REGISTER_ADDRESS = {{ registers[-1].name }};
+

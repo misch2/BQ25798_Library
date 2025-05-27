@@ -1,0 +1,6 @@
+std::array<RegisterDefinition, REGISTERS_COUNT> _registerDefinitions = {
+{% for reg in registers %}
+  DEFINE_REGISTER({{ reg.name }}){% if not loop.last %},{% endif %}
+
+{% endfor %}
+};

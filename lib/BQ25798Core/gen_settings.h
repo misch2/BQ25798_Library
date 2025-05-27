@@ -1159,23 +1159,9 @@ void setVAC2_PD_EN(bool val) { setBool(VAC2_PD_EN, val); }
 // ================================
 
 
-enum class BKUP_ACFET1_ON_t : uint8_t {
-
-    BKUP_ACFET1_ON_IDLE = 0, 
-    BKUP_ACFET1_ON_TURN_ON = 1
-};
-
-strings_vector_t BKUP_ACFET1_ON_strings = {
-
-    "Idle", 
-    "Turn on ACFET1 in backup mode"
-};
-
-Setting BKUP_ACFET1_ON = { REG16_Temperature_Control, false, "BKUP_ACFET1_ON", "", settings_type_t::ENUM, 1, 0, false, 0, 1, 0, 1, settings_flags_t::NONE, BKUP_ACFET1_ON_strings };
-BKUP_ACFET1_ON_t getBKUP_ACFET1_ON() { return static_cast<BKUP_ACFET1_ON_t>(getInt(BKUP_ACFET1_ON)); }
-const char * getBKUP_ACFET1_ON_enum_string() { return getString(BKUP_ACFET1_ON); }
-void setBKUP_ACFET1_ON(BKUP_ACFET1_ON_t val) { setEnum<BKUP_ACFET1_ON_t>(BKUP_ACFET1_ON, val); }
-
+Setting BKUP_ACFET1_ON = { REG16_Temperature_Control, false, "BKUP_ACFET1_ON", "", settings_type_t::BOOL, 1, 0, false };
+bool getBKUP_ACFET1_ON() { return getBool(BKUP_ACFET1_ON); }
+void setBKUP_ACFET1_ON(bool val) { setBool(BKUP_ACFET1_ON, val); }
 
 
 
