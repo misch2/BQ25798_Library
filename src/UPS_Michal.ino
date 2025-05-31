@@ -200,6 +200,8 @@ void onetimeSetup() {
 
   // FIXME to prevent chip reset when the host controller is disconnected temporarily
   bq25798.setWATCHDOG(BQ25798::WATCHDOG_t::WATCHDOG_DISABLE);  // disable watchdog timer
+
+  Serial.println("One-time setup complete.");
 }
 
 void rearmBackupMode() {
@@ -220,6 +222,7 @@ void rearmBackupMode() {
   // 3. Set EN_OTG = 0, in order to exit OTG mode and enter the forward charging mode without PMID voltage
   // crash. Setting BKUP_ACFET1_ON = 1, also clears BKUP_ACFET1_ON to 0 and sets EN_BACKUP to 1.
 
+  bq25798.readAllRegisters();
   if (bq25798.getAC1_PRESENT_STAT() != BQ25798::AC1_PRESENT_STAT_t::AC1_PRESENT_STAT_PRESENT) {
     Serial.println("Error: AC1 is not present, cannot re-arm backup mode.");
     return;
@@ -227,21 +230,24 @@ void rearmBackupMode() {
 
   bq25798.setBKUP_ACFET1_ON(true);  // turn on the ACFET1-RBFET1 to connect the adapter to VBUS
   delay(500);                       // wait for the ACFET1-RBFET1 to turn on
-  // FIXME read all registers?
+
+  bq25798.readAllRegisters();
   if (bq25798.getEN_ACDRV1() == false) {
     Serial.println("Error: EN_ACDRV1 is not set, cannot re-arm backup mode.");
     return;
   }
-
   bq25798.setEN_OTG(false);  // exit OTG mode and enter the forward charging mode without PMID voltage crash
   delay(500);                // wait for the OTG mode to exit
 
+  bq25798.readAllRegisters();
   bq25798.setBKUP_ACFET1_ON(false);
   delay(500);  // wait for the OTG mode to exit
 
+  bq25798.readAllRegisters();
   bq25798.setEN_BACKUP(true);
   delay(500);  // wait for the OTG mode to exit
 
+  bq25798.readAllRegisters();
   Serial.println("Backup mode re-armed (hopefully?).");
 }
 
@@ -250,6 +256,7 @@ void setup() {
   Serial.println("Serial port initialized");
 
   Wire.begin(I2C_SDA_PIN, I2C_SCL_PIN);
+  // Wire.setClock(1000);  // set I2C clock to 1 kHz // FIXME test only
   Serial.printf("I2C initialized on SDA=GPIO%d, SCL=GPIO%d\n", I2C_SDA_PIN, I2C_SCL_PIN);
 
   Serial.print("Looking for BQ25798 on I2C bus...");
@@ -264,6 +271,7 @@ void setup() {
   bq25798.setREG_RST(true);  // reset the IC
   while (bq25798.getREG_RST()) {
     delay(10);
+    bq25798.readAllRegisters();
   }
   Serial.println("Reset successful.");
 
@@ -293,6 +301,7 @@ void setup() {
 }
 
 void loop() {
+  bq25798.readAllRegisters();
   patWatchdog();  // reset the watchdog timer
   trackChanges();
   checkForError();
@@ -304,9 +313,11 @@ void loop() {
       rearmBackupMode();
     } else if (c == 'c' || c == 'C') {
       toggleCharger();  // toggle the charger state
+    } else if (c == 'x' || c == 'X') {
+      onetimeSetup();  // re-setup the BQ25798
     } else {
       Serial.printf("Unknown command: '%c'\n", c);
-      Serial.println("Press 'r' to re-arm backup mode or 'c' to toggle charger state.");
+      Serial.println("Press 'r' to re-arm backup mode, 'c' to toggle charger state or 'x' to reset.");
     }
   }
 

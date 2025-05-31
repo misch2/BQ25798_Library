@@ -496,11 +496,7 @@ bool BQ25798Core<C>::rawToBool(uint16_t raw, const Setting& setting) {
 
 template <class C>
 uint16_t BQ25798Core<C>::boolToRaw(bool value, const Setting& setting) {
-  if (setting.type != settings_type_t::BOOL) {
-    _setError(Error::ERROR_INVALID_VALUE);
-    return 0;
-  }
-
+  // anything can be converted from bool, no need to check the type
   return value ? 1 : 0;
 }
 

@@ -22,7 +22,6 @@ void setUp(void) {
   bq.i2c_writeBytes(reg0.address, 1, &dataToWrite[0]);
   bq.i2c_writeBytes(reg1.address, 1, &dataToWrite[1]);
 
-  bq.readAllRegisters();
   bq.i2c_readBytes(reg0.address, 1, dataToRead);
   TEST_ASSERT_EQUAL(0x12, dataToRead[0]);
   bq.i2c_readBytes(reg1.address, 1, dataToRead);
@@ -32,7 +31,6 @@ void setUp(void) {
   bq.i2c_writeBytes(reg0.address, 1, &dataToWrite2[0]);
   bq.i2c_writeBytes(reg1.address, 1, &dataToWrite2[1]);
 
-  bq.readAllRegisters();
   bq.i2c_readBytes(reg0.address, 1, &dataToRead[0]);
   TEST_ASSERT_EQUAL(0x00, dataToRead[0]);
   bq.i2c_readBytes(reg1.address, 1, &dataToRead[1]);

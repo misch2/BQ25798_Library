@@ -4,7 +4,7 @@
 
 #include "../src/utility/debug.h"
 
-I2CWire::I2CWire(TwoWire& wire) : I2CGeneric() {
+I2CWire::I2CWire(TwoWire &wire) : I2CGeneric() {
   _wire = &wire;
   _chip_address = 0;
 }
