@@ -1,10 +1,30 @@
 #include <BQ25798.h>
 #include <Wire.h>
+// #include <Timer.h>
+#include <arduino-timer.h>
 
 #include <array>
 
 #define I2C_SDA_PIN 21
 #define I2C_SCL_PIN 22
+
+constexpr int VINDPM_mV = 12000;           // Input voltage DPM threshold in mV
+constexpr int IINDPM_mA = 3000;            // Input current DPM threshold in mA
+
+constexpr int VOTG_mV = 12000;             // Output voltage for OTG mode
+constexpr int IOTG_mA = 3200;              // Output current for OTG mode in mA
+
+constexpr int VBAT_CHG_ENABLE_mV = 16000;  // Voltage at which the charger is enabled in mV
+constexpr int ICHG_mA = 500;              // Charge current in mA (max)
+
+constexpr BQ25798::VBUS_BACKUP_t VBUS_BACKUP_SWICHOVER = BQ25798::VBUS_BACKUP_t::PCT_VBUS_BACKUP_80;  // VBUS backup percentage (80 % of 12 V = 9.6 V)
+
+
+// constexpr int VOTG_mV = 5000;             // Output voltage for OTG mode
+// constexpr int IOTG_mA = 1000;             // Output current for OTG mode in mA
+// constexpr int VINDPM_mV = VOTG_mV - 500;  // Input voltage DPM threshold in mV
+
+constexpr int LED_PIN = 2;  // GPIO pin for the LED
 
 const int ADC_readout_time_millis = 30000;
 
@@ -14,6 +34,16 @@ std::array<int, BQ25798::SETTINGS_COUNT> oldRawValues;
 std::array<int, BQ25798::SETTINGS_COUNT> newRawValues;
 long startMillis = 0;
 long lastADCReadMillis = 0;
+
+bool fullAutoMode = true;  // Set to false to disable full auto mode and use manual settings
+
+auto ledTimer = timer_create_default();  // create a timer with default settings
+unsigned long ledBlinkSpeed = 100;       // LED toggle speed in milliseconds
+bool toggle_led(void *) {
+  digitalWrite(LED_PIN, !digitalRead(LED_PIN));  // toggle the LED
+  ledTimer.in(ledBlinkSpeed / 2, &toggle_led);   // rearm the timer
+  return false;                                  // keep existing timer active?
+}
 
 void patWatchdog() {
   // To keep the device in host mode, the host has  to reset the watchdog timer by writing 1 to WD_RST bit before the watchdog timer expires
@@ -129,12 +159,18 @@ void trackChanges() {
                         bq25798.rawToFloat(oldRawValues[i], setting));
         }
       } else if (setting.type == BQ25798::settings_type_t::BOOL) {
-        snprintf(type_info, sizeof(type_info), "%s (%s)", setting.name, "bool");
-        Serial.printf("%25s = %-50s     ",  //
-                      type_info, bq25798.rawToBool(newRawValues[i], setting) ? "TRUE" : "false");
-        if (!justStarted) {
-          Serial.printf("(was %s)",  //
-                        bq25798.rawToBool(oldRawValues[i], setting) ? "TRUE" : "false");
+        if (setting.is_flag) {  // if this is a flag, it can only be TRUE, see the skip for false above
+          snprintf(type_info, sizeof(type_info), "%s (%s)", setting.name, "flag");
+          Serial.printf("%25s = %-50s     ",  //
+                        type_info, bq25798.rawToBool(newRawValues[i], setting) ? "TRIGGERED" : "");
+        } else {
+          snprintf(type_info, sizeof(type_info), "%s (%s)", setting.name, "bool");
+          Serial.printf("%25s = %-50s     ",  //
+                        type_info, bq25798.rawToBool(newRawValues[i], setting) ? "TRUE" : "false");
+          if (!justStarted) {
+            Serial.printf("(was %s)",  //
+                          bq25798.rawToBool(oldRawValues[i], setting) ? "TRUE" : "false");
+          }
         }
       } else if (setting.type == BQ25798::settings_type_t::ENUM) {
         snprintf(type_info, sizeof(type_info), "%s (%s)", setting.name, "enum");
@@ -147,7 +183,7 @@ void trackChanges() {
         };
       } else if (setting.type == BQ25798::settings_type_t::INT) {
         snprintf(type_info, sizeof(type_info), "%s (%s, %s)", setting.name, "int", setting.unit);
-        Serial.printf("%25s = %-20d     ",  //
+        Serial.printf("%25s = %-50d     ",  //
                       type_info, bq25798.rawToInt(newRawValues[i], setting));
         if (!justStarted) {
           Serial.printf("(was %5d)",  //
@@ -167,12 +203,14 @@ void trackChanges() {
     oldRawValues[i] = newRawValues[i];
   }
 
-  // Every 1 second read the ADC values in one-shot mode
-  long elapsedADCMillis = millis() - lastADCReadMillis;
-  if (elapsedADCMillis >= ADC_readout_time_millis) {
-    // Serial.printf("ADC readout elapsed time: %ld ms\n", elapsedADCMillis);
-    lastADCReadMillis = millis();
-    bq25798.setADC_EN(true);  // trigger ADC one-shot mode
+  // // Every N seconds read the ADC values in one-shot mode
+  if (fullAutoMode) {
+    long elapsedADCMillis = millis() - lastADCReadMillis;
+    if (elapsedADCMillis >= ADC_readout_time_millis) {
+      Serial.printf("ADC readout elapsed time: %ld ms\n", elapsedADCMillis);
+      lastADCReadMillis = millis();
+      bq25798.setADC_EN(true);  // trigger ADC one-shot mode
+    }
   }
 }
 
@@ -188,15 +226,41 @@ void toggleCharger() {
 }
 
 void onetimeSetup() {
+  Serial.print("Resetting the IC completely...");
+  bq25798.setREG_RST(true);  // reset the IC
+  while (bq25798.getREG_RST()) {
+    ledTimer.tick();
+    delay(10);
+    bq25798.readAllRegisters();
+  }
+  Serial.println("Reset successful.");
+
+  // enable one-time ADC readout
+  bq25798.setADC_RATE(BQ25798::ADC_RATE_t::ADC_RATE_ONESHOT);
+  bq25798.setADC_SAMPLE(BQ25798::ADC_SAMPLE_t::ADC_SAMPLE_15BIT);
+  bq25798.setADC_EN(true);  // trigger ADC one-shot mode
+
+  bq25798.setIBUS_ADC_DIS(false);  // enable IBUS ADC
+  bq25798.setIBAT_ADC_DIS(false);  // enable IBAT ADC
+  bq25798.setVAC2_ADC_DIS(true);  // disable VAC2 ADC (not used)
+
   // Disable HIZ mode (high impedance mode):
   bq25798.setEN_HIZ(false);
+
+  // Disable input type detection:
+  bq25798.setAUTO_INDET_EN(false);
 
   // Enable BACKUP mode:
   // bq25798.setEN_OTG(1);  // no, this is not the same as EN_BACKUP. EN_OTG would provide power back to the input without disabling the ACFET/RBFET
   bq25798.setEN_BACKUP(true);
 
-  bq25798.setVOTG(12000);  // set output voltage to 12 V
-  bq25798.setIOTG(3300);   // set output current to 3.3 A (max)
+  bq25798.setVOTG(VOTG_mV);
+  bq25798.setVINDPM(VINDPM_mV);
+  bq25798.setIINDPM(IINDPM_mA);
+  bq25798.setIOTG(IOTG_mA);
+  bq25798.setICHG(ICHG_mA);
+
+  bq25798.setVBUS_BACKUP(VBUS_BACKUP_SWICHOVER);
 
   // FIXME to prevent chip reset when the host controller is disconnected temporarily
   bq25798.setWATCHDOG(BQ25798::WATCHDOG_t::WATCHDOG_DISABLE);  // disable watchdog timer
@@ -204,9 +268,46 @@ void onetimeSetup() {
   Serial.println("One-time setup complete.");
 }
 
+bool waitForBQCondition(bool (*condition)(), int timeoutMillis = 5000) {
+  long startTime = millis();
+  bq25798.readAllRegisters();
+  trackChanges();
+  while (!condition()) {
+    ledTimer.tick();
+    if (millis() - startTime > timeoutMillis) {
+      return false;
+    }
+    delay(10);
+    bq25798.readAllRegisters();
+    trackChanges();
+  }
+  return true;
+}
+
 void rearmBackupMode() {
   // Re-arm the backup mode by setting EN_BACKUP to false and then true again
-  Serial.println("Re-arming backup mode...");
+  bq25798.readAllRegisters();
+  trackChanges();
+
+  Serial.println("Exiting backup mode and re-arming UPS...");
+
+  // When a backup mode is entered automatically, the following happens:
+  // DIS_ACDRV is set to TRUE, EN_OTG is set to TRUE, EN_ACDRV1 is set to FALSE, PG is set to FALSE and VBUS_STAT is set to "Backup"
+  //
+  // So let's check if we are still in backup mode:
+
+  if (bq25798.getVBUS_STAT() != BQ25798::VBUS_STAT_t::VBUS_STAT_BACKUP_MODE) {
+    Serial.println("Error: VBUS_STAT is not BACKUP_MODE");
+    return;
+  }
+  if (!bq25798.getDIS_ACDRV()) {
+    Serial.println("In backup mode Error: ACDRV is not globally disabled, cannot re-arm.");
+    return;
+  }
+  if (!bq25798.getEN_OTG()) {
+    Serial.println("In backup mode Error: OTG is not active, cannot re-arm.");
+    return;
+  }
 
   // See page 37 of the BQ25798 datasheet:
   // If there is an adapter reconnected while the charger is in backup mode, the user may transition the source which
@@ -222,38 +323,62 @@ void rearmBackupMode() {
   // 3. Set EN_OTG = 0, in order to exit OTG mode and enter the forward charging mode without PMID voltage
   // crash. Setting BKUP_ACFET1_ON = 1, also clears BKUP_ACFET1_ON to 0 and sets EN_BACKUP to 1.
 
-  bq25798.readAllRegisters();
   if (bq25798.getAC1_PRESENT_STAT() != BQ25798::AC1_PRESENT_STAT_t::AC1_PRESENT_STAT_PRESENT) {
-    Serial.println("Error: AC1 is not present, cannot re-arm backup mode.");
+    Serial.println("Error: AC1 is not present, cannot re-arm.");
     return;
   }
 
+  // Disable charger to prevent any charging while we are in the OTG mode
+  Serial.println("Disabling charger...");
+  bq25798.setEN_CHG(false);  // disable the charger
+  trackChanges();
+
+  // BKUP_ACFET1_ON does the following:
+  // - set DIS_ACDRV to 0 && set EN_ACDRV1 to 1 (enable ACDRV1)
+  // - set EN_BACKUP to 0 (disable backup mode) -- why does it do this???
+  // - set BKUP_ACFET1_ON to 1
+  // it also sets the VBUS_STAT to OTG
+  Serial.println("Setting BKUP_ACFET1_ON to 1...");
   bq25798.setBKUP_ACFET1_ON(true);  // turn on the ACFET1-RBFET1 to connect the adapter to VBUS
-  delay(500);                       // wait for the ACFET1-RBFET1 to turn on
+  trackChanges();
 
-  bq25798.readAllRegisters();
-  if (bq25798.getEN_ACDRV1() == false) {
-    Serial.println("Error: EN_ACDRV1 is not set, cannot re-arm backup mode.");
+  Serial.println("Waiting for a confirmation of ACFET1 enabled...");
+  if (!waitForBQCondition([]() { return bq25798.getEN_ACDRV1() == true; })) {
+    Serial.println("Error: failed to turn ACDRV1 on.");
     return;
   }
+
+  // EN_OTG should do the following when BKUP_ACFET1_ON is active:
+  // - set EN_OTG to 0 (exit OTG mode)
+  // - set EN_BACKUP to 1 (re-arm backup mode -- that's because BKUP_ACFET1_ON is still set to 1)
+  // - set BKUP_ACFET1_ON to 0
+  // it also sets VBUS_STAT to normal input mode
+  Serial.println("Proceeding to exit OTG mode...");
   bq25798.setEN_OTG(false);  // exit OTG mode and enter the forward charging mode without PMID voltage crash
-  delay(500);                // wait for the OTG mode to exit
+  trackChanges();
 
-  bq25798.readAllRegisters();
-  bq25798.setBKUP_ACFET1_ON(false);
-  delay(500);  // wait for the OTG mode to exit
+  Serial.println("Waiting for a confirmation of OTG disabled and backup re-enabled...");
+  if (!waitForBQCondition([]() { return bq25798.getEN_OTG() == false && bq25798.getEN_BACKUP() == true; })) {
+    Serial.println("Error: failed to exit OTG mode and re-arm.");
+    return;
+  }
 
-  bq25798.readAllRegisters();
-  bq25798.setEN_BACKUP(true);
-  delay(500);  // wait for the OTG mode to exit
+  Serial.println("Waiting for PG_STAT to be GOOD...");
+  if (!waitForBQCondition([]() { return bq25798.getPG_STAT() == BQ25798::PG_STAT_t::PG_STAT_GOOD; })) {
+    Serial.println("Error: failed to re-arm backup mode, PG_STAT is not GOOD.");
+    return;
+  }
 
-  bq25798.readAllRegisters();
-  Serial.println("Backup mode re-armed (hopefully?).");
+  Serial.println("Backup mode re-armed.");
 }
 
 void setup() {
   Serial.begin(115200);
   Serial.println("Serial port initialized");
+
+  pinMode(LED_PIN, OUTPUT);
+  digitalWrite(LED_PIN, LOW);                   // turn off the LED
+  ledTimer.in(ledBlinkSpeed / 2, &toggle_led);  // start the timer
 
   Wire.begin(I2C_SDA_PIN, I2C_SCL_PIN);
   // Wire.setClock(1000);  // set I2C clock to 1 kHz // FIXME test only
@@ -261,19 +386,12 @@ void setup() {
 
   Serial.print("Looking for BQ25798 on I2C bus...");
   while (!bq25798.begin()) {
+    ledTimer.tick();
     delay(100);
   }
   bq25798.clearError();
 
   Serial.println("Connected.");
-
-  Serial.print("Resetting the IC completely...");
-  bq25798.setREG_RST(true);  // reset the IC
-  while (bq25798.getREG_RST()) {
-    delay(10);
-    bq25798.readAllRegisters();
-  }
-  Serial.println("Reset successful.");
 
   Serial.print("Setting up BQ25798...");
 
@@ -288,23 +406,75 @@ void setup() {
   // A continuous ADC would otherwise produce too much visual noise (a lot of changes).
   bq25798.setADC_RATE(BQ25798::ADC_RATE_t::ADC_RATE_ONESHOT);
   bq25798.setADC_SAMPLE(BQ25798::ADC_SAMPLE_t::ADC_SAMPLE_15BIT);
-  bq25798.setADC_EN(true);         // trigger ADC one-shot mode
-  bq25798.setIBUS_ADC_DIS(false);  // enable IBUS ADC
-  bq25798.setIBAT_ADC_DIS(false);  // enable IBAT ADC
   delay(100);
 
-  onetimeSetup();  // for the first time
-  rearmBackupMode();
+  // onetimeSetup();  // for the first time
+  // rearmBackupMode();
 
-  Serial.println("BQ25798 setup complete.");
+  Serial.println("BQ25798 basic setup complete.");
+
+  if (fullAutoMode && bq25798.getVBUS_STAT() != BQ25798::VBUS_STAT_t::VBUS_STAT_BACKUP_MODE) {
+    Serial.println("Full auto mode enabled, one-time setup done.");
+    onetimeSetup();  // for the first time
+  }
+
   Serial.println("Waiting for changes...");
 }
 
+long backupRecoveryStartMillis = 0;
 void loop() {
+  ledTimer.tick();
   bq25798.readAllRegisters();
-  patWatchdog();  // reset the watchdog timer
+  // patWatchdog();  // reset the watchdog timer
   trackChanges();
   checkForError();
+
+  if (bq25798.getVBUS_STAT() == BQ25798::VBUS_STAT_t::VBUS_STAT_BACKUP_MODE) {
+    ledBlinkSpeed = 200;  // blink faster in backup mode
+  } else if (bq25798.getVBUS_STAT() == BQ25798::VBUS_STAT_t::VBUS_STAT_OTG_MODE) {
+    ledBlinkSpeed = 50;  // blink even faster in OTG mode
+  } else {
+    ledBlinkSpeed = 1000;  // slow blink speed in normal mode
+  }
+
+  if (fullAutoMode) {
+    // If in full auto mode, re-arm backup mode if needed
+    if (bq25798.getVBUS_STAT() == BQ25798::VBUS_STAT_t::VBUS_STAT_BACKUP_MODE) {
+      // check if the power source is OK for sufficient time
+      if (bq25798.getAC1_PRESENT_STAT() == BQ25798::AC1_PRESENT_STAT_t::AC1_PRESENT_STAT_PRESENT) {
+        if (backupRecoveryStartMillis == 0) {
+          backupRecoveryStartMillis = millis();
+          Serial.println("AC1 detected (power OK?) in backup mode, waiting for it to be present for at least 5 seconds...");
+        } else if (millis() - backupRecoveryStartMillis >= 5000) {
+          Serial.println("AC1 is present for 5 seconds, exiting backup mode and re-arming...");
+          rearmBackupMode();
+          backupRecoveryStartMillis = 0;  // reset the timer
+        }
+      } else {
+        // AC1 is not present, reset the timer
+        if (backupRecoveryStartMillis != 0) {
+          Serial.println("AC1 is not present, resetting backup recovery timer.");
+          backupRecoveryStartMillis = 0;
+        }
+      }
+    }
+
+    // Enable the charger if VBUS is present and not in backup mode
+    if (bq25798.getVBUS_PRESENT_STAT() == BQ25798::VBUS_PRESENT_STAT_t::VBUS_PRESENT_STAT_PRESENT && bq25798.getPG_STAT() == BQ25798::PG_STAT_t::PG_STAT_GOOD &&
+        bq25798.getVBUS_STAT() != BQ25798::VBUS_STAT_t::VBUS_STAT_BACKUP_MODE && bq25798.getVBAT_ADC() > VBAT_CHG_ENABLE_mV) {
+      if (!bq25798.getEN_CHG()) {
+        Serial.println("Enabling charger, power is good and battery is below limit...");
+        bq25798.setEN_CHG(true);  // enable the charger
+      }
+    }
+
+    // Enable the BACKUP mode if it accidentally got disabled (e.g. by enabling the charger)
+    if (!bq25798.getEN_BACKUP() && bq25798.getPG_STAT() == BQ25798::PG_STAT_t::PG_STAT_GOOD &&
+        bq25798.getVBUS_STAT() != BQ25798::VBUS_STAT_t::VBUS_STAT_OTG_MODE) {
+      Serial.println("BACKUP mode is disabled (why?) but shouldn't be. Re-enabling it...");
+      bq25798.setEN_BACKUP(true);  // re-enable BACKUP mode
+    }
+  }
 
   // If user pressed the 'p' (poke) key, try to re-arm backup mode again
   if (Serial.available() > 0) {
@@ -315,9 +485,30 @@ void loop() {
       toggleCharger();  // toggle the charger state
     } else if (c == 'x' || c == 'X') {
       onetimeSetup();  // re-setup the BQ25798
+    } else if (c == 'a' || c == 'A') {
+      bq25798.setADC_EN(true);  // trigger ADC one-shot mode
+    } else if (c == '1') {
+      bq25798.setBKUP_ACFET1_ON(!bq25798.getBKUP_ACFET1_ON());  // toggle BKUP_ACFET1_ON
+      Serial.printf("BKUP_ACFET1_ON set to %d\n", bq25798.getBKUP_ACFET1_ON());
+    } else if (c == '2') {
+      bq25798.setEN_ACDRV1(!bq25798.getEN_ACDRV1());  // toggle ACDRV1
+      Serial.printf("ACDRV1 set to %d\n", bq25798.getEN_ACDRV1());
+    } else if (c == '3') {
+      bq25798.setEN_OTG(!bq25798.getEN_OTG());  // toggle OTG
+      Serial.printf("OTG set to %d\n", bq25798.getEN_OTG());
+    } else if (c == '4') {
+      bq25798.setEN_BACKUP(!bq25798.getEN_BACKUP());  // toggle BACKUP
+      Serial.printf("BACKUP set to %d\n", bq25798.getEN_BACKUP());
+    } else if (c == '5') {
+      bq25798.setFORCE_INDET(!bq25798.getFORCE_INDET());  // toggle FORCE_INDET
+      Serial.printf("FORCE_INDET set to %d\n", bq25798.getFORCE_INDET());
+    } else if (c == '\r' || c == '\n') {
+      // Ignore new line characters
+      Serial.println();
     } else {
       Serial.printf("Unknown command: '%c'\n", c);
-      Serial.println("Press 'r' to re-arm backup mode, 'c' to toggle charger state or 'x' to reset.");
+      Serial.println("Press 'r' to re-arm backup mode, 'c' to toggle charger state, 'a' to trigger ADC read or 'x' to reset.");
+      Serial.println("Toggles: 1=BKUP_ACFET1, 2=ACDRV1, 3=OTG, 4=BACKUP, 5=FORCE_INDET");
     }
   }
 
