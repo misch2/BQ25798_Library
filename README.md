@@ -50,19 +50,26 @@ Each setting in `chip_definitions.json` can provide `homeassistant` metadata. Re
 const auto& ha = bq.getHomeAssistantInfo(bq.TDIE_ADC);
 // ha.device_class == "temperature", ha.entity_category == "diagnostic"
 // ha.state_class == "measurement", ha.icon == nullptr (automatic icon)
+// ha.component == "sensor"
 
 for (int i = 0; i < BQ25798::SETTINGS_COUNT; ++i) {
   const auto& setting = bq.getSetting(i);
   const auto& info = bq.getHomeAssistantInfo(i);
-  // Use setting.name/unit and info.device_class/entity_category/state_class/icon.
+  // Use info.component for the MQTT discovery topic, e.g. homeassistant/sensor/<object_id>/config.
+  // Use setting.name/unit and info.device_class/entity_category/state_class/icon in the payload.
 }
 ```
 
-The four metadata fields are nullable `const char*` values. Omit null fields when building discovery messages. Missing JSON fields and JSON `null` become
+The five metadata fields are nullable `const char*` values. Omit null fields when building discovery messages. Missing JSON fields and JSON `null` become
 `nullptr`; existing empty strings are preserved. The library provides the configured values without validating Home Assistant entity domains or publishing MQTT.
 For example, legacy device classes such as `status` or `control` may need mapping in the client before publication.
 
-Both accessors are const and return references to static, read-only data. Invalid indices and unknown settings return four null fields without changing
+All ADC readings specify `component: "sensor"` and `state_class: "measurement"`. Main voltage/current readings have the corresponding device class and no
+entity category; die temperature, TS percentage and D+/D- voltages remain diagnostic sensors. `TS_ADC` is a percentage, not a temperature.
+Other settings currently leave `component` unspecified; the client must choose an appropriate component before publishing them. The component selects the
+entity domain and is separate from `entity_category` (`config`, `diagnostic`, or unset); it is not an MQTT entity discovery payload field.
+
+Both accessors are const and return references to static, read-only data. Invalid indices and unknown settings return five null fields without changing
 `lastError()`. Setting lookup uses the register, bit shift, bit length, register width and setting type, so it also works with copies and
 `BQ25798_MEMORY_SAVER`. Index lookup is constant time; setting lookup scans the settings list.
 

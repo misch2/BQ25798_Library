@@ -5309,10 +5309,11 @@
             "name": "IBUS_ADC",
             "description": "IBUS ADC reading",
             "homeassistant": {
-                "device_class": null,
+                "component": "sensor",
+                "device_class": "current",
                 "entity_category": null,
                 "state_class": "measurement",
-                "icon": "mdi:current-dc"
+                "icon": null
             },
             "type": "int",
             "unit": "mA",
@@ -5331,10 +5332,11 @@
             "name": "IBAT_ADC",
             "description": "IBAT ADC reading",
             "homeassistant": {
-                "device_class": null,
+                "component": "sensor",
+                "device_class": "current",
                 "entity_category": null,
                 "state_class": "measurement",
-                "icon": "mdi:current-dc"
+                "icon": null
             },
             "type": "int",
             "unit": "mA",
@@ -5353,10 +5355,11 @@
             "name": "VBUS_ADC",
             "description": "VBUS ADC reading",
             "homeassistant": {
-                "device_class": null,
+                "component": "sensor",
+                "device_class": "voltage",
                 "entity_category": null,
                 "state_class": "measurement",
-                "icon": "mdi:flash"
+                "icon": null
             },
             "type": "int",
             "unit": "mV",
@@ -5374,10 +5377,11 @@
             "name": "VAC1_ADC",
             "description": "VAC1 ADC reading",
             "homeassistant": {
-                "device_class": null,
+                "component": "sensor",
+                "device_class": "voltage",
                 "entity_category": null,
                 "state_class": "measurement",
-                "icon": "mdi:flash"
+                "icon": null
             },
             "type": "int",
             "unit": "mV",
@@ -5395,10 +5399,11 @@
             "name": "VAC2_ADC",
             "description": "VAC2 ADC reading",
             "homeassistant": {
-                "device_class": null,
+                "component": "sensor",
+                "device_class": "voltage",
                 "entity_category": null,
                 "state_class": "measurement",
-                "icon": "mdi:flash"
+                "icon": null
             },
             "type": "int",
             "unit": "mV",
@@ -5416,10 +5421,11 @@
             "name": "VBAT_ADC",
             "description": "VBAT ADC reading",
             "homeassistant": {
-                "device_class": null,
+                "component": "sensor",
+                "device_class": "voltage",
                 "entity_category": null,
                 "state_class": "measurement",
-                "icon": "mdi:flash"
+                "icon": null
             },
             "type": "int",
             "unit": "mV",
@@ -5437,10 +5443,11 @@
             "name": "VSYS_ADC",
             "description": "VSYS ADC reading",
             "homeassistant": {
-                "device_class": null,
+                "component": "sensor",
+                "device_class": "voltage",
                 "entity_category": null,
                 "state_class": "measurement",
-                "icon": "mdi:flash"
+                "icon": null
             },
             "type": "int",
             "unit": "mV",
@@ -5458,6 +5465,7 @@
             "name": "TS_ADC",
             "description": "TS ADC reading",
             "homeassistant": {
+                "component": "sensor",
                 "device_class": null,
                 "entity_category": "diagnostic",
                 "state_class": "measurement",
@@ -5479,6 +5487,7 @@
             "name": "TDIE_ADC",
             "description": "TDIE ADC reading",
             "homeassistant": {
+                "component": "sensor",
                 "device_class": "temperature",
                 "entity_category": "diagnostic",
                 "state_class": "measurement",
@@ -5501,6 +5510,7 @@
             "name": "DPLUS_ADC",
             "description": "D+ ADC reading",
             "homeassistant": {
+                "component": "sensor",
                 "device_class": "voltage",
                 "entity_category": "diagnostic",
                 "state_class": "measurement",
@@ -5522,6 +5532,7 @@
             "name": "DMINUS_ADC",
             "description": "D- ADC reading",
             "homeassistant": {
+                "component": "sensor",
                 "device_class": "voltage",
                 "entity_category": "diagnostic",
                 "state_class": "measurement",

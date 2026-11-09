@@ -1,4 +1,5 @@
 #include <unity.h>
+
 #include <limits>
 
 #include "BQ25798MockTest.h"
@@ -424,8 +425,8 @@ void test_invalid_float_setters_do_not_write(void) {
   setting.range_high = 100;
   charger.setFloat(setting, 25.5f);
   const int writes = charger.writes;
-  const float invalid[] = {-0.5f, 100.5f, std::numeric_limits<float>::quiet_NaN(),
-                           std::numeric_limits<float>::infinity(), -std::numeric_limits<float>::infinity()};
+  const float invalid[] = {-0.5f, 100.5f, std::numeric_limits<float>::quiet_NaN(), std::numeric_limits<float>::infinity(),
+                           -std::numeric_limits<float>::infinity()};
   for (float value : invalid) {
     charger.setFloat(setting, value);
     TEST_ASSERT_EQUAL(writes, charger.writes);
@@ -454,6 +455,7 @@ void assert_empty_homeassistant_info(const BQ25798MockTest::HomeAssistantInfo& i
   TEST_ASSERT_NULL(info.entity_category);
   TEST_ASSERT_NULL(info.state_class);
   TEST_ASSERT_NULL(info.icon);
+  TEST_ASSERT_NULL(info.component);
 }
 
 void test_homeassistant_metadata_values(void) {
@@ -463,18 +465,21 @@ void test_homeassistant_metadata_values(void) {
   TEST_ASSERT_EQUAL_STRING("diagnostic", temperature.entity_category);
   TEST_ASSERT_EQUAL_STRING("measurement", temperature.state_class);
   TEST_ASSERT_NULL(temperature.icon);
+  TEST_ASSERT_EQUAL_STRING("sensor", temperature.component);
 
   const auto& voltageLimit = charger.getHomeAssistantInfo(1);  // VREG
   TEST_ASSERT_EQUAL_STRING("voltage", voltageLimit.device_class);
   TEST_ASSERT_EQUAL_STRING("config", voltageLimit.entity_category);
   TEST_ASSERT_NULL(voltageLimit.state_class);
   TEST_ASSERT_NULL(voltageLimit.icon);
+  TEST_ASSERT_NULL(voltageLimit.component);  // Unspecified components remain nullable.
 
   const auto& busVoltage = charger.getHomeAssistantInfo(charger.VBUS_ADC);
-  TEST_ASSERT_NULL(busVoltage.device_class);
+  TEST_ASSERT_EQUAL_STRING("voltage", busVoltage.device_class);
   TEST_ASSERT_NULL(busVoltage.entity_category);
   TEST_ASSERT_EQUAL_STRING("measurement", busVoltage.state_class);
-  TEST_ASSERT_EQUAL_STRING("mdi:flash", busVoltage.icon);
+  TEST_ASSERT_NULL(busVoltage.icon);
+  TEST_ASSERT_EQUAL_STRING("sensor", busVoltage.component);
 
   const auto& interrupt = charger.getHomeAssistantInfo(charger.IINDPM_FLAG);
   TEST_ASSERT_NOT_NULL(interrupt.device_class);
@@ -482,6 +487,32 @@ void test_homeassistant_metadata_values(void) {
   TEST_ASSERT_EQUAL_STRING("diagnostic", interrupt.entity_category);
   TEST_ASSERT_NULL(interrupt.state_class);
   TEST_ASSERT_EQUAL_STRING("mdi:flag", interrupt.icon);
+  TEST_ASSERT_NULL(interrupt.component);
+}
+
+void test_homeassistant_adc_components(void) {
+  const BQ25798MockTest& charger = bq;
+  const BQ25798MockTest::Setting* readings[] = {&charger.IBUS_ADC, &charger.IBAT_ADC,  &charger.VBUS_ADC,  &charger.VAC1_ADC,
+                                                &charger.VAC2_ADC, &charger.VBAT_ADC,  &charger.VSYS_ADC,  &charger.TS_ADC,
+                                                &charger.TDIE_ADC, &charger.DPLUS_ADC, &charger.DMINUS_ADC};
+  const char* classes[] = {"current", "current", "voltage", "voltage", "voltage", "voltage", "voltage", nullptr, "temperature", "voltage", "voltage"};
+  for (size_t i = 0; i < sizeof(readings) / sizeof(readings[0]); ++i) {
+    const auto& info = charger.getHomeAssistantInfo(*readings[i]);
+    TEST_ASSERT_EQUAL_STRING("sensor", info.component);
+    TEST_ASSERT_EQUAL_STRING("measurement", info.state_class);
+    if (classes[i]) {
+      TEST_ASSERT_EQUAL_STRING(classes[i], info.device_class);
+      TEST_ASSERT_NULL(info.icon);  // Let Home Assistant choose the icon from the device class.
+    } else {
+      TEST_ASSERT_NULL(info.device_class);  // TS_ADC is a percentage, not a temperature.
+      TEST_ASSERT_EQUAL_STRING("mdi:percent", info.icon);
+    }
+    if (i < 7) {
+      TEST_ASSERT_NULL(info.entity_category);
+    } else {
+      TEST_ASSERT_EQUAL_STRING("diagnostic", info.entity_category);
+    }
+  }
 }
 
 void test_homeassistant_lookup_matches_all_settings(void) {
@@ -555,6 +586,7 @@ int main(int argc, char** argv) {
   RUN_TEST(test_invalid_int_setters_do_not_write);
   RUN_TEST(test_invalid_float_setters_do_not_write);
   RUN_TEST(test_homeassistant_metadata_values);
+  RUN_TEST(test_homeassistant_adc_components);
   RUN_TEST(test_homeassistant_lookup_matches_all_settings);
   RUN_TEST(test_homeassistant_lookup_accepts_copies);
   RUN_TEST(test_homeassistant_lookup_rejects_invalid_settings);

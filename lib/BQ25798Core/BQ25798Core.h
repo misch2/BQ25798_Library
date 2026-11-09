@@ -134,9 +134,11 @@ class BQ25798Core : public C {
     const char* entity_category;
     const char* state_class;
     const char* icon;
+    const char* component;
   };
 
-  // Optional metadata generated from chip_definitions.json. Null fields should be omitted from discovery.
+  // Optional metadata generated from chip_definitions.json. Component selects the discovery topic/domain;
+  // null fields should be omitted from discovery.
   // Invalid indices or unknown settings return empty metadata without changing lastError().
   const HomeAssistantInfo& getHomeAssistantInfo(int id) const;
   const HomeAssistantInfo& getHomeAssistantInfo(const Setting& setting) const;
@@ -237,7 +239,7 @@ const typename BQ25798Core<C>::Setting& BQ25798Core<C>::getSetting(int id) {
 template <class C>
 const typename BQ25798Core<C>::HomeAssistantInfo& BQ25798Core<C>::getHomeAssistantInfo(int id) const {
 #include "gen_homeassistant.h"  // Constant table generated in the same order as _settingsList.
-  static constexpr HomeAssistantInfo empty = {nullptr, nullptr, nullptr, nullptr};
+  static constexpr HomeAssistantInfo empty = {nullptr, nullptr, nullptr, nullptr, nullptr};
   if (id < 0 || id >= SETTINGS_COUNT) {
     return empty;
   }
@@ -307,8 +309,7 @@ void BQ25798Core<C>::writeSettingToReg8(uint8_t value, const BQ25798Core::Settin
 
 template <class C>
 uint16_t BQ25798Core<C>::readSettingFromReg16(const BQ25798Core::Setting& setting) {
-  uint16_t regval = _reg8content[setting.reg - FIRST_REGISTER_ADDRESS] << 8 |
-                    _reg8content[setting.reg + 1 - FIRST_REGISTER_ADDRESS];
+  uint16_t regval = _reg8content[setting.reg - FIRST_REGISTER_ADDRESS] << 8 | _reg8content[setting.reg + 1 - FIRST_REGISTER_ADDRESS];
   DEBUG_PRINT("[readSettingFromReg16] [reg#=0x%02X, bitsength=%d, bitshift=%d], reg content = 0x%04X\n", setting.reg, setting.bitlength, setting.bitshift,
               regval);
   uint16_t ret = (regval >> setting.bitshift) & BITLENGTH_TO_MASK(setting.bitlength);
@@ -325,14 +326,12 @@ void BQ25798Core<C>::writeSettingToReg16(uint16_t value, const BQ25798Core::Sett
   DEBUG_PRINT("[writeSettingToReg16] 0x%04X [widereg#=0x%02X 0x%02X, bitlength=%d, bitshift=%d]\n", value, setting.reg, setting.reg + 1, setting.bitlength,
               setting.bitshift);
 
-
-  uint16_t regval = _reg8content[setting.reg - FIRST_REGISTER_ADDRESS] << 8 |
-                    _reg8content[setting.reg + 1 - FIRST_REGISTER_ADDRESS];
+  uint16_t regval = _reg8content[setting.reg - FIRST_REGISTER_ADDRESS] << 8 | _reg8content[setting.reg + 1 - FIRST_REGISTER_ADDRESS];
 
   regval &= negatedMask;
   regval |= shiftedValue;
 
-  _reg8content[setting.reg - FIRST_REGISTER_ADDRESS] = regval >> 8;  // High byte
+  _reg8content[setting.reg - FIRST_REGISTER_ADDRESS] = regval >> 8;        // High byte
   _reg8content[setting.reg + 1 - FIRST_REGISTER_ADDRESS] = regval & 0xFF;  // Low byte
 
   this->i2c_writeBytes(setting.reg, 2, &_reg8content[setting.reg - FIRST_REGISTER_ADDRESS]);
