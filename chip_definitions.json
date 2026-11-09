@@ -833,7 +833,7 @@
             "regname": "REG10_Charger_Control_1",
             "long_reg": false,
             "name": "VAC_OVP",
-            "description": "Over voltage protection thresholds",
+            "description": "Over voltage protection thresholds (SLUSDV2C register table 7-26 and revision history: code 1 is 18V)",
             "type": "enum",
             "bits": 2,
             "shift": 4,
@@ -843,13 +843,13 @@
             "bit_step_size": 1,
             "enum_strings": [
                 ">26V",
-                ">22V",
+                ">18V",
                 ">12V",
                 ">7V"
             ],
             "enum_constants": [
                 "VAC_OVP_26V",
-                "VAC_OVP_22V",
+                "VAC_OVP_18V",
                 "VAC_OVP_12V",
                 "VAC_OVP_7V"
             ],
@@ -1398,7 +1398,7 @@
             "description": "After the converter stops switching, the time delay before the VOC is measured",
             "type": "enum",
             "bits": 2,
-            "shift": 4,
+            "shift": 3,
             "range_low": 0,
             "range_high": 3,
             "fixed_offset": 0,
@@ -1424,7 +1424,7 @@
             "description": "The time interval between two consecutive VOC measurements",
             "type": "enum",
             "bits": 2,
-            "shift": 2,
+            "shift": 1,
             "range_low": 0,
             "range_high": 3,
             "fixed_offset": 0,
@@ -1655,7 +1655,7 @@
             "regname": "REG18_NTC_Control_1",
             "long_reg": false,
             "name": "TS_COOL",
-            "description": "JEITA VT2 comparator voltage rising thresholds as a percentage of REGN.",
+            "description": "JEITA VT2 comparator voltage rising thresholds as a percentage of REGN. (temperatures assume 103AT NTC, RT1=5.24kOhm and RT2=30.31kOhm)",
             "type": "enum",
             "bits": 2,
             "shift": 6,
@@ -1681,7 +1681,7 @@
             "regname": "REG18_NTC_Control_1",
             "long_reg": false,
             "name": "TS_WARM",
-            "description": "JEITA VT3 comparator voltage falling thresholds as a percentage of REGN.",
+            "description": "JEITA VT3 comparator voltage falling thresholds as a percentage of REGN. (temperatures assume 103AT NTC, RT1=5.24kOhm and RT2=30.31kOhm)",
             "type": "enum",
             "bits": 2,
             "shift": 4,
@@ -1738,7 +1738,7 @@
             "bits": 1,
             "shift": 1,
             "range_low": 0,
-            "range_high": 3,
+            "range_high": 1,
             "fixed_offset": 0,
             "bit_step_size": 1,
             "enum_strings": [
@@ -1944,7 +1944,7 @@
             "bits": 3,
             "shift": 5,
             "range_low": 0,
-            "range_high": 1,
+            "range_high": 7,
             "fixed_offset": 0,
             "bit_step_size": 1,
             "enum_strings": [
@@ -1979,7 +1979,7 @@
             "bits": 4,
             "shift": 1,
             "range_low": 0,
-            "range_high": 1,
+            "range_high": 15,
             "fixed_offset": 0,
             "bit_step_size": 1,
             "enum_strings": [
@@ -1989,7 +1989,7 @@
                 "USB DCP (3.25A)",
                 "Adjustable High Voltage DCP (HVDCP) (1.5A)",
                 "Unknown adaptor (3A)",
-                "Non-Standard Adapter (1A/2A/2.A/.4A)",
+                "Non-Standard Adapter (1A/2A/2.1A/2.4A)",
                 "In OTG mode",
                 "Not qualified adaptor",
                 "Reserved",
@@ -2043,7 +2043,7 @@
             "bits": 2,
             "shift": 6,
             "range_low": 0,
-            "range_high": 1,
+            "range_high": 3,
             "fixed_offset": 0,
             "bit_step_size": 1,
             "enum_strings": [
@@ -2067,7 +2067,7 @@
             "description": "IC thermal regulation status",
             "type": "enum",
             "bits": 1,
-            "shift": 5,
+            "shift": 2,
             "range_low": 0,
             "range_high": 1,
             "fixed_offset": 0,
@@ -2089,7 +2089,7 @@
             "description": "D+/D- detection status",
             "type": "enum",
             "bits": 1,
-            "shift": 4,
+            "shift": 1,
             "range_low": 0,
             "range_high": 1,
             "fixed_offset": 0,
@@ -2130,7 +2130,7 @@
             "regname": "REG1E_Charger_Status_3",
             "long_reg": false,
             "name": "ACRB2_STAT",
-            "description": "The ACFET2-RBFET2 status",
+            "description": "The ACFET2-RBFET2 presence status",
             "ha_device_class": "status",
             "type": "enum",
             "bits": 1,
@@ -2140,12 +2140,12 @@
             "fixed_offset": 0,
             "bit_step_size": 1,
             "enum_strings": [
-                "ACFET2/RBFET2 Open (Path Disabled)",
-                "ACFET2/RBFET2 Closed (Path Enabled)"
+                "ACFET2/RBFET2 not present",
+                "ACFET2/RBFET2 present"
             ],
             "enum_constants": [
-                "ACRB2_STAT_OFF",
-                "ACRB2_STAT_ON"
+                "ACRB2_STAT_NOT_PRESENT",
+                "ACRB2_STAT_PRESENT"
             ],
             "mode": "ro"
         },
@@ -2153,7 +2153,7 @@
             "regname": "REG1E_Charger_Status_3",
             "long_reg": false,
             "name": "ACRB1_STAT",
-            "description": "The ACFET1-RBFET1 status",
+            "description": "The ACFET1-RBFET1 presence status",
             "ha_device_class": "status",
             "type": "enum",
             "bits": 1,
@@ -2163,12 +2163,12 @@
             "fixed_offset": 0,
             "bit_step_size": 1,
             "enum_strings": [
-                "ACFET1/RBFET1 Open (Path Disabled)",
-                "ACFET1/RBFET1 Closed (Path Enabled)"
+                "ACFET1/RBFET1 not present",
+                "ACFET1/RBFET1 present"
             ],
             "enum_constants": [
-                "ACRB1_STAT_OFF",
-                "ACRB1_STAT_ON"
+                "ACRB1_STAT_NOT_PRESENT",
+                "ACRB1_STAT_PRESENT"
             ],
             "mode": "ro"
         },
@@ -3299,7 +3299,7 @@
                 "15-bit",
                 "14-bit",
                 "13-bit",
-                "12-bit"
+                "12-bit (not recommended)"
             ],
             "enum_constants": [
                 "ADC_SAMPLE_15BIT",
@@ -3616,7 +3616,7 @@
             "bits": 16,
             "shift": 0,
             "range_low": 0,
-            "range_high": -99.9023,
+            "range_high": 99.9023,
             "fixed_offset": 0,
             "bit_step_size": 0.0976563,
             "mode": "ro"
@@ -3749,7 +3749,7 @@
             "bits": 3,
             "shift": 3,
             "range_low": 0,
-            "range_high": 1,
+            "range_high": 7,
             "fixed_offset": 0,
             "bit_step_size": 1,
             "enum_strings": [
@@ -3783,7 +3783,7 @@
             "bits": 3,
             "shift": 0,
             "range_low": 0,
-            "range_high": 1,
+            "range_high": 7,
             "fixed_offset": 0,
             "bit_step_size": 1,
             "enum_strings": [
