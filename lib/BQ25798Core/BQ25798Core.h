@@ -129,6 +129,18 @@ class BQ25798Core : public C {
 
   const Setting& getSetting(int id);
 
+  struct HomeAssistantInfo {
+    const char* device_class;
+    const char* entity_category;
+    const char* state_class;
+    const char* icon;
+  };
+
+  // Optional metadata generated from chip_definitions.json. Null fields should be omitted from discovery.
+  // Invalid indices or unknown settings return empty metadata without changing lastError().
+  const HomeAssistantInfo& getHomeAssistantInfo(int id) const;
+  const HomeAssistantInfo& getHomeAssistantInfo(const Setting& setting) const;
+
   // memory-only operations
   int rawToInt(uint16_t raw, const Setting& setting);
   uint16_t intToRaw(int value, const Setting& setting);
@@ -221,6 +233,28 @@ const typename BQ25798Core<C>::Setting& BQ25798Core<C>::getSetting(int id) {
   const Setting& setting = _settingsList[id];
   return setting;
 };
+
+template <class C>
+const typename BQ25798Core<C>::HomeAssistantInfo& BQ25798Core<C>::getHomeAssistantInfo(int id) const {
+#include "gen_homeassistant.h"  // Constant table generated in the same order as _settingsList.
+  static constexpr HomeAssistantInfo empty = {nullptr, nullptr, nullptr, nullptr};
+  if (id < 0 || id >= SETTINGS_COUNT) {
+    return empty;
+  }
+  return homeAssistantInfo[id];
+}
+
+template <class C>
+const typename BQ25798Core<C>::HomeAssistantInfo& BQ25798Core<C>::getHomeAssistantInfo(const Setting& setting) const {
+  for (size_t i = 0; i < SETTINGS_COUNT; ++i) {
+    const Setting& candidate = _settingsList[i];
+    if (candidate.reg == setting.reg && candidate.bitshift == setting.bitshift && candidate.bitlength == setting.bitlength &&
+        candidate.long_reg == setting.long_reg && candidate.type == setting.type) {
+      return getHomeAssistantInfo(static_cast<int>(i));
+    }
+  }
+  return getHomeAssistantInfo(-1);
+}
 
 #define BITLENGTH_TO_MASK(bitlength) ((1 << bitlength) - 1)
 

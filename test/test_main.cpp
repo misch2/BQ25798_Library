@@ -449,6 +449,93 @@ void test_invalid_float_setters_do_not_write(void) {
   TEST_ASSERT_EQUAL(decltype(charger)::Error::ERROR_INVALID_SETTING, charger.lastError());
 }
 
+void assert_empty_homeassistant_info(const BQ25798MockTest::HomeAssistantInfo& info) {
+  TEST_ASSERT_NULL(info.device_class);
+  TEST_ASSERT_NULL(info.entity_category);
+  TEST_ASSERT_NULL(info.state_class);
+  TEST_ASSERT_NULL(info.icon);
+}
+
+void test_homeassistant_metadata_values(void) {
+  const BQ25798MockTest& charger = bq;
+  const auto& temperature = charger.getHomeAssistantInfo(charger.TDIE_ADC);
+  TEST_ASSERT_EQUAL_STRING("temperature", temperature.device_class);
+  TEST_ASSERT_EQUAL_STRING("diagnostic", temperature.entity_category);
+  TEST_ASSERT_EQUAL_STRING("measurement", temperature.state_class);
+  TEST_ASSERT_NULL(temperature.icon);
+
+  const auto& voltageLimit = charger.getHomeAssistantInfo(1);  // VREG
+  TEST_ASSERT_EQUAL_STRING("voltage", voltageLimit.device_class);
+  TEST_ASSERT_EQUAL_STRING("config", voltageLimit.entity_category);
+  TEST_ASSERT_NULL(voltageLimit.state_class);
+  TEST_ASSERT_NULL(voltageLimit.icon);
+
+  const auto& busVoltage = charger.getHomeAssistantInfo(charger.VBUS_ADC);
+  TEST_ASSERT_NULL(busVoltage.device_class);
+  TEST_ASSERT_NULL(busVoltage.entity_category);
+  TEST_ASSERT_EQUAL_STRING("measurement", busVoltage.state_class);
+  TEST_ASSERT_EQUAL_STRING("mdi:flash", busVoltage.icon);
+
+  const auto& interrupt = charger.getHomeAssistantInfo(charger.IINDPM_FLAG);
+  TEST_ASSERT_NOT_NULL(interrupt.device_class);
+  TEST_ASSERT_EQUAL_STRING("", interrupt.device_class);  // Preserve an explicit empty JSON string.
+  TEST_ASSERT_EQUAL_STRING("diagnostic", interrupt.entity_category);
+  TEST_ASSERT_NULL(interrupt.state_class);
+  TEST_ASSERT_EQUAL_STRING("mdi:flag", interrupt.icon);
+}
+
+void test_homeassistant_lookup_matches_all_settings(void) {
+  const BQ25798MockTest& charger = bq;
+  for (int i = 0; i < BQ25798MockTest::SETTINGS_COUNT; ++i) {
+    const auto& setting = bq.getSetting(i);
+    TEST_ASSERT_EQUAL_PTR(&charger.getHomeAssistantInfo(i), &charger.getHomeAssistantInfo(setting));
+  }
+}
+
+void test_homeassistant_lookup_accepts_copies(void) {
+  auto copy = bq.TDIE_ADC;
+  copy.name = nullptr;
+  copy.unit = nullptr;
+  copy.range_low = 0;
+  copy.fixed_offset = 100;
+  TEST_ASSERT_EQUAL_PTR(&bq.getHomeAssistantInfo(bq.TDIE_ADC), &bq.getHomeAssistantInfo(copy));
+}
+
+void test_homeassistant_lookup_rejects_invalid_settings(void) {
+  assert_empty_homeassistant_info(bq.getHomeAssistantInfo(-1));
+  assert_empty_homeassistant_info(bq.getHomeAssistantInfo(BQ25798MockTest::SETTINGS_COUNT));
+  assert_empty_homeassistant_info(bq.getHomeAssistantInfo(std::numeric_limits<int>::max()));
+  assert_empty_homeassistant_info(bq.getHomeAssistantInfo(BQ25798MockTest::Setting::invalid()));
+
+  for (int field = 0; field < 5; ++field) {
+    auto setting = bq.TDIE_ADC;
+    switch (field) {
+      case 0:
+        setting.reg = -1;
+        break;
+      case 1:
+        setting.bitshift = 1;
+        break;
+      case 2:
+        setting.bitlength = 15;
+        break;
+      case 3:
+        setting.long_reg = false;
+        break;
+      case 4:
+        setting.type = BQ25798MockTest::settings_type_t::INT;
+        break;
+    }
+    assert_empty_homeassistant_info(bq.getHomeAssistantInfo(setting));
+  }
+  TEST_ASSERT_EQUAL(BQ25798MockTest::Error::ERROR_NONE, bq.lastError());
+  bq.getSetting(-1);  // Metadata access must also preserve an existing sticky error.
+  bq.getHomeAssistantInfo(bq.TDIE_ADC);
+  bq.getHomeAssistantInfo(-1);
+  TEST_ASSERT_EQUAL(BQ25798MockTest::Error::ERROR_INVALID_SETTING, bq.lastError());
+  bq.clearError();
+}
+
 int main(int argc, char** argv) {
   UNITY_BEGIN();  // Start Unity test framework
 
@@ -467,6 +554,10 @@ int main(int argc, char** argv) {
   RUN_TEST(test_interrupt_masks_match_datasheet);
   RUN_TEST(test_invalid_int_setters_do_not_write);
   RUN_TEST(test_invalid_float_setters_do_not_write);
+  RUN_TEST(test_homeassistant_metadata_values);
+  RUN_TEST(test_homeassistant_lookup_matches_all_settings);
+  RUN_TEST(test_homeassistant_lookup_accepts_copies);
+  RUN_TEST(test_homeassistant_lookup_rejects_invalid_settings);
 
   return UNITY_END();  // Report test failures through the process exit code.
 }

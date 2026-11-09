@@ -1,0 +1,9 @@
+// Generated from chip_definitions.json; do not edit directly.
+// Function-local constexpr storage avoids adding data to each library instance.
+static constexpr std::array<HomeAssistantInfo, SETTINGS_COUNT> homeAssistantInfo = {{ '{{' }}
+{% for def in settings %}
+{% set ha = def.homeassistant | default({}) %}
+    // {{ def.name }}
+    {{ '{' }}{% for field in ['device_class', 'entity_category', 'state_class', 'icon'] %}{{ ha.get(field) | tojson if ha.get(field) is not none else 'nullptr' }}{% if not loop.last %}, {% endif %}{% endfor %}},
+{% endfor %}
+}};
