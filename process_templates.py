@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import os
+from pathlib import Path
 import jinja2
 import sys
 import json
@@ -10,34 +10,27 @@ def load_json_config(config_path):
         return json.load(config_file)
 
 
-def process_templates(root_dir, data):
-    for folder, _, files in os.walk(root_dir):
-        for file in files:
-            if file.endswith(".j2"):
-                try:
-                    jenv = jinja2.Environment(
-                        loader=jinja2.FileSystemLoader(folder),
-                        # see https://ttl255.com/jinja2-tutorial-part-3-whitespace-control/
-                        trim_blocks=True,
-                        lstrip_blocks=True,
-                    )
-
-                    template_full_path = os.path.join(folder, file)
-                    output_full_path = template_full_path.replace(".j2", "")
-
-                    env_rel_path = os.path.relpath(template_full_path, folder)
-                    template = jenv.get_template(env_rel_path)
-
-                    rendered_content = template.render(data)
-
-                    with open(output_full_path, "w") as output_file:
-                        output_file.write(rendered_content)
-                    print(f"Processed {template_full_path} -> {output_full_path}")
-                except jinja2.exceptions.TemplateSyntaxError as e:
-                    print(f"Template syntax error in {template_full_path}: {e}")
-                    sys.exit(1)
+def process_templates(template_dir, data):
+    template_dir = Path(template_dir)
+    jenv = jinja2.Environment(
+        loader=jinja2.FileSystemLoader(template_dir),
+        # see https://ttl255.com/jinja2-tutorial-part-3-whitespace-control/
+        trim_blocks=True,
+        lstrip_blocks=True,
+    )
+    for template_path in sorted(template_dir.glob("*.j2")):
+        output_path = template_path.with_suffix("")
+        try:
+            rendered_content = jenv.get_template(template_path.name).render(data)
+            with open(output_path, "w") as output_file:
+                output_file.write(rendered_content)
+            print(f"Processed {template_path} -> {output_path}")
+        except jinja2.exceptions.TemplateSyntaxError as e:
+            print(f"Template syntax error in {template_path}: {e}")
+            sys.exit(1)
 
 
 if __name__ == "__main__":
-    settings = load_json_config("chip_definitions.json")
-    process_templates(".", settings)
+    project_dir = Path(__file__).resolve().parent
+    settings = load_json_config(project_dir / "chip_definitions.json")
+    process_templates(project_dir / "lib" / "BQ25798Core", settings)
