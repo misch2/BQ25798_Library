@@ -323,7 +323,5 @@ int main(int argc, char** argv) {
   RUN_TEST(test_status_fields_ignore_reserved_bits);
   RUN_TEST(test_corrected_enums_and_ranges);
 
-  UNITY_END();  // Stop Unity test framework
-
-  return 0;
+  return UNITY_END();  // Report test failures through the process exit code.
 }
