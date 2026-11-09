@@ -21,8 +21,8 @@ void setup() {
 }
 
 void loop() {
-  Serial.printf("Chip die temperature = %.2f degC\n", bq.getTDIE_ADC());
-  Serial.printf("External thermal sensor value = %.2f degC ", bq.getTS_ADC());
+  Serial.printf("Chip die temperature = %.2f °C\n", bq.getTDIE_ADC());
+  Serial.printf("External thermal sensor value = %.2f °C ", bq.getTS_ADC());
   if (static_cast<bool>(bq.getTS_COOL_STAT())) {
     Serial.printf("(COOL)");
   }

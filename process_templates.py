@@ -6,14 +6,14 @@ import json
 
 
 def load_json_config(config_path):
-    with open(config_path, "r") as config_file:
+    with open(config_path, "r", encoding="utf-8") as config_file:
         return json.load(config_file)
 
 
 def process_templates(template_dir, data):
     template_dir = Path(template_dir)
     jenv = jinja2.Environment(
-        loader=jinja2.FileSystemLoader(template_dir),
+        loader=jinja2.FileSystemLoader(template_dir, encoding="utf-8"),
         # see https://ttl255.com/jinja2-tutorial-part-3-whitespace-control/
         trim_blocks=True,
         lstrip_blocks=True,
@@ -22,7 +22,7 @@ def process_templates(template_dir, data):
         output_path = template_path.with_suffix("")
         try:
             rendered_content = jenv.get_template(template_path.name).render(data)
-            with open(output_path, "w") as output_file:
+            with open(output_path, "w", encoding="utf-8") as output_file:
                 output_file.write(rendered_content)
             print(f"Processed {template_path} -> {output_path}")
         except jinja2.exceptions.TemplateSyntaxError as e:

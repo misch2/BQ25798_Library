@@ -1078,10 +1078,10 @@ enum class TREG_t : uint8_t {
 
 strings_vector_t TREG_strings = {
 
-    "60'C", 
-    "80'C", 
-    "100'C", 
-    "120'C"
+    "60 °C", 
+    "80 °C", 
+    "100 °C", 
+    "120 °C"
 };
 
 Setting TREG = { REG16_Temperature_Control, false, "TREG", "", settings_type_t::ENUM, 2, 6, false, 0, 3, 0, 1, settings_flags_t::NONE, TREG_strings };
@@ -1107,10 +1107,10 @@ enum class TSHUT_t : uint8_t {
 
 strings_vector_t TSHUT_strings = {
 
-    "150'C", 
-    "130'C", 
-    "120'C", 
-    "85'C"
+    "150 °C", 
+    "130 °C", 
+    "120 °C", 
+    "85 °C"
 };
 
 Setting TSHUT = { REG16_Temperature_Control, false, "TSHUT", "", settings_type_t::ENUM, 2, 4, false, 0, 3, 0, 1, settings_flags_t::NONE, TSHUT_strings };
@@ -1275,10 +1275,10 @@ enum class TS_COOL_t : uint8_t {
 
 strings_vector_t TS_COOL_strings = {
 
-    "5'C", 
-    "10'C (default)", 
-    "15'C", 
-    "20'C"
+    "5 °C", 
+    "10 °C (default)", 
+    "15 °C", 
+    "20 °C"
 };
 
 Setting TS_COOL = { REG18_NTC_Control_1, false, "TS_COOL", "", settings_type_t::ENUM, 2, 6, false, 0, 3, 0, 1, settings_flags_t::NONE, TS_COOL_strings };
@@ -1304,10 +1304,10 @@ enum class TS_WARM_t : uint8_t {
 
 strings_vector_t TS_WARM_strings = {
 
-    "40'C", 
-    "45'C (default)", 
-    "50'C", 
-    "55'C"
+    "40 °C", 
+    "45 °C (default)", 
+    "50 °C", 
+    "55 °C"
 };
 
 Setting TS_WARM = { REG18_NTC_Control_1, false, "TS_WARM", "", settings_type_t::ENUM, 2, 4, false, 0, 3, 0, 1, settings_flags_t::NONE, TS_WARM_strings };
@@ -1333,9 +1333,9 @@ enum class BHOT_t : uint8_t {
 
 strings_vector_t BHOT_strings = {
 
-    "55'C", 
-    "60'C (default)", 
-    "65'C", 
+    "55 °C", 
+    "60 °C (default)", 
+    "65 °C", 
     "Disabled"
 };
 
@@ -1360,8 +1360,8 @@ enum class BCOLD_t : uint8_t {
 
 strings_vector_t BCOLD_strings = {
 
-    "-10'C (default)", 
-    "-20'C"
+    "-10 °C (default)", 
+    "-20 °C"
 };
 
 Setting BCOLD = { REG18_NTC_Control_1, false, "BCOLD", "", settings_type_t::ENUM, 1, 1, false, 0, 1, 0, 1, settings_flags_t::NONE, BCOLD_strings };
@@ -3298,8 +3298,8 @@ float getTS_ADC() { return getFloat(TS_ADC); }
 // ================================
 
 
-Setting TDIE_ADC = { REG41_TDIE_ADC, true, "TDIE_ADC", "degC", settings_type_t::FLOAT, 16, 0, false, -40, 150, 0, 0.5, settings_flags_t::IS_2COMPLEMENT };
-/// Returns TDIE_ADC in degC
+Setting TDIE_ADC = { REG41_TDIE_ADC, true, "TDIE_ADC", "°C", settings_type_t::FLOAT, 16, 0, false, -40, 150, 0, 0.5, settings_flags_t::IS_2COMPLEMENT };
+/// Returns TDIE_ADC in °C
 float getTDIE_ADC() { return getFloat(TDIE_ADC); }
 
 

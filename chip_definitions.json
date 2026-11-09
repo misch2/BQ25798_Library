@@ -1868,10 +1868,10 @@
             "fixed_offset": 0,
             "bit_step_size": 1,
             "enum_strings": [
-                "60'C",
-                "80'C",
-                "100'C",
-                "120'C"
+                "60 °C",
+                "80 °C",
+                "100 °C",
+                "120 °C"
             ],
             "enum_constants": [
                 "TREG_60",
@@ -1900,10 +1900,10 @@
             "fixed_offset": 0,
             "bit_step_size": 1,
             "enum_strings": [
-                "150'C",
-                "130'C",
-                "120'C",
-                "85'C"
+                "150 °C",
+                "130 °C",
+                "120 °C",
+                "85 °C"
             ],
             "enum_constants": [
                 "TSHUT_150",
@@ -2116,10 +2116,10 @@
             "fixed_offset": 0,
             "bit_step_size": 1,
             "enum_strings": [
-                "5'C",
-                "10'C (default)",
-                "15'C",
-                "20'C"
+                "5 °C",
+                "10 °C (default)",
+                "15 °C",
+                "20 °C"
             ],
             "enum_constants": [
                 "TS_COOL_5",
@@ -2148,10 +2148,10 @@
             "fixed_offset": 0,
             "bit_step_size": 1,
             "enum_strings": [
-                "40'C",
-                "45'C (default)",
-                "50'C",
-                "55'C"
+                "40 °C",
+                "45 °C (default)",
+                "50 °C",
+                "55 °C"
             ],
             "enum_constants": [
                 "TS_WARM_40",
@@ -2180,9 +2180,9 @@
             "fixed_offset": 0,
             "bit_step_size": 1,
             "enum_strings": [
-                "55'C",
-                "60'C (default)",
-                "65'C",
+                "55 °C",
+                "60 °C (default)",
+                "65 °C",
                 "Disabled"
             ],
             "enum_constants": [
@@ -2212,8 +2212,8 @@
             "fixed_offset": 0,
             "bit_step_size": 1,
             "enum_strings": [
-                "-10'C (default)",
-                "-20'C"
+                "-10 °C (default)",
+                "-20 °C"
             ],
             "enum_constants": [
                 "TS_BCOLD_MINUS_10",
@@ -5494,7 +5494,7 @@
                 "icon": null
             },
             "type": "float",
-            "unit": "degC",
+            "unit": "°C",
             "bits": 16,
             "shift": 0,
             "range_low": -40,
