@@ -491,7 +491,7 @@ void setVBUS_BACKUP(VBUS_BACKUP_t val) { setEnum<VBUS_BACKUP_t>(VBUS_BACKUP, val
 enum class VAC_OVP_t : uint8_t {
 
     VAC_OVP_26V = 0, 
-    VAC_OVP_22V = 1, 
+    VAC_OVP_18V = 1, 
     VAC_OVP_12V = 2, 
     VAC_OVP_7V = 3
 };
@@ -499,7 +499,7 @@ enum class VAC_OVP_t : uint8_t {
 strings_vector_t VAC_OVP_strings = {
 
     ">26V", 
-    ">22V", 
+    ">18V", 
     ">12V", 
     ">7V"
 };
@@ -1015,7 +1015,7 @@ strings_vector_t VOC_DLY_strings = {
     "5s"
 };
 
-Setting VOC_DLY = { REG15_MPPT_Control, false, "VOC_DLY", "", settings_type_t::ENUM, 2, 4, false, 0, 3, 0, 1, settings_flags_t::NONE, VOC_DLY_strings };
+Setting VOC_DLY = { REG15_MPPT_Control, false, "VOC_DLY", "", settings_type_t::ENUM, 2, 3, false, 0, 3, 0, 1, settings_flags_t::NONE, VOC_DLY_strings };
 VOC_DLY_t getVOC_DLY() { return static_cast<VOC_DLY_t>(getInt(VOC_DLY)); }
 const char * getVOC_DLY_enum_string() { return getString(VOC_DLY); }
 void setVOC_DLY(VOC_DLY_t val) { setEnum<VOC_DLY_t>(VOC_DLY, val); }
@@ -1044,7 +1044,7 @@ strings_vector_t VOC_RATE_strings = {
     "30min"
 };
 
-Setting VOC_RATE = { REG15_MPPT_Control, false, "VOC_RATE", "", settings_type_t::ENUM, 2, 2, false, 0, 3, 0, 1, settings_flags_t::NONE, VOC_RATE_strings };
+Setting VOC_RATE = { REG15_MPPT_Control, false, "VOC_RATE", "", settings_type_t::ENUM, 2, 1, false, 0, 3, 0, 1, settings_flags_t::NONE, VOC_RATE_strings };
 VOC_RATE_t getVOC_RATE() { return static_cast<VOC_RATE_t>(getInt(VOC_RATE)); }
 const char * getVOC_RATE_enum_string() { return getString(VOC_RATE); }
 void setVOC_RATE(VOC_RATE_t val) { setEnum<VOC_RATE_t>(VOC_RATE, val); }
@@ -1364,7 +1364,7 @@ strings_vector_t BCOLD_strings = {
     "-20'C"
 };
 
-Setting BCOLD = { REG18_NTC_Control_1, false, "BCOLD", "", settings_type_t::ENUM, 1, 1, false, 0, 3, 0, 1, settings_flags_t::NONE, BCOLD_strings };
+Setting BCOLD = { REG18_NTC_Control_1, false, "BCOLD", "", settings_type_t::ENUM, 1, 1, false, 0, 1, 0, 1, settings_flags_t::NONE, BCOLD_strings };
 BCOLD_t getBCOLD() { return static_cast<BCOLD_t>(getInt(BCOLD)); }
 const char * getBCOLD_enum_string() { return getString(BCOLD); }
 void setBCOLD(BCOLD_t val) { setEnum<BCOLD_t>(BCOLD, val); }
@@ -1591,7 +1591,7 @@ strings_vector_t CHG_STAT_strings = {
     "Charge Termination Done"
 };
 
-Setting CHG_STAT = { REG1C_Charger_Status_1, false, "CHG_STAT", "", settings_type_t::ENUM, 3, 5, false, 0, 1, 0, 1, settings_flags_t::NONE, CHG_STAT_strings };
+Setting CHG_STAT = { REG1C_Charger_Status_1, false, "CHG_STAT", "", settings_type_t::ENUM, 3, 5, false, 0, 7, 0, 1, settings_flags_t::NONE, CHG_STAT_strings };
 CHG_STAT_t getCHG_STAT() { return static_cast<CHG_STAT_t>(getInt(CHG_STAT)); }
 const char * getCHG_STAT_enum_string() { return getString(CHG_STAT); }
 
@@ -1631,7 +1631,7 @@ strings_vector_t VBUS_STAT_strings = {
     "USB DCP (3.25A)", 
     "Adjustable High Voltage DCP (HVDCP) (1.5A)", 
     "Unknown adaptor (3A)", 
-    "Non-Standard Adapter (1A/2A/2.A/.4A)", 
+    "Non-Standard Adapter (1A/2A/2.1A/2.4A)", 
     "In OTG mode", 
     "Not qualified adaptor", 
     "Reserved", 
@@ -1643,7 +1643,7 @@ strings_vector_t VBUS_STAT_strings = {
     "Reserved"
 };
 
-Setting VBUS_STAT = { REG1C_Charger_Status_1, false, "VBUS_STAT", "", settings_type_t::ENUM, 4, 1, false, 0, 1, 0, 1, settings_flags_t::NONE, VBUS_STAT_strings };
+Setting VBUS_STAT = { REG1C_Charger_Status_1, false, "VBUS_STAT", "", settings_type_t::ENUM, 4, 1, false, 0, 15, 0, 1, settings_flags_t::NONE, VBUS_STAT_strings };
 VBUS_STAT_t getVBUS_STAT() { return static_cast<VBUS_STAT_t>(getInt(VBUS_STAT)); }
 const char * getVBUS_STAT_enum_string() { return getString(VBUS_STAT); }
 
@@ -1681,7 +1681,7 @@ strings_vector_t ICO_STAT_strings = {
     "Reserved"
 };
 
-Setting ICO_STAT = { REG1D_Charger_Status_2, false, "ICO_STAT", "", settings_type_t::ENUM, 2, 6, false, 0, 1, 0, 1, settings_flags_t::NONE, ICO_STAT_strings };
+Setting ICO_STAT = { REG1D_Charger_Status_2, false, "ICO_STAT", "", settings_type_t::ENUM, 2, 6, false, 0, 3, 0, 1, settings_flags_t::NONE, ICO_STAT_strings };
 ICO_STAT_t getICO_STAT() { return static_cast<ICO_STAT_t>(getInt(ICO_STAT)); }
 const char * getICO_STAT_enum_string() { return getString(ICO_STAT); }
 
@@ -1705,7 +1705,7 @@ strings_vector_t TREG_STAT_strings = {
     "Device in thermal regulation"
 };
 
-Setting TREG_STAT = { REG1D_Charger_Status_2, false, "TREG_STAT", "", settings_type_t::ENUM, 1, 5, false, 0, 1, 0, 1, settings_flags_t::NONE, TREG_STAT_strings };
+Setting TREG_STAT = { REG1D_Charger_Status_2, false, "TREG_STAT", "", settings_type_t::ENUM, 1, 2, false, 0, 1, 0, 1, settings_flags_t::NONE, TREG_STAT_strings };
 TREG_STAT_t getTREG_STAT() { return static_cast<TREG_STAT_t>(getInt(TREG_STAT)); }
 const char * getTREG_STAT_enum_string() { return getString(TREG_STAT); }
 
@@ -1729,7 +1729,7 @@ strings_vector_t DPDM_STAT_strings = {
     "D+/D- detection in progress"
 };
 
-Setting DPDM_STAT = { REG1D_Charger_Status_2, false, "DPDM_STAT", "", settings_type_t::ENUM, 1, 4, false, 0, 1, 0, 1, settings_flags_t::NONE, DPDM_STAT_strings };
+Setting DPDM_STAT = { REG1D_Charger_Status_2, false, "DPDM_STAT", "", settings_type_t::ENUM, 1, 1, false, 0, 1, 0, 1, settings_flags_t::NONE, DPDM_STAT_strings };
 DPDM_STAT_t getDPDM_STAT() { return static_cast<DPDM_STAT_t>(getInt(DPDM_STAT)); }
 const char * getDPDM_STAT_enum_string() { return getString(DPDM_STAT); }
 
@@ -1767,14 +1767,14 @@ const char * getVBAT_PRESENT_STAT_enum_string() { return getString(VBAT_PRESENT_
 
 enum class ACRB2_STAT_t : uint8_t {
 
-    ACRB2_STAT_OFF = 0, 
-    ACRB2_STAT_ON = 1
+    ACRB2_STAT_NOT_PRESENT = 0, 
+    ACRB2_STAT_PRESENT = 1
 };
 
 strings_vector_t ACRB2_STAT_strings = {
 
-    "ACFET2/RBFET2 Open (Path Disabled)", 
-    "ACFET2/RBFET2 Closed (Path Enabled)"
+    "ACFET2/RBFET2 not present", 
+    "ACFET2/RBFET2 present"
 };
 
 Setting ACRB2_STAT = { REG1E_Charger_Status_3, false, "ACRB2_STAT", "", settings_type_t::ENUM, 1, 7, false, 0, 1, 0, 1, settings_flags_t::NONE, ACRB2_STAT_strings };
@@ -1791,14 +1791,14 @@ const char * getACRB2_STAT_enum_string() { return getString(ACRB2_STAT); }
 
 enum class ACRB1_STAT_t : uint8_t {
 
-    ACRB1_STAT_OFF = 0, 
-    ACRB1_STAT_ON = 1
+    ACRB1_STAT_NOT_PRESENT = 0, 
+    ACRB1_STAT_PRESENT = 1
 };
 
 strings_vector_t ACRB1_STAT_strings = {
 
-    "ACFET1/RBFET1 Open (Path Disabled)", 
-    "ACFET1/RBFET1 Closed (Path Enabled)"
+    "ACFET1/RBFET1 not present", 
+    "ACFET1/RBFET1 present"
 };
 
 Setting ACRB1_STAT = { REG1E_Charger_Status_3, false, "ACRB1_STAT", "", settings_type_t::ENUM, 1, 6, false, 0, 1, 0, 1, settings_flags_t::NONE, ACRB1_STAT_strings };
@@ -2608,7 +2608,7 @@ strings_vector_t ADC_SAMPLE_strings = {
     "15-bit", 
     "14-bit", 
     "13-bit", 
-    "12-bit"
+    "12-bit (not recommended)"
 };
 
 Setting ADC_SAMPLE = { REG2E_ADC_Control, false, "ADC_SAMPLE", "", settings_type_t::ENUM, 2, 4, false, 0, 3, 0, 1, settings_flags_t::NONE, ADC_SAMPLE_strings };
@@ -2858,7 +2858,7 @@ int getVSYS_ADC() { return getInt(VSYS_ADC); }
 // ================================
 
 
-Setting TS_ADC = { REG3F_TS_ADC, true, "TS_ADC", "%", settings_type_t::FLOAT, 16, 0, false, 0, -99.9023, 0, 0.0976563, settings_flags_t::NONE };
+Setting TS_ADC = { REG3F_TS_ADC, true, "TS_ADC", "%", settings_type_t::FLOAT, 16, 0, false, 0, 99.9023, 0, 0.0976563, settings_flags_t::NONE };
 /// Returns TS_ADC in %
 float getTS_ADC() { return getFloat(TS_ADC); }
 
@@ -3000,7 +3000,7 @@ strings_vector_t PN_strings = {
     "?"
 };
 
-Setting PN = { REG48_Part_Information, false, "PN", "", settings_type_t::ENUM, 3, 3, false, 0, 1, 0, 1, settings_flags_t::NONE, PN_strings };
+Setting PN = { REG48_Part_Information, false, "PN", "", settings_type_t::ENUM, 3, 3, false, 0, 7, 0, 1, settings_flags_t::NONE, PN_strings };
 PN_t getPN() { return static_cast<PN_t>(getInt(PN)); }
 const char * getPN_enum_string() { return getString(PN); }
 
@@ -3036,7 +3036,7 @@ strings_vector_t DEV_REV_strings = {
     "?"
 };
 
-Setting DEV_REV = { REG48_Part_Information, false, "DEV_REV", "", settings_type_t::ENUM, 3, 0, false, 0, 1, 0, 1, settings_flags_t::NONE, DEV_REV_strings };
+Setting DEV_REV = { REG48_Part_Information, false, "DEV_REV", "", settings_type_t::ENUM, 3, 0, false, 0, 7, 0, 1, settings_flags_t::NONE, DEV_REV_strings };
 DEV_REV_t getDEV_REV() { return static_cast<DEV_REV_t>(getInt(DEV_REV)); }
 const char * getDEV_REV_enum_string() { return getString(DEV_REV); }
 

@@ -445,6 +445,14 @@ float BQ25798Core<C>::rawToFloat(uint16_t raw, const Setting& setting) {
   // anything can be converted to float, no need to check the type
 
   float value = raw;
+  if (_settingsFlagIsSet(setting.flags, settings_flags_t::IS_2COMPLEMENT)) {
+    if (!setting.long_reg) {
+      _setError(Error::ERROR_INVALID_SETTING);
+      return 0.0f;
+    }
+    // Decode the signed ADC value before applying fractional scaling and offset.
+    value = static_cast<int16_t>(raw);
+  }
   // Adjust the value based on the fixed offset and bit step size if provided
   if (setting.bit_step_size != 0) {
     // DEBUG_PRINT("getFloat() adjusting raw value %.3f by bit step size %.3f\n", value, setting.bit_step_size);

@@ -188,6 +188,37 @@ void test_float(void) {
   TEST_ASSERT_EQUAL(BQ25798MockTest::Error::ERROR_NONE, bq.lastError());
 }
 
+void test_tdie_adc_signed_readings(void) {
+  const uint16_t rawValues[] = {0xFFB0, 0xFFEC, 0xFFFF, 0x0000, 0x0001, 0x0033, 0x012C};
+  const float temperatures[] = {-40.0f, -10.0f, -0.5f, 0.0f, 0.5f, 25.5f, 150.0f};
+  for (int i = 0; i < 7; ++i) {
+    const uint8_t bytes[] = {static_cast<uint8_t>(rawValues[i] >> 8), static_cast<uint8_t>(rawValues[i])};
+    bq.i2c_writeBytes(0x41, 2, bytes);
+    bq.readAllRegisters();
+    TEST_ASSERT_EQUAL_FLOAT(temperatures[i], bq.getTDIE_ADC());
+    TEST_ASSERT_EQUAL(BQ25798MockTest::Error::ERROR_NONE, bq.lastError());
+  }
+}
+
+void test_float_signed_scaling_and_unsigned_values(void) {
+  auto setting = bq.TDIE_ADC;
+  setting.fixed_offset = 10.0f;
+  TEST_ASSERT_EQUAL_FLOAT(8.5f, bq.rawToFloat(0xFFFD, setting));
+
+  setting.flags = BQ25798MockTest::settings_flags_t::NONE;
+  setting.fixed_offset = 0.0f;
+  TEST_ASSERT_EQUAL_FLOAT(32767.5f, bq.rawToFloat(0xFFFF, setting));
+  TEST_ASSERT_EQUAL(BQ25798MockTest::Error::ERROR_NONE, bq.lastError());
+}
+
+void test_float_rejects_short_signed_setting(void) {
+  auto setting = bq.TDIE_ADC;
+  setting.long_reg = false;  // Match the signed-setting restriction of rawToInt().
+  TEST_ASSERT_EQUAL_FLOAT(0.0f, bq.rawToFloat(0xFF, setting));
+  TEST_ASSERT_EQUAL(BQ25798MockTest::Error::ERROR_INVALID_SETTING, bq.lastError());
+  bq.clearError();
+}
+
 void test_enum(void) {
   BQ25798MockTest::Setting stringSetting = {reg0.address,
                                             false,
@@ -213,6 +244,69 @@ void test_enum(void) {
   bq.clearError();
 }
 
+void test_mppt_fields_preserve_neighbors(void) {
+  bq.setVOC_PCT(BQ25798MockTest::VOC_PCT_t::VOC_PCT_0_875);
+  bq.setEN_MPPT(true);
+  bq.setVOC_DLY(BQ25798MockTest::VOC_DLY_t::VOC_DLY_2S);
+  bq.setVOC_RATE(BQ25798MockTest::VOC_RATE_t::VOC_RATE_30MIN);
+
+  uint8_t reg;
+  bq.i2c_readBytes(0x15, 1, &reg);
+  TEST_ASSERT_EQUAL_HEX8(0xB7, reg);  // 101 | 10 | 11 | 1, per datasheet REG15.
+  TEST_ASSERT_EQUAL(5, static_cast<int>(bq.getVOC_PCT()));
+  TEST_ASSERT_EQUAL(2, static_cast<int>(bq.getVOC_DLY()));
+  TEST_ASSERT_EQUAL(3, static_cast<int>(bq.getVOC_RATE()));
+  TEST_ASSERT_TRUE(bq.getEN_MPPT());
+
+  bq.setVOC_DLY(BQ25798MockTest::VOC_DLY_t::VOC_DLY_50MS);
+  bq.i2c_readBytes(0x15, 1, &reg);
+  TEST_ASSERT_EQUAL_HEX8(0xA7, reg);
+  bq.setVOC_RATE(BQ25798MockTest::VOC_RATE_t::VOC_RATE_30S);
+  bq.i2c_readBytes(0x15, 1, &reg);
+  TEST_ASSERT_EQUAL_HEX8(0xA1, reg);
+}
+
+void test_status_fields_ignore_reserved_bits(void) {
+  const uint8_t patterns[] = {0x04, 0x02, 0x38};
+  const int thermal[] = {1, 0, 0};
+  const int detection[] = {0, 1, 0};
+  for (int i = 0; i < 3; ++i) {
+    bq.i2c_writeBytes(0x1D, 1, &patterns[i]);
+    bq.readAllRegisters();
+    TEST_ASSERT_EQUAL(thermal[i], static_cast<int>(bq.getTREG_STAT()));
+    TEST_ASSERT_EQUAL(detection[i], static_cast<int>(bq.getDPDM_STAT()));
+  }
+}
+
+void test_corrected_enums_and_ranges(void) {
+  bq.setVAC_OVP(BQ25798MockTest::VAC_OVP_t::VAC_OVP_18V);
+  uint8_t reg;
+  bq.i2c_readBytes(0x10, 1, &reg);
+  TEST_ASSERT_EQUAL_HEX8(0x10, reg & 0x30);
+  TEST_ASSERT_EQUAL_STRING(">18V", bq.getVAC_OVP_enum_string());
+
+  // Reject a code that cannot fit in the single BCOLD bit.
+  bq.intToRaw(2, bq.BCOLD);
+  TEST_ASSERT_EQUAL(BQ25798MockTest::Error::ERROR_INVALID_VALUE, bq.lastError());
+  bq.clearError();
+
+  TEST_ASSERT_EQUAL_FLOAT(99.9023f, bq.TS_ADC.range_high);
+  TEST_ASSERT_FLOAT_WITHIN(0.0001f, 99.9023f, bq.rawToFloat(1023, bq.TS_ADC));
+  TEST_ASSERT_EQUAL(7, bq.intToRaw(7, bq.CHG_STAT));
+  TEST_ASSERT_EQUAL(12, bq.intToRaw(12, bq.VBUS_STAT));
+  TEST_ASSERT_EQUAL(2, bq.intToRaw(2, bq.ICO_STAT));
+  TEST_ASSERT_EQUAL(3, bq.intToRaw(3, bq.PN));
+  TEST_ASSERT_EQUAL(BQ25798MockTest::Error::ERROR_NONE, bq.lastError());
+
+  const uint8_t present = 0xC0;
+  bq.i2c_writeBytes(0x1E, 1, &present);
+  bq.readAllRegisters();
+  TEST_ASSERT_EQUAL(static_cast<int>(BQ25798MockTest::ACRB1_STAT_t::ACRB1_STAT_PRESENT), static_cast<int>(bq.getACRB1_STAT()));
+  TEST_ASSERT_EQUAL(static_cast<int>(BQ25798MockTest::ACRB2_STAT_t::ACRB2_STAT_PRESENT), static_cast<int>(bq.getACRB2_STAT()));
+  TEST_ASSERT_EQUAL_STRING("ACFET1/RBFET1 present", bq.getACRB1_STAT_enum_string());
+  TEST_ASSERT_EQUAL_STRING("ACFET2/RBFET2 present", bq.getACRB2_STAT_enum_string());
+}
+
 int main(int argc, char** argv) {
   UNITY_BEGIN();  // Start Unity test framework
 
@@ -221,7 +315,13 @@ int main(int argc, char** argv) {
   RUN_TEST(test_bool);
   RUN_TEST(test_int);
   RUN_TEST(test_float);
+  RUN_TEST(test_tdie_adc_signed_readings);
+  RUN_TEST(test_float_signed_scaling_and_unsigned_values);
+  RUN_TEST(test_float_rejects_short_signed_setting);
   RUN_TEST(test_enum);
+  RUN_TEST(test_mppt_fields_preserve_neighbors);
+  RUN_TEST(test_status_fields_ignore_reserved_bits);
+  RUN_TEST(test_corrected_enums_and_ranges);
 
   UNITY_END();  // Stop Unity test framework
 
