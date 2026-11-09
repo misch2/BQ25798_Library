@@ -2555,6 +2555,435 @@ bool getTSHUT_FLAG() { return getBool(TSHUT_FLAG); }
 
 
 // ================================
+// REG28_Charger_Mask_0
+// ================================
+
+
+Setting IINDPM_MASK = { REG28_Charger_Mask_0, false, "IINDPM_MASK", "", settings_type_t::BOOL, 1, 7, false };
+bool getIINDPM_MASK() { return getBool(IINDPM_MASK); }
+void setIINDPM_MASK(bool val) { setBool(IINDPM_MASK, val); }
+
+
+
+// ================================
+// REG28_Charger_Mask_0
+// ================================
+
+
+Setting VINDPM_MASK = { REG28_Charger_Mask_0, false, "VINDPM_MASK", "", settings_type_t::BOOL, 1, 6, false };
+bool getVINDPM_MASK() { return getBool(VINDPM_MASK); }
+void setVINDPM_MASK(bool val) { setBool(VINDPM_MASK, val); }
+
+
+
+// ================================
+// REG28_Charger_Mask_0
+// ================================
+
+
+Setting WD_MASK = { REG28_Charger_Mask_0, false, "WD_MASK", "", settings_type_t::BOOL, 1, 5, false };
+bool getWD_MASK() { return getBool(WD_MASK); }
+void setWD_MASK(bool val) { setBool(WD_MASK, val); }
+
+
+
+// ================================
+// REG28_Charger_Mask_0
+// ================================
+
+
+Setting POORSRC_MASK = { REG28_Charger_Mask_0, false, "POORSRC_MASK", "", settings_type_t::BOOL, 1, 4, false };
+bool getPOORSRC_MASK() { return getBool(POORSRC_MASK); }
+void setPOORSRC_MASK(bool val) { setBool(POORSRC_MASK, val); }
+
+
+
+// ================================
+// REG28_Charger_Mask_0
+// ================================
+
+
+Setting PG_MASK = { REG28_Charger_Mask_0, false, "PG_MASK", "", settings_type_t::BOOL, 1, 3, false };
+bool getPG_MASK() { return getBool(PG_MASK); }
+void setPG_MASK(bool val) { setBool(PG_MASK, val); }
+
+
+
+// ================================
+// REG28_Charger_Mask_0
+// ================================
+
+
+Setting AC2_PRESENT_MASK = { REG28_Charger_Mask_0, false, "AC2_PRESENT_MASK", "", settings_type_t::BOOL, 1, 2, false };
+bool getAC2_PRESENT_MASK() { return getBool(AC2_PRESENT_MASK); }
+void setAC2_PRESENT_MASK(bool val) { setBool(AC2_PRESENT_MASK, val); }
+
+
+
+// ================================
+// REG28_Charger_Mask_0
+// ================================
+
+
+Setting AC1_PRESENT_MASK = { REG28_Charger_Mask_0, false, "AC1_PRESENT_MASK", "", settings_type_t::BOOL, 1, 1, false };
+bool getAC1_PRESENT_MASK() { return getBool(AC1_PRESENT_MASK); }
+void setAC1_PRESENT_MASK(bool val) { setBool(AC1_PRESENT_MASK, val); }
+
+
+
+// ================================
+// REG28_Charger_Mask_0
+// ================================
+
+
+Setting VBUS_PRESENT_MASK = { REG28_Charger_Mask_0, false, "VBUS_PRESENT_MASK", "", settings_type_t::BOOL, 1, 0, false };
+bool getVBUS_PRESENT_MASK() { return getBool(VBUS_PRESENT_MASK); }
+void setVBUS_PRESENT_MASK(bool val) { setBool(VBUS_PRESENT_MASK, val); }
+
+
+
+// ================================
+// REG29_Charger_Mask_1
+// ================================
+
+
+Setting CHG_MASK = { REG29_Charger_Mask_1, false, "CHG_MASK", "", settings_type_t::BOOL, 1, 7, false };
+bool getCHG_MASK() { return getBool(CHG_MASK); }
+void setCHG_MASK(bool val) { setBool(CHG_MASK, val); }
+
+
+
+// ================================
+// REG29_Charger_Mask_1
+// ================================
+
+
+Setting ICO_MASK = { REG29_Charger_Mask_1, false, "ICO_MASK", "", settings_type_t::BOOL, 1, 6, false };
+bool getICO_MASK() { return getBool(ICO_MASK); }
+void setICO_MASK(bool val) { setBool(ICO_MASK, val); }
+
+
+
+// ================================
+// REG29_Charger_Mask_1
+// ================================
+
+
+Setting VBUS_MASK = { REG29_Charger_Mask_1, false, "VBUS_MASK", "", settings_type_t::BOOL, 1, 4, false };
+bool getVBUS_MASK() { return getBool(VBUS_MASK); }
+void setVBUS_MASK(bool val) { setBool(VBUS_MASK, val); }
+
+
+
+// ================================
+// REG29_Charger_Mask_1
+// ================================
+
+
+Setting TREG_MASK = { REG29_Charger_Mask_1, false, "TREG_MASK", "", settings_type_t::BOOL, 1, 2, false };
+bool getTREG_MASK() { return getBool(TREG_MASK); }
+void setTREG_MASK(bool val) { setBool(TREG_MASK, val); }
+
+
+
+// ================================
+// REG29_Charger_Mask_1
+// ================================
+
+
+Setting VBAT_PRESENT_MASK = { REG29_Charger_Mask_1, false, "VBAT_PRESENT_MASK", "", settings_type_t::BOOL, 1, 1, false };
+bool getVBAT_PRESENT_MASK() { return getBool(VBAT_PRESENT_MASK); }
+void setVBAT_PRESENT_MASK(bool val) { setBool(VBAT_PRESENT_MASK, val); }
+
+
+
+// ================================
+// REG29_Charger_Mask_1
+// ================================
+
+
+Setting BC1_2_DONE_MASK = { REG29_Charger_Mask_1, false, "BC1_2_DONE_MASK", "", settings_type_t::BOOL, 1, 0, false };
+bool getBC1_2_DONE_MASK() { return getBool(BC1_2_DONE_MASK); }
+void setBC1_2_DONE_MASK(bool val) { setBool(BC1_2_DONE_MASK, val); }
+
+
+
+// ================================
+// REG2A_Charger_Mask_2
+// ================================
+
+
+Setting DPDM_DONE_MASK = { REG2A_Charger_Mask_2, false, "DPDM_DONE_MASK", "", settings_type_t::BOOL, 1, 6, false };
+bool getDPDM_DONE_MASK() { return getBool(DPDM_DONE_MASK); }
+void setDPDM_DONE_MASK(bool val) { setBool(DPDM_DONE_MASK, val); }
+
+
+
+// ================================
+// REG2A_Charger_Mask_2
+// ================================
+
+
+Setting ADC_DONE_MASK = { REG2A_Charger_Mask_2, false, "ADC_DONE_MASK", "", settings_type_t::BOOL, 1, 5, false };
+bool getADC_DONE_MASK() { return getBool(ADC_DONE_MASK); }
+void setADC_DONE_MASK(bool val) { setBool(ADC_DONE_MASK, val); }
+
+
+
+// ================================
+// REG2A_Charger_Mask_2
+// ================================
+
+
+Setting VSYS_MASK = { REG2A_Charger_Mask_2, false, "VSYS_MASK", "", settings_type_t::BOOL, 1, 4, false };
+bool getVSYS_MASK() { return getBool(VSYS_MASK); }
+void setVSYS_MASK(bool val) { setBool(VSYS_MASK, val); }
+
+
+
+// ================================
+// REG2A_Charger_Mask_2
+// ================================
+
+
+Setting CHG_TMR_MASK = { REG2A_Charger_Mask_2, false, "CHG_TMR_MASK", "", settings_type_t::BOOL, 1, 3, false };
+bool getCHG_TMR_MASK() { return getBool(CHG_TMR_MASK); }
+void setCHG_TMR_MASK(bool val) { setBool(CHG_TMR_MASK, val); }
+
+
+
+// ================================
+// REG2A_Charger_Mask_2
+// ================================
+
+
+Setting TRICHG_TMR_MASK = { REG2A_Charger_Mask_2, false, "TRICHG_TMR_MASK", "", settings_type_t::BOOL, 1, 2, false };
+bool getTRICHG_TMR_MASK() { return getBool(TRICHG_TMR_MASK); }
+void setTRICHG_TMR_MASK(bool val) { setBool(TRICHG_TMR_MASK, val); }
+
+
+
+// ================================
+// REG2A_Charger_Mask_2
+// ================================
+
+
+Setting PRECHG_TMR_MASK = { REG2A_Charger_Mask_2, false, "PRECHG_TMR_MASK", "", settings_type_t::BOOL, 1, 1, false };
+bool getPRECHG_TMR_MASK() { return getBool(PRECHG_TMR_MASK); }
+void setPRECHG_TMR_MASK(bool val) { setBool(PRECHG_TMR_MASK, val); }
+
+
+
+// ================================
+// REG2A_Charger_Mask_2
+// ================================
+
+
+Setting TOPOFF_TMR_MASK = { REG2A_Charger_Mask_2, false, "TOPOFF_TMR_MASK", "", settings_type_t::BOOL, 1, 0, false };
+bool getTOPOFF_TMR_MASK() { return getBool(TOPOFF_TMR_MASK); }
+void setTOPOFF_TMR_MASK(bool val) { setBool(TOPOFF_TMR_MASK, val); }
+
+
+
+// ================================
+// REG2B_Charger_Mask_3
+// ================================
+
+
+Setting VBATOTG_LOW_MASK = { REG2B_Charger_Mask_3, false, "VBATOTG_LOW_MASK", "", settings_type_t::BOOL, 1, 4, false };
+bool getVBATOTG_LOW_MASK() { return getBool(VBATOTG_LOW_MASK); }
+void setVBATOTG_LOW_MASK(bool val) { setBool(VBATOTG_LOW_MASK, val); }
+
+
+
+// ================================
+// REG2B_Charger_Mask_3
+// ================================
+
+
+Setting TS_COLD_MASK = { REG2B_Charger_Mask_3, false, "TS_COLD_MASK", "", settings_type_t::BOOL, 1, 3, false };
+bool getTS_COLD_MASK() { return getBool(TS_COLD_MASK); }
+void setTS_COLD_MASK(bool val) { setBool(TS_COLD_MASK, val); }
+
+
+
+// ================================
+// REG2B_Charger_Mask_3
+// ================================
+
+
+Setting TS_COOL_MASK = { REG2B_Charger_Mask_3, false, "TS_COOL_MASK", "", settings_type_t::BOOL, 1, 2, false };
+bool getTS_COOL_MASK() { return getBool(TS_COOL_MASK); }
+void setTS_COOL_MASK(bool val) { setBool(TS_COOL_MASK, val); }
+
+
+
+// ================================
+// REG2B_Charger_Mask_3
+// ================================
+
+
+Setting TS_WARM_MASK = { REG2B_Charger_Mask_3, false, "TS_WARM_MASK", "", settings_type_t::BOOL, 1, 1, false };
+bool getTS_WARM_MASK() { return getBool(TS_WARM_MASK); }
+void setTS_WARM_MASK(bool val) { setBool(TS_WARM_MASK, val); }
+
+
+
+// ================================
+// REG2B_Charger_Mask_3
+// ================================
+
+
+Setting TS_HOT_MASK = { REG2B_Charger_Mask_3, false, "TS_HOT_MASK", "", settings_type_t::BOOL, 1, 0, false };
+bool getTS_HOT_MASK() { return getBool(TS_HOT_MASK); }
+void setTS_HOT_MASK(bool val) { setBool(TS_HOT_MASK, val); }
+
+
+
+// ================================
+// REG2C_FAULT_Mask_0
+// ================================
+
+
+Setting IBAT_REG_MASK = { REG2C_FAULT_Mask_0, false, "IBAT_REG_MASK", "", settings_type_t::BOOL, 1, 7, false };
+bool getIBAT_REG_MASK() { return getBool(IBAT_REG_MASK); }
+void setIBAT_REG_MASK(bool val) { setBool(IBAT_REG_MASK, val); }
+
+
+
+// ================================
+// REG2C_FAULT_Mask_0
+// ================================
+
+
+Setting VBUS_OVP_MASK = { REG2C_FAULT_Mask_0, false, "VBUS_OVP_MASK", "", settings_type_t::BOOL, 1, 6, false };
+bool getVBUS_OVP_MASK() { return getBool(VBUS_OVP_MASK); }
+void setVBUS_OVP_MASK(bool val) { setBool(VBUS_OVP_MASK, val); }
+
+
+
+// ================================
+// REG2C_FAULT_Mask_0
+// ================================
+
+
+Setting VBAT_OVP_MASK = { REG2C_FAULT_Mask_0, false, "VBAT_OVP_MASK", "", settings_type_t::BOOL, 1, 5, false };
+bool getVBAT_OVP_MASK() { return getBool(VBAT_OVP_MASK); }
+void setVBAT_OVP_MASK(bool val) { setBool(VBAT_OVP_MASK, val); }
+
+
+
+// ================================
+// REG2C_FAULT_Mask_0
+// ================================
+
+
+Setting IBUS_OCP_MASK = { REG2C_FAULT_Mask_0, false, "IBUS_OCP_MASK", "", settings_type_t::BOOL, 1, 4, false };
+bool getIBUS_OCP_MASK() { return getBool(IBUS_OCP_MASK); }
+void setIBUS_OCP_MASK(bool val) { setBool(IBUS_OCP_MASK, val); }
+
+
+
+// ================================
+// REG2C_FAULT_Mask_0
+// ================================
+
+
+Setting IBAT_OCP_MASK = { REG2C_FAULT_Mask_0, false, "IBAT_OCP_MASK", "", settings_type_t::BOOL, 1, 3, false };
+bool getIBAT_OCP_MASK() { return getBool(IBAT_OCP_MASK); }
+void setIBAT_OCP_MASK(bool val) { setBool(IBAT_OCP_MASK, val); }
+
+
+
+// ================================
+// REG2C_FAULT_Mask_0
+// ================================
+
+
+Setting CONV_OCP_MASK = { REG2C_FAULT_Mask_0, false, "CONV_OCP_MASK", "", settings_type_t::BOOL, 1, 2, false };
+bool getCONV_OCP_MASK() { return getBool(CONV_OCP_MASK); }
+void setCONV_OCP_MASK(bool val) { setBool(CONV_OCP_MASK, val); }
+
+
+
+// ================================
+// REG2C_FAULT_Mask_0
+// ================================
+
+
+Setting VAC2_OVP_MASK = { REG2C_FAULT_Mask_0, false, "VAC2_OVP_MASK", "", settings_type_t::BOOL, 1, 1, false };
+bool getVAC2_OVP_MASK() { return getBool(VAC2_OVP_MASK); }
+void setVAC2_OVP_MASK(bool val) { setBool(VAC2_OVP_MASK, val); }
+
+
+
+// ================================
+// REG2C_FAULT_Mask_0
+// ================================
+
+
+Setting VAC1_OVP_MASK = { REG2C_FAULT_Mask_0, false, "VAC1_OVP_MASK", "", settings_type_t::BOOL, 1, 0, false };
+bool getVAC1_OVP_MASK() { return getBool(VAC1_OVP_MASK); }
+void setVAC1_OVP_MASK(bool val) { setBool(VAC1_OVP_MASK, val); }
+
+
+
+// ================================
+// REG2D_FAULT_Mask_1
+// ================================
+
+
+Setting VSYS_SHORT_MASK = { REG2D_FAULT_Mask_1, false, "VSYS_SHORT_MASK", "", settings_type_t::BOOL, 1, 7, false };
+bool getVSYS_SHORT_MASK() { return getBool(VSYS_SHORT_MASK); }
+void setVSYS_SHORT_MASK(bool val) { setBool(VSYS_SHORT_MASK, val); }
+
+
+
+// ================================
+// REG2D_FAULT_Mask_1
+// ================================
+
+
+Setting VSYS_OVP_MASK = { REG2D_FAULT_Mask_1, false, "VSYS_OVP_MASK", "", settings_type_t::BOOL, 1, 6, false };
+bool getVSYS_OVP_MASK() { return getBool(VSYS_OVP_MASK); }
+void setVSYS_OVP_MASK(bool val) { setBool(VSYS_OVP_MASK, val); }
+
+
+
+// ================================
+// REG2D_FAULT_Mask_1
+// ================================
+
+
+Setting OTG_OVP_MASK = { REG2D_FAULT_Mask_1, false, "OTG_OVP_MASK", "", settings_type_t::BOOL, 1, 5, false };
+bool getOTG_OVP_MASK() { return getBool(OTG_OVP_MASK); }
+void setOTG_OVP_MASK(bool val) { setBool(OTG_OVP_MASK, val); }
+
+
+
+// ================================
+// REG2D_FAULT_Mask_1
+// ================================
+
+
+Setting OTG_UVP_MASK = { REG2D_FAULT_Mask_1, false, "OTG_UVP_MASK", "", settings_type_t::BOOL, 1, 4, false };
+bool getOTG_UVP_MASK() { return getBool(OTG_UVP_MASK); }
+void setOTG_UVP_MASK(bool val) { setBool(OTG_UVP_MASK, val); }
+
+
+
+// ================================
+// REG2D_FAULT_Mask_1
+// ================================
+
+
+Setting TSHUT_MASK = { REG2D_FAULT_Mask_1, false, "TSHUT_MASK", "", settings_type_t::BOOL, 1, 2, false };
+bool getTSHUT_MASK() { return getBool(TSHUT_MASK); }
+void setTSHUT_MASK(bool val) { setBool(TSHUT_MASK, val); }
+
+
+
+// ================================
 // REG2E_ADC_Control
 // ================================
 
@@ -3045,7 +3474,7 @@ const char * getDEV_REV_enum_string() { return getString(DEV_REV); }
 
 
 
-static constexpr size_t SETTINGS_COUNT = 191;  // Number of settings
+static constexpr size_t SETTINGS_COUNT = 230;  // Number of settings
 std::array<Setting, SETTINGS_COUNT> _settingsList = {
 
     VSYSMIN, 
@@ -3208,6 +3637,45 @@ std::array<Setting, SETTINGS_COUNT> _settingsList = {
     OTG_OVP_FLAG, 
     OTG_UVP_FLAG, 
     TSHUT_FLAG, 
+    IINDPM_MASK, 
+    VINDPM_MASK, 
+    WD_MASK, 
+    POORSRC_MASK, 
+    PG_MASK, 
+    AC2_PRESENT_MASK, 
+    AC1_PRESENT_MASK, 
+    VBUS_PRESENT_MASK, 
+    CHG_MASK, 
+    ICO_MASK, 
+    VBUS_MASK, 
+    TREG_MASK, 
+    VBAT_PRESENT_MASK, 
+    BC1_2_DONE_MASK, 
+    DPDM_DONE_MASK, 
+    ADC_DONE_MASK, 
+    VSYS_MASK, 
+    CHG_TMR_MASK, 
+    TRICHG_TMR_MASK, 
+    PRECHG_TMR_MASK, 
+    TOPOFF_TMR_MASK, 
+    VBATOTG_LOW_MASK, 
+    TS_COLD_MASK, 
+    TS_COOL_MASK, 
+    TS_WARM_MASK, 
+    TS_HOT_MASK, 
+    IBAT_REG_MASK, 
+    VBUS_OVP_MASK, 
+    VBAT_OVP_MASK, 
+    IBUS_OCP_MASK, 
+    IBAT_OCP_MASK, 
+    CONV_OCP_MASK, 
+    VAC2_OVP_MASK, 
+    VAC1_OVP_MASK, 
+    VSYS_SHORT_MASK, 
+    VSYS_OVP_MASK, 
+    OTG_OVP_MASK, 
+    OTG_UVP_MASK, 
+    TSHUT_MASK, 
     ADC_EN, 
     ADC_RATE, 
     ADC_SAMPLE, 

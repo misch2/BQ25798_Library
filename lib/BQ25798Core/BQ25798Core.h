@@ -468,7 +468,7 @@ float BQ25798Core<C>::rawToFloat(uint16_t raw, const Setting& setting) {
 
 template <class C>
 uint16_t BQ25798Core<C>::floatToRaw(float value, const Setting& setting) {
-  if (setting.type != settings_type_t::FLOAT) {
+  if (setting.type != settings_type_t::FLOAT || !std::isfinite(value)) {
     _setError(Error::ERROR_INVALID_VALUE);
     return 0;
   }
@@ -544,7 +544,13 @@ void BQ25798Core<C>::setRaw(const Setting& setting, uint16_t value) {
 
 template <class C>
 void BQ25798Core<C>::setInt(const Setting& setting, int value) {
+  const Error previous_error = _errorCode;
+  clearError();  // Distinguish this conversion's failure from an older sticky error.
   uint16_t raw_value = intToRaw(value, setting);
+  if (_errorCode != Error::ERROR_NONE) {
+    return;
+  }
+  _errorCode = previous_error;
   setRaw(setting, raw_value);
 }
 
@@ -556,7 +562,13 @@ void BQ25798Core<C>::setBool(const Setting& setting, bool value) {
 
 template <class C>
 void BQ25798Core<C>::setFloat(const Setting& setting, float value) {
+  const Error previous_error = _errorCode;
+  clearError();  // Keep successful writes compatible with sticky error reporting.
   uint16_t raw_value = floatToRaw(value, setting);
+  if (_errorCode != Error::ERROR_NONE) {
+    return;
+  }
+  _errorCode = previous_error;
   setRaw(setting, raw_value);
 }
 

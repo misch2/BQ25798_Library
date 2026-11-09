@@ -1,4 +1,5 @@
 #include <unity.h>
+#include <limits>
 
 #include "BQ25798MockTest.h"
 
@@ -307,6 +308,147 @@ void test_corrected_enums_and_ranges(void) {
   TEST_ASSERT_EQUAL_STRING("ACFET2/RBFET2 present", bq.getACRB2_STAT_enum_string());
 }
 
+void test_interrupt_masks_match_datasheet(void) {
+  struct MaskCase {
+    uint8_t reg;
+    uint8_t bit;
+    bool (BQ25798MockTest::*get)();
+    void (BQ25798MockTest::*set)(bool);
+  };
+  // Independent raw bit positions from datasheet tables 7-49 through 7-54.
+  const MaskCase cases[] = {
+      {0x28, 7, &BQ25798MockTest::getIINDPM_MASK, &BQ25798MockTest::setIINDPM_MASK},
+      {0x28, 6, &BQ25798MockTest::getVINDPM_MASK, &BQ25798MockTest::setVINDPM_MASK},
+      {0x28, 5, &BQ25798MockTest::getWD_MASK, &BQ25798MockTest::setWD_MASK},
+      {0x28, 4, &BQ25798MockTest::getPOORSRC_MASK, &BQ25798MockTest::setPOORSRC_MASK},
+      {0x28, 3, &BQ25798MockTest::getPG_MASK, &BQ25798MockTest::setPG_MASK},
+      {0x28, 2, &BQ25798MockTest::getAC2_PRESENT_MASK, &BQ25798MockTest::setAC2_PRESENT_MASK},
+      {0x28, 1, &BQ25798MockTest::getAC1_PRESENT_MASK, &BQ25798MockTest::setAC1_PRESENT_MASK},
+      {0x28, 0, &BQ25798MockTest::getVBUS_PRESENT_MASK, &BQ25798MockTest::setVBUS_PRESENT_MASK},
+      {0x29, 7, &BQ25798MockTest::getCHG_MASK, &BQ25798MockTest::setCHG_MASK},
+      {0x29, 6, &BQ25798MockTest::getICO_MASK, &BQ25798MockTest::setICO_MASK},
+      {0x29, 4, &BQ25798MockTest::getVBUS_MASK, &BQ25798MockTest::setVBUS_MASK},
+      {0x29, 2, &BQ25798MockTest::getTREG_MASK, &BQ25798MockTest::setTREG_MASK},
+      {0x29, 1, &BQ25798MockTest::getVBAT_PRESENT_MASK, &BQ25798MockTest::setVBAT_PRESENT_MASK},
+      {0x29, 0, &BQ25798MockTest::getBC1_2_DONE_MASK, &BQ25798MockTest::setBC1_2_DONE_MASK},
+      {0x2a, 6, &BQ25798MockTest::getDPDM_DONE_MASK, &BQ25798MockTest::setDPDM_DONE_MASK},
+      {0x2a, 5, &BQ25798MockTest::getADC_DONE_MASK, &BQ25798MockTest::setADC_DONE_MASK},
+      {0x2a, 4, &BQ25798MockTest::getVSYS_MASK, &BQ25798MockTest::setVSYS_MASK},
+      {0x2a, 3, &BQ25798MockTest::getCHG_TMR_MASK, &BQ25798MockTest::setCHG_TMR_MASK},
+      {0x2a, 2, &BQ25798MockTest::getTRICHG_TMR_MASK, &BQ25798MockTest::setTRICHG_TMR_MASK},
+      {0x2a, 1, &BQ25798MockTest::getPRECHG_TMR_MASK, &BQ25798MockTest::setPRECHG_TMR_MASK},
+      {0x2a, 0, &BQ25798MockTest::getTOPOFF_TMR_MASK, &BQ25798MockTest::setTOPOFF_TMR_MASK},
+      {0x2b, 4, &BQ25798MockTest::getVBATOTG_LOW_MASK, &BQ25798MockTest::setVBATOTG_LOW_MASK},
+      {0x2b, 3, &BQ25798MockTest::getTS_COLD_MASK, &BQ25798MockTest::setTS_COLD_MASK},
+      {0x2b, 2, &BQ25798MockTest::getTS_COOL_MASK, &BQ25798MockTest::setTS_COOL_MASK},
+      {0x2b, 1, &BQ25798MockTest::getTS_WARM_MASK, &BQ25798MockTest::setTS_WARM_MASK},
+      {0x2b, 0, &BQ25798MockTest::getTS_HOT_MASK, &BQ25798MockTest::setTS_HOT_MASK},
+      {0x2c, 7, &BQ25798MockTest::getIBAT_REG_MASK, &BQ25798MockTest::setIBAT_REG_MASK},
+      {0x2c, 6, &BQ25798MockTest::getVBUS_OVP_MASK, &BQ25798MockTest::setVBUS_OVP_MASK},
+      {0x2c, 5, &BQ25798MockTest::getVBAT_OVP_MASK, &BQ25798MockTest::setVBAT_OVP_MASK},
+      {0x2c, 4, &BQ25798MockTest::getIBUS_OCP_MASK, &BQ25798MockTest::setIBUS_OCP_MASK},
+      {0x2c, 3, &BQ25798MockTest::getIBAT_OCP_MASK, &BQ25798MockTest::setIBAT_OCP_MASK},
+      {0x2c, 2, &BQ25798MockTest::getCONV_OCP_MASK, &BQ25798MockTest::setCONV_OCP_MASK},
+      {0x2c, 1, &BQ25798MockTest::getVAC2_OVP_MASK, &BQ25798MockTest::setVAC2_OVP_MASK},
+      {0x2c, 0, &BQ25798MockTest::getVAC1_OVP_MASK, &BQ25798MockTest::setVAC1_OVP_MASK},
+      {0x2d, 7, &BQ25798MockTest::getVSYS_SHORT_MASK, &BQ25798MockTest::setVSYS_SHORT_MASK},
+      {0x2d, 6, &BQ25798MockTest::getVSYS_OVP_MASK, &BQ25798MockTest::setVSYS_OVP_MASK},
+      {0x2d, 5, &BQ25798MockTest::getOTG_OVP_MASK, &BQ25798MockTest::setOTG_OVP_MASK},
+      {0x2d, 4, &BQ25798MockTest::getOTG_UVP_MASK, &BQ25798MockTest::setOTG_UVP_MASK},
+      {0x2d, 2, &BQ25798MockTest::getTSHUT_MASK, &BQ25798MockTest::setTSHUT_MASK},
+  };
+  TEST_ASSERT_EQUAL(39, sizeof(cases) / sizeof(cases[0]));
+  TEST_ASSERT_EQUAL(230, BQ25798MockTest::SETTINGS_COUNT);
+  for (const auto& item : cases) {
+    const uint8_t bit = static_cast<uint8_t>(1u << item.bit);
+    const uint8_t initial = static_cast<uint8_t>(0xFF ^ bit);
+    bq.i2c_writeBytes(item.reg, 1, &initial);
+    bq.readAllRegisters();
+    TEST_ASSERT_FALSE((bq.*item.get)());
+    (bq.*item.set)(true);
+    uint8_t actual;
+    bq.i2c_readBytes(item.reg, 1, &actual);
+    TEST_ASSERT_EQUAL_HEX8(0xFF, actual);
+    TEST_ASSERT_TRUE((bq.*item.get)());
+    (bq.*item.set)(false);
+    bq.i2c_readBytes(item.reg, 1, &actual);
+    TEST_ASSERT_EQUAL_HEX8(initial, actual);  // Preserve all neighboring/reserved bits.
+    TEST_ASSERT_FALSE((bq.*item.get)());
+    TEST_ASSERT_EQUAL(BQ25798MockTest::Error::ERROR_NONE, bq.lastError());
+  }
+}
+
+class WriteCountingI2C : public I2CMockTest {
+ public:
+  int writes = 0;
+  void i2c_writeBytes(int startReg, int count, const uint8_t* values) override {
+    ++writes;
+    I2CMockTest::i2c_writeBytes(startReg, count, values);
+  }
+};
+
+void test_invalid_int_setters_do_not_write(void) {
+  BQ25798Core<WriteCountingI2C> charger;
+  TEST_ASSERT_TRUE(charger.begin());
+  charger.setVINDPM(5000);
+  const int writes = charger.writes;
+  const int invalid[] = {1, 22001, 1};  // Include a repeated error without clearing it.
+  for (int value : invalid) {
+    charger.setVINDPM(value);
+    TEST_ASSERT_EQUAL(writes, charger.writes);
+    TEST_ASSERT_EQUAL(5000, charger.getVINDPM());
+    TEST_ASSERT_EQUAL(decltype(charger)::Error::ERROR_INVALID_VALUE, charger.lastError());
+  }
+  charger.setBCOLD(static_cast<decltype(charger)::BCOLD_t>(2));
+  TEST_ASSERT_EQUAL(writes, charger.writes);
+  auto invalidSetting = charger.IBUS_ADC;
+  invalidSetting.long_reg = false;
+  charger.setInt(invalidSetting, 1);
+  TEST_ASSERT_EQUAL(writes, charger.writes);
+  TEST_ASSERT_EQUAL(decltype(charger)::Error::ERROR_INVALID_SETTING, charger.lastError());
+
+  // A previous sticky error must not block a valid write, including raw zero.
+  charger.setVOC_RATE(decltype(charger)::VOC_RATE_t::VOC_RATE_30MIN);
+  charger.setVOC_RATE(decltype(charger)::VOC_RATE_t::VOC_RATE_30S);
+  TEST_ASSERT_EQUAL(writes + 2, charger.writes);
+  TEST_ASSERT_EQUAL(0, static_cast<int>(charger.getVOC_RATE()));
+  TEST_ASSERT_EQUAL(decltype(charger)::Error::ERROR_INVALID_SETTING, charger.lastError());
+}
+
+void test_invalid_float_setters_do_not_write(void) {
+  BQ25798Core<WriteCountingI2C> charger;
+  TEST_ASSERT_TRUE(charger.begin());
+  auto setting = charger.TDIE_ADC;
+  setting.flags = decltype(charger)::settings_flags_t::NONE;
+  setting.range_low = 0;
+  setting.range_high = 100;
+  charger.setFloat(setting, 25.5f);
+  const int writes = charger.writes;
+  const float invalid[] = {-0.5f, 100.5f, std::numeric_limits<float>::quiet_NaN(),
+                           std::numeric_limits<float>::infinity(), -std::numeric_limits<float>::infinity()};
+  for (float value : invalid) {
+    charger.setFloat(setting, value);
+    TEST_ASSERT_EQUAL(writes, charger.writes);
+    TEST_ASSERT_EQUAL_FLOAT(25.5f, charger.getFloat(setting));
+    TEST_ASSERT_EQUAL(decltype(charger)::Error::ERROR_INVALID_VALUE, charger.lastError());
+  }
+  auto invalidSetting = setting;
+  invalidSetting.type = decltype(charger)::settings_type_t::INT;
+  charger.setFloat(invalidSetting, 10.0f);
+  TEST_ASSERT_EQUAL(writes, charger.writes);
+  TEST_ASSERT_EQUAL(decltype(charger)::Error::ERROR_INVALID_VALUE, charger.lastError());
+  invalidSetting.type = decltype(charger)::settings_type_t::FLOAT;
+  invalidSetting.flags = decltype(charger)::settings_flags_t::IS_2COMPLEMENT;
+  charger.setFloat(invalidSetting, 10.0f);
+  TEST_ASSERT_EQUAL(writes, charger.writes);
+  TEST_ASSERT_EQUAL(decltype(charger)::Error::ERROR_INVALID_SETTING, charger.lastError());
+
+  charger.setFloat(setting, 0.0f);
+  TEST_ASSERT_EQUAL(writes + 1, charger.writes);
+  TEST_ASSERT_EQUAL_FLOAT(0.0f, charger.getFloat(setting));
+  TEST_ASSERT_EQUAL(decltype(charger)::Error::ERROR_INVALID_SETTING, charger.lastError());
+}
+
 int main(int argc, char** argv) {
   UNITY_BEGIN();  // Start Unity test framework
 
@@ -322,6 +464,9 @@ int main(int argc, char** argv) {
   RUN_TEST(test_mppt_fields_preserve_neighbors);
   RUN_TEST(test_status_fields_ignore_reserved_bits);
   RUN_TEST(test_corrected_enums_and_ranges);
+  RUN_TEST(test_interrupt_masks_match_datasheet);
+  RUN_TEST(test_invalid_int_setters_do_not_write);
+  RUN_TEST(test_invalid_float_setters_do_not_write);
 
   return UNITY_END();  // Report test failures through the process exit code.
 }
