@@ -300,7 +300,12 @@
             "long_reg": false,
             "name": "VSYSMIN",
             "description": "Minimal System Voltage",
-            "ha_device_class": "voltage",
+            "homeassistant": {
+                "device_class": "voltage",
+                "entity_category": "config",
+                "state_class": null,
+                "icon": null
+            },
             "type": "int",
             "unit": "mV",
             "bits": 6,
@@ -316,7 +321,12 @@
             "long_reg": true,
             "name": "VREG",
             "description": "Charge Voltage Limit",
-            "ha_device_class": "voltage",
+            "homeassistant": {
+                "device_class": "voltage",
+                "entity_category": "config",
+                "state_class": null,
+                "icon": null
+            },
             "type": "int",
             "unit": "mV",
             "bits": 11,
@@ -332,6 +342,12 @@
             "long_reg": true,
             "name": "ICHG",
             "description": "Charge Current Limit",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "int",
             "unit": "mA",
             "bits": 9,
@@ -347,7 +363,12 @@
             "long_reg": false,
             "name": "VINDPM",
             "description": "Input Voltage Limit",
-            "ha_device_class": "voltage",
+            "homeassistant": {
+                "device_class": "voltage",
+                "entity_category": "config",
+                "state_class": null,
+                "icon": null
+            },
             "type": "int",
             "unit": "mV",
             "bits": 8,
@@ -363,7 +384,12 @@
             "long_reg": true,
             "name": "IINDPM",
             "description": "Input Current Limit",
-            "ha_device_class": "current",
+            "homeassistant": {
+                "device_class": "current",
+                "entity_category": "config",
+                "state_class": null,
+                "icon": null
+            },
             "type": "int",
             "unit": "mA",
             "bits": 9,
@@ -379,6 +405,12 @@
             "long_reg": false,
             "name": "VBAT_LOWV",
             "description": "Battery voltage thresholds for fast charge (percent of VREG)",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "enum",
             "bits": 2,
             "shift": 6,
@@ -405,7 +437,12 @@
             "long_reg": false,
             "name": "IPRECHG",
             "description": "Precharge Current Limit",
-            "ha_device_class": "current",
+            "homeassistant": {
+                "device_class": "current",
+                "entity_category": "config",
+                "state_class": null,
+                "icon": null
+            },
             "type": "int",
             "unit": "mA",
             "bits": 6,
@@ -421,6 +458,12 @@
             "long_reg": false,
             "name": "REG_RST",
             "description": "Reset registers to default values and reset timer",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 6,
@@ -435,6 +478,12 @@
             "long_reg": false,
             "name": "STOP_WD_CHG",
             "description": "Defines whether a watchdog timer expiration will disable charging",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 5,
@@ -449,7 +498,12 @@
             "long_reg": false,
             "name": "ITERM",
             "description": "Termination Current Limit",
-            "ha_device_class": "current",
+            "homeassistant": {
+                "device_class": "current",
+                "entity_category": "config",
+                "state_class": null,
+                "icon": null
+            },
             "type": "int",
             "unit": "mA",
             "bits": 5,
@@ -465,6 +519,12 @@
             "long_reg": false,
             "name": "CELL",
             "description": "Battery cell count",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "enum",
             "bits": 2,
             "shift": 6,
@@ -491,7 +551,12 @@
             "long_reg": false,
             "name": "TRECHG",
             "description": "Battery recharge delay time",
-            "ha_device_class": "time",
+            "homeassistant": {
+                "device_class": "time",
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "enum",
             "bits": 2,
             "shift": 4,
@@ -518,7 +583,12 @@
             "long_reg": false,
             "name": "VRECHG",
             "description": "Battery Recharge Threshold Offset (Below VREG)",
-            "ha_device_class": "voltage",
+            "homeassistant": {
+                "device_class": "voltage",
+                "entity_category": "config",
+                "state_class": null,
+                "icon": null
+            },
             "type": "int",
             "unit": "mV",
             "bits": 4,
@@ -534,7 +604,12 @@
             "long_reg": true,
             "name": "VOTG",
             "description": "OTG mode regulation voltage",
-            "ha_device_class": "voltage",
+            "homeassistant": {
+                "device_class": "voltage",
+                "entity_category": "config",
+                "state_class": null,
+                "icon": null
+            },
             "type": "int",
             "unit": "mV",
             "bits": 11,
@@ -550,6 +625,12 @@
             "long_reg": false,
             "name": "PRECHG_TMR",
             "description": "Pre-charge safety timer setting",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "enum",
             "bits": 1,
             "shift": 7,
@@ -572,7 +653,12 @@
             "long_reg": false,
             "name": "IOTG",
             "description": "OTG current limit",
-            "ha_device_class": "current",
+            "homeassistant": {
+                "device_class": "current",
+                "entity_category": "config",
+                "state_class": null,
+                "icon": null
+            },
             "type": "int",
             "unit": "mA",
             "bits": 7,
@@ -588,6 +674,12 @@
             "long_reg": false,
             "name": "TOPOFF_TMR",
             "description": "Top-off timer control",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "enum",
             "bits": 2,
             "shift": 6,
@@ -614,6 +706,12 @@
             "long_reg": false,
             "name": "EN_TRICHG_TMR",
             "description": "Trickle charge timer enable",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 5,
@@ -628,6 +726,12 @@
             "long_reg": false,
             "name": "EN_PRECHG_TMR",
             "description": "Precharge timer enable",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 4,
@@ -642,6 +746,12 @@
             "long_reg": false,
             "name": "EN_CHG_TMR",
             "description": "Fast charge timer enable",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 3,
@@ -656,6 +766,12 @@
             "long_reg": false,
             "name": "CHG_TMR",
             "description": "Fast charge timer setting",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "enum",
             "bits": 2,
             "shift": 1,
@@ -682,6 +798,12 @@
             "long_reg": false,
             "name": "TMR2X_EN",
             "description": "2x slower charging in DPM enable",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 0,
@@ -696,6 +818,12 @@
             "long_reg": false,
             "name": "EN_AUTO_IBATDIS",
             "description": "Enable the auto battery discharging during the battery OVP fault",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 7,
@@ -710,6 +838,12 @@
             "long_reg": false,
             "name": "FORCE_IBATDIS",
             "description": "Force the battery discharging current",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 6,
@@ -724,6 +858,12 @@
             "long_reg": false,
             "name": "EN_CHG",
             "description": "Enable the charger",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 5,
@@ -738,6 +878,12 @@
             "long_reg": false,
             "name": "EN_ICO",
             "description": "Enable the ICO (Input Current Optimizer)",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 4,
@@ -752,6 +898,12 @@
             "long_reg": false,
             "name": "FORCE_ICO",
             "description": "Force the ICO (Input Current Optimizer)",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 3,
@@ -766,6 +918,12 @@
             "long_reg": false,
             "name": "EN_HIZ",
             "description": "Enable the high impedance mode",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 2,
@@ -780,6 +938,12 @@
             "long_reg": false,
             "name": "EN_TERM",
             "description": "Enable the termination",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 1,
@@ -794,6 +958,12 @@
             "long_reg": false,
             "name": "EN_BACKUP",
             "description": "Enable the backup (auto OTG) mode",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 0,
@@ -808,6 +978,12 @@
             "long_reg": false,
             "name": "VBUS_BACKUP",
             "description": "The thresholds to trigger the backup mode, defined as a ratio of VINDPM",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "enum",
             "bits": 2,
             "shift": 6,
@@ -834,6 +1010,12 @@
             "long_reg": false,
             "name": "VAC_OVP",
             "description": "Over voltage protection thresholds (SLUSDV2C register table 7-26 and revision history: code 1 is 18V)",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "enum",
             "bits": 2,
             "shift": 4,
@@ -860,6 +1042,12 @@
             "long_reg": false,
             "name": "WD_RST",
             "description": "I2C watch dog timer reset",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 3,
@@ -874,6 +1062,12 @@
             "long_reg": false,
             "name": "WATCHDOG",
             "description": "Watchdog timer settings",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "enum",
             "bits": 3,
             "shift": 0,
@@ -908,6 +1102,12 @@
             "long_reg": false,
             "name": "FORCE_INDET",
             "description": "Force D+/D- detection",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 7,
@@ -922,6 +1122,12 @@
             "long_reg": false,
             "name": "AUTO_INDET_EN",
             "description": "Enable automatic D+/D- detection",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 6,
@@ -936,6 +1142,12 @@
             "long_reg": false,
             "name": "EN_12V",
             "description": "Enable 12V output in HVDCP",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 5,
@@ -950,6 +1162,12 @@
             "long_reg": false,
             "name": "EN_9V",
             "description": "Enable 9V output in HVDCP",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 4,
@@ -964,6 +1182,12 @@
             "long_reg": false,
             "name": "HVDCP_EN",
             "description": "Enable HVDCP (High Voltage Device Charging Protocol)",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 3,
@@ -978,6 +1202,12 @@
             "long_reg": false,
             "name": "SDRV_CTRL",
             "description": "Enable external Ship FET control",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "enum",
             "bits": 2,
             "shift": 1,
@@ -1004,6 +1234,12 @@
             "long_reg": false,
             "name": "SDRV_DLY",
             "description": "Delay for SDRV control",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "enum",
             "bits": 1,
             "shift": 0,
@@ -1026,6 +1262,12 @@
             "long_reg": false,
             "name": "DIS_ACDRV",
             "description": "Disable both AC1 and AC2 drivers",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 7,
@@ -1040,6 +1282,12 @@
             "long_reg": false,
             "name": "EN_OTG",
             "description": "Enable OTG mode",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 6,
@@ -1054,6 +1302,12 @@
             "long_reg": false,
             "name": "PFM_OTG_DIS",
             "description": "Disable PFM in OTG mode",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 5,
@@ -1068,6 +1322,12 @@
             "long_reg": false,
             "name": "PFM_FWD_DIS",
             "description": "Disable PFM in forward mode",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 4,
@@ -1082,6 +1342,12 @@
             "long_reg": false,
             "name": "WKUP_DLY",
             "description": "Wakeup (Ship FET) delay",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "enum",
             "bits": 1,
             "shift": 3,
@@ -1104,6 +1370,12 @@
             "long_reg": false,
             "name": "DIS_LDO",
             "description": "Disable BATFET LDO mode in precharge state",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 2,
@@ -1118,6 +1390,12 @@
             "long_reg": false,
             "name": "DIS_OTG_OOA",
             "description": "Disable OOA in OTG mode",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 1,
@@ -1132,6 +1410,12 @@
             "long_reg": false,
             "name": "DIS_FWD_OOA",
             "description": "Disable OOA in forward mode",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 0,
@@ -1146,6 +1430,12 @@
             "long_reg": false,
             "name": "EN_ACDRV2",
             "description": "Enable AC2 gate driver control",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 7,
@@ -1160,6 +1450,12 @@
             "long_reg": false,
             "name": "EN_ACDRV1",
             "description": "Enable AC1 gate driver control",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 6,
@@ -1174,6 +1470,12 @@
             "long_reg": false,
             "name": "PWM_FREQ",
             "description": "PWM frequency setting",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "enum",
             "bits": 1,
             "shift": 5,
@@ -1196,6 +1498,12 @@
             "long_reg": false,
             "name": "DIS_STAT",
             "description": "Disable STAT pin output",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 4,
@@ -1210,6 +1518,12 @@
             "long_reg": false,
             "name": "DIS_VSYS_SHORT",
             "description": "Disable VSYS short hiccup protection",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 3,
@@ -1224,6 +1538,12 @@
             "long_reg": false,
             "name": "DIS_VOTG_UVP",
             "description": "Disable VOTG under voltage hiccup protection",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 2,
@@ -1238,6 +1558,12 @@
             "long_reg": false,
             "name": "FORCE_VINDPM_DET",
             "description": "Force VINDPM detection (settable only when VBAT>VSYSMIN)",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 1,
@@ -1252,6 +1578,12 @@
             "long_reg": false,
             "name": "EN_IBUS_OCP",
             "description": "Enable input over current protection in forward mode",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 0,
@@ -1266,6 +1598,12 @@
             "long_reg": false,
             "name": "SFET_PRESENT",
             "description": "Ship FET present",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 7,
@@ -1280,6 +1618,12 @@
             "long_reg": false,
             "name": "EN_IBAT",
             "description": "Enable battery discharge current sensing",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 5,
@@ -1294,6 +1638,12 @@
             "long_reg": false,
             "name": "IBAT_REG",
             "description": "Battery discharge current regulation in OTG mode",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "enum",
             "bits": 2,
             "shift": 3,
@@ -1320,6 +1670,12 @@
             "long_reg": false,
             "name": "EN_IINDPM",
             "description": "Enable input current regulation",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 2,
@@ -1334,6 +1690,12 @@
             "long_reg": false,
             "name": "EN_EXTILIM",
             "description": "Enable external ILIM_HIZ pin current regulation",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 1,
@@ -1348,6 +1710,12 @@
             "long_reg": false,
             "name": "EN_BATOC",
             "description": "Enable battery discharging over current protection",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 0,
@@ -1362,6 +1730,12 @@
             "long_reg": false,
             "name": "VOC_PCT",
             "description": "Set VINDPM as a percentage of the VBUS open circuit voltage when the VOC measurement is done",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "enum",
             "bits": 3,
             "shift": 5,
@@ -1396,6 +1770,12 @@
             "long_reg": false,
             "name": "VOC_DLY",
             "description": "After the converter stops switching, the time delay before the VOC is measured",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "enum",
             "bits": 2,
             "shift": 3,
@@ -1422,6 +1802,12 @@
             "long_reg": false,
             "name": "VOC_RATE",
             "description": "The time interval between two consecutive VOC measurements",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "enum",
             "bits": 2,
             "shift": 1,
@@ -1448,6 +1834,12 @@
             "long_reg": false,
             "name": "EN_MPPT",
             "description": "Enable MPPT (Maximum Power Point Tracking)",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 0,
@@ -1462,6 +1854,12 @@
             "long_reg": false,
             "name": "TREG",
             "description": "Thermal regulation thresholds",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "enum",
             "bits": 2,
             "shift": 6,
@@ -1488,6 +1886,12 @@
             "long_reg": false,
             "name": "TSHUT",
             "description": "Thermal shutdown thresholds",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "enum",
             "bits": 2,
             "shift": 4,
@@ -1514,6 +1918,12 @@
             "long_reg": false,
             "name": "VBUS_PD_EN",
             "description": "Enable VBUS pull down resistor (6 kOhm)",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 3,
@@ -1528,6 +1938,12 @@
             "long_reg": false,
             "name": "VAC1_PD_EN",
             "description": "Enable VAC1 pull down resistor",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 2,
@@ -1542,6 +1958,12 @@
             "long_reg": false,
             "name": "VAC2_PD_EN",
             "description": "Enable VAC2 pull down resistor",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 1,
@@ -1556,6 +1978,12 @@
             "long_reg": false,
             "name": "BKUP_ACFET1_ON",
             "description": "Enable ACFET1 in backup mode (exit backup mode)",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 0,
@@ -1570,6 +1998,12 @@
             "long_reg": false,
             "name": "JEITA_VSET",
             "description": "JEITA high temperature range (TWARN - THOT) charge voltage setting",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "enum",
             "bits": 3,
             "shift": 5,
@@ -1604,6 +2038,12 @@
             "long_reg": false,
             "name": "JEITA_ISETH",
             "description": "JEITA high temperature range (TWARN - THOT) charge current setting",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "enum",
             "bits": 2,
             "shift": 3,
@@ -1630,6 +2070,12 @@
             "long_reg": false,
             "name": "JEITA_ISETC",
             "description": "JEITA low temperature range (TCOLD - TWARN) charge current setting",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "enum",
             "bits": 2,
             "shift": 1,
@@ -1656,6 +2102,12 @@
             "long_reg": false,
             "name": "TS_COOL",
             "description": "JEITA VT2 comparator voltage rising thresholds as a percentage of REGN. (temperatures assume 103AT NTC, RT1=5.24kOhm and RT2=30.31kOhm)",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "enum",
             "bits": 2,
             "shift": 6,
@@ -1682,6 +2134,12 @@
             "long_reg": false,
             "name": "TS_WARM",
             "description": "JEITA VT3 comparator voltage falling thresholds as a percentage of REGN. (temperatures assume 103AT NTC, RT1=5.24kOhm and RT2=30.31kOhm)",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "enum",
             "bits": 2,
             "shift": 4,
@@ -1708,6 +2166,12 @@
             "long_reg": false,
             "name": "BHOT",
             "description": "OTG mode TS HOT temperature threshold",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "enum",
             "bits": 2,
             "shift": 2,
@@ -1734,6 +2198,12 @@
             "long_reg": false,
             "name": "BCOLD",
             "description": "OTG mode TS COLD temperature threshold",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "enum",
             "bits": 1,
             "shift": 1,
@@ -1756,6 +2226,12 @@
             "long_reg": false,
             "name": "TS_IGNORE",
             "description": "Ignore TS detection (the charger considers the TS is always good)",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 0,
@@ -1770,6 +2246,12 @@
             "long_reg": true,
             "name": "ICO_ILIM",
             "description": "Input Current Limit obtained from ICO or ILIM_HIZ pin setting",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": "mdi:information-outline"
+            },
             "type": "int",
             "unit": "mA",
             "bits": 9,
@@ -1785,6 +2267,12 @@
             "long_reg": false,
             "name": "IINDPM_STAT",
             "description": "IINDPM status (forward mode) or IOTG status (OTG mode)",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": "mdi:information-outline"
+            },
             "type": "enum",
             "bits": 1,
             "shift": 7,
@@ -1807,6 +2295,12 @@
             "long_reg": false,
             "name": "VINDPM_STAT",
             "description": "VINDPM status (forward mode) or VOTG status (OTG mode)",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": "mdi:information-outline"
+            },
             "type": "enum",
             "bits": 1,
             "shift": 6,
@@ -1829,6 +2323,12 @@
             "long_reg": false,
             "name": "WD_STAT",
             "description": "Watchdog timer status",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": "mdi:information-outline"
+            },
             "type": "enum",
             "bits": 1,
             "shift": 5,
@@ -1851,6 +2351,12 @@
             "long_reg": false,
             "name": "PG_STAT",
             "description": "Power good status",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": "mdi:information-outline"
+            },
             "type": "enum",
             "bits": 1,
             "shift": 3,
@@ -1873,6 +2379,12 @@
             "long_reg": false,
             "name": "AC2_PRESENT_STAT",
             "description": "VAC2 present status",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": "mdi:information-outline"
+            },
             "type": "enum",
             "bits": 1,
             "shift": 2,
@@ -1895,6 +2407,12 @@
             "long_reg": false,
             "name": "AC1_PRESENT_STAT",
             "description": "VAC1 present status",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": "mdi:information-outline"
+            },
             "type": "enum",
             "bits": 1,
             "shift": 1,
@@ -1917,6 +2435,12 @@
             "long_reg": false,
             "name": "VBUS_PRESENT_STAT",
             "description": "VBUS present status",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": "mdi:information-outline"
+            },
             "type": "enum",
             "bits": 1,
             "shift": 0,
@@ -1939,7 +2463,12 @@
             "long_reg": false,
             "name": "CHG_STAT",
             "description": "Charge Status bits",
-            "ha_device_class": "status",
+            "homeassistant": {
+                "device_class": "status",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": "mdi:information-outline"
+            },
             "type": "enum",
             "bits": 3,
             "shift": 5,
@@ -1974,7 +2503,12 @@
             "long_reg": false,
             "name": "VBUS_STAT",
             "description": "VBUS status bits",
-            "ha_device_class": "status",
+            "homeassistant": {
+                "device_class": "status",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": "mdi:information-outline"
+            },
             "type": "enum",
             "bits": 4,
             "shift": 1,
@@ -2025,6 +2559,12 @@
             "long_reg": false,
             "name": "BC12_DONE_STAT",
             "description": "BC1.2 detection done status",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": "mdi:information-outline"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 0,
@@ -2039,6 +2579,12 @@
             "long_reg": false,
             "name": "ICO_STAT",
             "description": "Input Current Optimizer (ICO) status",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": "mdi:information-outline"
+            },
             "type": "enum",
             "bits": 2,
             "shift": 6,
@@ -2065,6 +2611,12 @@
             "long_reg": false,
             "name": "TREG_STAT",
             "description": "IC thermal regulation status",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": "mdi:information-outline"
+            },
             "type": "enum",
             "bits": 1,
             "shift": 2,
@@ -2087,6 +2639,12 @@
             "long_reg": false,
             "name": "DPDM_STAT",
             "description": "D+/D- detection status",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": "mdi:information-outline"
+            },
             "type": "enum",
             "bits": 1,
             "shift": 1,
@@ -2109,6 +2667,12 @@
             "long_reg": false,
             "name": "VBAT_PRESENT_STAT",
             "description": "Battery present status",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": "mdi:information-outline"
+            },
             "type": "enum",
             "bits": 1,
             "shift": 0,
@@ -2131,7 +2695,12 @@
             "long_reg": false,
             "name": "ACRB2_STAT",
             "description": "The ACFET2-RBFET2 presence status",
-            "ha_device_class": "status",
+            "homeassistant": {
+                "device_class": "status",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": "mdi:information-outline"
+            },
             "type": "enum",
             "bits": 1,
             "shift": 7,
@@ -2154,7 +2723,12 @@
             "long_reg": false,
             "name": "ACRB1_STAT",
             "description": "The ACFET1-RBFET1 presence status",
-            "ha_device_class": "status",
+            "homeassistant": {
+                "device_class": "status",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": "mdi:information-outline"
+            },
             "type": "enum",
             "bits": 1,
             "shift": 6,
@@ -2177,7 +2751,12 @@
             "long_reg": false,
             "name": "ADC_DONE_STAT",
             "description": "ADC Conversion Status",
-            "ha_device_class": "status",
+            "homeassistant": {
+                "device_class": "status",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": "mdi:information-outline"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 5,
@@ -2192,7 +2771,12 @@
             "long_reg": false,
             "name": "VSYS_STAT",
             "description": "VSYS Regulation Status",
-            "ha_device_class": "status",
+            "homeassistant": {
+                "device_class": "status",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": "mdi:information-outline"
+            },
             "type": "enum",
             "bits": 1,
             "shift": 4,
@@ -2215,7 +2799,12 @@
             "long_reg": false,
             "name": "CHG_TMR_STAT",
             "description": "Fast charge timer status",
-            "ha_device_class": "status",
+            "homeassistant": {
+                "device_class": "status",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": "mdi:information-outline"
+            },
             "type": "enum",
             "bits": 1,
             "shift": 3,
@@ -2238,7 +2827,12 @@
             "long_reg": false,
             "name": "TRICHG_TMR_STAT",
             "description": "Trickle charge timer status",
-            "ha_device_class": "status",
+            "homeassistant": {
+                "device_class": "status",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": "mdi:information-outline"
+            },
             "type": "enum",
             "bits": 1,
             "shift": 2,
@@ -2261,7 +2855,12 @@
             "long_reg": false,
             "name": "PRECHG_TMR_STAT",
             "description": "Pre-charge timer status",
-            "ha_device_class": "status",
+            "homeassistant": {
+                "device_class": "status",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": "mdi:information-outline"
+            },
             "type": "enum",
             "bits": 1,
             "shift": 1,
@@ -2284,7 +2883,12 @@
             "long_reg": false,
             "name": "VBATOTG_LOW_STAT",
             "description": "The battery voltage is too low to enable OTG mode",
-            "ha_device_class": "status",
+            "homeassistant": {
+                "device_class": "status",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": "mdi:information-outline"
+            },
             "type": "enum",
             "bits": 1,
             "shift": 4,
@@ -2307,7 +2911,12 @@
             "long_reg": false,
             "name": "TS_COLD_STAT",
             "description": "The TS temperature is in the cold range",
-            "ha_device_class": "temperature",
+            "homeassistant": {
+                "device_class": "temperature",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": null
+            },
             "type": "enum",
             "bits": 1,
             "shift": 3,
@@ -2330,7 +2939,12 @@
             "long_reg": false,
             "name": "TS_COOL_STAT",
             "description": "The TS temperature is in the cool range",
-            "ha_device_class": "temperature",
+            "homeassistant": {
+                "device_class": "temperature",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": null
+            },
             "type": "enum",
             "bits": 1,
             "shift": 2,
@@ -2353,7 +2967,12 @@
             "long_reg": false,
             "name": "TS_WARM_STAT",
             "description": "The TS temperature is in the warm range",
-            "ha_device_class": "temperature",
+            "homeassistant": {
+                "device_class": "temperature",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": null
+            },
             "type": "enum",
             "bits": 1,
             "shift": 1,
@@ -2376,7 +2995,12 @@
             "long_reg": false,
             "name": "TS_HOT_STAT",
             "description": "The TS temperature is in the hot range",
-            "ha_device_class": "temperature",
+            "homeassistant": {
+                "device_class": "temperature",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": null
+            },
             "type": "enum",
             "bits": 1,
             "shift": 0,
@@ -2399,7 +3023,12 @@
             "long_reg": false,
             "name": "IBAT_REG_STAT",
             "description": "In battery discharging current regulation",
-            "ha_device_class": "status",
+            "homeassistant": {
+                "device_class": "status",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": "mdi:information-outline"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 7,
@@ -2414,7 +3043,12 @@
             "long_reg": false,
             "name": "VBUS_OVP_STAT",
             "description": "VBUS over-voltage status",
-            "ha_device_class": "status",
+            "homeassistant": {
+                "device_class": "status",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": "mdi:information-outline"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 6,
@@ -2429,7 +3063,12 @@
             "long_reg": false,
             "name": "VBAT_OVP_STAT",
             "description": "VBAT over-voltage status",
-            "ha_device_class": "status",
+            "homeassistant": {
+                "device_class": "status",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": "mdi:information-outline"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 5,
@@ -2444,7 +3083,12 @@
             "long_reg": false,
             "name": "IBUS_OCP_STAT",
             "description": "IBUS over-current status",
-            "ha_device_class": "status",
+            "homeassistant": {
+                "device_class": "status",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": "mdi:information-outline"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 4,
@@ -2459,7 +3103,12 @@
             "long_reg": false,
             "name": "IBAT_OCP_STAT",
             "description": "IBAT over-current status",
-            "ha_device_class": "status",
+            "homeassistant": {
+                "device_class": "status",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": "mdi:information-outline"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 3,
@@ -2474,7 +3123,12 @@
             "long_reg": false,
             "name": "CONV_OCP_STAT",
             "description": "Converter over-current status",
-            "ha_device_class": "status",
+            "homeassistant": {
+                "device_class": "status",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": "mdi:information-outline"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 2,
@@ -2489,7 +3143,12 @@
             "long_reg": false,
             "name": "VAC2_OVP_STAT",
             "description": "VAC2 over-voltage status",
-            "ha_device_class": "status",
+            "homeassistant": {
+                "device_class": "status",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": "mdi:information-outline"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 1,
@@ -2504,7 +3163,12 @@
             "long_reg": false,
             "name": "VAC1_OVP_STAT",
             "description": "VAC1 over-voltage status",
-            "ha_device_class": "status",
+            "homeassistant": {
+                "device_class": "status",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": "mdi:information-outline"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 0,
@@ -2519,6 +3183,12 @@
             "long_reg": false,
             "name": "VSYS_SHORT_STAT",
             "description": "VSYS short circuit status",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": "mdi:information-outline"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 7,
@@ -2533,6 +3203,12 @@
             "long_reg": false,
             "name": "VSYS_OVP_STAT",
             "description": "VSYS over-voltage status",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": "mdi:information-outline"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 6,
@@ -2547,6 +3223,12 @@
             "long_reg": false,
             "name": "OTG_OVP_STAT",
             "description": "OTG over-voltage status",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": "mdi:information-outline"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 5,
@@ -2561,6 +3243,12 @@
             "long_reg": false,
             "name": "OTG_UVP_STAT",
             "description": "OTG under-voltage status",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": "mdi:information-outline"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 4,
@@ -2575,6 +3263,12 @@
             "long_reg": false,
             "name": "TSHUT_STAT",
             "description": "IC thermal shutdown status",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": "mdi:information-outline"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 2,
@@ -2589,9 +3283,14 @@
             "long_reg": false,
             "name": "IINDPM_FLAG",
             "description": "IINDPM / IOTG flag",
+            "homeassistant": {
+                "device_class": "",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": "mdi:flag"
+            },
             "is_flag": true,
             "flag_on_text": "IINDPM / IOTG signal rising edge detected",
-            "ha_device_class": "",
             "type": "bool",
             "bits": 1,
             "shift": 7,
@@ -2606,9 +3305,14 @@
             "long_reg": false,
             "name": "VINDPM_FLAG",
             "description": "VINDPM / VOTG Flag",
+            "homeassistant": {
+                "device_class": "",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": "mdi:flag"
+            },
             "is_flag": true,
             "flag_on_text": "VINDPM / VOTG regulation signal rising edge detected",
-            "ha_device_class": "",
             "type": "bool",
             "bits": 1,
             "shift": 6,
@@ -2623,9 +3327,14 @@
             "long_reg": false,
             "name": "WD_FLAG",
             "description": "I2C watchdog timer flag",
+            "homeassistant": {
+                "device_class": "problem",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": null
+            },
             "is_flag": true,
             "flag_on_text": "WD timer signal rising edge detected",
-            "ha_device_class": "problem",
             "type": "bool",
             "bits": 1,
             "shift": 5,
@@ -2640,9 +3349,14 @@
             "long_reg": false,
             "name": "POORSRC_FLAG",
             "description": "Poor source detection flag",
+            "homeassistant": {
+                "device_class": "problem",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": null
+            },
             "is_flag": true,
             "flag_on_text": "Poor source status rising edge detected",
-            "ha_device_class": "problem",
             "type": "bool",
             "bits": 1,
             "shift": 4,
@@ -2657,9 +3371,14 @@
             "long_reg": false,
             "name": "PG_FLAG",
             "description": "Poor source detection flag",
+            "homeassistant": {
+                "device_class": "power",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": null
+            },
             "is_flag": true,
             "flag_on_text": "Poor source status rising edge detected",
-            "ha_device_class": "power",
             "type": "bool",
             "bits": 1,
             "shift": 3,
@@ -2674,9 +3393,14 @@
             "long_reg": false,
             "name": "AC2_PRESENT_FLAG",
             "description": "VAC2 present flag",
+            "homeassistant": {
+                "device_class": "power",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": null
+            },
             "is_flag": true,
             "flag_on_text": "VAC2 present status changed",
-            "ha_device_class": "power",
             "type": "bool",
             "bits": 1,
             "shift": 2,
@@ -2691,9 +3415,14 @@
             "long_reg": false,
             "name": "AC1_PRESENT_FLAG",
             "description": "VAC1 present flag",
+            "homeassistant": {
+                "device_class": "power",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": null
+            },
             "is_flag": true,
             "flag_on_text": "VAC1 present status changed",
-            "ha_device_class": "power",
             "type": "bool",
             "bits": 1,
             "shift": 1,
@@ -2708,9 +3437,14 @@
             "long_reg": false,
             "name": "VBUS_PRESENT_FLAG",
             "description": "VBUS present flag",
+            "homeassistant": {
+                "device_class": "power",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": null
+            },
             "is_flag": true,
             "flag_on_text": "VBUS present status changed",
-            "ha_device_class": "power",
             "type": "bool",
             "bits": 1,
             "shift": 0,
@@ -2725,9 +3459,14 @@
             "long_reg": false,
             "name": "CHG_FLAG",
             "description": "Charge status flag",
+            "homeassistant": {
+                "device_class": "power",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": null
+            },
             "is_flag": true,
             "flag_on_text": "Charge status changed",
-            "ha_device_class": "power",
             "type": "bool",
             "bits": 1,
             "shift": 7,
@@ -2742,9 +3481,14 @@
             "long_reg": false,
             "name": "ICO_FLAG",
             "description": "ICO status flag",
+            "homeassistant": {
+                "device_class": "power",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": null
+            },
             "is_flag": true,
             "flag_on_text": "ICO status changed",
-            "ha_device_class": "power",
             "type": "bool",
             "bits": 1,
             "shift": 6,
@@ -2759,9 +3503,14 @@
             "long_reg": false,
             "name": "VBUS_FLAG",
             "description": "VBUS status flag",
+            "homeassistant": {
+                "device_class": "power",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": null
+            },
             "is_flag": true,
             "flag_on_text": "VBUS status changed",
-            "ha_device_class": "power",
             "type": "bool",
             "bits": 1,
             "shift": 4,
@@ -2776,9 +3525,14 @@
             "long_reg": false,
             "name": "TREG_FLAG",
             "description": "IC thermal regulation flag",
+            "homeassistant": {
+                "device_class": "problem",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": null
+            },
             "is_flag": true,
             "flag_on_text": "TREG signal rising threshold detected",
-            "ha_device_class": "problem",
             "type": "bool",
             "bits": 1,
             "shift": 2,
@@ -2793,9 +3547,14 @@
             "long_reg": false,
             "name": "VBAT_PRESENT_FLAG",
             "description": "VBAT present flag",
+            "homeassistant": {
+                "device_class": "battery",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": null
+            },
             "is_flag": true,
             "flag_on_text": "VBAT present status changed",
-            "ha_device_class": "battery",
             "type": "bool",
             "bits": 1,
             "shift": 1,
@@ -2810,9 +3569,14 @@
             "long_reg": false,
             "name": "BC1_2_DONE_FLAG",
             "description": "BC1.2 status Flag",
+            "homeassistant": {
+                "device_class": "",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": "mdi:flag"
+            },
             "is_flag": true,
             "flag_on_text": "BC1.2 detection status changed",
-            "ha_device_class": "",
             "type": "bool",
             "bits": 1,
             "shift": 0,
@@ -2827,9 +3591,14 @@
             "long_reg": false,
             "name": "DPDM_DONE_FLAG",
             "description": "D+/D- detection is done flag.",
+            "homeassistant": {
+                "device_class": "",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": "mdi:flag"
+            },
             "is_flag": true,
             "flag_on_text": "D+/D- detection is completed",
-            "ha_device_class": "",
             "type": "bool",
             "bits": 1,
             "shift": 6,
@@ -2844,9 +3613,14 @@
             "long_reg": false,
             "name": "ADC_DONE_FLAG",
             "description": "ADC conversion flag (only in one-shot mode)",
+            "homeassistant": {
+                "device_class": "",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": "mdi:flag"
+            },
             "is_flag": true,
             "flag_on_text": "Conversion completed",
-            "ha_device_class": "",
             "type": "bool",
             "bits": 1,
             "shift": 5,
@@ -2861,9 +3635,14 @@
             "long_reg": false,
             "name": "VSYS_FLAG",
             "description": "VSYSMIN regulation flag",
+            "homeassistant": {
+                "device_class": "problem",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": null
+            },
             "is_flag": true,
             "flag_on_text": "Entered or existed VSYSMIN regulation",
-            "ha_device_class": "problem",
             "type": "bool",
             "bits": 1,
             "shift": 4,
@@ -2878,9 +3657,14 @@
             "long_reg": false,
             "name": "CHG_TMR_FLAG",
             "description": "Fast charge timer flag",
+            "homeassistant": {
+                "device_class": "problem",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": null
+            },
             "is_flag": true,
             "flag_on_text": "Fast charge timer expired rising edge detected",
-            "ha_device_class": "problem",
             "type": "bool",
             "bits": 1,
             "shift": 3,
@@ -2895,9 +3679,14 @@
             "long_reg": false,
             "name": "TRICHG_TMR_FLAG",
             "description": "Trickle charge timer flag",
+            "homeassistant": {
+                "device_class": "problem",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": null
+            },
             "is_flag": true,
             "flag_on_text": "Trickle charger timer expired rising edge detected",
-            "ha_device_class": "problem",
             "type": "bool",
             "bits": 1,
             "shift": 2,
@@ -2912,9 +3701,14 @@
             "long_reg": false,
             "name": "PRECHG_TMR_FLAG",
             "description": "Pre-charge timer flag",
+            "homeassistant": {
+                "device_class": "problem",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": null
+            },
             "is_flag": true,
             "flag_on_text": "Pre-charge timer expired rising edge detected",
-            "ha_device_class": "problem",
             "type": "bool",
             "bits": 1,
             "shift": 1,
@@ -2929,9 +3723,14 @@
             "long_reg": false,
             "name": "TOPOFF_TMR_FLAG",
             "description": "Top off timer flag",
+            "homeassistant": {
+                "device_class": "problem",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": null
+            },
             "is_flag": true,
             "flag_on_text": "Top off timer expired rising edge detected",
-            "ha_device_class": "problem",
             "type": "bool",
             "bits": 1,
             "shift": 0,
@@ -2946,9 +3745,14 @@
             "long_reg": false,
             "name": "VBATOTG_LOW_FLAG",
             "description": "VBAT too low to enable OTG flag",
+            "homeassistant": {
+                "device_class": "problem",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": null
+            },
             "is_flag": true,
             "flag_on_text": "VBAT falls below the threshold to enable the OTG mode",
-            "ha_device_class": "problem",
             "type": "bool",
             "bits": 1,
             "shift": 4,
@@ -2963,9 +3767,14 @@
             "long_reg": false,
             "name": "TS_COLD_FLAG",
             "description": "TS cold temperature flag",
+            "homeassistant": {
+                "device_class": "problem",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": null
+            },
             "is_flag": true,
             "flag_on_text": "TS across cold temperature (T1) is detected",
-            "ha_device_class": "problem",
             "type": "bool",
             "bits": 1,
             "shift": 3,
@@ -2980,9 +3789,14 @@
             "long_reg": false,
             "name": "TS_COOL_FLAG",
             "description": "TS cool temperature flag",
+            "homeassistant": {
+                "device_class": "problem",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": null
+            },
             "is_flag": true,
             "flag_on_text": "TS across cool temperature (T2) is detected",
-            "ha_device_class": "problem",
             "type": "bool",
             "bits": 1,
             "shift": 2,
@@ -2997,9 +3811,14 @@
             "long_reg": false,
             "name": "TS_WARM_FLAG",
             "description": "TS warm temperature flag",
+            "homeassistant": {
+                "device_class": "problem",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": null
+            },
             "is_flag": true,
             "flag_on_text": "TS across warm temperature (T3) is detected",
-            "ha_device_class": "problem",
             "type": "bool",
             "bits": 1,
             "shift": 1,
@@ -3014,9 +3833,14 @@
             "long_reg": false,
             "name": "TS_HOT_FLAG",
             "description": "TS hot temperature flag",
+            "homeassistant": {
+                "device_class": "problem",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": null
+            },
             "is_flag": true,
             "flag_on_text": "TS across hot temperature (T5) is detected",
-            "ha_device_class": "problem",
             "type": "bool",
             "bits": 1,
             "shift": 0,
@@ -3031,9 +3855,14 @@
             "long_reg": false,
             "name": "IBAT_REG_FLAG",
             "description": "IBAT regulation flag",
+            "homeassistant": {
+                "device_class": "battery",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": null
+            },
             "is_flag": true,
             "flag_on_text": "Enter or exit IBAT regulation",
-            "ha_device_class": "battery",
             "type": "bool",
             "bits": 1,
             "shift": 7,
@@ -3048,9 +3877,14 @@
             "long_reg": false,
             "name": "VBUS_OVP_FLAG",
             "description": "VBUS over-voltage flag",
+            "homeassistant": {
+                "device_class": "problem",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": null
+            },
             "is_flag": true,
             "flag_on_text": "Enter VBUS OVP",
-            "ha_device_class": "problem",
             "type": "bool",
             "bits": 1,
             "shift": 6,
@@ -3065,9 +3899,14 @@
             "long_reg": false,
             "name": "VBAT_OVP_FLAG",
             "description": "VBAT over-voltage flag",
+            "homeassistant": {
+                "device_class": "problem",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": null
+            },
             "is_flag": true,
             "flag_on_text": "Enter VBAT OVP",
-            "ha_device_class": "problem",
             "type": "bool",
             "bits": 1,
             "shift": 5,
@@ -3082,9 +3921,14 @@
             "long_reg": false,
             "name": "IBUS_OCP_FLAG",
             "description": "IBUS over-current flag",
+            "homeassistant": {
+                "device_class": "problem",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": null
+            },
             "is_flag": true,
             "flag_on_text": "Enter IBUS OCP",
-            "ha_device_class": "problem",
             "type": "bool",
             "bits": 1,
             "shift": 4,
@@ -3099,9 +3943,14 @@
             "long_reg": false,
             "name": "IBAT_OCP_FLAG",
             "description": "IBAT over-current flag",
+            "homeassistant": {
+                "device_class": "problem",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": null
+            },
             "is_flag": true,
             "flag_on_text": "Enter discharged OCP",
-            "ha_device_class": "problem",
             "type": "bool",
             "bits": 1,
             "shift": 3,
@@ -3116,9 +3965,14 @@
             "long_reg": false,
             "name": "CONV_OCP_FLAG",
             "description": "Converter over-current flag",
+            "homeassistant": {
+                "device_class": "problem",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": null
+            },
             "is_flag": true,
             "flag_on_text": "Enter converter OCP",
-            "ha_device_class": "problem",
             "type": "bool",
             "bits": 1,
             "shift": 2,
@@ -3133,9 +3987,14 @@
             "long_reg": false,
             "name": "VAC2_OVP_FLAG",
             "description": "VAC2 over-voltage flag",
+            "homeassistant": {
+                "device_class": "problem",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": null
+            },
             "is_flag": true,
             "flag_on_text": "Enter VAC2 OVP",
-            "ha_device_class": "problem",
             "type": "bool",
             "bits": 1,
             "shift": 1,
@@ -3150,9 +4009,14 @@
             "long_reg": false,
             "name": "VAC1_OVP_FLAG",
             "description": "VAC1 over-voltage flag",
+            "homeassistant": {
+                "device_class": "problem",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": null
+            },
             "is_flag": true,
             "flag_on_text": "Enter VAC1 OVP",
-            "ha_device_class": "problem",
             "type": "bool",
             "bits": 1,
             "shift": 0,
@@ -3167,9 +4031,14 @@
             "long_reg": false,
             "name": "VSYS_SHORT_FLAG",
             "description": "VSYS short circuit flag",
+            "homeassistant": {
+                "device_class": "problem",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": null
+            },
             "is_flag": true,
             "flag_on_text": "Stop switching due to system short",
-            "ha_device_class": "problem",
             "type": "bool",
             "bits": 1,
             "shift": 7,
@@ -3184,9 +4053,14 @@
             "long_reg": false,
             "name": "VSYS_OVP_FLAG",
             "description": "VSYS over-voltage flag",
+            "homeassistant": {
+                "device_class": "problem",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": null
+            },
             "is_flag": true,
             "flag_on_text": "Stop switching due to system over-voltage",
-            "ha_device_class": "problem",
             "type": "bool",
             "bits": 1,
             "shift": 6,
@@ -3201,9 +4075,14 @@
             "long_reg": false,
             "name": "OTG_OVP_FLAG",
             "description": "OTG over-voltage flag",
+            "homeassistant": {
+                "device_class": "problem",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": null
+            },
             "is_flag": true,
             "flag_on_text": "Stop OTG due to VBUS over voltage",
-            "ha_device_class": "problem",
             "type": "bool",
             "bits": 1,
             "shift": 5,
@@ -3218,9 +4097,14 @@
             "long_reg": false,
             "name": "OTG_UVP_FLAG",
             "description": "OTG under-voltage flag",
+            "homeassistant": {
+                "device_class": "problem",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": null
+            },
             "is_flag": true,
             "flag_on_text": "Stop OTG due to VBUS under-voltage",
-            "ha_device_class": "problem",
             "type": "bool",
             "bits": 1,
             "shift": 4,
@@ -3235,9 +4119,14 @@
             "long_reg": false,
             "name": "TSHUT_FLAG",
             "description": "IC thermal shutdown flag",
+            "homeassistant": {
+                "device_class": "problem",
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": null
+            },
             "is_flag": true,
             "flag_on_text": "TS shutdown signal rising threshold detected",
-            "ha_device_class": "problem",
             "type": "bool",
             "bits": 1,
             "shift": 2,
@@ -3252,6 +4141,12 @@
             "long_reg": false,
             "name": "IINDPM_MASK",
             "description": "Interrupt mask: IINDPM / IOTG regulation (0: INT enabled, 1: INT suppressed)",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "is_flag": false,
             "type": "bool",
             "bits": 1,
@@ -3267,6 +4162,12 @@
             "long_reg": false,
             "name": "VINDPM_MASK",
             "description": "Interrupt mask: VINDPM / VOTG regulation (0: INT enabled, 1: INT suppressed)",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "is_flag": false,
             "type": "bool",
             "bits": 1,
@@ -3282,6 +4183,12 @@
             "long_reg": false,
             "name": "WD_MASK",
             "description": "Interrupt mask: I2C watchdog timer (0: INT enabled, 1: INT suppressed)",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "is_flag": false,
             "type": "bool",
             "bits": 1,
@@ -3297,6 +4204,12 @@
             "long_reg": false,
             "name": "POORSRC_MASK",
             "description": "Interrupt mask: Poor source detection (0: INT enabled, 1: INT suppressed)",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "is_flag": false,
             "type": "bool",
             "bits": 1,
@@ -3312,6 +4225,12 @@
             "long_reg": false,
             "name": "PG_MASK",
             "description": "Interrupt mask: Poor source detection (0: INT enabled, 1: INT suppressed)",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "is_flag": false,
             "type": "bool",
             "bits": 1,
@@ -3327,6 +4246,12 @@
             "long_reg": false,
             "name": "AC2_PRESENT_MASK",
             "description": "Interrupt mask: VAC2 present (0: INT enabled, 1: INT suppressed)",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "is_flag": false,
             "type": "bool",
             "bits": 1,
@@ -3342,6 +4267,12 @@
             "long_reg": false,
             "name": "AC1_PRESENT_MASK",
             "description": "Interrupt mask: VAC1 present (0: INT enabled, 1: INT suppressed)",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "is_flag": false,
             "type": "bool",
             "bits": 1,
@@ -3357,6 +4288,12 @@
             "long_reg": false,
             "name": "VBUS_PRESENT_MASK",
             "description": "Interrupt mask: VBUS present (0: INT enabled, 1: INT suppressed)",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "is_flag": false,
             "type": "bool",
             "bits": 1,
@@ -3372,6 +4309,12 @@
             "long_reg": false,
             "name": "CHG_MASK",
             "description": "Interrupt mask: Charge status (0: INT enabled, 1: INT suppressed)",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "is_flag": false,
             "type": "bool",
             "bits": 1,
@@ -3387,6 +4330,12 @@
             "long_reg": false,
             "name": "ICO_MASK",
             "description": "Interrupt mask: ICO status (0: INT enabled, 1: INT suppressed)",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "is_flag": false,
             "type": "bool",
             "bits": 1,
@@ -3402,6 +4351,12 @@
             "long_reg": false,
             "name": "VBUS_MASK",
             "description": "Interrupt mask: VBUS status (0: INT enabled, 1: INT suppressed)",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "is_flag": false,
             "type": "bool",
             "bits": 1,
@@ -3417,6 +4372,12 @@
             "long_reg": false,
             "name": "TREG_MASK",
             "description": "Interrupt mask: IC thermal regulation (0: INT enabled, 1: INT suppressed)",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "is_flag": false,
             "type": "bool",
             "bits": 1,
@@ -3432,6 +4393,12 @@
             "long_reg": false,
             "name": "VBAT_PRESENT_MASK",
             "description": "Interrupt mask: VBAT present (0: INT enabled, 1: INT suppressed)",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "is_flag": false,
             "type": "bool",
             "bits": 1,
@@ -3447,6 +4414,12 @@
             "long_reg": false,
             "name": "BC1_2_DONE_MASK",
             "description": "Interrupt mask: BC1.2 status Flag (0: INT enabled, 1: INT suppressed)",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "is_flag": false,
             "type": "bool",
             "bits": 1,
@@ -3462,6 +4435,12 @@
             "long_reg": false,
             "name": "DPDM_DONE_MASK",
             "description": "Interrupt mask: D+/D- detection is done flag. (0: INT enabled, 1: INT suppressed)",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "is_flag": false,
             "type": "bool",
             "bits": 1,
@@ -3477,6 +4456,12 @@
             "long_reg": false,
             "name": "ADC_DONE_MASK",
             "description": "Interrupt mask: ADC conversion complete in one-shot mode (0: INT enabled, 1: INT suppressed)",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "is_flag": false,
             "type": "bool",
             "bits": 1,
@@ -3492,6 +4477,12 @@
             "long_reg": false,
             "name": "VSYS_MASK",
             "description": "Interrupt mask: VSYSMIN regulation (0: INT enabled, 1: INT suppressed)",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "is_flag": false,
             "type": "bool",
             "bits": 1,
@@ -3507,6 +4498,12 @@
             "long_reg": false,
             "name": "CHG_TMR_MASK",
             "description": "Interrupt mask: Fast charge timer (0: INT enabled, 1: INT suppressed)",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "is_flag": false,
             "type": "bool",
             "bits": 1,
@@ -3522,6 +4519,12 @@
             "long_reg": false,
             "name": "TRICHG_TMR_MASK",
             "description": "Interrupt mask: Trickle charge timer (0: INT enabled, 1: INT suppressed)",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "is_flag": false,
             "type": "bool",
             "bits": 1,
@@ -3537,6 +4540,12 @@
             "long_reg": false,
             "name": "PRECHG_TMR_MASK",
             "description": "Interrupt mask: Pre-charge timer (0: INT enabled, 1: INT suppressed)",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "is_flag": false,
             "type": "bool",
             "bits": 1,
@@ -3552,6 +4561,12 @@
             "long_reg": false,
             "name": "TOPOFF_TMR_MASK",
             "description": "Interrupt mask: Top off timer (0: INT enabled, 1: INT suppressed)",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "is_flag": false,
             "type": "bool",
             "bits": 1,
@@ -3567,6 +4582,12 @@
             "long_reg": false,
             "name": "VBATOTG_LOW_MASK",
             "description": "Interrupt mask: VBAT too low to enable OTG (0: INT enabled, 1: INT suppressed)",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "is_flag": false,
             "type": "bool",
             "bits": 1,
@@ -3582,6 +4603,12 @@
             "long_reg": false,
             "name": "TS_COLD_MASK",
             "description": "Interrupt mask: TS cold temperature (0: INT enabled, 1: INT suppressed)",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "is_flag": false,
             "type": "bool",
             "bits": 1,
@@ -3597,6 +4624,12 @@
             "long_reg": false,
             "name": "TS_COOL_MASK",
             "description": "Interrupt mask: TS cool temperature (0: INT enabled, 1: INT suppressed)",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "is_flag": false,
             "type": "bool",
             "bits": 1,
@@ -3612,6 +4645,12 @@
             "long_reg": false,
             "name": "TS_WARM_MASK",
             "description": "Interrupt mask: TS warm temperature (0: INT enabled, 1: INT suppressed)",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "is_flag": false,
             "type": "bool",
             "bits": 1,
@@ -3627,6 +4666,12 @@
             "long_reg": false,
             "name": "TS_HOT_MASK",
             "description": "Interrupt mask: TS hot temperature (0: INT enabled, 1: INT suppressed)",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "is_flag": false,
             "type": "bool",
             "bits": 1,
@@ -3642,6 +4687,12 @@
             "long_reg": false,
             "name": "IBAT_REG_MASK",
             "description": "Interrupt mask: IBAT regulation (0: INT enabled, 1: INT suppressed)",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "is_flag": false,
             "type": "bool",
             "bits": 1,
@@ -3657,6 +4708,12 @@
             "long_reg": false,
             "name": "VBUS_OVP_MASK",
             "description": "Interrupt mask: VBUS over-voltage (0: INT enabled, 1: INT suppressed)",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "is_flag": false,
             "type": "bool",
             "bits": 1,
@@ -3672,6 +4729,12 @@
             "long_reg": false,
             "name": "VBAT_OVP_MASK",
             "description": "Interrupt mask: VBAT over-voltage (0: INT enabled, 1: INT suppressed)",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "is_flag": false,
             "type": "bool",
             "bits": 1,
@@ -3687,6 +4750,12 @@
             "long_reg": false,
             "name": "IBUS_OCP_MASK",
             "description": "Interrupt mask: IBUS over-current (0: INT enabled, 1: INT suppressed)",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "is_flag": false,
             "type": "bool",
             "bits": 1,
@@ -3702,6 +4771,12 @@
             "long_reg": false,
             "name": "IBAT_OCP_MASK",
             "description": "Interrupt mask: IBAT over-current (0: INT enabled, 1: INT suppressed)",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "is_flag": false,
             "type": "bool",
             "bits": 1,
@@ -3717,6 +4792,12 @@
             "long_reg": false,
             "name": "CONV_OCP_MASK",
             "description": "Interrupt mask: Converter over-current (0: INT enabled, 1: INT suppressed)",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "is_flag": false,
             "type": "bool",
             "bits": 1,
@@ -3732,6 +4813,12 @@
             "long_reg": false,
             "name": "VAC2_OVP_MASK",
             "description": "Interrupt mask: VAC2 over-voltage (0: INT enabled, 1: INT suppressed)",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "is_flag": false,
             "type": "bool",
             "bits": 1,
@@ -3747,6 +4834,12 @@
             "long_reg": false,
             "name": "VAC1_OVP_MASK",
             "description": "Interrupt mask: VAC1 over-voltage (0: INT enabled, 1: INT suppressed)",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "is_flag": false,
             "type": "bool",
             "bits": 1,
@@ -3762,6 +4855,12 @@
             "long_reg": false,
             "name": "VSYS_SHORT_MASK",
             "description": "Interrupt mask: VSYS short circuit (0: INT enabled, 1: INT suppressed)",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "is_flag": false,
             "type": "bool",
             "bits": 1,
@@ -3777,6 +4876,12 @@
             "long_reg": false,
             "name": "VSYS_OVP_MASK",
             "description": "Interrupt mask: VSYS over-voltage (0: INT enabled, 1: INT suppressed)",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "is_flag": false,
             "type": "bool",
             "bits": 1,
@@ -3792,6 +4897,12 @@
             "long_reg": false,
             "name": "OTG_OVP_MASK",
             "description": "Interrupt mask: OTG over-voltage (0: INT enabled, 1: INT suppressed)",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "is_flag": false,
             "type": "bool",
             "bits": 1,
@@ -3807,6 +4918,12 @@
             "long_reg": false,
             "name": "OTG_UVP_MASK",
             "description": "Interrupt mask: OTG under-voltage (0: INT enabled, 1: INT suppressed)",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "is_flag": false,
             "type": "bool",
             "bits": 1,
@@ -3822,6 +4939,12 @@
             "long_reg": false,
             "name": "TSHUT_MASK",
             "description": "Interrupt mask: IC thermal shutdown (0: INT enabled, 1: INT suppressed)",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "is_flag": false,
             "type": "bool",
             "bits": 1,
@@ -3837,6 +4960,12 @@
             "long_reg": false,
             "name": "ADC_EN",
             "description": "ADC enable",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 7,
@@ -3851,6 +4980,12 @@
             "long_reg": false,
             "name": "ADC_RATE",
             "description": "ADC conversion rate",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "enum",
             "bits": 1,
             "shift": 6,
@@ -3873,6 +5008,12 @@
             "long_reg": false,
             "name": "ADC_SAMPLE",
             "description": "ADC sample speed",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "enum",
             "bits": 2,
             "shift": 4,
@@ -3899,6 +5040,12 @@
             "long_reg": false,
             "name": "ADC_AVG",
             "description": "ADC averaging",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "enum",
             "bits": 1,
             "shift": 3,
@@ -3921,6 +5068,12 @@
             "long_reg": false,
             "name": "ADC_AVG_INIT",
             "description": "ADC average initialization",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 2,
@@ -3935,6 +5088,12 @@
             "long_reg": false,
             "name": "IBUS_ADC_DIS",
             "description": "IBUS ADC disable",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 7,
@@ -3949,6 +5108,12 @@
             "long_reg": false,
             "name": "IBAT_ADC_DIS",
             "description": "IBAT ADC disable",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 6,
@@ -3963,6 +5128,12 @@
             "long_reg": false,
             "name": "VBUS_ADC_DIS",
             "description": "VBUS ADC disable",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 5,
@@ -3977,6 +5148,12 @@
             "long_reg": false,
             "name": "VBAT_ADC_DIS",
             "description": "VBAT ADC disable",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 4,
@@ -3991,6 +5168,12 @@
             "long_reg": false,
             "name": "VSYS_ADC_DIS",
             "description": "VSYS ADC disable",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 3,
@@ -4005,6 +5188,12 @@
             "long_reg": false,
             "name": "TS_ADC_DIS",
             "description": "TS ADC disable",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 2,
@@ -4019,6 +5208,12 @@
             "long_reg": false,
             "name": "TDIE_ADC_DIS",
             "description": "TDIE ADC disable",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 1,
@@ -4033,6 +5228,12 @@
             "long_reg": false,
             "name": "DPLUS_ADC_DIS",
             "description": "D+ ADC disable",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 7,
@@ -4047,6 +5248,12 @@
             "long_reg": false,
             "name": "DMINUS_ADC_DIS",
             "description": "D- ADC disable",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 6,
@@ -4061,6 +5268,12 @@
             "long_reg": false,
             "name": "VAC2_ADC_DIS",
             "description": "VAC2 ADC disable",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 5,
@@ -4075,6 +5288,12 @@
             "long_reg": false,
             "name": "VAC1_ADC_DIS",
             "description": "VAC1 ADC disable",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "bool",
             "bits": 1,
             "shift": 4,
@@ -4089,6 +5308,12 @@
             "long_reg": true,
             "name": "IBUS_ADC",
             "description": "IBUS ADC reading",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": null,
+                "state_class": "measurement",
+                "icon": "mdi:current-dc"
+            },
             "type": "int",
             "unit": "mA",
             "bits": 16,
@@ -4105,6 +5330,12 @@
             "long_reg": true,
             "name": "IBAT_ADC",
             "description": "IBAT ADC reading",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": null,
+                "state_class": "measurement",
+                "icon": "mdi:current-dc"
+            },
             "type": "int",
             "unit": "mA",
             "bits": 16,
@@ -4121,6 +5352,12 @@
             "long_reg": true,
             "name": "VBUS_ADC",
             "description": "VBUS ADC reading",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": null,
+                "state_class": "measurement",
+                "icon": "mdi:flash"
+            },
             "type": "int",
             "unit": "mV",
             "bits": 16,
@@ -4136,6 +5373,12 @@
             "long_reg": true,
             "name": "VAC1_ADC",
             "description": "VAC1 ADC reading",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": null,
+                "state_class": "measurement",
+                "icon": "mdi:flash"
+            },
             "type": "int",
             "unit": "mV",
             "bits": 16,
@@ -4151,6 +5394,12 @@
             "long_reg": true,
             "name": "VAC2_ADC",
             "description": "VAC2 ADC reading",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": null,
+                "state_class": "measurement",
+                "icon": "mdi:flash"
+            },
             "type": "int",
             "unit": "mV",
             "bits": 16,
@@ -4166,6 +5415,12 @@
             "long_reg": true,
             "name": "VBAT_ADC",
             "description": "VBAT ADC reading",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": null,
+                "state_class": "measurement",
+                "icon": "mdi:flash"
+            },
             "type": "int",
             "unit": "mV",
             "bits": 16,
@@ -4181,6 +5436,12 @@
             "long_reg": true,
             "name": "VSYS_ADC",
             "description": "VSYS ADC reading",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": null,
+                "state_class": "measurement",
+                "icon": "mdi:flash"
+            },
             "type": "int",
             "unit": "mV",
             "bits": 16,
@@ -4196,6 +5457,12 @@
             "long_reg": true,
             "name": "TS_ADC",
             "description": "TS ADC reading",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "diagnostic",
+                "state_class": "measurement",
+                "icon": "mdi:percent"
+            },
             "type": "float",
             "unit": "%",
             "bits": 16,
@@ -4211,7 +5478,12 @@
             "long_reg": true,
             "name": "TDIE_ADC",
             "description": "TDIE ADC reading",
-            "ha_device_class": "temperature",
+            "homeassistant": {
+                "device_class": "temperature",
+                "entity_category": "diagnostic",
+                "state_class": "measurement",
+                "icon": null
+            },
             "type": "float",
             "unit": "degC",
             "bits": 16,
@@ -4228,7 +5500,12 @@
             "long_reg": true,
             "name": "DPLUS_ADC",
             "description": "D+ ADC reading",
-            "ha_device_class": "voltage",
+            "homeassistant": {
+                "device_class": "voltage",
+                "entity_category": "diagnostic",
+                "state_class": "measurement",
+                "icon": null
+            },
             "type": "int",
             "unit": "mV",
             "bits": 16,
@@ -4244,7 +5521,12 @@
             "long_reg": true,
             "name": "DMINUS_ADC",
             "description": "D- ADC reading",
-            "ha_device_class": "voltage",
+            "homeassistant": {
+                "device_class": "voltage",
+                "entity_category": "diagnostic",
+                "state_class": "measurement",
+                "icon": null
+            },
             "type": "int",
             "unit": "mV",
             "bits": 16,
@@ -4260,7 +5542,12 @@
             "long_reg": false,
             "name": "DPLUS_DAC",
             "description": "D+ Output Driver",
-            "ha_device_class": "control",
+            "homeassistant": {
+                "device_class": "control",
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "enum",
             "bits": 3,
             "shift": 5,
@@ -4295,7 +5582,12 @@
             "long_reg": false,
             "name": "DMINUS_DAC",
             "description": "D- Output Driver",
-            "ha_device_class": "control",
+            "homeassistant": {
+                "device_class": "control",
+                "entity_category": "config",
+                "state_class": null,
+                "icon": "mdi:cog"
+            },
             "type": "enum",
             "bits": 3,
             "shift": 2,
@@ -4330,6 +5622,12 @@
             "long_reg": false,
             "name": "PN",
             "description": "Part number",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": "mdi:information-outline"
+            },
             "type": "enum",
             "bits": 3,
             "shift": 3,
@@ -4364,6 +5662,12 @@
             "long_reg": false,
             "name": "DEV_REV",
             "description": "Device revision",
+            "homeassistant": {
+                "device_class": null,
+                "entity_category": "diagnostic",
+                "state_class": null,
+                "icon": "mdi:information-outline"
+            },
             "type": "enum",
             "bits": 3,
             "shift": 0,
